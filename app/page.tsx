@@ -7,7 +7,7 @@ import { AppFooter } from "@/components/app-footer"
 export default function Home() {
   return (
     <div className="flex min-h-svh flex-col bg-background">
-      <header className="flex items-center justify-between border-b border-border bg-card px-6 py-4 md:px-10">
+      <header className="sticky top-0 z-10 flex items-center justify-between border-b border-border bg-card/95 px-6 py-4 backdrop-blur supports-[backdrop-filter]:bg-card/80 md:px-10">
         <PointsPandaLogo />
         <div className="flex w-20 justify-end">
           <ThemeToggle />

@@ -60,7 +60,7 @@ export default function StrategyPage() {
 
   return (
     <div className="flex min-h-svh flex-col bg-background">
-      <header className="flex items-center justify-between border-b border-border bg-card px-6 py-4 md:px-10">
+      <header className="sticky top-0 z-10 flex items-center justify-between border-b border-border bg-card/95 px-6 py-4 backdrop-blur supports-[backdrop-filter]:bg-card/80 md:px-10">
         <PointsPandaLogo />
         <StepIndicator currentStep={3} />
         <div className="flex w-20 justify-end">
@@ -97,7 +97,7 @@ export default function StrategyPage() {
             {/* 1. Top Summary Cards (Maximum vs. Current) */}
             <section className="mb-14">
               <div className="flex flex-col items-stretch gap-6 lg:flex-row lg:items-center lg:gap-4">
-                <Card className="flex-1 border-2 border-amber-500/30 bg-gradient-to-br from-amber-50/50 to-transparent shadow-lg dark:from-amber-950/20 dark:border-amber-500/20">
+                <Card className="flex-1 border-2 border-primary/30 bg-gradient-to-br from-primary/5 to-transparent shadow-lg">
                   <CardHeader className="pb-2">
                     <CardTitle className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                       Maximum Potential Annual Earn
@@ -105,11 +105,11 @@ export default function StrategyPage() {
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <div className="flex flex-wrap items-baseline gap-3">
-                      <p className="text-4xl font-bold tracking-tight text-amber-600 dark:text-amber-400 md:text-5xl">
+                      <p className="text-4xl font-bold tracking-tight text-primary md:text-5xl">
                         {formatPoints(strategy.maxPotentialAnnualPoints)}
                       </p>
                       {strategy.incrementalAnnualPoints > 0 && (
-                        <Badge className="rounded-full bg-emerald-600 px-3 py-1 text-white hover:bg-emerald-600">
+                        <Badge className="rounded-full bg-success px-3 py-1 text-success-foreground hover:bg-success">
                           +{formatPoints(strategy.incrementalAnnualPoints)} pts/yr
                         </Badge>
                       )}
@@ -132,7 +132,7 @@ export default function StrategyPage() {
                             <Badge
                               key={label}
                               variant="outline"
-                              className="rounded-full border-amber-500/40 px-3 py-1 text-amber-700 dark:text-amber-400"
+                              className="rounded-full border-primary/40 px-3 py-1 text-primary"
                             >
                               {label}
                             </Badge>
@@ -228,7 +228,7 @@ export default function StrategyPage() {
                             ) : row.suggestedCard ? (
                               <span className="inline-flex items-center gap-2">
                                 <span className="text-muted-foreground" aria-hidden>→</span>
-                                <span className="inline-flex items-center rounded-md bg-blue-100 px-2 py-0.5 text-sm font-medium text-blue-800 dark:bg-blue-900/40 dark:text-blue-300">
+                                <span className="inline-flex items-center rounded-md bg-primary/15 px-2 py-0.5 text-sm font-medium text-primary">
                                   {row.suggestedCard.name} ({row.suggestedMultiplier}x)
                                 </span>
                               </span>
@@ -240,7 +240,7 @@ export default function StrategyPage() {
                             {row.isOptimized ? (
                               <span className="text-muted-foreground">—</span>
                             ) : (
-                              <span className="font-medium text-emerald-600 dark:text-emerald-400">
+                              <span className="font-medium text-success">
                                 +{formatPoints(row.incrementalAnnualPoints)}
                               </span>
                             )}
@@ -254,7 +254,7 @@ export default function StrategyPage() {
                       <TableCell colSpan={4} className="font-semibold">
                         Total Incremental Points
                       </TableCell>
-                      <TableCell className="text-right font-semibold text-emerald-600 dark:text-emerald-400">
+                      <TableCell className="text-right font-semibold text-success">
                         +{formatPoints(strategy.incrementalAnnualPoints)}
                       </TableCell>
                     </TableRow>

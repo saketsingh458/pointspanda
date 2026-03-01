@@ -31,10 +31,10 @@ export function FeatureCards() {
         {STEPS.map((item) => (
           <Card
             key={item.step}
-            className="flex flex-col border-border shadow-sm transition-shadow hover:shadow-md"
+            className="flex flex-col border-border shadow-sm transition-all duration-200 hover:shadow-lg hover:-translate-y-1 hover:border-primary/20"
           >
             <CardHeader className="flex flex-col gap-4 text-left">
-              <div className="flex size-11 shrink-0 items-center justify-center rounded-full bg-primary text-base font-semibold tabular-nums text-primary-foreground">
+              <div className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-primary text-base font-semibold tabular-nums text-primary-foreground shadow-sm ring-1 ring-black/5 dark:ring-white/10">
                 {item.step}
               </div>
               <div className="space-y-2">
