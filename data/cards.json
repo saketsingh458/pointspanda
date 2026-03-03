@@ -1,0 +1,4143 @@
+[
+  {
+    "id": "robinhood-gold-card",
+    "name": "Robinhood Gold Card",
+    "issuer": "Robinhood",
+    "network": "Visa",
+    "annual_fee": 0,
+    "reward_currency": "Robinhood Points",
+    "synergy_ecosystem": "Robinhood Gold",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": "https://cdn.robinhood.com/app_assets/credit-card/gold/web/shadow_card_desktop.png",
+      "apply_url": "https://robinhood.com/creditcard"
+    },
+    "valuation": {
+      "cpp_floor": 0.01,
+      "cpp_ceiling": 0.01
+    },
+    "welcome_offer": {
+      "points": 0,
+      "spend_requirement": 0,
+      "timeframe_months": 0
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [],
+    "multipliers": {
+      "base_rate": 3,
+      "categories": {
+        "travel_portal": {
+          "rate": 5
+        }
+      }
+    },
+    "developer_notes": "Must have active Robinhood Gold subscription ($5/mo or $50/yr)"
+  },
+  {
+    "id": "gemini-credit-card",
+    "name": "Gemini Credit Card®",
+    "issuer": "WebBank",
+    "network": "Mastercard",
+    "annual_fee": 0,
+    "reward_currency": "Crypto (BTC, ETH, and 50+ others)",
+    "synergy_ecosystem": "Gemini",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": null,
+      "apply_url": "https://www.gemini.com/credit-card"
+    },
+    "valuation": {
+      "cpp_floor": 1,
+      "cpp_ceiling": 1
+    },
+    "welcome_offer": {
+      "points": 0,
+      "spend_requirement": 0,
+      "timeframe_months": 0
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [],
+    "multipliers": {
+      "base_rate": 1,
+      "categories": {
+        "gas_ev_transit": {
+          "rate": 4,
+          "cap_amount": 300
+        },
+        "dining": {
+          "rate": 3
+        },
+        "groceries": {
+          "rate": 2
+        }
+      }
+    },
+    "developer_notes": "4% category capped at first $300 spend per month; spend cycle refreshes on the 1st of the month"
+  },
+  {
+    "id": "chase-sapphire-reserve",
+    "name": "Chase Sapphire Reserve®",
+    "issuer": "Chase",
+    "network": "Visa",
+    "annual_fee": 795,
+    "reward_currency": "Ultimate Rewards",
+    "synergy_ecosystem": "Chase UR",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": "https://creditcards.chase.com/content/dam/jpmc-marketplace/card-art/sapphire_reserve_card_Halo.png",
+      "apply_url": "https://www.chase.com"
+    },
+    "valuation": {
+      "cpp_floor": 1,
+      "cpp_ceiling": 2
+    },
+    "welcome_offer": {
+      "points": 125000,
+      "spend_requirement": 4000,
+      "timeframe_months": 3
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [
+      {
+        "name": "Travel",
+        "amount": 300,
+        "frequency": "annual",
+        "deducts_from_eligible_spend": true
+      },
+      {
+        "name": "Dining",
+        "amount": 300,
+        "frequency": "annual",
+        "deducts_from_eligible_spend": false
+      },
+      {
+        "name": "The Edit",
+        "amount": 500,
+        "frequency": "annual",
+        "deducts_from_eligible_spend": false
+      },
+      {
+        "name": "StubHub",
+        "amount": 300,
+        "frequency": "annual",
+        "deducts_from_eligible_spend": false
+      },
+      {
+        "name": "Apple Subscriptions",
+        "amount": 288,
+        "frequency": "annual",
+        "deducts_from_eligible_spend": false
+      },
+      {
+        "name": "Select Hotel",
+        "amount": 250,
+        "frequency": "one-time",
+        "deducts_from_eligible_spend": false
+      },
+      {
+        "name": "Lyft",
+        "amount": 120,
+        "frequency": "annual",
+        "deducts_from_eligible_spend": false
+      },
+      {
+        "name": "Peloton",
+        "amount": 120,
+        "frequency": "annual",
+        "deducts_from_eligible_spend": false
+      },
+      {
+        "name": "Global Entry/TSA PreCheck/NEXUS",
+        "amount": 120,
+        "frequency": "every 4 years",
+        "deducts_from_eligible_spend": false
+      }
+    ],
+    "multipliers": {
+      "base_rate": 1,
+      "categories": {
+        "travel_portal": {
+          "rate": 8
+        },
+        "flights_direct": {
+          "rate": 4
+        },
+        "hotels_direct": {
+          "rate": 4
+        },
+        "dining": {
+          "rate": 3
+        }
+      }
+    },
+    "developer_notes": "One welcome offer per Sapphire card; $795 fee for existing members starts on first anniversary after Oct 26, 2025; Points Boost redemption values vary by property"
+  },
+  {
+    "id": "chase-sapphire-preferred-card",
+    "name": "Chase Sapphire Preferred® Card",
+    "issuer": "Chase",
+    "network": "Visa",
+    "annual_fee": 95,
+    "reward_currency": "Ultimate Rewards",
+    "synergy_ecosystem": "Chase Ultimate Rewards",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": "https://www.chase.com/content/dam/chase-ux/products/credit-cards/logos/sapphire-preferred-card.png",
+      "apply_url": "https://creditcards.chase.com/travel-credit-cards/sapphire-preferred"
+    },
+    "valuation": {
+      "cpp_floor": 1,
+      "cpp_ceiling": 2.05
+    },
+    "welcome_offer": {
+      "points": 75000,
+      "spend_requirement": 5000,
+      "timeframe_months": 3
+    },
+    "anniversary_bonus": "10% total spend points boost",
+    "statement_credits": [
+      {
+        "name": "Hotel Credit",
+        "amount": 50,
+        "frequency": "annual",
+        "deducts_from_eligible_spend": false
+      },
+      {
+        "name": "DashPass Monthly Promo",
+        "amount": 120,
+        "frequency": "monthly",
+        "deducts_from_eligible_spend": false
+      }
+    ],
+    "multipliers": {
+      "base_rate": 1,
+      "categories": {
+        "travel_portal": {
+          "rate": 5
+        },
+        "dining": {
+          "rate": 3
+        },
+        "online_groceries": {
+          "rate": 3
+        },
+        "streaming": {
+          "rate": 3
+        },
+        "travel_general": {
+          "rate": 2
+        }
+      }
+    },
+    "developer_notes": "Subject to Chase 5/24 rule; 10% points boost is based on total dollars spent not points earned"
+  },
+  {
+    "id": "chase-freedom-unlimited",
+    "name": "Chase Freedom Unlimited®",
+    "issuer": "Chase",
+    "network": "Visa",
+    "annual_fee": 0,
+    "reward_currency": "Chase Ultimate Rewards",
+    "synergy_ecosystem": "Chase Ultimate Rewards",
+    "ftf_percentage": 3,
+    "ui_elements": {
+      "image_url": "https://www.chase.com/content/dam/chase-ux/products/cards/freedom-unlimited-card.png",
+      "apply_url": "https://www.chase.com/personal/credit-cards/freedom/unlimited"
+    },
+    "valuation": {
+      "cpp_floor": 1,
+      "cpp_ceiling": 2
+    },
+    "welcome_offer": {
+      "points": 20000,
+      "spend_requirement": 500,
+      "timeframe_months": 3
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [],
+    "multipliers": {
+      "base_rate": 1.5,
+      "categories": {
+        "travel_portal": {
+          "rate": 5
+        },
+        "dining": {
+          "rate": 3
+        },
+        "drugstores": {
+          "rate": 3
+        }
+      }
+    },
+    "developer_notes": "Points are transferable to travel partners when paired with a Sapphire or Ink Preferred card; 24-month bonus restriction applies"
+  },
+  {
+    "id": "chase-freedom-flex",
+    "name": "Chase Freedom Flex®",
+    "issuer": "Chase",
+    "network": "Mastercard",
+    "annual_fee": 0,
+    "reward_currency": "Chase Ultimate Rewards",
+    "synergy_ecosystem": "Chase UR",
+    "ftf_percentage": 3,
+    "ui_elements": {
+      "image_url": "https://www.chase.com/content/dam/chase-ux/products/credit-cards/logos/freedom-flex-logo.png",
+      "apply_url": "https://creditcards.chase.com/cash-back-credit-cards/freedom/flex"
+    },
+    "valuation": {
+      "cpp_floor": 1,
+      "cpp_ceiling": 2
+    },
+    "welcome_offer": {
+      "points": 20000,
+      "spend_requirement": 500,
+      "timeframe_months": 3
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [],
+    "multipliers": {
+      "base_rate": 1,
+      "categories": {
+        "rotating_categories": {
+          "rate": 5,
+          "cap_amount": 1500
+        },
+        "travel_portal": {
+          "rate": 5
+        },
+        "dining": {
+          "rate": 3
+        },
+        "drugstores": {
+          "rate": 3
+        }
+      }
+    },
+    "developer_notes": "Q1 2026 5% dining category stacks with standard 3% dining for 7% total; activation required quarterly"
+  },
+  {
+    "id": "sapphire-reserve-for-business",
+    "name": "Sapphire Reserve for Business℠",
+    "issuer": "Chase",
+    "network": "Visa",
+    "annual_fee": 795,
+    "reward_currency": "Ultimate Rewards",
+    "synergy_ecosystem": "Chase UR",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": "https://www.chase.com/content/dam/chase-ux/products/cards/sapphire-reserve-business.png",
+      "apply_url": "https://www.chase.com/business/credit-cards/sapphire-reserve-business"
+    },
+    "valuation": {
+      "cpp_floor": 1.1,
+      "cpp_ceiling": 2
+    },
+    "welcome_offer": {
+      "points": 150000,
+      "spend_requirement": 20000,
+      "timeframe_months": 3
+    },
+    "anniversary_bonus": "IHG One Rewards Diamond Elite status and Southwest A-List status (if $120k spend met)",
+    "statement_credits": [
+      {
+        "name": "Travel",
+        "amount": 300,
+        "frequency": "annual",
+        "deducts_from_eligible_spend": true
+      },
+      {
+        "name": "Google Workspace",
+        "amount": 200,
+        "frequency": "annual",
+        "deducts_from_eligible_spend": false
+      },
+      {
+        "name": "ZipRecruiter",
+        "amount": 400,
+        "frequency": "annual",
+        "deducts_from_eligible_spend": false
+      },
+      {
+        "name": "The Edit",
+        "amount": 500,
+        "frequency": "annual",
+        "deducts_from_eligible_spend": false
+      }
+    ],
+    "multipliers": {
+      "base_rate": 1,
+      "categories": {
+        "travel_portal": {
+          "rate": 8
+        },
+        "flights_hotels_direct": {
+          "rate": 4
+        },
+        "social_media_search_ads": {
+          "rate": 3
+        }
+      }
+    },
+    "developer_notes": "Must spend $120,000/year to unlock IHG Diamond and Southwest A-List"
+  },
+  {
+    "id": "ink-business-preferred-credit-card",
+    "name": "Ink Business Preferred® Credit Card",
+    "issuer": "Chase",
+    "network": "Visa",
+    "annual_fee": 95,
+    "reward_currency": "Ultimate Rewards",
+    "synergy_ecosystem": "Chase Ultimate Rewards",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": "https://www.chase.com/content/dam/chase-ux/images/cards/ink-business-preferred.png",
+      "apply_url": "https://www.chase.com/business/credit-cards/ink/ink-business-preferred"
+    },
+    "valuation": {
+      "cpp_floor": 1,
+      "cpp_ceiling": 2.05
+    },
+    "welcome_offer": {
+      "points": 100000,
+      "spend_requirement": 8000,
+      "timeframe_months": 3
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [
+      {
+        "name": "DoorDash",
+        "amount": 10,
+        "frequency": "monthly",
+        "deducts_from_eligible_spend": false
+      }
+    ],
+    "multipliers": {
+      "base_rate": 1,
+      "categories": {
+        "travel_shipping_advertising_internet_cable_phone": {
+          "rate": 3,
+          "cap_amount": 150000
+        },
+        "lyft": {
+          "rate": 5
+        }
+      }
+    },
+    "developer_notes": "Subject to Chase 5/24 rule; 25% point value boost when redeemed for travel via Chase Travel"
+  },
+  {
+    "id": "amex-platinum-card",
+    "name": "The Platinum Card® from American Express",
+    "issuer": "American Express",
+    "network": "Amex",
+    "annual_fee": 895,
+    "reward_currency": "Membership Rewards Points",
+    "synergy_ecosystem": "Membership Rewards",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": "https://icm.aexp-static.com/Internet/Acquisition/US_en/AppConfig/OneSite/category/cardarts/platinum-card.png",
+      "apply_url": "https://www.americanexpress.com/us/credit-cards/card/platinum/"
+    },
+    "valuation": {
+      "cpp_floor": 1,
+      "cpp_ceiling": 2
+    },
+    "welcome_offer": {
+      "points": 175000,
+      "spend_requirement": 12000,
+      "timeframe_months": 6
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [
+      {
+        "name": "Uber Cash",
+        "amount": 200,
+        "frequency": "monthly",
+        "deducts_from_eligible_spend": false
+      },
+      {
+        "name": "Uber One",
+        "amount": 120,
+        "frequency": "annual",
+        "deducts_from_eligible_spend": false
+      },
+      {
+        "name": "Airline Fee",
+        "amount": 200,
+        "frequency": "annual",
+        "deducts_from_eligible_spend": false
+      },
+      {
+        "name": "Hotel",
+        "amount": 600,
+        "frequency": "annual",
+        "deducts_from_eligible_spend": false
+      },
+      {
+        "name": "Resy",
+        "amount": 400,
+        "frequency": "annual",
+        "deducts_from_eligible_spend": false
+      },
+      {
+        "name": "Digital Entertainment",
+        "amount": 300,
+        "frequency": "annual",
+        "deducts_from_eligible_spend": false
+      },
+      {
+        "name": "CLEAR+",
+        "amount": 209,
+        "frequency": "annual",
+        "deducts_from_eligible_spend": false
+      },
+      {
+        "name": "Saks",
+        "amount": 100,
+        "frequency": "annual",
+        "deducts_from_eligible_spend": false
+      },
+      {
+        "name": "lululemon",
+        "amount": 300,
+        "frequency": "annual",
+        "deducts_from_eligible_spend": false
+      },
+      {
+        "name": "Oura Ring",
+        "amount": 200,
+        "frequency": "annual",
+        "deducts_from_eligible_spend": false
+      },
+      {
+        "name": "Equinox",
+        "amount": 300,
+        "frequency": "annual",
+        "deducts_from_eligible_spend": false
+      },
+      {
+        "name": "Walmart+",
+        "amount": 155,
+        "frequency": "monthly",
+        "deducts_from_eligible_spend": false
+      }
+    ],
+    "multipliers": {
+      "base_rate": 1,
+      "categories": {
+        "flights_direct_or_portal": {
+          "rate": 5
+        },
+        "hotels_prepaid_portal": {
+          "rate": 5
+        }
+      }
+    },
+    "developer_notes": "Once per lifetime welcome offer rule; $75,000 spend required for Centurion Lounge guest access"
+  },
+  {
+    "id": "amex-gold-card",
+    "name": "American Express® Gold Card",
+    "issuer": "American Express",
+    "network": "Amex",
+    "annual_fee": 325,
+    "reward_currency": "Membership Rewards",
+    "synergy_ecosystem": "American Express Membership Rewards",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": "https://icm.aexp-static.com/Internet/Acquisition/US_en/AppConfig/OneApp/cardarts/gold-card.png",
+      "apply_url": "https://www.americanexpress.com/us/credit-cards/card/gold-card/"
+    },
+    "valuation": {
+      "cpp_floor": 1,
+      "cpp_ceiling": 2
+    },
+    "welcome_offer": {
+      "points": 100000,
+      "spend_requirement": 6000,
+      "timeframe_months": 6
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [
+      {
+        "name": "Uber Cash",
+        "amount": 120,
+        "frequency": "monthly",
+        "deducts_from_eligible_spend": false
+      },
+      {
+        "name": "Dining Credit",
+        "amount": 120,
+        "frequency": "monthly",
+        "deducts_from_eligible_spend": false
+      },
+      {
+        "name": "Resy Credit",
+        "amount": 100,
+        "frequency": "semi-annual",
+        "deducts_from_eligible_spend": false
+      },
+      {
+        "name": "Dunkin' Credit",
+        "amount": 84,
+        "frequency": "monthly",
+        "deducts_from_eligible_spend": false
+      }
+    ],
+    "multipliers": {
+      "base_rate": 1,
+      "categories": {
+        "dining": {
+          "rate": 4,
+          "cap_amount": 50000
+        },
+        "groceries": {
+          "rate": 4,
+          "cap_amount": 25000
+        },
+        "flights": {
+          "rate": 3
+        },
+        "hotels_prepaid": {
+          "rate": 2
+        }
+      }
+    },
+    "developer_notes": "Credits do not roll over monthly; enrollment required for all credits; multipliers have annual spend caps"
+  },
+  {
+    "id": "capital-one-venture-x-rewards-credit-card",
+    "name": "Capital One Venture X Rewards Credit Card",
+    "issuer": "Capital One",
+    "network": "Visa",
+    "annual_fee": 395,
+    "reward_currency": "Capital One Miles",
+    "synergy_ecosystem": "Capital One Miles",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": null,
+      "apply_url": "https://www.capitalone.com/credit-cards/venture-x/"
+    },
+    "valuation": {
+      "cpp_floor": 1,
+      "cpp_ceiling": 1.85
+    },
+    "welcome_offer": {
+      "points": 75000,
+      "spend_requirement": 4000,
+      "timeframe_months": 3
+    },
+    "anniversary_bonus": "10000 miles",
+    "statement_credits": [
+      {
+        "name": "Capital One Travel",
+        "amount": 300,
+        "frequency": "annual",
+        "deducts_from_eligible_spend": true
+      },
+      {
+        "name": "TSA PreCheck/Global Entry",
+        "amount": 120,
+        "frequency": "every 4 years",
+        "deducts_from_eligible_spend": false
+      }
+    ],
+    "multipliers": {
+      "base_rate": 2,
+      "categories": {
+        "hotels_rental_cars_portal": {
+          "rate": 10
+        },
+        "flights_vacation_rentals_portal": {
+          "rate": 5
+        }
+      }
+    },
+    "developer_notes": "Priority Pass guest access and authorized user lounge access removed February 2026 unless spending/fee requirements met"
+  },
+  {
+    "id": "chase-freedom-rise",
+    "name": "Chase Freedom Rise®",
+    "issuer": "Chase",
+    "network": "Visa",
+    "annual_fee": 0,
+    "reward_currency": "Ultimate Rewards",
+    "synergy_ecosystem": "Chase UR",
+    "ftf_percentage": 3,
+    "ui_elements": {
+      "image_url": "https://www.chase.com/content/dam/chase-ux/products/cards/freedom-rise/freedom-rise-card.png",
+      "apply_url": "https://www.chase.com/personal/credit-cards/freedom/rise"
+    },
+    "valuation": {
+      "cpp_floor": 1,
+      "cpp_ceiling": 1
+    },
+    "welcome_offer": {
+      "points": 0,
+      "spend_requirement": 0,
+      "timeframe_months": 0
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [
+      {
+        "name": "Autopay Credit",
+        "amount": 25,
+        "frequency": "one-time",
+        "deducts_from_eligible_spend": false
+      }
+    ],
+    "multipliers": {
+      "base_rate": 1.5,
+      "categories": {}
+    },
+    "developer_notes": "Approval odds increase with $250 Chase bank balance; Automatic annual evaluation for upgrade to Freedom Unlimited"
+  },
+  {
+    "id": "chase-slate-edge",
+    "name": "Chase Slate Edge℠",
+    "issuer": "Chase",
+    "network": "Visa",
+    "annual_fee": 0,
+    "reward_currency": "None",
+    "synergy_ecosystem": "None",
+    "ftf_percentage": 3,
+    "ui_elements": {
+      "image_url": "https://www.chase.com/content/dam/chase-ux/cards/slate-edge-card.png",
+      "apply_url": "https://www.chase.com/personal/credit-cards/slate-edge"
+    },
+    "valuation": {
+      "cpp_floor": 0,
+      "cpp_ceiling": 0
+    },
+    "welcome_offer": {
+      "points": 0,
+      "spend_requirement": 0,
+      "timeframe_months": 0
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [],
+    "multipliers": {
+      "base_rate": 0,
+      "categories": {}
+    },
+    "developer_notes": "Requires Good to Excellent credit; APR can reduce by 2% annually with $1,000 spend and on-time payments"
+  },
+  {
+    "id": "ink-business-unlimited-credit-card",
+    "name": "Ink Business Unlimited® Credit Card",
+    "issuer": "Chase",
+    "network": "Visa",
+    "annual_fee": 0,
+    "reward_currency": "Chase Ultimate Rewards",
+    "synergy_ecosystem": "Chase UR",
+    "ftf_percentage": 3,
+    "ui_elements": {
+      "image_url": "https://www.chase.com/content/dam/chase-ux/products/cards/ink-business-unlimited.png",
+      "apply_url": "https://www.chase.com/business/credit-cards/ink/unlimited"
+    },
+    "valuation": {
+      "cpp_floor": 1,
+      "cpp_ceiling": 2
+    },
+    "welcome_offer": {
+      "points": 75000,
+      "spend_requirement": 6000,
+      "timeframe_months": 3
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [],
+    "multipliers": {
+      "base_rate": 1.5,
+      "categories": {
+        "lyft": {
+          "rate": 5
+        }
+      }
+    },
+    "developer_notes": "Subject to Chase 5/24 rule"
+  },
+  {
+    "id": "ink-business-cash",
+    "name": "Ink Business Cash® Credit Card",
+    "issuer": "Chase",
+    "network": "Visa",
+    "annual_fee": 0,
+    "reward_currency": "Chase Ultimate Rewards",
+    "synergy_ecosystem": "Chase UR",
+    "ftf_percentage": 3,
+    "ui_elements": {
+      "image_url": "https://creditcards.chase.com/Kuba/img/card-art/ink_cash_card.png",
+      "apply_url": "https://creditcards.chase.com/business-credit-cards/ink/cash"
+    },
+    "valuation": {
+      "cpp_floor": 1,
+      "cpp_ceiling": 2
+    },
+    "welcome_offer": {
+      "points": 75000,
+      "spend_requirement": 6000,
+      "timeframe_months": 3
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [],
+    "multipliers": {
+      "base_rate": 1,
+      "categories": {
+        "office_internet_cable_phone": {
+          "rate": 5
+        },
+        "gas": {
+          "rate": 2
+        },
+        "dining": {
+          "rate": 2
+        },
+        "lyft": {
+          "rate": 5
+        }
+      }
+    },
+    "developer_notes": "Does not count toward 5/24 but requires being under 5/24 to apply"
+  },
+  {
+    "id": "ink-business-premier-credit-card",
+    "name": "Ink Business Premier® Credit Card",
+    "issuer": "Chase",
+    "network": "Visa",
+    "annual_fee": 195,
+    "reward_currency": "Cash Back",
+    "synergy_ecosystem": "None",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": "https://www.chase.com/content/dam/chase-ux/products/credit-cards/ink-business-premier-card-card-art.png",
+      "apply_url": "https://www.chase.com/business/credit-cards/ink/ink-business-premier"
+    },
+    "valuation": {
+      "cpp_floor": 1,
+      "cpp_ceiling": 1
+    },
+    "welcome_offer": {
+      "points": 100000,
+      "spend_requirement": 10000,
+      "timeframe_months": 3
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [],
+    "multipliers": {
+      "base_rate": 2,
+      "categories": {
+        "travel_portal": {
+          "rate": 5
+        },
+        "large_purchases": {
+          "rate": 2.5
+        }
+      }
+    },
+    "developer_notes": "Points cannot be transferred to airline or hotel partners or pooled with other Chase cards; Pay-in-full card structure with Flex for Business financing; Subject to Chase 5/24 rule."
+  },
+  {
+    "id": "american-express-business-gold-card",
+    "name": "American Express® Gold Card for Business",
+    "issuer": "American Express",
+    "network": "Amex",
+    "annual_fee": 375,
+    "reward_currency": "Membership Rewards",
+    "synergy_ecosystem": "American Express Membership Rewards",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": "https://www.americanexpress.com/content/dam/amex/us/credit-cards/card-images/business-gold-card.png",
+      "apply_url": "https://www.americanexpress.com/us/credit-cards/business/business-gold-card/"
+    },
+    "valuation": {
+      "cpp_floor": 0.01,
+      "cpp_ceiling": 0.02
+    },
+    "welcome_offer": {
+      "points": 100000,
+      "spend_requirement": 15000,
+      "timeframe_months": 3
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [
+      {
+        "name": "Flexible Business Credit",
+        "amount": 240,
+        "frequency": "monthly",
+        "deducts_from_eligible_spend": false
+      },
+      {
+        "name": "Walmart+ Credit",
+        "amount": 155,
+        "frequency": "monthly",
+        "deducts_from_eligible_spend": false
+      },
+      {
+        "name": "Squarespace Credit",
+        "amount": 150,
+        "frequency": "annual",
+        "deducts_from_eligible_spend": false
+      }
+    ],
+    "multipliers": {
+      "base_rate": 1,
+      "categories": {
+        "top_two_categories": {
+          "rate": 4,
+          "cap_amount": 150000
+        },
+        "travel_portal": {
+          "rate": 3
+        }
+      }
+    },
+    "developer_notes": "4x multiplier capped at $150,000 combined spend per year; welcome offer eligibility based on history"
+  },
+  {
+    "id": "amex-green-card",
+    "name": "American Express® Green Card",
+    "issuer": "American Express",
+    "network": "Amex",
+    "annual_fee": 150,
+    "reward_currency": "Membership Rewards Points",
+    "synergy_ecosystem": "Amex Membership Rewards",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": "https://americanexpress.com/content/dam/amex/us/credit-cards/card-art/green-card.png",
+      "apply_url": "https://www.americanexpress.com/us/credit-cards/card/green/"
+    },
+    "valuation": {
+      "cpp_floor": 1,
+      "cpp_ceiling": 2
+    },
+    "welcome_offer": {
+      "points": 40000,
+      "spend_requirement": 3000,
+      "timeframe_months": 6
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [
+      {
+        "name": "CLEAR Plus",
+        "amount": 209,
+        "frequency": "annual",
+        "deducts_from_eligible_spend": false
+      }
+    ],
+    "multipliers": {
+      "base_rate": 1,
+      "categories": {
+        "travel_general": {
+          "rate": 3
+        },
+        "transit": {
+          "rate": 3
+        },
+        "dining": {
+          "rate": 3
+        }
+      }
+    },
+    "developer_notes": "Features No Preset Spending Limit (NPSL)"
+  },
+  {
+    "id": "blue-cash-preferred-card-from-american-express",
+    "name": "Blue Cash Preferred® Card from American Express",
+    "issuer": "American Express",
+    "network": "Amex",
+    "annual_fee": 95,
+    "reward_currency": "Reward Dollars",
+    "synergy_ecosystem": "None",
+    "ftf_percentage": 2.7,
+    "ui_elements": {
+      "image_url": "https://www.americanexpress.com/content/dam/amex/us/credit-cards/card-art/Blue-Cash-Preferred.png",
+      "apply_url": "https://www.americanexpress.com/us/credit-cards/card/blue-cash-preferred/"
+    },
+    "valuation": {
+      "cpp_floor": 1,
+      "cpp_ceiling": 1
+    },
+    "welcome_offer": {
+      "points": 300,
+      "spend_requirement": 3000,
+      "timeframe_months": 6
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [
+      {
+        "name": "Disney Bundle Credit",
+        "amount": 120,
+        "frequency": "monthly",
+        "deducts_from_eligible_spend": false
+      },
+      {
+        "name": "Equinox+ Credit",
+        "amount": 120,
+        "frequency": "monthly",
+        "deducts_from_eligible_spend": false
+      }
+    ],
+    "multipliers": {
+      "base_rate": 1,
+      "categories": {
+        "us_supermarkets": {
+          "rate": 6,
+          "cap_amount": 6000
+        },
+        "us_streaming": {
+          "rate": 6
+        },
+        "us_gas_stations": {
+          "rate": 3
+        },
+        "transit": {
+          "rate": 3
+        }
+      }
+    },
+    "developer_notes": "6% grocery capped at $6k spend annually; cash back received as Reward Dollars"
+  },
+  {
+    "id": "blue-cash-everyday-card",
+    "name": "Blue Cash Everyday® Card from American Express",
+    "issuer": "American Express",
+    "network": "Amex",
+    "annual_fee": 0,
+    "reward_currency": "Reward Dollars",
+    "synergy_ecosystem": "None",
+    "ftf_percentage": 2.7,
+    "ui_elements": {
+      "image_url": "https://icm.aexp-static.com/Internet/Acquisition/US_en/AppConfig/OneApp/category/card_art/Blue-Cash-Everyday.png",
+      "apply_url": "https://www.americanexpress.com/us/credit-cards/card/blue-cash-everyday/"
+    },
+    "valuation": {
+      "cpp_floor": 1,
+      "cpp_ceiling": 1
+    },
+    "welcome_offer": {
+      "points": 200,
+      "spend_requirement": 2000,
+      "timeframe_months": 6
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [
+      {
+        "name": "Disney Bundle Credit",
+        "amount": 84,
+        "frequency": "monthly",
+        "deducts_from_eligible_spend": false
+      },
+      {
+        "name": "Home Chef Credit",
+        "amount": 180,
+        "frequency": "monthly",
+        "deducts_from_eligible_spend": false
+      }
+    ],
+    "multipliers": {
+      "base_rate": 1,
+      "categories": {
+        "us_supermarkets": {
+          "rate": 3,
+          "cap_amount": 6000
+        },
+        "us_online_retail": {
+          "rate": 3,
+          "cap_amount": 6000
+        },
+        "us_gas_stations": {
+          "rate": 3,
+          "cap_amount": 6000
+        }
+      }
+    },
+    "developer_notes": "$6,000 annual spend cap per 3% category; cash back earned as Reward Dollars"
+  },
+  {
+    "id": "amex-everyday-credit-card",
+    "name": "Amex EveryDay® Credit Card",
+    "issuer": "American Express",
+    "network": "Amex",
+    "annual_fee": 0,
+    "reward_currency": "Membership Rewards",
+    "synergy_ecosystem": "Amex Membership Rewards",
+    "ftf_percentage": 2.7,
+    "ui_elements": {
+      "image_url": "https://www.americanexpress.com/content/dam/amex/us/credit-cards/card-art/Amex-EveryDay-Credit-Card.png",
+      "apply_url": "https://www.americanexpress.com/us/credit-cards/card/amex-everyday/"
+    },
+    "valuation": {
+      "cpp_floor": 0.7,
+      "cpp_ceiling": 2
+    },
+    "welcome_offer": {
+      "points": 10000,
+      "spend_requirement": 2000,
+      "timeframe_months": 6
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [],
+    "multipliers": {
+      "base_rate": 1,
+      "categories": {
+        "us_supermarkets": {
+          "rate": 2,
+          "cap_amount": 6000
+        },
+        "travel_portal": {
+          "rate": 2
+        }
+      }
+    },
+    "developer_notes": "Closed to new applicants in late 2024; 20% bonus applies to total points earned in billing period"
+  },
+  {
+    "id": "amex-everyday-preferred-credit-card",
+    "name": "Amex EveryDay® Preferred Credit Card",
+    "issuer": "American Express",
+    "network": "Amex",
+    "annual_fee": 95,
+    "reward_currency": "Membership Rewards",
+    "synergy_ecosystem": "Amex Membership Rewards",
+    "ftf_percentage": 2.7,
+    "ui_elements": {
+      "image_url": "https://americanexpress.com/content/dam/amex/us/credit-cards/card-art/Amex-Everyday-Preferred.png",
+      "apply_url": "https://www.americanexpress.com/us/credit-cards/card/amex-everyday-preferred/"
+    },
+    "valuation": {
+      "cpp_floor": 0.5,
+      "cpp_ceiling": 2
+    },
+    "welcome_offer": {
+      "points": 0,
+      "spend_requirement": 0,
+      "timeframe_months": 0
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [],
+    "multipliers": {
+      "base_rate": 1,
+      "categories": {
+        "us_supermarkets": {
+          "rate": 3,
+          "cap_amount": 6000
+        },
+        "us_gas_stations": {
+          "rate": 2
+        },
+        "travel_portal": {
+          "rate": 2
+        }
+      }
+    },
+    "developer_notes": "Applications closed to new members as of late 2024; existing cardholders only"
+  },
+  {
+    "id": "amex-cash-magnet-card",
+    "name": "Amex Cash Magnet® Card",
+    "issuer": "American Express",
+    "network": "Amex",
+    "annual_fee": 0,
+    "reward_currency": "Reward Dollars",
+    "synergy_ecosystem": "None",
+    "ftf_percentage": 2.7,
+    "ui_elements": {
+      "image_url": "https://www.americanexpress.com/content/dam/amex/us/credit-cards/card-art/Cash-Magnet.png",
+      "apply_url": "https://www.americanexpress.com/us/credit-cards/card/cash-magnet/"
+    },
+    "valuation": {
+      "cpp_floor": 1,
+      "cpp_ceiling": 1
+    },
+    "welcome_offer": {
+      "points": 200,
+      "spend_requirement": 2000,
+      "timeframe_months": 6
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [],
+    "multipliers": {
+      "base_rate": 1.5,
+      "categories": {}
+    },
+    "developer_notes": "Cash back cannot be used to pay the minimum due; Rewards only earned on eligible purchases (excludes gift cards and person-to-person)"
+  },
+  {
+    "id": "amex-centurion-card",
+    "name": "Centurion® Card from American Express",
+    "issuer": "American Express",
+    "network": "Amex",
+    "annual_fee": 5000,
+    "reward_currency": "Membership Rewards",
+    "synergy_ecosystem": "Membership Rewards",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": "https://www.americanexpress.com/content/dam/amex/us/credit-cards/card-art/Centurion-Card.png",
+      "apply_url": "Invitation Only"
+    },
+    "valuation": {
+      "cpp_floor": 1,
+      "cpp_ceiling": 2
+    },
+    "welcome_offer": {
+      "points": 0,
+      "spend_requirement": 0,
+      "timeframe_months": 0
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [
+      {
+        "name": "Saks Fifth Avenue",
+        "amount": 1000,
+        "frequency": "annual",
+        "deducts_from_eligible_spend": false
+      },
+      {
+        "name": "Uber Cash",
+        "amount": 200,
+        "frequency": "annual",
+        "deducts_from_eligible_spend": false
+      },
+      {
+        "name": "CLEAR+",
+        "amount": 369,
+        "frequency": "annual",
+        "deducts_from_eligible_spend": false
+      },
+      {
+        "name": "Uber One",
+        "amount": 120,
+        "frequency": "annual",
+        "deducts_from_eligible_spend": false
+      },
+      {
+        "name": "Airline Fee",
+        "amount": 200,
+        "frequency": "annual",
+        "deducts_from_eligible_spend": false
+      }
+    ],
+    "multipliers": {
+      "base_rate": 1,
+      "categories": {
+        "large_purchases": {
+          "rate": 1.5,
+          "cap_amount": 1000000
+        }
+      }
+    },
+    "developer_notes": "$10,000 initiation fee; invitation only (est. $250k-$1M+ annual spend requirement); no preset spending limit"
+  },
+  {
+    "id": "amex-business-platinum",
+    "name": "The Business Platinum Card® from American Express",
+    "issuer": "American Express",
+    "network": "Amex",
+    "annual_fee": 895,
+    "reward_currency": "Membership Rewards",
+    "synergy_ecosystem": "American Express Membership Rewards",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": "https://www.americanexpress.com/content/dam/amex/us/credit-cards/card-art/business-platinum.png",
+      "apply_url": "https://www.americanexpress.com/us/credit-cards/business/business-credit-cards/american-express-business-platinum-card-amex/"
+    },
+    "valuation": {
+      "cpp_floor": 0.5,
+      "cpp_ceiling": 2
+    },
+    "welcome_offer": {
+      "points": 200000,
+      "spend_requirement": 20000,
+      "timeframe_months": 3
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [
+      {
+        "name": "Hotel Credit",
+        "amount": 600,
+        "frequency": "semi-annual",
+        "deducts_from_eligible_spend": false
+      },
+      {
+        "name": "Airline Fee Credit",
+        "amount": 200,
+        "frequency": "annual",
+        "deducts_from_eligible_spend": false
+      },
+      {
+        "name": "CLEAR+ Credit",
+        "amount": 209,
+        "frequency": "annual",
+        "deducts_from_eligible_spend": false
+      },
+      {
+        "name": "Wireless Credit",
+        "amount": 120,
+        "frequency": "monthly",
+        "deducts_from_eligible_spend": false
+      },
+      {
+        "name": "Dell Credit",
+        "amount": 1150,
+        "frequency": "annual",
+        "deducts_from_eligible_spend": false
+      },
+      {
+        "name": "Adobe Credit",
+        "amount": 250,
+        "frequency": "annual",
+        "deducts_from_eligible_spend": false
+      },
+      {
+        "name": "Indeed Credit",
+        "amount": 360,
+        "frequency": "quarterly",
+        "deducts_from_eligible_spend": false
+      },
+      {
+        "name": "Hilton Credit",
+        "amount": 200,
+        "frequency": "quarterly",
+        "deducts_from_eligible_spend": false
+      },
+      {
+        "name": "Global Entry/TSA PreCheck Credit",
+        "amount": 120,
+        "frequency": "every 4 years",
+        "deducts_from_eligible_spend": false
+      }
+    ],
+    "multipliers": {
+      "base_rate": 1,
+      "categories": {
+        "flights_hotels_prepaid": {
+          "rate": 5
+        },
+        "key_business_large_purchases": {
+          "rate": 2
+        }
+      }
+    },
+    "developer_notes": "No preset spending limit; 35% points back on flights capped at 1M points per year"
+  },
+  {
+    "id": "blue-business-plus-credit-card",
+    "name": "Blue Business® Plus Credit Card",
+    "issuer": "American Express",
+    "network": "Amex",
+    "annual_fee": 0,
+    "reward_currency": "Membership Rewards",
+    "synergy_ecosystem": "Amex Membership Rewards",
+    "ftf_percentage": 2.7,
+    "ui_elements": {
+      "image_url": "https://americanexpress.com/content/dam/amex/us/credit-cards/card-art/blue-business-plus.png",
+      "apply_url": "https://www.americanexpress.com/us/credit-cards/business/business-credit-cards/blue-business-plus-credit-card/"
+    },
+    "valuation": {
+      "cpp_floor": 0.6,
+      "cpp_ceiling": 2
+    },
+    "welcome_offer": {
+      "points": 15000,
+      "spend_requirement": 3000,
+      "timeframe_months": 3
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [],
+    "multipliers": {
+      "base_rate": 1,
+      "categories": {
+        "all_purchases": {
+          "rate": 2,
+          "cap_amount": 50000
+        }
+      }
+    },
+    "developer_notes": "2x points cap resets every calendar year"
+  },
+  {
+    "id": "capital-one-venture-rewards",
+    "name": "Capital One Venture Rewards Credit Card",
+    "issuer": "Capital One",
+    "network": "Visa",
+    "annual_fee": 95,
+    "reward_currency": "Capital One Miles",
+    "synergy_ecosystem": "Capital One Miles",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": "https://www.capitalone.com/-/media/images/credit-cards/venture/venture-card-art.png",
+      "apply_url": "https://www.capitalone.com/credit-cards/venture/"
+    },
+    "valuation": {
+      "cpp_floor": 1,
+      "cpp_ceiling": 1.8
+    },
+    "welcome_offer": {
+      "points": 75000,
+      "spend_requirement": 4000,
+      "timeframe_months": 3
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [
+      {
+        "name": "Global Entry or TSA PreCheck",
+        "amount": 120,
+        "frequency": "every 4 years",
+        "deducts_from_eligible_spend": false
+      },
+      {
+        "name": "Capital One Travel",
+        "amount": 250,
+        "frequency": "one-time",
+        "deducts_from_eligible_spend": false
+      }
+    ],
+    "multipliers": {
+      "base_rate": 2,
+      "categories": {
+        "hotels_vacation_rentals_rental_cars_portal": {
+          "rate": 5
+        }
+      }
+    },
+    "developer_notes": "Ineligible if you received a Venture series bonus in the last 48 months"
+  },
+  {
+    "id": "capital-one-savor-cash-rewards",
+    "name": "Capital One Savor Cash Rewards Credit Card",
+    "issuer": "Capital One",
+    "network": "Mastercard",
+    "annual_fee": 0,
+    "reward_currency": "Cash Back",
+    "synergy_ecosystem": "Capital One Miles (via transfer)",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": "https://www.capitalone.com/assets/credit-cards/savor-card-art.png",
+      "apply_url": "https://www.capitalone.com/credit-cards/savor/"
+    },
+    "valuation": {
+      "cpp_floor": 1,
+      "cpp_ceiling": 1
+    },
+    "welcome_offer": {
+      "points": 200,
+      "spend_requirement": 500,
+      "timeframe_months": 3
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [],
+    "multipliers": {
+      "base_rate": 1,
+      "categories": {
+        "capital_one_entertainment": {
+          "rate": 8
+        },
+        "capital_one_travel": {
+          "rate": 5
+        },
+        "dining": {
+          "rate": 3
+        },
+        "entertainment": {
+          "rate": 3
+        },
+        "popular_streaming": {
+          "rate": 3
+        },
+        "grocery_stores": {
+          "rate": 3
+        }
+      }
+    },
+    "developer_notes": "Grocery 3% excludes superstores like Walmart and Target; legacy cardholders may have different terms (4% dining/95 fee)"
+  },
+  {
+    "id": "blue-business-cash-card",
+    "name": "Blue Business Cash™ Card",
+    "issuer": "American Express",
+    "network": "Amex",
+    "annual_fee": 0,
+    "reward_currency": "Cash Back",
+    "ftf_percentage": 2.7,
+    "ui_elements": {
+      "image_url": null,
+      "apply_url": "https://www.americanexpress.com/us/credit-cards/business/business-credit-cards/blue-business-cash-card/"
+    },
+    "valuation": {
+      "cpp_floor": 1,
+      "cpp_ceiling": 1
+    },
+    "welcome_offer": {
+      "points": 250,
+      "spend_requirement": 3000,
+      "timeframe_months": 3
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [],
+    "multipliers": {
+      "base_rate": 1,
+      "categories": {
+        "2_on_first_50": {
+          "rate": 2
+        }
+      }
+    },
+    "developer_notes": "2% rewards capped at $50,000 spend per calendar year; over-limit spending via Expanded Buying Power must be paid in full monthly"
+  },
+  {
+    "id": "capital-one-ventureone-rewards-credit-card",
+    "name": "Capital One VentureOne Rewards Credit Card",
+    "issuer": "Capital One",
+    "network": "Mastercard",
+    "annual_fee": 0,
+    "reward_currency": "Capital One Miles",
+    "synergy_ecosystem": "Capital One Miles",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": "https://www.capitalone.com/assets/credit-cards/venture-one-card-art.png",
+      "apply_url": "https://www.capitalone.com/credit-cards/ventureone/"
+    },
+    "valuation": {
+      "cpp_floor": 1,
+      "cpp_ceiling": 1.7
+    },
+    "welcome_offer": {
+      "points": 20000,
+      "spend_requirement": 500,
+      "timeframe_months": 3
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [],
+    "multipliers": {
+      "base_rate": 1.25,
+      "categories": {
+        "travel_portal": {
+          "rate": 5
+        }
+      }
+    },
+    "developer_notes": "48-month rule for Venture family bonuses; 1 card every 6 months rule"
+  },
+  {
+    "id": "capital-one-savorone-cash-rewards",
+    "name": "Capital One SavorOne Cash Rewards Credit Card",
+    "issuer": "Capital One",
+    "network": "Mastercard",
+    "annual_fee": 39,
+    "reward_currency": "Cash Back",
+    "synergy_ecosystem": "Capital One",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": "https://ads.capitalone.com/images/SavorOne_61172_282x178_1.png",
+      "apply_url": "https://www.capitalone.com/credit-cards/savorone-for-fair-credit/"
+    },
+    "valuation": {
+      "cpp_floor": 1,
+      "cpp_ceiling": 1
+    },
+    "welcome_offer": {
+      "points": 0,
+      "spend_requirement": 0,
+      "timeframe_months": 0
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [],
+    "multipliers": {
+      "base_rate": 1,
+      "categories": {
+        "entertainment": {
+          "rate": 8
+        },
+        "travel_portal": {
+          "rate": 5
+        },
+        "dining": {
+          "rate": 3
+        },
+        "groceries": {
+          "rate": 3
+        },
+        "streaming": {
+          "rate": 3
+        }
+      }
+    },
+    "developer_notes": "Grocery category excludes superstores like Walmart and Target; Designed for Fair credit; Rebranded in 2025"
+  },
+  {
+    "id": "capital-one-savor-student-cash-rewards",
+    "name": "Capital One Savor Student Cash Rewards",
+    "issuer": "Capital One",
+    "network": "Mastercard",
+    "annual_fee": 0,
+    "reward_currency": "Cash Back",
+    "synergy_ecosystem": "Capital One",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": "https://ads.regis2.com/1/90/190/390/4407/6/79/1/image.png",
+      "apply_url": "https://www.capitalone.com/credit-cards/savor-student/"
+    },
+    "valuation": {
+      "cpp_floor": 1,
+      "cpp_ceiling": 1
+    },
+    "welcome_offer": {
+      "points": 5000,
+      "spend_requirement": 100,
+      "timeframe_months": 3
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [],
+    "multipliers": {
+      "base_rate": 1,
+      "categories": {
+        "dining": {
+          "rate": 3
+        },
+        "entertainment": {
+          "rate": 8
+        },
+        "streaming": {
+          "rate": 3
+        },
+        "groceries": {
+          "rate": 3
+        },
+        "travel_portal": {
+          "rate": 5
+        }
+      }
+    },
+    "developer_notes": "Grocery category excludes superstores like Walmart and Target"
+  },
+  {
+    "id": "capital-one-quicksilver-cash-rewards",
+    "name": "Capital One Quicksilver Cash Rewards Credit Card",
+    "issuer": "Capital One",
+    "network": "Visa",
+    "annual_fee": 0,
+    "reward_currency": "Cash Back",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": "https://www.capitalone.com/assets/credit-cards/quicksilver-card-art.png",
+      "apply_url": "https://www.capitalone.com/credit-cards/quicksilver/"
+    },
+    "valuation": {
+      "cpp_floor": 1,
+      "cpp_ceiling": 1
+    },
+    "welcome_offer": {
+      "points": 200,
+      "spend_requirement": 500,
+      "timeframe_months": 3
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [
+      {
+        "name": "Capital One Travel",
+        "amount": 100,
+        "frequency": "one-time",
+        "deducts_from_eligible_spend": true
+      }
+    ],
+    "multipliers": {
+      "base_rate": 1.5,
+      "categories": {
+        "hotels_direct": {
+          "rate": 5
+        },
+        "entertainment": {
+          "rate": 5
+        }
+      }
+    },
+    "developer_notes": "Bonus ineligible if received in past 48 months"
+  },
+  {
+    "id": "capital-one-quicksilverone-cash-rewards",
+    "name": "Capital One QuicksilverOne Cash Rewards",
+    "issuer": "Capital One",
+    "network": "Mastercard",
+    "annual_fee": 39,
+    "reward_currency": "Cash Back",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": "https://tools.capitalone.com/imagelibrary/1105/1105_710_200.png",
+      "apply_url": "https://www.capitalone.com/credit-cards/quicksilverone/"
+    },
+    "valuation": {
+      "cpp_floor": 1,
+      "cpp_ceiling": 1
+    },
+    "welcome_offer": {
+      "points": 0,
+      "spend_requirement": 0,
+      "timeframe_months": 0
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [],
+    "multipliers": {
+      "base_rate": 1.5,
+      "categories": {
+        "travel_portal": {
+          "rate": 5
+        }
+      }
+    },
+    "developer_notes": "Automatically considered for a higher credit line in as little as 6 months; designed for fair/average credit"
+  },
+  {
+    "id": "capital-one-quicksilver-secured-cash-rewards",
+    "name": "Capital One Quicksilver Secured Cash Rewards",
+    "issuer": "Capital One",
+    "network": "Mastercard",
+    "annual_fee": 0,
+    "reward_currency": "Cash Back",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": "https://www.capitalone.com/assets/credit-cards/quicksilver-secured.png",
+      "apply_url": "https://www.capitalone.com/credit-cards/quicksilver-secured/"
+    },
+    "valuation": {
+      "cpp_floor": 1,
+      "cpp_ceiling": 1
+    },
+    "welcome_offer": {
+      "points": 0,
+      "spend_requirement": 0,
+      "timeframe_months": 0
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [],
+    "multipliers": {
+      "base_rate": 1.5,
+      "categories": {
+        "travel_portal": {
+          "rate": 5
+        }
+      }
+    },
+    "developer_notes": "Requires $200 minimum refundable security deposit"
+  },
+  {
+    "id": "capital-one-platinum-credit-card",
+    "name": "Capital One Platinum Credit Card",
+    "issuer": "Capital One",
+    "network": "Mastercard",
+    "annual_fee": 0,
+    "reward_currency": "None",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": "https://www.capitalone.com/assets/credit-cards/platinum-mastercard.png",
+      "apply_url": "https://www.capitalone.com/credit-cards/platinum/"
+    },
+    "welcome_offer": {
+      "points": 0,
+      "spend_requirement": 0,
+      "timeframe_months": 0
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [],
+    "multipliers": {
+      "base_rate": 0
+    },
+    "developer_notes": "Designed for fair credit; No rewards; Automatic credit limit review after 6 months"
+  },
+  {
+    "id": "capital-one-platinum-secured",
+    "name": "Capital One Platinum Secured Credit Card",
+    "issuer": "Capital One",
+    "network": "Mastercard",
+    "annual_fee": 0,
+    "reward_currency": "None",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": "https://www.capitalone.com/assets/credit-cards/images/capital-one-platinum-secured-mastercard.png",
+      "apply_url": "https://www.capitalone.com/credit-cards/platinum-secured/"
+    },
+    "welcome_offer": {
+      "points": 0,
+      "spend_requirement": 0,
+      "timeframe_months": 0
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [],
+    "multipliers": {
+      "base_rate": 0
+    },
+    "developer_notes": "Security deposit ($49, $99, or $200) determined by creditworthiness for same $200 limit; maximum deposit $1000"
+  },
+  {
+    "id": "venture-x-business",
+    "name": "Capital One Venture X Business",
+    "issuer": "Capital One",
+    "network": "Visa",
+    "annual_fee": 395,
+    "reward_currency": "Miles",
+    "synergy_ecosystem": "Capital One Miles",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": "https://www.capitalone.com/assets/credit-cards/venture-x-business.png",
+      "apply_url": "https://www.capitalone.com/small-business/credit-cards/venture-x-business/"
+    },
+    "valuation": {
+      "cpp_floor": 1,
+      "cpp_ceiling": 1.85
+    },
+    "welcome_offer": {
+      "points": 150000,
+      "spend_requirement": 30000,
+      "timeframe_months": 3
+    },
+    "anniversary_bonus": "10000 miles",
+    "statement_credits": [
+      {
+        "name": "Travel",
+        "amount": 300,
+        "frequency": "annual",
+        "deducts_from_eligible_spend": true
+      },
+      {
+        "name": "Global Entry or TSA PreCheck",
+        "amount": 120,
+        "frequency": "every 4 years",
+        "deducts_from_eligible_spend": true
+      }
+    ],
+    "multipliers": {
+      "base_rate": 2,
+      "categories": {
+        "hotels_direct": {
+          "rate": 10
+        },
+        "flights_direct": {
+          "rate": 5
+        }
+      }
+    },
+    "developer_notes": "Pay-in-full charge card with no preset spending limit"
+  },
+  {
+    "id": "capital-one-spark-miles-for-business",
+    "name": "Capital One Spark Miles for Business",
+    "issuer": "Capital One",
+    "network": "Visa",
+    "annual_fee": 95,
+    "reward_currency": "Capital One Miles",
+    "synergy_ecosystem": "Capital One Miles",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": "https://www.capitalone.com/small-business/credit-cards/spark-miles/image",
+      "apply_url": "https://www.capitalone.com/small-business/credit-cards/spark-miles/"
+    },
+    "valuation": {
+      "cpp_floor": 1,
+      "cpp_ceiling": 1.7
+    },
+    "welcome_offer": {
+      "points": 50000,
+      "spend_requirement": 4500,
+      "timeframe_months": 3
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [
+      {
+        "name": "Global Entry/TSA PreCheck",
+        "amount": 120,
+        "frequency": "every 4 years",
+        "deducts_from_eligible_spend": true
+      }
+    ],
+    "multipliers": {
+      "base_rate": 2,
+      "categories": {
+        "travel_portal": {
+          "rate": 5
+        }
+      }
+    },
+    "developer_notes": "Welcome bonus may not be available for existing or previous cardholders"
+  },
+  {
+    "id": "capital-one-spark-cash-plus",
+    "name": "Capital One Spark Cash Plus",
+    "issuer": "Capital One",
+    "network": "Visa",
+    "annual_fee": 150,
+    "reward_currency": "Cash Back",
+    "synergy_ecosystem": "Capital One Business",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": "https://ads.capitalone.com/v1/spark-cash-plus-card-art.png",
+      "apply_url": "https://www.capitalone.com/small-business/credit-cards/spark-cash-plus/"
+    },
+    "valuation": {
+      "cpp_floor": 1,
+      "cpp_ceiling": 1
+    },
+    "welcome_offer": {
+      "points": 2000,
+      "spend_requirement": 30000,
+      "timeframe_months": 3
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [
+      {
+        "name": "Annual Fee Refund",
+        "amount": 150,
+        "frequency": "annual",
+        "deducts_from_eligible_spend": false
+      }
+    ],
+    "multipliers": {
+      "base_rate": 2,
+      "categories": {
+        "travel_portal": {
+          "rate": 5
+        }
+      }
+    },
+    "developer_notes": "Charge card must be paid in full monthly; refund requires $150,000 annual spend"
+  },
+  {
+    "id": "citi-strata-elite-card",
+    "name": "Citi Strata Elite℠ Card",
+    "issuer": "Citi",
+    "network": "Mastercard",
+    "annual_fee": 595,
+    "reward_currency": "ThankYou Points",
+    "synergy_ecosystem": "Citi ThankYou Rewards",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": "https://www.citi.com/content/dam/citi/product-images/credit-cards/citi-strata-elite.png",
+      "apply_url": "https://www.citi.com/credit-cards/citi-strata-elite-card"
+    },
+    "valuation": {
+      "cpp_floor": 1,
+      "cpp_ceiling": 1.9
+    },
+    "welcome_offer": {
+      "points": 75000,
+      "spend_requirement": 6000,
+      "timeframe_months": 3
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [
+      {
+        "name": "Hotel Benefit",
+        "amount": 300,
+        "frequency": "annual",
+        "deducts_from_eligible_spend": true
+      },
+      {
+        "name": "Splurge Credit",
+        "amount": 200,
+        "frequency": "annual",
+        "deducts_from_eligible_spend": false
+      },
+      {
+        "name": "Blacklane Credit",
+        "amount": 200,
+        "frequency": "annual",
+        "deducts_from_eligible_spend": false
+      },
+      {
+        "name": "Global Entry/TSA PreCheck",
+        "amount": 120,
+        "frequency": "every 4 years",
+        "deducts_from_eligible_spend": true
+      }
+    ],
+    "multipliers": {
+      "base_rate": 1.5,
+      "categories": {
+        "travel_portal": {
+          "rate": 12
+        },
+        "dining": {
+          "rate": 6
+        }
+      }
+    },
+    "developer_notes": "6x Dining restricted to Citi Nights window; Hotel credit requires 2-night minimum booking; $75 fee per authorized user"
+  },
+  {
+    "id": "citi-strata-premier-card",
+    "name": "Citi Strata Premier℠ Card",
+    "issuer": "Citi",
+    "network": "Mastercard",
+    "annual_fee": 95,
+    "reward_currency": "Citi ThankYou Points",
+    "synergy_ecosystem": "Citi ThankYou",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": "https://www.citi.com/CRD/images/card-art/citi-strata-premier-card.png",
+      "apply_url": "https://www.citi.com/credit-cards/citi-strata-premier-credit-card"
+    },
+    "valuation": {
+      "cpp_floor": 0.75,
+      "cpp_ceiling": 1.9
+    },
+    "welcome_offer": {
+      "points": 60000,
+      "spend_requirement": 4000,
+      "timeframe_months": 3
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [
+      {
+        "name": "Hotel Savings",
+        "amount": 100,
+        "frequency": "annual",
+        "deducts_from_eligible_spend": true
+      }
+    ],
+    "multipliers": {
+      "base_rate": 1,
+      "categories": {
+        "travel_portal": {
+          "rate": 10
+        },
+        "3x_airfare": {
+          "rate": 3
+        },
+        "hotels_direct": {
+          "rate": 3
+        },
+        "dining": {
+          "rate": 3
+        },
+        "groceries": {
+          "rate": 3
+        },
+        "gas_ev_transit": {
+          "rate": 3
+        }
+      }
+    },
+    "developer_notes": "Bonus restricted if received for this card in last 48 months"
+  },
+  {
+    "id": "citi-double-cash-card",
+    "name": "Citi Double Cash® Card",
+    "issuer": "Citi",
+    "network": "Mastercard",
+    "annual_fee": 0,
+    "reward_currency": "ThankYou Points",
+    "synergy_ecosystem": "Citi ThankYou",
+    "ftf_percentage": 3,
+    "ui_elements": {
+      "image_url": "https://www.citi.com/CRD/images/card-art/citi-double-cash-credit-card.png",
+      "apply_url": "https://www.citi.com/credit-cards/citi-double-cash-credit-card"
+    },
+    "valuation": {
+      "cpp_floor": 0.01,
+      "cpp_ceiling": 0.01
+    },
+    "welcome_offer": {
+      "points": 20000,
+      "spend_requirement": 1500,
+      "timeframe_months": 6
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [],
+    "multipliers": {
+      "base_rate": 2,
+      "categories": {
+        "travel_portal": {
+          "rate": 5
+        }
+      }
+    },
+    "developer_notes": "Earns 1% when you buy and 1% as you pay; must pay minimum due to earn rewards"
+  },
+  {
+    "id": "citi-custom-cash-card",
+    "name": "Citi Custom Cash® Card",
+    "issuer": "Citi",
+    "network": "Mastercard",
+    "annual_fee": 0,
+    "reward_currency": "Citi ThankYou Points",
+    "synergy_ecosystem": "Citi ThankYou",
+    "ftf_percentage": 3,
+    "ui_elements": {
+      "image_url": "https://www.citi.com/CRD/images/card-art/citi-custom-cash-card.png",
+      "apply_url": "https://www.citi.com/credit-cards/citi-custom-cash-credit-card"
+    },
+    "valuation": {
+      "cpp_floor": 1,
+      "cpp_ceiling": 2
+    },
+    "welcome_offer": {
+      "points": 20000,
+      "spend_requirement": 1500,
+      "timeframe_months": 6
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [],
+    "multipliers": {
+      "base_rate": 1,
+      "categories": {
+        "top_category": {
+          "rate": 5,
+          "cap_amount": 500
+        },
+        "travel_portal": {
+          "rate": 4
+        }
+      }
+    },
+    "developer_notes": "Limit of one card per person; 5% rewards capped at $500 spend per billing cycle"
+  },
+  {
+    "id": "citi-rewards-plus",
+    "name": "Citi Rewards+® Card",
+    "issuer": "Citi",
+    "network": "Mastercard",
+    "annual_fee": 0,
+    "reward_currency": "Citi ThankYou Points",
+    "synergy_ecosystem": "Citi ThankYou",
+    "ftf_percentage": 3,
+    "ui_elements": {
+      "image_url": "https://www.citi.com/content/dam/citi/credit-cards/card-art/citi-rewards-plus.png",
+      "apply_url": "https://www.citi.com/credit-cards/citi-rewards-plus-credit-card"
+    },
+    "valuation": {
+      "cpp_floor": 0.5,
+      "cpp_ceiling": 1
+    },
+    "welcome_offer": {
+      "points": 20000,
+      "spend_requirement": 1500,
+      "timeframe_months": 3
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [],
+    "multipliers": {
+      "base_rate": 1,
+      "categories": {
+        "gas_ev_transit": {
+          "rate": 2,
+          "cap_amount": 6
+        },
+        "travel_portal": {
+          "rate": 5
+        }
+      }
+    },
+    "developer_notes": "Applications closed April 2025; Round up and 10% back features for legacy cardholders expire July 19, 2026; $6,000 cap is a combined limit for 2x categories"
+  },
+  {
+    "id": "citi-simplicity-card",
+    "name": "Citi Simplicity® Card",
+    "issuer": "Citi",
+    "network": "Mastercard",
+    "annual_fee": 0,
+    "reward_currency": "None",
+    "ftf_percentage": 3,
+    "ui_elements": {
+      "image_url": "https://www.citi.com/content/dam/citibank/retail/credit-cards/card-art/citi-simplicity-card.png",
+      "apply_url": "https://www.citi.com/credit-cards/citi-simplicity-credit-card"
+    },
+    "welcome_offer": {
+      "points": 0,
+      "spend_requirement": 0,
+      "timeframe_months": 0
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [],
+    "multipliers": {
+      "base_rate": 0
+    },
+    "developer_notes": "Balance transfers must be completed within 4 months of account opening to qualify for intro APR"
+  },
+  {
+    "id": "citi-diamond-preferred-card",
+    "name": "Citi® Diamond Preferred® Card",
+    "issuer": "Citi",
+    "network": "Mastercard",
+    "annual_fee": 0,
+    "reward_currency": "None",
+    "ftf_percentage": 3,
+    "ui_elements": {
+      "image_url": "https://www.citi.com/CRD/images/card-art/citi-diamond-preferred-card.png",
+      "apply_url": "https://www.citi.com/credit-cards/citi-diamond-preferred-credit-card"
+    },
+    "welcome_offer": {
+      "points": 0,
+      "spend_requirement": 0,
+      "timeframe_months": 0
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [],
+    "multipliers": {
+      "base_rate": 0
+    },
+    "developer_notes": "Balance transfers must be completed within 4 months of account opening; 5% (min $5) balance transfer fee"
+  },
+  {
+    "id": "citi-secured-mastercard",
+    "name": "Citi® Secured Mastercard®",
+    "issuer": "Citi",
+    "network": "Mastercard",
+    "annual_fee": 0,
+    "reward_currency": "None",
+    "ftf_percentage": 3,
+    "ui_elements": {
+      "image_url": "https://www.citi.com/CRD/images/card-art/citi-secured-mastercard.png",
+      "apply_url": "https://www.citibank.com/credit-cards/citi-secured-mastercard"
+    },
+    "welcome_offer": {
+      "points": 0,
+      "spend_requirement": 0,
+      "timeframe_months": 0
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [],
+    "multipliers": {
+      "base_rate": 0
+    },
+    "developer_notes": "Security deposit of $200-$2500 required; deposit equals credit limit; no bankruptcy history in past 2 years"
+  },
+  {
+    "id": "wells-fargo-autograph-journey",
+    "name": "Wells Fargo Autograph Journey℠ Card",
+    "issuer": "Wells Fargo",
+    "network": "Visa",
+    "annual_fee": 95,
+    "reward_currency": "Wells Fargo Rewards points",
+    "synergy_ecosystem": "Wells Fargo Rewards",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": "https://www.wellsfargo.com/assets/images/cards/wells-fargo-autograph-journey-visa-card.png",
+      "apply_url": "https://www.wellsfargo.com/credit-cards/autograph-journey/"
+    },
+    "valuation": {
+      "cpp_floor": 1,
+      "cpp_ceiling": 1.5
+    },
+    "welcome_offer": {
+      "points": 60000,
+      "spend_requirement": 4000,
+      "timeframe_months": 3
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [
+      {
+        "name": "Airline",
+        "amount": 50,
+        "frequency": "annual",
+        "deducts_from_eligible_spend": true
+      }
+    ],
+    "multipliers": {
+      "base_rate": 1,
+      "categories": {
+        "hotels_direct": {
+          "rate": 5
+        },
+        "4x_airlines": {
+          "rate": 4
+        },
+        "travel_portal": {
+          "rate": 3
+        }
+      }
+    },
+    "developer_notes": "5x and 4x multipliers require direct bookings with the hotel or airline; $50 airline credit requires a single purchase of at least $50"
+  },
+  {
+    "id": "wells-fargo-autograph-card",
+    "name": "Wells Fargo Autograph® Card",
+    "issuer": "Wells Fargo",
+    "network": "Visa",
+    "annual_fee": 0,
+    "reward_currency": "Wells Fargo Rewards points",
+    "synergy_ecosystem": "Wells Fargo Rewards",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": "https://www01.wellsfargomedia.com/assets/images/contextual/banner/credit-cards/autograph/wf-autograph-card-front.png",
+      "apply_url": "https://www.wellsfargo.com/credit-cards/autograph/"
+    },
+    "valuation": {
+      "cpp_floor": 1,
+      "cpp_ceiling": 1.65
+    },
+    "welcome_offer": {
+      "points": 20000,
+      "spend_requirement": 1000,
+      "timeframe_months": 3
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [],
+    "multipliers": {
+      "base_rate": 1,
+      "categories": {
+        "dining": {
+          "rate": 3
+        },
+        "travel_portal": {
+          "rate": 3
+        },
+        "gas_ev_transit": {
+          "rate": 3
+        },
+        "streaming": {
+          "rate": 3
+        },
+        "3x_phone_plans": {
+          "rate": 3
+        }
+      }
+    },
+    "developer_notes": "0% intro APR only applies to purchases and not balance transfers; points can be pooled with Autograph Journey for enhanced transfer options"
+  },
+  {
+    "id": "wells-fargo-active-cash",
+    "name": "Wells Fargo Active Cash® Card",
+    "issuer": "Wells Fargo",
+    "network": "Visa",
+    "annual_fee": 0,
+    "reward_currency": "Cash rewards",
+    "synergy_ecosystem": "Wells Fargo Rewards",
+    "ftf_percentage": 3,
+    "ui_elements": {
+      "image_url": "https://www.wellsfargo.com/credit-cards/active-cash/",
+      "apply_url": "https://www.wellsfargo.com/credit-cards/active-cash/"
+    },
+    "valuation": {
+      "cpp_floor": 1,
+      "cpp_ceiling": 1
+    },
+    "welcome_offer": {
+      "points": 200,
+      "spend_requirement": 500,
+      "timeframe_months": 3
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [],
+    "multipliers": {
+      "base_rate": 2
+    },
+    "developer_notes": "Ineligible for welcome offer if a Wells Fargo card was opened in the past 6 months"
+  },
+  {
+    "id": "wells-fargo-reflect-card",
+    "name": "Wells Fargo Reflect® Card",
+    "issuer": "Wells Fargo",
+    "network": "Visa",
+    "annual_fee": 0,
+    "reward_currency": "None",
+    "ftf_percentage": 3,
+    "ui_elements": {
+      "image_url": "https://creditcards.wellsfargo.com/m/reflect-visa-credit-card/",
+      "apply_url": "https://www.wellsfargo.com/credit-cards/reflect/"
+    },
+    "welcome_offer": {
+      "points": 0,
+      "spend_requirement": 0,
+      "timeframe_months": 0
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [],
+    "multipliers": {
+      "base_rate": 0
+    },
+    "developer_notes": "Balance transfers must be completed within 120 days to qualify for intro APR; 5% ($5 min) BT fee"
+  },
+  {
+    "id": "wells-fargo-attune-card",
+    "name": "Wells Fargo Attune℠ Card",
+    "issuer": "Wells Fargo",
+    "network": "Mastercard",
+    "annual_fee": 0,
+    "reward_currency": "Wells Fargo Rewards",
+    "synergy_ecosystem": "Wells Fargo Rewards",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": "https://www.wellsfargo.com/credit-cards/attune/",
+      "apply_url": "https://www.wellsfargo.com/credit-cards/attune/"
+    },
+    "valuation": {
+      "cpp_floor": 1,
+      "cpp_ceiling": 1
+    },
+    "welcome_offer": {
+      "points": 100,
+      "spend_requirement": 500,
+      "timeframe_months": 3
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [],
+    "multipliers": {
+      "base_rate": 1,
+      "categories": {
+        "4_selfcare": {
+          "rate": 4
+        }
+      }
+    },
+    "developer_notes": "Earning 4% relies heavily on specific Merchant Category Codes (MCCs); cash rewards can be transferred to a Wells Fargo Autograph account to access travel transfer partners"
+  },
+  {
+    "id": "wells-fargo-signia-card",
+    "name": "Wells Fargo Signia Card",
+    "issuer": "Wells Fargo",
+    "network": "Visa",
+    "annual_fee": 550,
+    "reward_currency": "Wells Fargo Rewards",
+    "synergy_ecosystem": "Wells Fargo Rewards",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": "https://www.wellsfargo.com/credit-cards/signia/images/card-art.png",
+      "apply_url": "https://www.wellsfargo.com/credit-cards/signia/"
+    },
+    "valuation": {
+      "cpp_floor": 1,
+      "cpp_ceiling": 2
+    },
+    "welcome_offer": {
+      "points": 75000,
+      "spend_requirement": 5000,
+      "timeframe_months": 3
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [
+      {
+        "name": "Travel Credit",
+        "amount": 300,
+        "frequency": "annual",
+        "deducts_from_eligible_spend": true
+      }
+    ],
+    "multipliers": {
+      "base_rate": 1,
+      "categories": {
+        "travel_portal": {
+          "rate": 5
+        },
+        "dining": {
+          "rate": 3
+        }
+      }
+    },
+    "developer_notes": "Requires high credit score and often existing relationship for best approval odds"
+  },
+  {
+    "id": "bank-of-america-premium-rewards-elite",
+    "name": "Bank of America® Premium Rewards® Elite",
+    "issuer": "Bank of America",
+    "network": "Visa",
+    "annual_fee": 550,
+    "reward_currency": "Points",
+    "synergy_ecosystem": "Bank of America Preferred Rewards",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": "https://www.bankofamerica.com/content/images/ContextualMicroStrategy/CreditCard/Consumer/Cards/premium_rewards_elite_visa_infinite.png",
+      "apply_url": "https://www.bankofamerica.com/credit-cards/products/premium-rewards-elite-credit-card/"
+    },
+    "valuation": {
+      "cpp_floor": 1,
+      "cpp_ceiling": 1.25
+    },
+    "welcome_offer": {
+      "points": 75000,
+      "spend_requirement": 5000,
+      "timeframe_months": 3
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [
+      {
+        "name": "Airline Incidental",
+        "amount": 300,
+        "frequency": "annual",
+        "deducts_from_eligible_spend": true
+      },
+      {
+        "name": "Lifestyle",
+        "amount": 150,
+        "frequency": "annual",
+        "deducts_from_eligible_spend": false
+      },
+      {
+        "name": "Global Entry/TSA PreCheck",
+        "amount": 120,
+        "frequency": "every 4 years",
+        "deducts_from_eligible_spend": true
+      }
+    ],
+    "multipliers": {
+      "base_rate": 1.5,
+      "categories": {
+        "travel_portal": {
+          "rate": 2
+        }
+      }
+    },
+    "developer_notes": "25-75% point bonus for Preferred Rewards members; Primary Rental Car CDW; No transfer partners"
+  },
+  {
+    "id": "bank-of-america-premium-rewards",
+    "name": "Bank of America® Premium Rewards®",
+    "issuer": "Bank of America",
+    "network": "Visa",
+    "annual_fee": 95,
+    "reward_currency": "Bank of America Points",
+    "synergy_ecosystem": "Bank of America Preferred Rewards",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": "https://www.bankofamerica.com/content/images/ContextualMicroStrategy/Credit_Card/Cards/Premium_Rewards_IC_82x51.png",
+      "apply_url": "https://www.bankofamerica.com/credit-cards/products/premium-rewards-credit-card/"
+    },
+    "valuation": {
+      "cpp_floor": 1,
+      "cpp_ceiling": 1
+    },
+    "welcome_offer": {
+      "points": 60000,
+      "spend_requirement": 4000,
+      "timeframe_months": 3
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [
+      {
+        "name": "Airline Incidental",
+        "amount": 100,
+        "frequency": "annual",
+        "deducts_from_eligible_spend": true
+      },
+      {
+        "name": "TSA PreCheck or Global Entry",
+        "amount": 100,
+        "frequency": "every 4 years",
+        "deducts_from_eligible_spend": true
+      }
+    ],
+    "multipliers": {
+      "base_rate": 1.5,
+      "categories": {
+        "travel_portal": {
+          "rate": 2
+        }
+      }
+    },
+    "developer_notes": "Preferred Rewards members earn 25% to 75% more points"
+  },
+  {
+    "id": "bank-of-america-customized-cash-rewards",
+    "name": "Bank of America® Customized Cash Rewards",
+    "issuer": "Bank of America",
+    "network": "Visa",
+    "annual_fee": 0,
+    "reward_currency": "Cash Back",
+    "synergy_ecosystem": "Bank of America Preferred Rewards",
+    "ftf_percentage": 3,
+    "ui_elements": {
+      "image_url": "https://www.bankofamerica.com/content/images/Contextual/DigitalCards/bk_cc_customized_cash_rewards_v_250x158.png",
+      "apply_url": "https://www.bankofamerica.com/credit-cards/products/cash-back-credit-card/"
+    },
+    "valuation": {
+      "cpp_floor": 1,
+      "cpp_ceiling": 1
+    },
+    "welcome_offer": {
+      "points": 200,
+      "spend_requirement": 1000,
+      "timeframe_months": 3
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [],
+    "multipliers": {
+      "base_rate": 1,
+      "categories": {
+        "gas_ev_transit": {
+          "rate": 3
+        },
+        "groceries": {
+          "rate": 2
+        }
+      }
+    },
+    "developer_notes": "$2,500 quarterly cap on combined 3% and 2% categories; category can be changed once per month"
+  },
+  {
+    "id": "bank-of-america-unlimited-cash-rewards",
+    "name": "Bank of America® Unlimited Cash Rewards",
+    "issuer": "Bank of America",
+    "network": "Visa",
+    "annual_fee": 0,
+    "reward_currency": "Cash Rewards",
+    "synergy_ecosystem": "BofA Rewards",
+    "ftf_percentage": 3,
+    "ui_elements": {
+      "image_url": "https://www.bankofamerica.com/credit-cards/products/unlimited-cash-back-credit-card/",
+      "apply_url": "https://www.bankofamerica.com/credit-cards/products/unlimited-cash-back-credit-card/"
+    },
+    "valuation": {
+      "cpp_floor": 1,
+      "cpp_ceiling": 1
+    },
+    "welcome_offer": {
+      "points": 200,
+      "spend_requirement": 1000,
+      "timeframe_months": 3
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [],
+    "multipliers": {
+      "base_rate": 1.5,
+      "categories": {
+        "other": {
+          "rate": 2
+        }
+      }
+    },
+    "developer_notes": "Preferred Rewards bonus excludes first-year 0.5% boost; Tier re-evaluation starts Nov 2026"
+  },
+  {
+    "id": "bank-of-america-travel-rewards",
+    "name": "Bank of America® Travel Rewards",
+    "issuer": "Bank of America",
+    "network": "Visa",
+    "annual_fee": 0,
+    "reward_currency": "Bank of America Points",
+    "synergy_ecosystem": "BofA Rewards",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": "https://www.bankofamerica.com/content/images/Contextual/DigitalCards/Travel_Rewards_Visa.png",
+      "apply_url": "https://www.bankofamerica.com/credit-cards/products/travel-rewards-credit-card/"
+    },
+    "valuation": {
+      "cpp_floor": 1,
+      "cpp_ceiling": 1
+    },
+    "welcome_offer": {
+      "points": 25000,
+      "spend_requirement": 1000,
+      "timeframe_months": 3
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [],
+    "multipliers": {
+      "base_rate": 1.5,
+      "categories": {
+        "travel_portal": {
+          "rate": 3
+        }
+      }
+    },
+    "developer_notes": "Preferred Rewards/BofA Rewards members earn 25% to 75% bonus; Points only worth 1 cent for travel and dining statement credits"
+  },
+  {
+    "id": "bank-of-america-bankamericard",
+    "name": "Bank of America® BankAmericard®",
+    "issuer": "Bank of America",
+    "network": "Visa",
+    "annual_fee": 0,
+    "reward_currency": "None",
+    "ftf_percentage": 3,
+    "ui_elements": {
+      "image_url": "https://www.bankofamerica.com/content/images/ContextualSiteGraphics/CreditCardArt/en_US/card_assets/bankamericard_visa.png",
+      "apply_url": "https://www.bankofamerica.com/credit-cards/products/bankamericard-credit-card/"
+    },
+    "welcome_offer": {
+      "points": 0,
+      "spend_requirement": 0,
+      "timeframe_months": 0
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [],
+    "multipliers": {
+      "base_rate": 0
+    },
+    "developer_notes": "Primarily a balance transfer card with no rewards program"
+  },
+  {
+    "id": "us-bank-altitude-reserve-visa-infinite",
+    "name": "U.S. Bank Altitude® Reserve Visa Infinite®",
+    "issuer": "U.S. Bank",
+    "network": "Visa",
+    "annual_fee": 400,
+    "reward_currency": "Altitude Reserve Points",
+    "synergy_ecosystem": "U.S. Bank Altitude",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": "https://www.usbank.com/dam/images/credit-cards/altitude-reserve-card.png",
+      "apply_url": "https://www.usbank.com/credit-cards/altitude-reserve-visa-infinite-credit-card.html"
+    },
+    "valuation": {
+      "cpp_floor": 1,
+      "cpp_ceiling": 1.5
+    },
+    "welcome_offer": {
+      "points": 50000,
+      "spend_requirement": 45000,
+      "timeframe_months": 3
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [
+      {
+        "name": "Travel and Dining",
+        "amount": 325,
+        "frequency": "annual",
+        "deducts_from_eligible_spend": true
+      },
+      {
+        "name": "TSA PreCheck/Global Entry",
+        "amount": 100,
+        "frequency": "every 4 years",
+        "deducts_from_eligible_spend": true
+      }
+    ],
+    "multipliers": {
+      "base_rate": 1,
+      "categories": {
+        "hotels_direct": {
+          "rate": 5
+        },
+        "travel_portal": {
+          "rate": 3
+        },
+        "3x_mobile_wallet": {
+          "rate": 3
+        }
+      }
+    },
+    "developer_notes": "Currently not accepting new applications; points are worth 1.5 cents toward travel redemptions"
+  },
+  {
+    "id": "us-bank-altitude-connect-visa-signature",
+    "name": "U.S. Bank Altitude® Connect Visa Signature®",
+    "issuer": "U.S. Bank",
+    "network": "Visa",
+    "annual_fee": 0,
+    "reward_currency": "Altitude Points",
+    "synergy_ecosystem": "U.S. Bank Altitude",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": "https://www.usbank.com/dam/images/credit-cards/altitude-connect-card.png",
+      "apply_url": "https://www.usbank.com/credit-cards/altitude-connect-visa-signature-credit-card.html"
+    },
+    "valuation": {
+      "cpp_floor": 0.01,
+      "cpp_ceiling": 0.01
+    },
+    "welcome_offer": {
+      "points": 30000,
+      "spend_requirement": 1000,
+      "timeframe_months": 3
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [
+      {
+        "name": "TSA PreCheck/Global Entry",
+        "amount": 100,
+        "frequency": "every 4 years",
+        "deducts_from_eligible_spend": true
+      }
+    ],
+    "multipliers": {
+      "base_rate": 1,
+      "categories": {
+        "travel_portal": {
+          "rate": 5
+        },
+        "dining": {
+          "rate": 2
+        }
+      }
+    },
+    "developer_notes": "Points are fixed value; No transfer partners; 4x category capped at $1,000 spend per quarter"
+  },
+  {
+    "id": "us-bank-altitude-go-visa-signature",
+    "name": "U.S. Bank Altitude® Go Visa Signature®",
+    "issuer": "U.S. Bank",
+    "network": "Visa",
+    "annual_fee": 0,
+    "reward_currency": "Altitude Points",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": "https://www.usbank.com/dam/images/credit-cards/altitude-go-signature-card.png",
+      "apply_url": "https://www.usbank.com/credit-cards/altitude-go-visa-signature-card.html"
+    },
+    "valuation": {
+      "cpp_floor": 0.008,
+      "cpp_ceiling": 0.01
+    },
+    "welcome_offer": {
+      "points": 20000,
+      "spend_requirement": 1000,
+      "timeframe_months": 3
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [
+      {
+        "name": "Streaming Service",
+        "amount": 15,
+        "frequency": "annual",
+        "deducts_from_eligible_spend": false
+      }
+    ],
+    "multipliers": {
+      "base_rate": 1,
+      "categories": {
+        "dining": {
+          "rate": 4
+        },
+        "groceries": {
+          "rate": 2
+        }
+      }
+    },
+    "developer_notes": "4x dining multiplier capped at $2,000 spend per quarter; points expire after 12 months of inactivity"
+  },
+  {
+    "id": "us-bank-cash-plus-visa-signature",
+    "name": "U.S. Bank Cash+® Visa Signature®",
+    "issuer": "U.S. Bank",
+    "network": "Visa",
+    "annual_fee": 0,
+    "reward_currency": "Cash Back",
+    "ftf_percentage": 3,
+    "ui_elements": {
+      "image_url": "https://www.usbank.com/dam/images/credit-cards/cash-plus-visa-signature.png",
+      "apply_url": "https://www.usbank.com/credit-cards/cash-plus-visa-signature-credit-card.html"
+    },
+    "valuation": {
+      "cpp_floor": 1,
+      "cpp_ceiling": 1
+    },
+    "welcome_offer": {
+      "points": 200,
+      "spend_requirement": 1000,
+      "timeframe_months": 4
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [],
+    "multipliers": {
+      "base_rate": 1,
+      "categories": {
+        "other": {
+          "rate": 5
+        },
+        "travel_portal": {
+          "rate": 5
+        }
+      }
+    },
+    "developer_notes": "Must manually activate categories each quarter to earn bonus; Rewards expire after 36 months; $25 minimum redemption"
+  },
+  {
+    "id": "us-bank-smartly-visa-signature",
+    "name": "U.S. Bank Smartly™ Visa Signature®",
+    "issuer": "U.S. Bank",
+    "network": "Visa",
+    "annual_fee": 0,
+    "reward_currency": "Points",
+    "synergy_ecosystem": "U.S. Bank Smartly",
+    "ftf_percentage": 3,
+    "ui_elements": {
+      "image_url": "https://www.usbank.com/dam/images/credit-cards/cards/smartly-visa-signature-card-564x356.png",
+      "apply_url": "https://www.usbank.com/credit-cards/bank-smartly-visa-signature-credit-card.html"
+    },
+    "valuation": {
+      "cpp_floor": 0.01,
+      "cpp_ceiling": 0.01
+    },
+    "welcome_offer": {
+      "points": 0,
+      "spend_requirement": 0,
+      "timeframe_months": 0
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [],
+    "multipliers": {
+      "base_rate": 2,
+      "categories": {
+        "other": {
+          "rate": 2.5
+        }
+      }
+    },
+    "developer_notes": "Boosted rates capped at $10,000 spend per cycle and require specific account pairings"
+  },
+  {
+    "id": "us-bank-shield-visa-card",
+    "name": "U.S. Bank Shield™ Visa® Card",
+    "issuer": "U.S. Bank",
+    "network": "Visa",
+    "annual_fee": 0,
+    "reward_currency": "Cash Back",
+    "ftf_percentage": 3,
+    "ui_elements": {
+      "image_url": "https://www.usbank.com/dam/images/credit-cards/shield-card.png",
+      "apply_url": "https://www.usbank.com/credit-cards/shield-visa-credit-card.html"
+    },
+    "valuation": {
+      "cpp_floor": 1,
+      "cpp_ceiling": 1
+    },
+    "welcome_offer": {
+      "points": 0,
+      "spend_requirement": 0,
+      "timeframe_months": 0
+    },
+    "anniversary_bonus": "$20 Statement Credit",
+    "statement_credits": [
+      {
+        "name": "Annual Statement Credit",
+        "amount": 20,
+        "frequency": "annual",
+        "deducts_from_eligible_spend": false
+      }
+    ],
+    "multipliers": {
+      "base_rate": 0,
+      "categories": {
+        "travel_portal": {
+          "rate": 4
+        }
+      }
+    },
+    "developer_notes": "$20 credit requires 11 consecutive months of purchases"
+  },
+  {
+    "id": "discover-it-cash-back",
+    "name": "Discover it® Cash Back",
+    "issuer": "Discover",
+    "network": "Discover",
+    "annual_fee": 0,
+    "reward_currency": "Cashback Bonus",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": "https://www.discover.com/content/dam/dfs/credit-cards/card-art/it-chrome-card.png",
+      "apply_url": "https://www.discover.com/credit-cards/cash-back/it-card.html"
+    },
+    "valuation": {
+      "cpp_floor": 1,
+      "cpp_ceiling": 1.2
+    },
+    "welcome_offer": {
+      "points": 0,
+      "spend_requirement": 0,
+      "timeframe_months": 12
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [],
+    "multipliers": {
+      "base_rate": 1,
+      "categories": {
+        "rotating": {
+          "rate": 5,
+          "cap_amount": 1
+        }
+      }
+    },
+    "developer_notes": "Must activate categories quarterly; Cashback Match only for first year"
+  },
+  {
+    "id": "discover-it-miles",
+    "name": "Discover it® Miles",
+    "issuer": "Discover",
+    "network": "Discover",
+    "annual_fee": 0,
+    "reward_currency": "Discover Miles",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": "https://www.discover.com/content/dam/dfs/credit-cards/global/images/it-miles-card-art.png",
+      "apply_url": "https://www.discover.com/credit-cards/travel/"
+    },
+    "valuation": {
+      "cpp_floor": 0.01,
+      "cpp_ceiling": 0.01
+    },
+    "welcome_offer": {
+      "points": 0,
+      "spend_requirement": 0,
+      "timeframe_months": 12
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [],
+    "multipliers": {
+      "base_rate": 1.5
+    },
+    "developer_notes": "First year miles match replaces traditional signup bonus"
+  },
+  {
+    "id": "discover-it-chrome",
+    "name": "Discover it® Chrome",
+    "issuer": "Discover",
+    "network": "Discover",
+    "annual_fee": 0,
+    "reward_currency": "Cashback Bonus",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": "https://www.discover.com/content/dam/discover/en_us/credit-cards/card-art/it-chrome.png",
+      "apply_url": "https://www.discover.com/credit-cards/chrome/"
+    },
+    "valuation": {
+      "cpp_floor": 1,
+      "cpp_ceiling": 1.2
+    },
+    "welcome_offer": {
+      "points": 0,
+      "spend_requirement": 0,
+      "timeframe_months": 12
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [],
+    "multipliers": {
+      "base_rate": 1,
+      "categories": {
+        "dining": {
+          "rate": 2,
+          "cap_amount": 1
+        }
+      }
+    },
+    "developer_notes": "2% rewards cap resets quarterly; Cashback Match only for first year"
+  },
+  {
+    "id": "discover-it-student-cash-back",
+    "name": "Discover it® Student Cash Back",
+    "issuer": "Discover",
+    "network": "Discover",
+    "annual_fee": 0,
+    "reward_currency": "Cashback Bonus",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": "https://www.discovercard.com/content/dam/dfs/credit-cards/student/images/it-student-cash-back.png",
+      "apply_url": "https://www.discover.com/credit-cards/student-cashback/"
+    },
+    "valuation": {
+      "cpp_floor": 1,
+      "cpp_ceiling": 1
+    },
+    "welcome_offer": {
+      "points": 0,
+      "spend_requirement": 0,
+      "timeframe_months": 12
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [],
+    "multipliers": {
+      "base_rate": 1,
+      "categories": {
+        "rotating": {
+          "rate": 5,
+          "cap_amount": 1
+        },
+        "1_all_other": {
+          "rate": 1
+        }
+      }
+    },
+    "developer_notes": "Activation required for 5% categories; Must provide proof of enrollment; First late fee waived"
+  },
+  {
+    "id": "discover-it-secured",
+    "name": "Discover it® Secured Credit Card",
+    "issuer": "Discover",
+    "network": "Discover",
+    "annual_fee": 0,
+    "reward_currency": "Cashback Bonus",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": "https://www.discover.com/content/dam/dfs/credit-cards/card-art/it-secured-card.png",
+      "apply_url": "https://www.discover.com/credit-cards/secured/"
+    },
+    "valuation": {
+      "cpp_floor": 1,
+      "cpp_ceiling": 1
+    },
+    "welcome_offer": {
+      "points": 0,
+      "spend_requirement": 0,
+      "timeframe_months": 12
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [],
+    "multipliers": {
+      "base_rate": 1,
+      "categories": {
+        "dining": {
+          "rate": 2,
+          "cap_amount": 1
+        }
+      }
+    },
+    "developer_notes": "Automatic account reviews starting at 7 months for possible upgrade to unsecured card; security deposit defines credit limit"
+  },
+  {
+    "id": "apple-card",
+    "name": "Apple Card",
+    "issuer": "Chase",
+    "network": "Mastercard",
+    "annual_fee": 0,
+    "reward_currency": "Daily Cash",
+    "synergy_ecosystem": "Apple Ecosystem",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": "https://www.apple.com/newsroom/images/product/services/standard/Apple-Card-titanium-card-08062019_big.jpg.large.jpg",
+      "apply_url": "https://www.apple.com/apple-card/"
+    },
+    "valuation": {
+      "cpp_floor": 1,
+      "cpp_ceiling": 1
+    },
+    "welcome_offer": {
+      "points": 0,
+      "spend_requirement": 0,
+      "timeframe_months": 0
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [],
+    "multipliers": {
+      "base_rate": 1,
+      "categories": {
+        "3_apple_and_select_merchants": {
+          "rate": 3
+        },
+        "2_apple_pay": {
+          "rate": 2
+        }
+      }
+    },
+    "developer_notes": "0% APR financing for Apple products, no fees of any kind, physical card transactions limited to 1%"
+  },
+  {
+    "id": "bilt-blue-card",
+    "name": "Bilt World Mastercard®",
+    "issuer": "Column N.A.",
+    "network": "Mastercard",
+    "annual_fee": 0,
+    "reward_currency": "Bilt Points",
+    "synergy_ecosystem": "Bilt Rewards",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": "https://www.biltrewards.com/card",
+      "apply_url": "https://www.biltrewards.com/card"
+    },
+    "valuation": {
+      "cpp_floor": 0.5,
+      "cpp_ceiling": 2.2
+    },
+    "welcome_offer": {
+      "points": 0,
+      "spend_requirement": 0,
+      "timeframe_months": 0
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [],
+    "multipliers": {
+      "base_rate": 1,
+      "categories": {
+        "1x_rent_and_mortgage": {
+          "rate": 1
+        },
+        "1x_everyday_purchases": {
+          "rate": 1
+        },
+        "4_bilt_cash_optional": {
+          "rate": 4
+        }
+      }
+    },
+    "developer_notes": "Transitioned from Wells Fargo to Column N.A. in Feb 2026; earnings require meeting spending thresholds or redeeming Bilt Cash; points capped at 100k/year on housing"
+  },
+  {
+    "id": "bilt-palladium-card",
+    "name": "Bilt Palladium Card",
+    "issuer": "Column N.A.",
+    "network": "Mastercard",
+    "annual_fee": 495,
+    "reward_currency": "Bilt Rewards Points",
+    "synergy_ecosystem": "Bilt Rewards",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": "https://www.biltrewards.com/card/palladium",
+      "apply_url": "https://www.biltrewards.com/card"
+    },
+    "valuation": {
+      "cpp_floor": 1.25,
+      "cpp_ceiling": 2.2
+    },
+    "welcome_offer": {
+      "points": 50000,
+      "spend_requirement": 4000,
+      "timeframe_months": 3
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [
+      {
+        "name": "Bilt Travel Hotel Credit",
+        "amount": 400,
+        "frequency": "semi-annual",
+        "deducts_from_eligible_spend": true
+      },
+      {
+        "name": "Bilt Cash",
+        "amount": 200,
+        "frequency": "annual",
+        "deducts_from_eligible_spend": false
+      }
+    ],
+    "multipliers": {
+      "base_rate": 2,
+      "categories": {
+        "1x125x_rent_and_mortgage": {
+          "rate": 1
+        },
+        "dining": {
+          "rate": 3
+        },
+        "travel_portal": {
+          "rate": 2
+        }
+      }
+    },
+    "developer_notes": "Earns 4% Bilt Cash on all spend; Bilt Cash expires annually over $100; 1,000 bonus points monthly cap on Rent Day"
+  },
+  {
+    "id": "atmos-rewards-summit-visa-infinite",
+    "name": "Atmos™ Rewards Summit Visa Infinite®",
+    "issuer": "Bank of America",
+    "network": "Visa",
+    "annual_fee": 395,
+    "reward_currency": "Atmos Rewards points",
+    "synergy_ecosystem": "Bank of America",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": "https://www.bankofamerica.com/content/images/ContextualResponsive/CreditCard/Consumer/Atmos-Rewards-Summit-Credit-Card.png",
+      "apply_url": "https://secure.bankofamerica.com/apply-now-services/credit-cards/initialize-icai?requesttype=C&campaignid=4077490&productoffercode=PT&locale=en_US"
+    },
+    "valuation": {
+      "cpp_floor": 1,
+      "cpp_ceiling": 1.8
+    },
+    "welcome_offer": {
+      "points": 80000,
+      "spend_requirement": 4000,
+      "timeframe_months": 3
+    },
+    "anniversary_bonus": "25,000-point Global Companion Award and 10,000 status points boost",
+    "statement_credits": [
+      {
+        "name": "TSA PreCheck or Global Entry",
+        "amount": 120,
+        "frequency": "every 4 years",
+        "deducts_from_eligible_spend": true
+      },
+      {
+        "name": "Travel Delay",
+        "amount": 50,
+        "frequency": "per instance",
+        "deducts_from_eligible_spend": true
+      }
+    ],
+    "multipliers": {
+      "base_rate": 1,
+      "categories": {
+        "dining": {
+          "rate": 3
+        },
+        "3x_foreign_transactions": {
+          "rate": 3
+        },
+        "other": {
+          "rate": 3
+        }
+      }
+    },
+    "developer_notes": "Bank of America 2/3/4 rule applies, 3/12 rule for non-customers, 10% relationship bonus for BofA account holders"
+  },
+  {
+    "id": "sofi-unlimited-2-percent-credit-card",
+    "name": "SoFi Unlimited 2% Credit Card",
+    "issuer": "SoFi Bank, N.A.",
+    "network": "Mastercard",
+    "annual_fee": 0,
+    "reward_currency": "SoFi Member Rewards",
+    "synergy_ecosystem": "SoFi",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": "https://www.sofi.com/wp-content/uploads/2023/11/SoFi-Unlimited-2-Credit-Card.png",
+      "apply_url": "https://www.sofi.com/card/"
+    },
+    "valuation": {
+      "cpp_floor": 0.01,
+      "cpp_ceiling": 0.01
+    },
+    "welcome_offer": {
+      "points": 0,
+      "spend_requirement": 0,
+      "timeframe_months": 0
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [
+      {
+        "name": "Lyft Credit",
+        "amount": 60,
+        "frequency": "annual",
+        "deducts_from_eligible_spend": false
+      }
+    ],
+    "multipliers": {
+      "base_rate": 2,
+      "categories": {
+        "travel_portal": {
+          "rate": 3
+        }
+      }
+    },
+    "developer_notes": "Points must be redeemed into SoFi accounts for 1 cent per point value; some users may be targeted for a $10 monthly fee to maintain SoFi Plus benefits"
+  },
+  {
+    "id": "upgrade-cash-rewards-visa",
+    "name": "Upgrade Cash Rewards Visa®",
+    "issuer": "Upgrade",
+    "network": "Visa",
+    "annual_fee": 0,
+    "reward_currency": "Cash Back",
+    "ftf_percentage": 3,
+    "ui_elements": {
+      "image_url": "https://www.upgrade.com/static/images/cards/cash-rewards.png",
+      "apply_url": "https://www.upgrade.com/credit-card/cash-rewards/"
+    },
+    "valuation": {
+      "cpp_floor": 1,
+      "cpp_ceiling": 1
+    },
+    "welcome_offer": {
+      "points": 200,
+      "spend_requirement": 0,
+      "timeframe_months": 2
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [],
+    "multipliers": {
+      "base_rate": 1.5
+    },
+    "developer_notes": "Rewards earned upon payment not purchase; Reports as installment loan; No ATM cash advances"
+  },
+  {
+    "id": "venmo-credit-card",
+    "name": "Venmo Credit Card",
+    "issuer": "Synchrony Bank",
+    "network": "Visa",
+    "annual_fee": 0,
+    "reward_currency": "Cash Back",
+    "synergy_ecosystem": "PayPal/Venmo",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": "https://venmo.com/about/creditcard/",
+      "apply_url": "https://venmo.com/about/creditcard/"
+    },
+    "valuation": {
+      "cpp_floor": 1,
+      "cpp_ceiling": 1
+    },
+    "welcome_offer": {
+      "points": 0,
+      "spend_requirement": 0,
+      "timeframe_months": 0
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [],
+    "multipliers": {
+      "base_rate": 1,
+      "categories": {
+        "dining": {
+          "rate": 3
+        },
+        "2_second_category": {
+          "rate": 2
+        }
+      }
+    },
+    "developer_notes": "Top spend categories are automatically calculated monthly; rewards can be auto-converted to crypto"
+  },
+  {
+    "id": "x1-card",
+    "name": "X1 Card",
+    "issuer": "Coastal Community Bank",
+    "network": "Visa",
+    "annual_fee": 0,
+    "reward_currency": "X1 Points",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": "https://x1.co/static/hero-card.png",
+      "apply_url": "https://x1.co/"
+    },
+    "valuation": {
+      "cpp_floor": 0.7,
+      "cpp_ceiling": 1
+    },
+    "welcome_offer": {
+      "points": 0,
+      "spend_requirement": 0,
+      "timeframe_months": 0
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [],
+    "multipliers": {
+      "base_rate": 1.5
+    },
+    "developer_notes": "Acquired by Robinhood; Rewards rate lowered to 1.5x in late 2025; Underwriting based on income via Plaid"
+  },
+  {
+    "id": "x1-plus-card",
+    "name": "X1+ Card",
+    "issuer": "X1 Inc.",
+    "network": "Visa",
+    "annual_fee": 75,
+    "reward_currency": "X1 Points",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": "https://x1.co/static/media/x1-plus-gold.8f9f7d3a.png",
+      "apply_url": "https://x1.co/plus"
+    },
+    "valuation": {
+      "cpp_floor": 0.007,
+      "cpp_ceiling": 0.01
+    },
+    "welcome_offer": {
+      "points": 0,
+      "spend_requirement": 0,
+      "timeframe_months": 0
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [],
+    "multipliers": {
+      "base_rate": 2,
+      "categories": {
+        "4x_expedia": {
+          "rate": 4
+        },
+        "vrbo_3x_on_spending_over_1": {
+          "rate": 3
+        }
+      }
+    },
+    "developer_notes": "Applications currently closed; Card uses income-based underwriting instead of credit scores"
+  },
+  {
+    "id": "pnc-cash-unlimited-visa-signature",
+    "name": "PNC Cash Unlimited® Visa Signature®",
+    "issuer": "PNC Bank",
+    "network": "Visa",
+    "annual_fee": 0,
+    "reward_currency": "Cash Back",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": null,
+      "apply_url": "https://www.pnc.com/en/personal-banking/banking/credit-cards/pnc-cash-unlimited-visa-signature-credit-card.html"
+    },
+    "valuation": {
+      "cpp_floor": 0.01,
+      "cpp_ceiling": 0.01
+    },
+    "welcome_offer": {
+      "points": 0,
+      "spend_requirement": 0,
+      "timeframe_months": 0
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [],
+    "multipliers": {
+      "base_rate": 2
+    },
+    "developer_notes": "Online applications require an existing PNC Bank relationship; otherwise, applicants must apply in a physical branch"
+  },
+  {
+    "id": "pnc-cash-rewards-visa",
+    "name": "PNC Cash Rewards® Visa®",
+    "issuer": "PNC Bank",
+    "network": "Visa",
+    "annual_fee": 0,
+    "reward_currency": "Cash Back",
+    "ftf_percentage": 3,
+    "ui_elements": {
+      "image_url": "https://www.pnc.com/content/dam/pnc-com/images/personal/credit-cards/cash-rewards-visa.png",
+      "apply_url": "https://www.pnc.com/en/personal-banking/banking/credit-cards/pnc-cash-rewards-visa-credit-card.html"
+    },
+    "valuation": {
+      "cpp_floor": 1,
+      "cpp_ceiling": 1
+    },
+    "welcome_offer": {
+      "points": 200,
+      "spend_requirement": 1000,
+      "timeframe_months": 3
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [],
+    "multipliers": {
+      "base_rate": 1,
+      "categories": {
+        "gas_ev_transit": {
+          "rate": 4
+        },
+        "dining": {
+          "rate": 3
+        },
+        "groceries": {
+          "rate": 2,
+          "cap_amount": 8
+        }
+      }
+    },
+    "developer_notes": "$8,000 annual spending cap on bonus categories; $25 minimum redemption amount; SUB requires online application"
+  },
+  {
+    "id": "pnc-points-visa",
+    "name": "PNC Points® Visa®",
+    "issuer": "PNC Bank",
+    "network": "Visa",
+    "annual_fee": 0,
+    "reward_currency": "PNC points",
+    "synergy_ecosystem": "PNC Rewards",
+    "ftf_percentage": 3,
+    "ui_elements": {
+      "image_url": "https://www.pnc.com/content/dam/pnc-com/images/personal/credit-cards/pnc-points-visa-card.png",
+      "apply_url": "https://www.pnc.com/en/personal/banking/credit-cards/pnc-points-visa-credit-card.html"
+    },
+    "valuation": {
+      "cpp_floor": 0.002,
+      "cpp_ceiling": 0.0025
+    },
+    "welcome_offer": {
+      "points": 100000,
+      "spend_requirement": 1000,
+      "timeframe_months": 3
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [],
+    "multipliers": {
+      "base_rate": 4,
+      "categories": {
+        "other": {
+          "rate": 25
+        }
+      }
+    },
+    "developer_notes": "No longer accepting new applications; points expire after 48 months"
+  },
+  {
+    "id": "truist-enjoy-travel",
+    "name": "Truist Enjoy Travel",
+    "issuer": "Truist",
+    "network": "Visa",
+    "annual_fee": 0,
+    "reward_currency": "Miles",
+    "synergy_ecosystem": "Truist",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": "https://www.truist.com/content/dam/truist/us/en/images/products/credit-cards/truist-enjoy-travel-card-front.png",
+      "apply_url": "https://www.truist.com/credit-cards/enjoy-travel"
+    },
+    "valuation": {
+      "cpp_floor": 1,
+      "cpp_ceiling": 1.5
+    },
+    "welcome_offer": {
+      "points": 20000,
+      "spend_requirement": 1500,
+      "timeframe_months": 3
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [
+      {
+        "name": "TSA PreCheck or Global Entry",
+        "amount": 85,
+        "frequency": "every 4 years",
+        "deducts_from_eligible_spend": true
+      }
+    ],
+    "multipliers": {
+      "base_rate": 1,
+      "categories": {
+        "2x_airfare": {
+          "rate": 2
+        },
+        "hotels_direct": {
+          "rate": 2
+        },
+        "rental_cars": {
+          "rate": 2
+        }
+      }
+    },
+    "developer_notes": "Miles expire after 5 years and require a 2,500 mile minimum for redemption"
+  },
+  {
+    "id": "truist-enjoy-cash",
+    "name": "Truist Enjoy Cash",
+    "issuer": "Truist",
+    "network": "Visa",
+    "annual_fee": 0,
+    "reward_currency": "Cash Back",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": "https://www.truist.com/content/dam/truist/us/en/images/products/credit-cards/truist-enjoy-cash-card-321.png",
+      "apply_url": "https://www.truist.com/credit-cards/enjoy-cash"
+    },
+    "valuation": {
+      "cpp_floor": 1,
+      "cpp_ceiling": 1
+    },
+    "welcome_offer": {
+      "points": 0,
+      "spend_requirement": 0,
+      "timeframe_months": 0
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [],
+    "multipliers": {
+      "base_rate": 1,
+      "categories": {
+        "gas_ev_transit": {
+          "rate": 3
+        },
+        "groceries": {
+          "rate": 2
+        },
+        "or_flat_15": {
+          "rate": 1.5
+        }
+      }
+    },
+    "developer_notes": "Cardholder must choose between tiered (3-2-1) or flat (1.5) rewards at application and cannot change it later"
+  },
+  {
+    "id": "truist-enjoy-beyond",
+    "name": "Truist Enjoy Beyond",
+    "issuer": "Truist",
+    "network": "Visa",
+    "annual_fee": 95,
+    "reward_currency": "Truist Points",
+    "synergy_ecosystem": "Truist Rewards",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": "https://www.truist.com/content/dam/truist/us/en/images/products/credit-cards/enjoy-beyond-card.png",
+      "apply_url": "https://www.truist.com/credit-cards/enjoy-beyond"
+    },
+    "valuation": {
+      "cpp_floor": 0.01,
+      "cpp_ceiling": 0.01
+    },
+    "welcome_offer": {
+      "points": 30000,
+      "spend_requirement": 1500,
+      "timeframe_months": 3
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [
+      {
+        "name": "Travel Experience",
+        "amount": 100,
+        "frequency": "annual",
+        "deducts_from_eligible_spend": true
+      },
+      {
+        "name": "TSA PreCheck or Global Entry",
+        "amount": 120,
+        "frequency": "every 4 years",
+        "deducts_from_eligible_spend": true
+      }
+    ],
+    "multipliers": {
+      "base_rate": 1,
+      "categories": {
+        "travel_portal": {
+          "rate": 3
+        },
+        "dining": {
+          "rate": 2
+        }
+      }
+    },
+    "developer_notes": "Annual fee waived for Wealth Clients; 10% to 50% Loyalty Cash Bonus on redemptions into Truist deposit accounts"
+  },
+  {
+    "id": "td-first-class-visa-signature",
+    "name": "TD First Class℠ Visa Signature®",
+    "issuer": "TD Bank",
+    "network": "Visa",
+    "annual_fee": 89,
+    "reward_currency": "First Class miles",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": "https://www.td.com/us/en/personal-banking/credit-cards/first-class",
+      "apply_url": "https://www.td.com/us/en/personal-banking/credit-cards/first-class"
+    },
+    "valuation": {
+      "cpp_floor": 0.01,
+      "cpp_ceiling": 0.01
+    },
+    "welcome_offer": {
+      "points": 25000,
+      "spend_requirement": 3000,
+      "timeframe_months": 6
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [],
+    "multipliers": {
+      "base_rate": 1,
+      "categories": {
+        "travel_portal": {
+          "rate": 3
+        },
+        "dining": {
+          "rate": 3
+        }
+      }
+    },
+    "developer_notes": "Miles never expire as long as account is open; bonus split into first purchase and spend requirement; 0% intro APR on balance transfers for 12 months"
+  },
+  {
+    "id": "td-double-up-credit-card",
+    "name": "TD Double Up℠ Credit Card",
+    "issuer": "TD Bank",
+    "network": "Visa",
+    "annual_fee": 0,
+    "reward_currency": "Cash Back (Points)",
+    "ftf_percentage": 3,
+    "ui_elements": {
+      "image_url": "https://www.td.com/content/dam/reporting/us/en/consumer-credit-cards/card-art/double-up-card-art.png",
+      "apply_url": "https://www.td.com/us/en/personal-banking/credit-cards/double-up"
+    },
+    "valuation": {
+      "cpp_floor": 0.01,
+      "cpp_ceiling": 0.01
+    },
+    "welcome_offer": {
+      "points": 20000,
+      "spend_requirement": 1500,
+      "timeframe_months": 3
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [],
+    "multipliers": {
+      "base_rate": 2
+    },
+    "developer_notes": "Must have TD Bank deposit account for full 2% back redemption flexibility"
+  },
+  {
+    "id": "td-cash-credit-card",
+    "name": "TD Cash Credit Card",
+    "issuer": "TD Bank",
+    "network": "Visa",
+    "annual_fee": 0,
+    "reward_currency": "Cash Back Dollars",
+    "ftf_percentage": 3,
+    "ui_elements": {
+      "image_url": "https://www.td.com/content/dam/tdb/images/products/credit-cards/td-cash-card-142x90.png",
+      "apply_url": "https://www.td.com/us/en/personal-banking/credit-cards/td-cash"
+    },
+    "valuation": {
+      "cpp_floor": 1,
+      "cpp_ceiling": 1
+    },
+    "welcome_offer": {
+      "points": 200,
+      "spend_requirement": 1000,
+      "timeframe_months": 3
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [],
+    "multipliers": {
+      "base_rate": 1,
+      "categories": {
+        "3_choice_category": {
+          "rate": 3
+        },
+        "2_choice_category": {
+          "rate": 2
+        }
+      }
+    },
+    "developer_notes": "Must choose spending categories quarterly or defaults to Dining (3%) and Grocery (2%)"
+  },
+  {
+    "id": "navy-federal-flagship-rewards",
+    "name": "Navy Federal Flagship Rewards",
+    "issuer": "Navy Federal Credit Union",
+    "network": "Visa",
+    "annual_fee": 49,
+    "reward_currency": "Points",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": "https://www.navyfederal.org/content/dam/nfculibs/images/products/credit-cards/visasignatureflagshiprewards_142x90.png",
+      "apply_url": "https://www.navyfederal.org/loans-cards/credit-cards/flagship-rewards.html"
+    },
+    "valuation": {
+      "cpp_floor": 0.01,
+      "cpp_ceiling": 0.01
+    },
+    "welcome_offer": {
+      "points": 35000,
+      "spend_requirement": 3500,
+      "timeframe_months": 3
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [
+      {
+        "name": "Amazon Prime",
+        "amount": 139,
+        "frequency": "annual",
+        "deducts_from_eligible_spend": false
+      },
+      {
+        "name": "Global Entry or TSA PreCheck",
+        "amount": 120,
+        "frequency": "every 4 years",
+        "deducts_from_eligible_spend": true
+      }
+    ],
+    "multipliers": {
+      "base_rate": 2,
+      "categories": {
+        "travel_portal": {
+          "rate": 3
+        }
+      }
+    },
+    "developer_notes": "Must be a Navy Federal member to apply; Points value is fixed at 1 cent each"
+  },
+  {
+    "id": "navy-federal-cashrewards",
+    "name": "Navy Federal CashRewards",
+    "issuer": "Navy Federal Credit Union",
+    "network": "Visa",
+    "annual_fee": 0,
+    "reward_currency": "Cash Back",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": "https://www.navyfederal.org/content/dam/nfcu/images/credit-cards/cashrewards-visa.png",
+      "apply_url": "https://www.navyfederal.org/loans-cards/credit-cards/cashrewards.html"
+    },
+    "valuation": {
+      "cpp_floor": 1,
+      "cpp_ceiling": 1
+    },
+    "welcome_offer": {
+      "points": 250,
+      "spend_requirement": 2500,
+      "timeframe_months": 3
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [],
+    "multipliers": {
+      "base_rate": 1.5,
+      "categories": {
+        "2_back_if_credit_limit_is_5": {
+          "rate": 2
+        }
+      }
+    },
+    "developer_notes": "Membership required (Armed Forces, DoD, veterans, or family); Approval for $5k+ limit automatically issues cashRewards Plus version"
+  },
+  {
+    "id": "penfed-pathfinder-rewards",
+    "name": "PenFed Pathfinder® Rewards",
+    "issuer": "PenFed Credit Union",
+    "network": "Annual fee waived for Honors Advantage members; Points expire after 5 years; Honors Advantage requires military or specific checking account",
+    "annual_fee": 95,
+    "reward_currency": "PenFed Points",
+    "synergy_ecosystem": "0%",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": "Priority Pass Membership, Global Entry/TSA PreCheck Credit, $100 Air Ancillary Credit",
+      "apply_url": "https://www.penfed.org/content/dam/penfed/en/products/credit-cards/pathfinder-visa-signature-card-01.png"
+    },
+    "valuation": {
+      "cpp_floor": 0.0085,
+      "cpp_ceiling": 0.01
+    },
+    "welcome_offer": {
+      "points": 50000,
+      "spend_requirement": 3000,
+      "timeframe_months": 3
+    },
+    "anniversary_bonus": "PenFed Honors Advantage",
+    "statement_credits": [
+      {
+        "name": "Domestic Air Ancillary",
+        "amount": 100,
+        "frequency": "annual",
+        "deducts_from_eligible_spend": false
+      }
+    ],
+    "multipliers": {
+      "base_rate": 1.5,
+      "categories": {
+        "travel_portal": {
+          "rate": 4
+        },
+        "dining": {
+          "rate": 3
+        }
+      }
+    },
+    "developer_notes": "https://www.penfed.org/credit-cards/pathfinder-rewards-visa"
+  },
+  {
+    "id": "penfed-power-cash-rewards",
+    "name": "PenFed Power Cash Rewards",
+    "issuer": "PenFed Credit Union",
+    "network": "Visa",
+    "annual_fee": 0,
+    "reward_currency": "Cash Back",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": "https://www.penfed.org/content/dam/penfed/en/images/credit-cards/power-cash-rewards/power-cash-rewards-card.png",
+      "apply_url": "https://www.penfed.org/credit-cards/power-cash-rewards"
+    },
+    "valuation": {
+      "cpp_floor": 1,
+      "cpp_ceiling": 1
+    },
+    "welcome_offer": {
+      "points": 100,
+      "spend_requirement": 1500,
+      "timeframe_months": 3
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [],
+    "multipliers": {
+      "base_rate": 1.5,
+      "categories": {
+        "other": {
+          "rate": 2
+        }
+      }
+    },
+    "developer_notes": "Must be a PenFed member to apply; Honors Advantage requires military service or a PenFed checking account with a $500 balance/direct deposit"
+  },
+  {
+    "id": "alliant-cashback-visa-signature-credit-card",
+    "name": "Alliant Visa® Signature",
+    "issuer": "Alliant Credit Union",
+    "network": "Visa",
+    "annual_fee": 0,
+    "reward_currency": "Cash Back",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": "https://www.alliantcreditunion.org/images/uploads/cards/visa-signature-card.png",
+      "apply_url": "https://www.alliantcreditunion.org/bank/visa-signature-card"
+    },
+    "valuation": {
+      "cpp_floor": 1,
+      "cpp_ceiling": 1
+    },
+    "welcome_offer": {
+      "points": 0,
+      "spend_requirement": 0,
+      "timeframe_months": 0
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [],
+    "multipliers": {
+      "base_rate": 1.5
+    },
+    "developer_notes": "Rewards expire after 4 years; $25 minimum redemption requirement"
+  },
+  {
+    "id": "barclays-view-mastercard",
+    "name": "Barclays View™ Mastercard®",
+    "issuer": "Barclays",
+    "network": "Mastercard",
+    "annual_fee": 0,
+    "reward_currency": "Barclays Reward Points",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": "https://cards.barclaycardus.com/content/dam/barclaycardus/cards/barclays-view-mastercard/view_card_300x190.png",
+      "apply_url": "https://cards.barclaycardus.com/banking/cards/barclays-view-mastercard/"
+    },
+    "valuation": {
+      "cpp_floor": 0.01,
+      "cpp_ceiling": 0.01
+    },
+    "welcome_offer": {
+      "points": 0,
+      "spend_requirement": 0,
+      "timeframe_months": 0
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [],
+    "multipliers": {
+      "base_rate": 1,
+      "categories": {
+        "dining": {
+          "rate": 3
+        },
+        "groceries": {
+          "rate": 2
+        },
+        "streaming": {
+          "rate": 2
+        }
+      }
+    },
+    "developer_notes": "Points forfeited if account closed for non-use; Targeted offer only"
+  },
+  {
+    "id": "barclays-arrival-premier",
+    "name": "Barclays Arrival® Premier",
+    "issuer": "Barclays",
+    "network": "Mastercard",
+    "annual_fee": 150,
+    "reward_currency": "Miles",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": null,
+      "apply_url": ""
+    },
+    "valuation": {
+      "cpp_floor": 0.5,
+      "cpp_ceiling": 1
+    },
+    "welcome_offer": {
+      "points": 0,
+      "spend_requirement": 0,
+      "timeframe_months": 0
+    },
+    "anniversary_bonus": "25,000 miles",
+    "statement_credits": [
+      {
+        "name": "Global Entry or TSA PreCheck",
+        "amount": 100,
+        "frequency": "every 5 years",
+        "deducts_from_eligible_spend": true
+      }
+    ],
+    "multipliers": {
+      "base_rate": 2,
+      "categories": {
+        "2x_on_all_purchases": {
+          "rate": 2
+        }
+      }
+    },
+    "developer_notes": "No longer available to new applicants; 10,000 mile minimum for travel redemptions"
+  },
+  {
+    "id": "fifth-third-preferred-cash-back",
+    "name": "Fifth Third Preferred Cash/Back",
+    "issuer": "Fifth Third Bank",
+    "network": "Mastercard",
+    "annual_fee": 0,
+    "reward_currency": "Cash Back",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": "https://www.53.com/content/dam/fifth-third/products/credit-cards/preferred-cash-back-card.png",
+      "apply_url": "https://www.53.com/content/fifth-third/en/personal-banking/bank/credit-cards/preferred-cash-back-card.html"
+    },
+    "valuation": {
+      "cpp_floor": 0.01,
+      "cpp_ceiling": 0.01
+    },
+    "welcome_offer": {
+      "points": 0,
+      "spend_requirement": 0,
+      "timeframe_months": 0
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [],
+    "multipliers": {
+      "base_rate": 2
+    },
+    "developer_notes": "Requires Fifth Third Preferred Banking ($100k+ balance); Available only in FL, GA, IL, IN, KY, MI, NC, OH, SC, TN, and WV"
+  },
+  {
+    "id": "huntington-voice-credit-card",
+    "name": "Huntington Voice Credit Card®",
+    "issuer": "Huntington Bank",
+    "network": "Mastercard",
+    "annual_fee": 0,
+    "reward_currency": "None",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": "https://www.huntington.com/-/media/hnb/images/credit-card/voice-lower-rate-card.png",
+      "apply_url": "https://www.huntington.com/Personal/credit-card/voice-lower-rate"
+    },
+    "welcome_offer": {
+      "points": 0,
+      "spend_requirement": 0,
+      "timeframe_months": 0
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [],
+    "multipliers": {
+      "base_rate": 0
+    },
+    "developer_notes": "The Lower Rate version of the Voice card does not earn rewards; Late Fee Grace provides one extra day to make a payment without a late fee"
+  },
+  {
+    "id": "regions-prestige-visa",
+    "name": "Regions Prestige Visa®",
+    "issuer": "Regions Bank",
+    "network": "Visa",
+    "annual_fee": 0,
+    "reward_currency": "Relationship Rewards points",
+    "synergy_ecosystem": "Regions Relationship Rewards",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": null,
+      "apply_url": "https://www.regions.com/personal-banking/credit-cards/prestige-visa"
+    },
+    "valuation": {
+      "cpp_floor": 0.01,
+      "cpp_ceiling": 0.01
+    },
+    "welcome_offer": {
+      "points": 20000,
+      "spend_requirement": 1000,
+      "timeframe_months": 3
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [],
+    "multipliers": {
+      "base_rate": 1,
+      "categories": {
+        "dining": {
+          "rate": 3
+        },
+        "groceries": {
+          "rate": 2
+        }
+      }
+    },
+    "developer_notes": "Rewards Multiplier program allows earning up to 1% extra based on deposit account balances"
+  },
+  {
+    "id": "citizens-bank-cash-back-plus",
+    "name": "Citizens Bank Cash Back Plus",
+    "issuer": "Citizens Bank",
+    "network": "Mastercard",
+    "annual_fee": 0,
+    "reward_currency": "Cash Back",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": "https://www.citizensbank.com/assets/cb/images/cards/cash-back-plus.png",
+      "apply_url": "https://www.citizensbank.com/credit-cards/cash-back-world-mastercard.aspx"
+    },
+    "valuation": {
+      "cpp_floor": 1,
+      "cpp_ceiling": 1
+    },
+    "welcome_offer": {
+      "points": 0,
+      "spend_requirement": 0,
+      "timeframe_months": 0
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [],
+    "multipliers": {
+      "base_rate": 1.8
+    },
+    "developer_notes": "Discontinued for new applicants as of June 2025; 1.8% rate requires monthly use and direct deposit of rewards"
+  }
+]

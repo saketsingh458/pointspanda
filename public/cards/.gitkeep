@@ -1,0 +1,2 @@
+# Card art: add images here as <card-id>.webp (e.g. chase-sapphire-reserve.webp).
+# See data/cards.json imageUrl paths. Use placeholder.svg as fallback when image is missing.

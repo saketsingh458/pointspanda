@@ -8,7 +8,6 @@ import { PointsPandaLogo } from "@/components/points-panda-logo"
 import { AppFooter } from "@/components/app-footer"
 import { StepIndicator } from "@/components/step-indicator"
 import { SpendCategorySliders } from "@/components/spend-category-sliders"
-import { BrandLoyaltySelector } from "@/components/brand-loyalty-selector"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { usePointPath } from "@/contexts/pointpath-context"
@@ -16,9 +15,7 @@ import { usePointPath } from "@/contexts/pointpath-context"
 export default function IntakePage() {
   const {
     monthlySpend: categoryValues,
-    brandSpends,
     updateCategorySpend,
-    updateBrandSpend,
   } = usePointPath()
 
   const handleCategoryChange = useCallback(
@@ -26,13 +23,6 @@ export default function IntakePage() {
       updateCategorySpend(id, value)
     },
     [updateCategorySpend]
-  )
-
-  const handleBrandChange = useCallback(
-    (brandId: string, value: number | null) => {
-      updateBrandSpend(brandId, value)
-    },
-    [updateBrandSpend]
   )
 
   const allocatedTotal = Object.values(categoryValues).reduce((sum, v) => sum + (typeof v === "number" ? v : 0), 0)
@@ -86,22 +76,6 @@ export default function IntakePage() {
                 </span>
               </div>
             )}
-          </CardContent>
-        </Card>
-
-        {/* Brand Loyalty */}
-        <Card className="mx-auto mt-8 w-full max-w-3xl border-border shadow-md transition-shadow hover:shadow-lg">
-          <CardHeader>
-            <CardTitle className="text-lg">Specific Brand Spend (Optional)</CardTitle>
-            <CardDescription>
-              Do you spend heavily with specific brands? Select them below to see co-branded card strategies.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <BrandLoyaltySelector
-              selectedBrands={brandSpends}
-              onChange={handleBrandChange}
-            />
           </CardContent>
         </Card>
 

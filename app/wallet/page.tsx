@@ -2,12 +2,11 @@
 
 import { useState, useMemo } from "react"
 import Link from "next/link"
-import { Search, ArrowRight, Plus } from "lucide-react"
-import { ThemeToggle } from "@/components/theme-toggle"
-import { PointsPandaLogo } from "@/components/points-panda-logo"
-import { AppFooter } from "@/components/app-footer"
+import { Search, ArrowRight, ArrowLeft, Plus, Wallet, CreditCard } from "lucide-react"
+import type { Card } from "@/lib/types"
 import { StepIndicator } from "@/components/step-indicator"
-import { Card, CardContent } from "@/components/ui/card"
+import { CardDetailDialog } from "@/components/card-detail-dialog"
+import { Card as CardUi, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { WalletCardItem } from "@/components/wallet-card-item"
@@ -17,6 +16,8 @@ import { getCardsByIds, searchCards } from "@/lib/cards"
 export default function WalletPage() {
   const { walletCardIds, addWalletCard, removeWalletCard } = usePointPath()
   const [searchQuery, setSearchQuery] = useState("")
+  const [detailCard, setDetailCard] = useState<Card | null>(null)
+  const [detailOpen, setDetailOpen] = useState(false)
 
   const walletCards = useMemo(() => getCardsByIds(walletCardIds), [walletCardIds])
 
@@ -26,21 +27,24 @@ export default function WalletPage() {
   }, [searchQuery, walletCardIds])
 
   return (
-    <div className="flex min-h-svh flex-col bg-background">
-      <header className="sticky top-0 z-10 flex items-center justify-between border-b border-border bg-card/95 px-6 py-4 backdrop-blur supports-[backdrop-filter]:bg-card/80 md:px-10">
-        <PointsPandaLogo />
-        <StepIndicator currentStep={2} />
-        <div className="flex w-20 justify-end">
-          <ThemeToggle />
+    <main className="min-h-svh bg-background">
+      {/* Top bar */}
+      <div className="border-b border-border bg-card/50">
+        <div className="mx-auto flex max-w-5xl items-center justify-center px-6 py-4">
+          <StepIndicator currentStep={2} />
         </div>
-      </header>
+      </div>
 
-      <main className="mx-auto flex flex-1 w-full max-w-4xl flex-col px-6 py-12 md:py-16">
-        <div className="mb-10 text-center">
-          <h1 className="text-3xl font-bold tracking-tight text-foreground md:text-4xl">
+      <div className="mx-auto max-w-5xl px-6 py-10 md:py-12">
+        {/* Header */}
+        <div className="mb-8 text-center">
+          <div className="mx-auto mb-4 flex size-14 items-center justify-center rounded-2xl bg-accent/10">
+            <Wallet className="size-7 text-accent" />
+          </div>
+          <h1 className="text-balance text-3xl font-bold tracking-tight text-foreground md:text-4xl">
             What&apos;s in your wallet?
           </h1>
-          <p className="mt-3 text-base text-muted-foreground">
+          <p className="mt-2 text-pretty text-base text-muted-foreground">
             Add your current credit cards so we can calculate your baseline
             rewards.
           </p>
@@ -55,7 +59,7 @@ export default function WalletPage() {
           <Input
             type="search"
             placeholder="Search for a card (e.g., Chase Sapphire Reserve)..."
-            className="h-12 w-full rounded-lg pl-12"
+            className="h-12 w-full rounded-2xl pl-12"
             aria-label="Search for a credit card"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
@@ -81,43 +85,76 @@ export default function WalletPage() {
         </div>
 
         {/* Active Wallet */}
-        <section className="mb-12">
-          <h2 className="mb-6 text-sm font-medium uppercase tracking-wider text-muted-foreground">
-            Your cards
-          </h2>
+        <section className="mb-10">
+          {walletCards.length > 0 && (
+            <div className="mb-4 flex items-center gap-2">
+              <h2 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                Your Cards
+              </h2>
+              <span className="flex size-5 items-center justify-center rounded-full bg-accent text-[11px] font-bold text-accent-foreground">
+                {walletCards.length}
+              </span>
+            </div>
+          )}
+
           {walletCards.length === 0 ? (
-            <Card className="border-dashed">
-              <CardContent className="flex flex-col items-center justify-center py-12 text-center">
-                <p className="text-sm text-muted-foreground">
-                  No cards added yet. Search above to add cards from the catalog.
+            <CardUi className="border-2 border-dashed bg-secondary/30">
+              <CardContent className="flex flex-col items-center justify-center px-6 py-16 text-center">
+                <div className="mb-3 flex size-12 items-center justify-center rounded-full bg-secondary">
+                  <CreditCard className="size-6 text-muted-foreground" aria-hidden />
+                </div>
+                <p className="text-sm font-medium text-foreground">No cards added yet</p>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  Search above to add your first credit card
                 </p>
               </CardContent>
-            </Card>
+            </CardUi>
           ) : (
-            <div className="grid gap-6 sm:grid-cols-2">
+            <div className="grid gap-5 sm:grid-cols-2">
               {walletCards.map((card) => (
                 <WalletCardItem
                   key={card.id}
                   card={card}
                   onRemove={() => removeWalletCard(card.id)}
+                  onCardClick={() => {
+                    setDetailCard(card)
+                    setDetailOpen(true)
+                  }}
                 />
               ))}
             </div>
           )}
         </section>
 
-        {/* Action Area */}
-        <div className="mt-auto flex justify-end border-t border-border pt-8">
-          <Button size="lg" asChild className="h-12 gap-2 px-8 text-base font-semibold">
+        <CardDetailDialog
+          card={detailCard}
+          open={detailOpen}
+          onOpenChange={(open) => {
+            setDetailOpen(open)
+            if (!open) setDetailCard(null)
+          }}
+        />
+
+        {/* Navigation Buttons */}
+        <div className="flex items-center justify-between">
+          <Button asChild variant="outline" className="gap-2 rounded-xl px-5">
+            <Link href="/">
+              <ArrowLeft className="size-4" aria-hidden />
+              Back
+            </Link>
+          </Button>
+          <Button
+            asChild
+            className="gap-2 rounded-xl bg-primary px-6 text-primary-foreground hover:bg-primary/90"
+            disabled={walletCards.length === 0}
+          >
             <Link href="/strategy">
-              See My Strategy
-              <ArrowRight className="size-5" aria-hidden />
+              Continue
+              <ArrowRight className="size-4" aria-hidden />
             </Link>
           </Button>
         </div>
-      </main>
-
-      <AppFooter />
-    </div>
+      </div>
+    </main>
   )
 }

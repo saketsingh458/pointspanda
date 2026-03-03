@@ -1,0 +1,104 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "PointsPandaAI Card Catalog",
+  "description": "Schema for the US credit card catalog (data/cards.json)",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": ["id", "name", "issuer", "annual_fee", "reward_currency", "ui_elements"],
+    "properties": {
+      "id": { "type": "string" },
+      "name": { "type": "string" },
+      "issuer": { "type": "string" },
+      "annual_fee": { "type": "number" },
+      "reward_currency": { "type": "string" },
+      "ui_elements": {
+        "type": "object",
+        "properties": {
+          "image_url": { "type": "string" },
+          "apply_url": { "type": "string", "format": "uri" },
+          "benefits_list": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        },
+        "additionalProperties": false
+      },
+      "valuation": {
+        "type": "object",
+        "properties": {
+          "cpp_floor": { "type": "number" },
+          "cpp_ceiling": { "type": "number" }
+        },
+        "additionalProperties": false
+      },
+      "welcome_offer": {
+        "type": "object",
+        "properties": {
+          "points": { "type": "number" },
+          "spend_requirement": { "type": "number" },
+          "timeframe_months": { "type": "number" }
+        },
+        "additionalProperties": false
+      },
+      "statement_credits": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": ["name", "amount", "deducts_from_eligible_spend", "frequency"],
+          "properties": {
+            "name": { "type": "string" },
+            "amount": { "type": "number" },
+            "deducts_from_eligible_spend": { "type": "boolean" },
+            "frequency": { "type": "string" }
+          },
+          "additionalProperties": false
+        }
+      },
+      "multipliers": {
+        "type": "object",
+        "required": ["base_rate"],
+        "properties": {
+          "base_rate": { "type": "number" },
+          "categories": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "required": ["rate"],
+              "properties": {
+                "rate": { "type": "number" },
+                "requires_portal": { "type": "boolean" },
+                "cap_amount": { "type": "number" }
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "oneOf": [
+      {
+        "required": ["multipliers"],
+        "properties": {
+          "ui_elements": {
+            "not": {
+              "required": ["benefits_list"]
+            }
+          }
+        }
+      },
+      {
+        "not": {
+          "required": ["multipliers"]
+        },
+        "properties": {
+          "ui_elements": {
+            "required": ["benefits_list"]
+          }
+        }
+      }
+    ],
+    "additionalProperties": false
+  }
+}

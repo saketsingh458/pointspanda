@@ -1,13 +1,25 @@
 "use client"
 
-import { Plane, UtensilsCrossed, ShoppingCart, Fuel, CircleDollarSign } from "lucide-react"
+import {
+  Plane,
+  UtensilsCrossed,
+  ShoppingCart,
+  Fuel,
+  Tv,
+  Pill,
+  Home,
+  CircleDollarSign,
+} from "lucide-react"
 import { cn } from "@/lib/utils"
 
 const CATEGORIES = [
   { id: "travel", label: "Travel", icon: Plane },
   { id: "dining", label: "Dining", icon: UtensilsCrossed },
   { id: "groceries", label: "Groceries", icon: ShoppingCart },
-  { id: "gas", label: "Gas", icon: Fuel },
+  { id: "gasEv", label: "Gas & EV", icon: Fuel },
+  { id: "streamingEntertainment", label: "Streaming & Entertainment", icon: Tv },
+  { id: "drugstores", label: "Drugstores", icon: Pill },
+  { id: "rentMortgage", label: "Rent & Mortgage", icon: Home },
   { id: "other", label: "Other", icon: CircleDollarSign },
 ] as const
 

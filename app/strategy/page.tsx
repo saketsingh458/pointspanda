@@ -1,13 +1,26 @@
 "use client"
 
 import Link from "next/link"
-import { ArrowRight, Home, UtensilsCrossed, Plane, ShoppingCart, Fuel, CircleDollarSign } from "lucide-react"
+import Image from "next/image"
+import {
+  ArrowRight,
+  Home,
+  UtensilsCrossed,
+  Plane,
+  ShoppingCart,
+  Fuel,
+  Tv,
+  Pill,
+  Building2,
+  CircleDollarSign,
+} from "lucide-react"
 import type { LucideIcon } from "lucide-react"
-import type { SpendCategoryId } from "@/lib/types"
+import type { Card as CreditCard, SpendCategoryId } from "@/lib/types"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { PointsPandaLogo } from "@/components/points-panda-logo"
 import { AppFooter } from "@/components/app-footer"
 import { StepIndicator } from "@/components/step-indicator"
+import { CardDetailDialog } from "@/components/card-detail-dialog"
 import {
   Card,
   CardContent,
@@ -26,6 +39,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { useState } from "react"
 import { usePointPath } from "@/contexts/pointpath-context"
 import { computeStrategy } from "@/lib/strategy"
 
@@ -33,7 +47,10 @@ const CATEGORY_ICONS: Record<SpendCategoryId, LucideIcon> = {
   travel: Plane,
   dining: UtensilsCrossed,
   groceries: ShoppingCart,
-  gas: Fuel,
+  gasEv: Fuel,
+  streamingEntertainment: Tv,
+  drugstores: Pill,
+  rentMortgage: Building2,
   other: CircleDollarSign,
 }
 
@@ -50,13 +67,42 @@ function formatSpend(n: number): string {
   }).format(n)
 }
 
+function formatCpp(cents: number): string {
+  return (cents / 100).toFixed(2)
+}
+
+function RecommendedCardImage({ card }: { card: { name: string; imageUrl?: string } }) {
+  const [error, setError] = useState(false)
+  if (!card.imageUrl || error) return null
+  return (
+    <div className="relative h-20 w-32 shrink-0 overflow-hidden rounded-lg border border-border bg-muted">
+      <Image
+        src={card.imageUrl}
+        alt={card.name}
+        fill
+        className="object-cover object-center"
+        sizes="128px"
+        onError={() => setError(true)}
+      />
+    </div>
+  )
+}
+
 export default function StrategyPage() {
   const { monthlySpend, walletCardIds } = usePointPath()
   const strategy = computeStrategy(monthlySpend, walletCardIds)
+  const [detailCard, setDetailCard] = useState<CreditCard | null>(null)
+  const [detailOpen, setDetailOpen] = useState(false)
 
   const hasData = walletCardIds.length > 0
   const totalMonthlySpend = Object.values(monthlySpend).reduce((a, b) => a + b, 0)
   const showEmptyState = !hasData || totalMonthlySpend === 0
+
+  function openCardDetails(card: CreditCard | null | undefined) {
+    if (!card) return
+    setDetailCard(card)
+    setDetailOpen(true)
+  }
 
   return (
     <div className="flex min-h-svh flex-col bg-background">
@@ -74,7 +120,7 @@ export default function StrategyPage() {
             Your Optimized Strategy
           </h1>
           <p className="mt-3 text-base text-muted-foreground">
-            Here is how you can maximize your points based on your spending.
+            Here is how you can maximize annual dollar value based on your spending.
           </p>
         </div>
 
@@ -100,20 +146,25 @@ export default function StrategyPage() {
                 <Card className="flex-1 border-2 border-primary/30 bg-gradient-to-br from-primary/5 to-transparent shadow-lg">
                   <CardHeader className="pb-2">
                     <CardTitle className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                      Maximum Potential Annual Earn
+                      Maximum Potential Annual Value
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <div className="flex flex-wrap items-baseline gap-3">
                       <p className="text-4xl font-bold tracking-tight text-primary md:text-5xl">
-                        {formatPoints(strategy.maxPotentialAnnualPoints)}
+                        {formatSpend(strategy.maxPotentialAnnualDollars)}
                       </p>
-                      {strategy.incrementalAnnualPoints > 0 && (
+                      {strategy.incrementalAnnualDollars > 0 && (
                         <Badge className="rounded-full bg-success px-3 py-1 text-success-foreground hover:bg-success">
-                          +{formatPoints(strategy.incrementalAnnualPoints)} pts/yr
+                          +{formatSpend(strategy.incrementalAnnualDollars)}/yr
                         </Badge>
                       )}
                     </div>
+                    {strategy.displayCppCents != null && strategy.maxPotentialAnnualPoints != null && (
+                      <p className="text-sm font-medium text-foreground">
+                        At {formatCpp(strategy.displayCppCents)} cpp baseline: {formatPoints(strategy.maxPotentialAnnualPoints)} pts/yr
+                      </p>
+                    )}
                     <p className="text-sm text-muted-foreground leading-relaxed">
                       {strategy.summaryReason}
                     </p>
@@ -152,13 +203,18 @@ export default function StrategyPage() {
                 <Card className="flex-1 border-2 shadow-lg">
                   <CardHeader className="pb-2">
                     <CardTitle className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                      Current Estimated Annual Earn
+                      Current Estimated Annual Value
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <p className="text-4xl font-bold tracking-tight text-foreground md:text-5xl">
-                      {formatPoints(strategy.currentAnnualPoints)}
+                      {formatSpend(strategy.currentAnnualDollars)}
                     </p>
+                    {strategy.displayCppCents != null && strategy.currentAnnualPoints != null && (
+                      <p className="text-sm font-medium text-foreground">
+                        At {formatCpp(strategy.displayCppCents)} cpp baseline: {formatPoints(strategy.currentAnnualPoints)} pts/yr
+                      </p>
+                    )}
                     <p className="text-sm text-muted-foreground leading-relaxed">
                       From your wallet cards and estimated spend.
                     </p>
@@ -182,6 +238,18 @@ export default function StrategyPage() {
                   </CardContent>
                 </Card>
               </div>
+              {strategy.strategyAssumptions.length > 0 && (
+                <div className="mt-4 rounded-lg border border-border/60 bg-muted/30 px-4 py-3">
+                  <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                    Assumptions used
+                  </p>
+                  <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
+                    {strategy.strategyAssumptions.map((assumption) => (
+                      <li key={assumption}>* {assumption}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </section>
 
             {/* 2. Category-by-Category Strategy Table */}
@@ -198,7 +266,7 @@ export default function StrategyPage() {
                       <TableHead className="font-semibold">Current Best Card</TableHead>
                       <TableHead className="font-semibold">New Strategy</TableHead>
                       <TableHead className="text-right font-semibold">
-                        Incremental Annual Pts
+                        Incremental Annual Value
                       </TableHead>
                     </TableRow>
                   </TableHeader>
@@ -219,7 +287,17 @@ export default function StrategyPage() {
                           </TableCell>
                           <TableCell>
                             {row.currentBestCard
-                              ? `${row.currentBestCard.name} (${row.currentMultiplier}x)`
+                              ? (
+                                <button
+                                  type="button"
+                                  title={row.currentBestCard.name}
+                                  className="inline-flex max-w-[220px] items-center gap-1 rounded-sm font-medium text-foreground underline-offset-4 transition-colors hover:text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                                  onClick={() => openCardDetails(row.currentBestCard)}
+                                >
+                                  <span className="truncate">{row.currentBestCard.name}</span>
+                                  <span className="shrink-0">({row.currentMultiplier}x)</span>
+                                </button>
+                              )
                               : "—"}
                           </TableCell>
                           <TableCell>
@@ -228,9 +306,15 @@ export default function StrategyPage() {
                             ) : row.suggestedCard ? (
                               <span className="inline-flex items-center gap-2">
                                 <span className="text-muted-foreground" aria-hidden>→</span>
-                                <span className="inline-flex items-center rounded-md bg-primary/15 px-2 py-0.5 text-sm font-medium text-primary">
-                                  {row.suggestedCard.name} ({row.suggestedMultiplier}x)
-                                </span>
+                                <button
+                                  type="button"
+                                  title={row.suggestedCard.name}
+                                  className="inline-flex max-w-[220px] items-center gap-1 rounded-md bg-primary/15 px-2 py-0.5 text-sm font-medium text-primary transition-colors hover:bg-primary/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                                  onClick={() => openCardDetails(row.suggestedCard)}
+                                >
+                                  <span className="truncate">{row.suggestedCard.name}</span>
+                                  <span className="shrink-0">({row.suggestedMultiplier}x)</span>
+                                </button>
                               </span>
                             ) : (
                               "—"
@@ -241,7 +325,7 @@ export default function StrategyPage() {
                               <span className="text-muted-foreground">—</span>
                             ) : (
                               <span className="font-medium text-success">
-                                +{formatPoints(row.incrementalAnnualPoints)}
+                                +{formatSpend(row.incrementalAnnualDollars)}
                               </span>
                             )}
                           </TableCell>
@@ -252,10 +336,10 @@ export default function StrategyPage() {
                   <TableFooter>
                     <TableRow className="bg-primary/5 font-semibold hover:bg-primary/5">
                       <TableCell colSpan={4} className="font-semibold">
-                        Total Incremental Points
+                        Total Incremental Annual Value
                       </TableCell>
                       <TableCell className="text-right font-semibold text-success">
-                        +{formatPoints(strategy.incrementalAnnualPoints)}
+                        +{formatSpend(strategy.incrementalAnnualDollars)}
                       </TableCell>
                     </TableRow>
                   </TableFooter>
@@ -264,17 +348,31 @@ export default function StrategyPage() {
             </section>
 
             {/* 3. Recommended Addition Section */}
-            {strategy.recommendedCard && strategy.incrementalAnnualPoints > 0 && (
+            {strategy.recommendedCard && strategy.incrementalAnnualDollars > 0 && (
               <section>
-                <Card className="overflow-hidden border-2 border-primary/20 shadow-xl">
+                <Card
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => openCardDetails(strategy.recommendedCard)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault()
+                      openCardDetails(strategy.recommendedCard)
+                    }
+                  }}
+                  className="overflow-hidden border-2 border-primary/20 shadow-xl transition-shadow hover:shadow-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                >
                   <CardHeader className="pb-2">
-                    <div className="flex flex-wrap items-center gap-3">
-                      <CardTitle className="text-xl font-bold text-foreground md:text-2xl">
-                        {strategy.recommendedCard.name}
-                      </CardTitle>
-                      <Badge className="rounded-full bg-primary px-3 py-1 text-primary-foreground">
-                        Recommended
-                      </Badge>
+                    <div className="flex flex-wrap items-start gap-4">
+                      <RecommendedCardImage card={strategy.recommendedCard} />
+                      <div className="flex flex-wrap items-center gap-3 min-w-0">
+                        <CardTitle className="text-xl font-bold text-foreground md:text-2xl">
+                          {strategy.recommendedCard.name}
+                        </CardTitle>
+                        <Badge className="rounded-full bg-primary px-3 py-1 text-primary-foreground">
+                          Recommended
+                        </Badge>
+                      </div>
                     </div>
                   </CardHeader>
                   <CardContent className="space-y-6">
@@ -284,10 +382,10 @@ export default function StrategyPage() {
                     <div className="flex flex-wrap gap-6 border-y border-border py-4">
                       <div className="flex flex-col">
                         <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                          Points gain
+                          Annual value gain
                         </span>
                         <span className="text-lg font-semibold text-foreground">
-                          +{formatPoints(strategy.incrementalAnnualPoints)} pts/yr
+                          +{formatSpend(strategy.incrementalAnnualDollars)}/yr
                         </span>
                       </div>
                       <div className="flex flex-col">
@@ -314,7 +412,10 @@ export default function StrategyPage() {
                       size="lg"
                       className="h-12 w-full gap-2 text-base font-semibold md:w-auto md:min-w-[200px]"
                     >
-                      <Link href={strategy.recommendedCard.applyUrl ?? "#"}>
+                      <Link
+                        href={strategy.recommendedCard.applyUrl ?? "#"}
+                        onClick={(e) => e.stopPropagation()}
+                      >
                         Apply Now
                         <ArrowRight className="size-5" aria-hidden />
                       </Link>
@@ -335,6 +436,15 @@ export default function StrategyPage() {
           </Button>
         </div>
       </main>
+
+      <CardDetailDialog
+        card={detailCard}
+        open={detailOpen}
+        onOpenChange={(open) => {
+          setDetailOpen(open)
+          if (!open) setDetailCard(null)
+        }}
+      />
 
       <AppFooter />
     </div>

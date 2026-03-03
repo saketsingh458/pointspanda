@@ -18,7 +18,10 @@ const DEFAULT_MONTHLY_SPEND: MonthlySpend = {
   travel: 0,
   dining: 0,
   groceries: 0,
-  gas: 0,
+  gasEv: 0,
+  streamingEntertainment: 0,
+  drugstores: 0,
+  rentMortgage: 0,
   other: 0,
 }
 
