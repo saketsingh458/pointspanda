@@ -369,8 +369,10 @@ export function getCurrentBenefitLabels(walletCards: Card[]): string[] {
 function buildCategoryRows(
   monthlySpend: MonthlySpend,
   walletCards: Card[],
+  recommendedCard: Card | null,
   assumptionNotes: AssumptionCollector
 ): CategoryStrategyRow[] {
+  const scenarioCards = recommendedCard ? [...walletCards, recommendedCard] : walletCards
   const rows: CategoryStrategyRow[] = []
   for (const categoryId of SPEND_CATEGORIES) {
     const monthly = monthlySpend[categoryId] ?? 0
@@ -381,20 +383,20 @@ function buildCategoryRows(
       assumptionNotes
     )
     const currentMult = currentBest?.multiplier ?? 0
-    const bestInCatalog = getBestCardForCategoryByDollars(
-      CARD_CATALOG,
+    const bestInScenario = getBestCardForCategoryByDollars(
+      scenarioCards,
       categoryId,
       monthly,
       assumptionNotes
     )
-    const suggestedMult = bestInCatalog?.multiplier ?? 0
-    const suggestedCard = bestInCatalog?.card ?? null
+    const suggestedMult = bestInScenario?.multiplier ?? 0
+    const suggestedCard = bestInScenario?.card ?? null
     const currentAnnualDollars = currentBest?.annualDollars ?? 0
-    const suggestedAnnualDollars = bestInCatalog?.annualDollars ?? 0
+    const suggestedAnnualDollars = bestInScenario?.annualDollars ?? 0
     const isOptimized = suggestedAnnualDollars <= currentAnnualDollars || suggestedMult === 0
     const incrementalAnnualPoints = isOptimized
       ? 0
-      : Math.round((bestInCatalog?.annualPoints ?? 0) - (currentBest?.annualPoints ?? 0))
+      : Math.round((bestInScenario?.annualPoints ?? 0) - (currentBest?.annualPoints ?? 0))
     const incrementalAnnualDollars = isOptimized
       ? 0
       : Math.round(suggestedAnnualDollars - currentAnnualDollars)
@@ -414,48 +416,65 @@ function buildCategoryRows(
   return rows
 }
 
-/**
- * Pick a single "recommended" card to add: the one that appears most in suggestions
- * and has the highest total incremental contribution (or first by id for tie).
- */
-function pickRecommendedCard(rows: CategoryStrategyRow[]): Card | null {
-  const byCardId = new Map<string, number>()
-  for (const row of rows) {
-    if (row.suggestedCard && row.incrementalAnnualDollars > 0) {
-      const id = row.suggestedCard.id
-      byCardId.set(id, (byCardId.get(id) ?? 0) + row.incrementalAnnualDollars)
-    }
-  }
-  if (byCardId.size === 0) return null
-  let bestId: string | null = null
-  let bestDollars = 0
-  for (const [id, dollars] of byCardId) {
-    if (dollars > bestDollars) {
-      bestDollars = dollars
-      bestId = id
-    }
-  }
-  return bestId ? getCardById(bestId) ?? null : null
+interface CandidateEvaluation {
+  recommendedCard: Card | null
+  grossIncrementalPoints: number
+  grossIncrementalDollars: number
+  bestGrossIncrementalDollars: number
 }
 
-function getRecommendedCardIncrementalTotals(
-  rows: CategoryStrategyRow[],
-  recommendedCardId: string | null
-): { points: number; dollars: number } {
-  if (!recommendedCardId) return { points: 0, dollars: 0 }
-  let points = 0
-  let dollars = 0
-  for (const row of rows) {
+function evaluateBestCandidate(
+  monthlySpend: MonthlySpend,
+  walletCards: Card[],
+  currentAnnualPoints: number,
+  currentAnnualDollars: number,
+  assumptionNotes: AssumptionCollector
+): CandidateEvaluation {
+  const walletIds = new Set(walletCards.map((card) => card.id))
+  let recommendedCard: Card | null = null
+  let bestNetIncrementalDollars = 0
+  let bestGrossIncrementalDollars = 0
+  let bestGrossIncrementalPoints = 0
+  let bestCandidateGrossIncrementalDollars = 0
+
+  for (const candidate of CARD_CATALOG) {
+    if (walletIds.has(candidate.id)) continue
+    const candidateWallet = [...walletCards, candidate]
+    const candidateAnnualDollars = calculateCurrentAnnualDollars(
+      monthlySpend,
+      candidateWallet,
+      assumptionNotes
+    )
+    const candidateAnnualPoints = calculateCurrentAnnualPoints(
+      monthlySpend,
+      candidateWallet,
+      assumptionNotes
+    )
+    const grossIncrementalDollars = Math.max(0, candidateAnnualDollars - currentAnnualDollars)
+    const grossIncrementalPoints = Math.max(0, candidateAnnualPoints - currentAnnualPoints)
+    const netIncrementalDollars = grossIncrementalDollars - candidate.annualFee
+    bestCandidateGrossIncrementalDollars = Math.max(
+      bestCandidateGrossIncrementalDollars,
+      grossIncrementalDollars
+    )
     if (
-      row.suggestedCard?.id === recommendedCardId &&
-      row.incrementalAnnualDollars > 0 &&
-      row.incrementalAnnualPoints > 0
+      netIncrementalDollars > bestNetIncrementalDollars ||
+      (netIncrementalDollars === bestNetIncrementalDollars &&
+        grossIncrementalDollars > bestGrossIncrementalDollars)
     ) {
-      points += row.incrementalAnnualPoints
-      dollars += row.incrementalAnnualDollars
+      recommendedCard = candidate
+      bestNetIncrementalDollars = netIncrementalDollars
+      bestGrossIncrementalDollars = grossIncrementalDollars
+      bestGrossIncrementalPoints = grossIncrementalPoints
     }
   }
-  return { points, dollars }
+
+  return {
+    recommendedCard,
+    grossIncrementalPoints: recommendedCard ? bestGrossIncrementalPoints : 0,
+    grossIncrementalDollars: recommendedCard ? bestGrossIncrementalDollars : 0,
+    bestGrossIncrementalDollars: bestCandidateGrossIncrementalDollars,
+  }
 }
 
 /**
@@ -463,16 +482,18 @@ function getRecommendedCardIncrementalTotals(
  */
 function buildSummaryReason(
   recommendedCard: Card | null,
-  _walletCards: Card[],
-  categoryRows: CategoryStrategyRow[]
+  hasGrossOpportunity: boolean,
+  walletCardCount: number
 ): string {
-  if (!recommendedCard) return "No changes recommended — you're already optimized."
-  const added = recommendedCard.name
-  const hasSuggestedCategories = categoryRows.some(
-    (row) => row.suggestedCard?.id === recommendedCard.id && row.incrementalAnnualDollars > 0
-  )
-  if (!hasSuggestedCategories) return "No changes recommended — you're already optimized."
-  return `Achieved by adding the ${added} to your portfolio.`
+  if (!recommendedCard) {
+    return hasGrossOpportunity
+      ? "No changes recommended — no single new card improves your net annual value after fee."
+      : "No changes recommended — you're already optimized."
+  }
+  if (walletCardCount === 0) {
+    return `${recommendedCard.name} is your best starter card for net annual value.`
+  }
+  return `${recommendedCard.name} gives the highest net annual value boost when added to your portfolio.`
 }
 
 function getStrategyLimitations(): StrategyLimitation[] {
@@ -501,12 +522,12 @@ function getStrategyLimitations(): StrategyLimitation[] {
       whyItMatters: "You may be able to do better with a multi-card or swap strategy.",
     },
     {
-      id: "rewards_first_ranking",
-      title: "Ranking is rewards-first",
+      id: "fee_aware_but_perks_excluded",
+      title: "Ranking includes fee, but not full perks valuation",
       limitation:
-        "Card ranking is based mainly on ongoing rewards earn, while credits and perks are shown separately instead of fully priced into ranking.",
+        "Card ranking is portfolio-level and uses net rewards uplift minus the added annual fee for one new card; category rows remain a rewards-only view for explanation, while statement credits and perks are shown separately instead of fully priced into ranking.",
       whyItMatters:
-        "Cards with strong credits or benefits may be undervalued in the recommendation.",
+        "Cards with strong credits or benefits can still be under- or over-valued in the recommendation.",
     },
     {
       id: "signup_bonus_excluded",
@@ -574,14 +595,20 @@ export function computeStrategy(
   const currentAnnualFee = getCurrentAnnualFee(walletCards)
   const currentBenefitLabels = getCurrentBenefitLabels(walletCards)
 
-  const categoryRows = buildCategoryRows(monthlySpend, walletCards, assumptionNotes)
-  const recommendedCard = pickRecommendedCard(categoryRows)
-  const recommendedTotals = getRecommendedCardIncrementalTotals(
-    categoryRows,
-    recommendedCard?.id ?? null
+  const candidateEvaluation = evaluateBestCandidate(
+    monthlySpend,
+    walletCards,
+    currentAnnualPoints,
+    currentAnnualDollars,
+    assumptionNotes
   )
-  const totalIncremental = recommendedTotals.points
-  const totalIncrementalDollars = recommendedTotals.dollars
+  const recommendedCard = candidateEvaluation.recommendedCard
+  const categoryRows = buildCategoryRows(monthlySpend, walletCards, recommendedCard, assumptionNotes)
+  const totalIncremental = categoryRows.reduce((sum, row) => sum + row.incrementalAnnualPoints, 0)
+  const totalIncrementalDollars = categoryRows.reduce(
+    (sum, row) => sum + row.incrementalAnnualDollars,
+    0
+  )
   const maxPotentialAnnualPoints = currentAnnualPoints + totalIncremental
   const maxPotentialAnnualDollars = currentAnnualDollars + totalIncrementalDollars
 
@@ -590,7 +617,11 @@ export function computeStrategy(
     : []
   const netAdditionalFee = recommendedCard ? recommendedCard.annualFee : 0
 
-  const summaryReason = buildSummaryReason(recommendedCard, walletCards, categoryRows)
+  const summaryReason = buildSummaryReason(
+    recommendedCard,
+    candidateEvaluation.bestGrossIncrementalDollars > 0,
+    walletCards.length
+  )
 
   // Display cpp: prefer first wallet card's base cpp, else recommended card's, else default 1.25 cpp (125)
   const displayCppCents =

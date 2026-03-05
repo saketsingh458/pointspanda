@@ -108,12 +108,12 @@ export default function StrategyPage() {
   const { monthlySpend, walletCardIds } = usePointPath()
   const strategy = computeStrategy(monthlySpend, walletCardIds)
   const recommendedCardId = strategy.recommendedCard?.id ?? null
+  const netAnnualImpact = strategy.incrementalAnnualDollars - strategy.netAdditionalFee
   const [detailCard, setDetailCard] = useState<CreditCard | null>(null)
   const [detailOpen, setDetailOpen] = useState(false)
 
-  const hasData = walletCardIds.length > 0
   const totalMonthlySpend = Object.values(monthlySpend).reduce((a, b) => a + b, 0)
-  const showEmptyState = !hasData || totalMonthlySpend === 0
+  const showEmptyState = totalMonthlySpend === 0
 
   function openCardDetails(card: CreditCard | null | undefined) {
     if (!card) return
@@ -137,7 +137,7 @@ export default function StrategyPage() {
             Your Optimized Strategy
           </h1>
           <p className="mt-3 text-base text-muted-foreground">
-            Here is your best next-card strategy based on your spending profile.
+            Here is your best next-card strategy based on net annual value from your spending profile.
           </p>
         </div>
 
@@ -145,7 +145,7 @@ export default function StrategyPage() {
           <Card className="border-dashed">
             <CardContent className="flex flex-col items-center justify-center py-16 text-center">
               <p className="text-muted-foreground">
-                Add your spending on the intake page and at least one card in your wallet to see your strategy.
+                Add your spending on the intake page to see your strategy.
               </p>
               <Button asChild variant="outline" size="lg" className="mt-6 gap-2">
                 <Link href="/intake">
@@ -184,6 +184,9 @@ export default function StrategyPage() {
                     )}
                     <p className="text-sm text-muted-foreground leading-relaxed">
                       {strategy.summaryReason}
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      Recommendation ranking compares portfolio-wide rewards gain minus added annual fee.
                     </p>
                     {strategy.recommendedCard && strategy.netAdditionalFee > 0 && (
                       <p className="text-sm font-medium text-foreground">
@@ -263,9 +266,10 @@ export default function StrategyPage() {
                 Category-by-Category Strategy
               </h2>
               <p className="mb-4 text-sm text-muted-foreground">
-                We still show the best strategy for each category. Rows marked{" "}
+                We show how each category routes before vs after the selected recommendation. Rows marked{" "}
                 <span className="font-medium text-primary">Recommended pick</span> are what drive the
-                highlighted single-card upside.
+                uplift from adding that card, and the recommendation itself is ranked by total
+                portfolio net value after annual fee.
               </p>
               <Card className="overflow-hidden border-border/70">
                 <div className="overflow-x-auto">
@@ -380,11 +384,19 @@ export default function StrategyPage() {
                   <TableFooter>
                     <TableRow className="bg-primary/5 font-semibold hover:bg-primary/5">
                       <TableCell colSpan={4} className="font-semibold">
-                        Incremental Annual Value From Recommended Card
+                        {strategy.recommendedCard
+                          ? "Incremental Annual Value From Recommended Card"
+                          : "Incremental Annual Value"}
                       </TableCell>
-                      <TableCell className="text-right font-semibold text-success">
-                        +{formatSpend(strategy.incrementalAnnualDollars)}
-                      </TableCell>
+                      {strategy.recommendedCard ? (
+                        <TableCell className="text-right font-semibold text-success">
+                          +{formatSpend(strategy.incrementalAnnualDollars)}
+                        </TableCell>
+                      ) : (
+                        <TableCell className="text-right font-semibold text-muted-foreground">
+                          No net-positive change
+                        </TableCell>
+                      )}
                     </TableRow>
                   </TableFooter>
                   </Table>
@@ -439,6 +451,15 @@ export default function StrategyPage() {
                         </span>
                         <span className="text-lg font-semibold text-foreground">
                           ${strategy.recommendedCard.annualFee} annual fee
+                        </span>
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                          Net annual impact
+                        </span>
+                        <span className="text-lg font-semibold text-foreground">
+                          {netAnnualImpact >= 0 ? "+" : "-"}
+                          {formatSpend(Math.abs(netAnnualImpact))}/yr
                         </span>
                       </div>
                       {strategy.recommendedCard.signUpBonus != null && (
