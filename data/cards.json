@@ -27,7 +27,8 @@
       "base_rate": 3,
       "categories": {
         "travel_portal": {
-          "rate": 5
+          "rate": 5,
+          "requires_portal": true
         }
       }
     },
@@ -43,7 +44,7 @@
     "synergy_ecosystem": "Gemini",
     "ftf_percentage": 0,
     "ui_elements": {
-      "image_url": null,
+      "image_url": "https://images.ctfassets.net/jg6lo9a2ukvr/3z9JLwzKSHFuRGf6Cah3ys/c21f2c0019c14c6165cc432d1b828390/Hero_Cards_Alt_Desktop.png",
       "apply_url": "https://www.gemini.com/credit-card"
     },
     "valuation": {
@@ -62,7 +63,8 @@
       "categories": {
         "gas_ev_transit": {
           "rate": 4,
-          "cap_amount": 300
+          "cap_amount": 300,
+          "cap_period": "monthly"
         },
         "dining": {
           "rate": 3
@@ -102,62 +104,72 @@
         "name": "Travel",
         "amount": 300,
         "frequency": "annual",
-        "deducts_from_eligible_spend": true
+        "deducts_from_eligible_spend": true,
+        "restrictions": "Automatically applies to eligible travel purchases; purchases offset by this credit do not earn points"
       },
       {
         "name": "Dining",
         "amount": 300,
-        "frequency": "annual",
-        "deducts_from_eligible_spend": false
+        "frequency": "semi-annual",
+        "deducts_from_eligible_spend": false,
+        "restrictions": "Split into two $150 windows per cardmember year; valid only at eligible Sapphire Reserve Exclusive Tables restaurants"
       },
       {
         "name": "The Edit",
         "amount": 500,
         "frequency": "annual",
-        "deducts_from_eligible_spend": false
+        "deducts_from_eligible_spend": false,
+        "restrictions": "Up to $250 per prepaid eligible booking through The Edit (minimum 2-night stay); requires two bookings to realize full $500"
       },
       {
         "name": "StubHub",
         "amount": 300,
-        "frequency": "annual",
-        "deducts_from_eligible_spend": false
+        "frequency": "semi-annual",
+        "deducts_from_eligible_spend": false,
+        "restrictions": "Split into two $150 windows per year at StubHub/Viagogo; activation required"
       },
       {
         "name": "Apple Subscriptions",
         "amount": 288,
         "frequency": "annual",
-        "deducts_from_eligible_spend": false
+        "deducts_from_eligible_spend": false,
+        "restrictions": "One-time activation required for eligible Apple subscription benefits"
       },
       {
         "name": "Select Hotel",
         "amount": 250,
         "frequency": "one-time",
-        "deducts_from_eligible_spend": false
+        "deducts_from_eligible_spend": false,
+        "restrictions": "Prepaid booking through eligible Chase Travel partner hotels with a minimum 2-night stay"
       },
       {
         "name": "Lyft",
         "amount": 120,
-        "frequency": "annual",
-        "deducts_from_eligible_spend": false
+        "frequency": "monthly",
+        "deducts_from_eligible_spend": false,
+        "restrictions": "$10 monthly in-app credit; use-it-or-lose-it and does not roll over"
       },
       {
         "name": "Peloton",
         "amount": 120,
-        "frequency": "annual",
-        "deducts_from_eligible_spend": false
+        "frequency": "monthly",
+        "deducts_from_eligible_spend": false,
+        "restrictions": "$10 monthly membership credit; activation required and unused value does not roll over"
       },
       {
         "name": "Global Entry/TSA PreCheck/NEXUS",
         "amount": 120,
         "frequency": "every 4 years",
-        "deducts_from_eligible_spend": false
+        "deducts_from_eligible_spend": false,
+        "restrictions": "One application fee reimbursement per 4-year cycle for an eligible trusted traveler program"
       }
     ],
     "multipliers": {
       "base_rate": 1,
       "categories": {
         "travel_portal": {
-          "rate": 8
+          "rate": 8,
+          "requires_portal": true
         },
         "flights_direct": {
           "rate": 4
@@ -170,7 +182,65 @@
         }
       }
     },
-    "developer_notes": "One welcome offer per Sapphire card; $795 fee for existing members starts on first anniversary after Oct 26, 2025; Points Boost redemption values vary by property"
+    "developer_notes": "One welcome offer per Sapphire card; $795 fee for existing members starts on first anniversary after Oct 26, 2025; Points Boost redemption values vary by property",
+    "transfer_partners": [
+      {
+        "name": "Aer Lingus AerClub",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Air Canada Aeroplan",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Air France-KLM Flying Blue",
+        "ratio": "1:1"
+      },
+      {
+        "name": "British Airways Executive Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Emirates Skywards",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Iberia Plus",
+        "ratio": "1:1"
+      },
+      {
+        "name": "JetBlue TrueBlue",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Singapore Airlines KrisFlyer",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Southwest Rapid Rewards",
+        "ratio": "1:1"
+      },
+      {
+        "name": "United MileagePlus",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Virgin Atlantic Flying Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "World of Hyatt",
+        "ratio": "1:1"
+      },
+      {
+        "name": "IHG One Rewards",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Marriott Bonvoy",
+        "ratio": "1:1"
+      }
+    ]
   },
   {
     "id": "chase-sapphire-preferred-card",
@@ -200,20 +270,23 @@
         "name": "Hotel Credit",
         "amount": 50,
         "frequency": "annual",
-        "deducts_from_eligible_spend": false
+        "deducts_from_eligible_spend": false,
+        "restrictions": "Valid on eligible hotel purchases made through Chase Travel"
       },
       {
         "name": "DashPass Monthly Promo",
         "amount": 120,
         "frequency": "monthly",
-        "deducts_from_eligible_spend": false
+        "deducts_from_eligible_spend": false,
+        "restrictions": "$10 monthly non-restaurant DoorDash promo with active DashPass enrollment; unused amounts do not roll over"
       }
     ],
     "multipliers": {
       "base_rate": 1,
       "categories": {
         "travel_portal": {
-          "rate": 5
+          "rate": 5,
+          "requires_portal": true
         },
         "dining": {
           "rate": 3
@@ -224,12 +297,70 @@
         "streaming": {
           "rate": 3
         },
-        "travel_general": {
+        "travel": {
           "rate": 2
         }
       }
     },
-    "developer_notes": "Subject to Chase 5/24 rule; 10% points boost is based on total dollars spent not points earned"
+    "developer_notes": "Subject to Chase 5/24 rule; 10% points boost is based on total dollars spent not points earned",
+    "transfer_partners": [
+      {
+        "name": "Aer Lingus AerClub",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Air Canada Aeroplan",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Air France-KLM Flying Blue",
+        "ratio": "1:1"
+      },
+      {
+        "name": "British Airways Executive Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Emirates Skywards",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Iberia Plus",
+        "ratio": "1:1"
+      },
+      {
+        "name": "JetBlue TrueBlue",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Singapore Airlines KrisFlyer",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Southwest Rapid Rewards",
+        "ratio": "1:1"
+      },
+      {
+        "name": "United MileagePlus",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Virgin Atlantic Flying Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "World of Hyatt",
+        "ratio": "1:1"
+      },
+      {
+        "name": "IHG One Rewards",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Marriott Bonvoy",
+        "ratio": "1:1"
+      }
+    ]
   },
   {
     "id": "chase-freedom-unlimited",
@@ -259,7 +390,8 @@
       "base_rate": 1.5,
       "categories": {
         "travel_portal": {
-          "rate": 5
+          "rate": 5,
+          "requires_portal": true
         },
         "dining": {
           "rate": 3
@@ -269,7 +401,65 @@
         }
       }
     },
-    "developer_notes": "Points are transferable to travel partners when paired with a Sapphire or Ink Preferred card; 24-month bonus restriction applies"
+    "developer_notes": "Points are transferable to travel partners when paired with a Sapphire or Ink Preferred card; 24-month bonus restriction applies; Transfers to travel partners require pairing points with an eligible Sapphire or Ink Business Preferred account.",
+    "transfer_partners": [
+      {
+        "name": "Aer Lingus AerClub",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Air Canada Aeroplan",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Air France-KLM Flying Blue",
+        "ratio": "1:1"
+      },
+      {
+        "name": "British Airways Executive Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Emirates Skywards",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Iberia Plus",
+        "ratio": "1:1"
+      },
+      {
+        "name": "JetBlue TrueBlue",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Singapore Airlines KrisFlyer",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Southwest Rapid Rewards",
+        "ratio": "1:1"
+      },
+      {
+        "name": "United MileagePlus",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Virgin Atlantic Flying Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "World of Hyatt",
+        "ratio": "1:1"
+      },
+      {
+        "name": "IHG One Rewards",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Marriott Bonvoy",
+        "ratio": "1:1"
+      }
+    ]
   },
   {
     "id": "chase-freedom-flex",
@@ -300,10 +490,12 @@
       "categories": {
         "rotating_categories": {
           "rate": 5,
-          "cap_amount": 1500
+          "cap_amount": 1500,
+          "cap_period": "quarterly"
         },
         "travel_portal": {
-          "rate": 5
+          "rate": 5,
+          "requires_portal": true
         },
         "dining": {
           "rate": 3
@@ -313,7 +505,65 @@
         }
       }
     },
-    "developer_notes": "Q1 2026 5% dining category stacks with standard 3% dining for 7% total; activation required quarterly"
+    "developer_notes": "Q1 2026 5% dining category stacks with standard 3% dining for 7% total; activation required quarterly; Transfers to travel partners require pairing points with an eligible Sapphire or Ink Business Preferred account.",
+    "transfer_partners": [
+      {
+        "name": "Aer Lingus AerClub",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Air Canada Aeroplan",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Air France-KLM Flying Blue",
+        "ratio": "1:1"
+      },
+      {
+        "name": "British Airways Executive Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Emirates Skywards",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Iberia Plus",
+        "ratio": "1:1"
+      },
+      {
+        "name": "JetBlue TrueBlue",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Singapore Airlines KrisFlyer",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Southwest Rapid Rewards",
+        "ratio": "1:1"
+      },
+      {
+        "name": "United MileagePlus",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Virgin Atlantic Flying Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "World of Hyatt",
+        "ratio": "1:1"
+      },
+      {
+        "name": "IHG One Rewards",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Marriott Bonvoy",
+        "ratio": "1:1"
+      }
+    ]
   },
   {
     "id": "sapphire-reserve-for-business",
@@ -329,7 +579,7 @@
       "apply_url": "https://www.chase.com/business/credit-cards/sapphire-reserve-business"
     },
     "valuation": {
-      "cpp_floor": 1.1,
+      "cpp_floor": 1,
       "cpp_ceiling": 2
     },
     "welcome_offer": {
@@ -343,42 +593,108 @@
         "name": "Travel",
         "amount": 300,
         "frequency": "annual",
-        "deducts_from_eligible_spend": true
+        "deducts_from_eligible_spend": true,
+        "restrictions": "Automatically applies to eligible travel purchases; purchases offset by this credit do not earn points"
       },
       {
         "name": "Google Workspace",
         "amount": 200,
         "frequency": "annual",
-        "deducts_from_eligible_spend": false
+        "deducts_from_eligible_spend": false,
+        "restrictions": "Valid on eligible Google Workspace purchases"
       },
       {
         "name": "ZipRecruiter",
         "amount": 400,
-        "frequency": "annual",
-        "deducts_from_eligible_spend": false
+        "frequency": "semi-annual",
+        "deducts_from_eligible_spend": false,
+        "restrictions": "Split into two $200 windows per year on eligible ZipRecruiter purchases"
       },
       {
         "name": "The Edit",
         "amount": 500,
         "frequency": "annual",
-        "deducts_from_eligible_spend": false
+        "deducts_from_eligible_spend": false,
+        "restrictions": "Up to $250 per prepaid eligible booking through The Edit (minimum 2-night stay); requires two bookings to realize full $500"
       }
     ],
     "multipliers": {
       "base_rate": 1,
       "categories": {
         "travel_portal": {
-          "rate": 8
-        },
-        "flights_hotels_direct": {
-          "rate": 4
+          "rate": 8,
+          "requires_portal": true
         },
         "social_media_search_ads": {
           "rate": 3
+        },
+        "flights_direct": {
+          "rate": 4
+        },
+        "hotels_direct": {
+          "rate": 4
         }
       }
     },
-    "developer_notes": "Must spend $120,000/year to unlock IHG Diamond and Southwest A-List"
+    "developer_notes": "Must spend $120,000/year to unlock IHG Diamond and Southwest A-List",
+    "transfer_partners": [
+      {
+        "name": "Aer Lingus AerClub",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Air Canada Aeroplan",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Air France-KLM Flying Blue",
+        "ratio": "1:1"
+      },
+      {
+        "name": "British Airways Executive Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Emirates Skywards",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Iberia Plus",
+        "ratio": "1:1"
+      },
+      {
+        "name": "JetBlue TrueBlue",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Singapore Airlines KrisFlyer",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Southwest Rapid Rewards",
+        "ratio": "1:1"
+      },
+      {
+        "name": "United MileagePlus",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Virgin Atlantic Flying Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "World of Hyatt",
+        "ratio": "1:1"
+      },
+      {
+        "name": "IHG One Rewards",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Marriott Bonvoy",
+        "ratio": "1:1"
+      }
+    ]
   },
   {
     "id": "ink-business-preferred-credit-card",
@@ -408,22 +724,82 @@
         "name": "DoorDash",
         "amount": 10,
         "frequency": "monthly",
-        "deducts_from_eligible_spend": false
+        "deducts_from_eligible_spend": false,
+        "restrictions": "Monthly partner credit only; unused amounts do not roll over"
       }
     ],
     "multipliers": {
       "base_rate": 1,
       "categories": {
-        "travel_shipping_advertising_internet_cable_phone": {
-          "rate": 3,
-          "cap_amount": 150000
-        },
         "lyft": {
           "rate": 5
+        },
+        "travel": {
+          "rate": 3,
+          "cap_amount": 150000,
+          "cap_period": "annual"
         }
       }
     },
-    "developer_notes": "Subject to Chase 5/24 rule; 25% point value boost when redeemed for travel via Chase Travel"
+    "developer_notes": "Subject to Chase 5/24 rule; 25% point value boost when redeemed for travel via Chase Travel",
+    "transfer_partners": [
+      {
+        "name": "Aer Lingus AerClub",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Air Canada Aeroplan",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Air France-KLM Flying Blue",
+        "ratio": "1:1"
+      },
+      {
+        "name": "British Airways Executive Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Emirates Skywards",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Iberia Plus",
+        "ratio": "1:1"
+      },
+      {
+        "name": "JetBlue TrueBlue",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Singapore Airlines KrisFlyer",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Southwest Rapid Rewards",
+        "ratio": "1:1"
+      },
+      {
+        "name": "United MileagePlus",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Virgin Atlantic Flying Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "World of Hyatt",
+        "ratio": "1:1"
+      },
+      {
+        "name": "IHG One Rewards",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Marriott Bonvoy",
+        "ratio": "1:1"
+      }
+    ]
   },
   {
     "id": "amex-platinum-card",
@@ -453,7 +829,8 @@
         "name": "Uber Cash",
         "amount": 200,
         "frequency": "monthly",
-        "deducts_from_eligible_spend": false
+        "deducts_from_eligible_spend": false,
+        "restrictions": "Issued in monthly allotments and does not roll over"
       },
       {
         "name": "Uber One",
@@ -494,8 +871,9 @@
       {
         "name": "Saks",
         "amount": 100,
-        "frequency": "annual",
-        "deducts_from_eligible_spend": false
+        "frequency": "semi-annual",
+        "deducts_from_eligible_spend": false,
+        "restrictions": "Split into two $50 windows per year"
       },
       {
         "name": "lululemon",
@@ -519,7 +897,8 @@
         "name": "Walmart+",
         "amount": 155,
         "frequency": "monthly",
-        "deducts_from_eligible_spend": false
+        "deducts_from_eligible_spend": false,
+        "restrictions": "Monthly membership credit only; unused amounts do not roll over"
       }
     ],
     "multipliers": {
@@ -529,11 +908,98 @@
           "rate": 5
         },
         "hotels_prepaid_portal": {
-          "rate": 5
+          "rate": 5,
+          "requires_portal": true
         }
       }
     },
-    "developer_notes": "Once per lifetime welcome offer rule; $75,000 spend required for Centurion Lounge guest access"
+    "developer_notes": "Once per lifetime welcome offer rule; $75,000 spend required for Centurion Lounge guest access",
+    "transfer_partners": [
+      {
+        "name": "Aer Lingus AerClub",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Aeromexico Rewards",
+        "ratio": "1:1.6"
+      },
+      {
+        "name": "Air Canada Aeroplan",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Air France-KLM Flying Blue",
+        "ratio": "1:1"
+      },
+      {
+        "name": "ANA Mileage Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Avianca LifeMiles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "British Airways Executive Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Cathay Pacific Asia Miles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Delta SkyMiles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Emirates Skywards",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Etihad Guest",
+        "ratio": "1:1"
+      },
+      {
+        "name": "HawaiianMiles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Iberia Plus",
+        "ratio": "1:1"
+      },
+      {
+        "name": "JetBlue TrueBlue",
+        "ratio": "5:4"
+      },
+      {
+        "name": "Qantas Frequent Flyer",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Qatar Airways Privilege Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Singapore Airlines KrisFlyer",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Virgin Atlantic Flying Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Choice Privileges",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Hilton Honors",
+        "ratio": "1:2"
+      },
+      {
+        "name": "Marriott Bonvoy",
+        "ratio": "1:1"
+      }
+    ]
   },
   {
     "id": "amex-gold-card",
@@ -563,25 +1029,29 @@
         "name": "Uber Cash",
         "amount": 120,
         "frequency": "monthly",
-        "deducts_from_eligible_spend": false
+        "deducts_from_eligible_spend": false,
+        "restrictions": "Issued as monthly allotments and does not roll over"
       },
       {
         "name": "Dining Credit",
         "amount": 120,
         "frequency": "monthly",
-        "deducts_from_eligible_spend": false
+        "deducts_from_eligible_spend": false,
+        "restrictions": "Partner-limited monthly credit; enrollment may be required and unused amounts do not roll over"
       },
       {
         "name": "Resy Credit",
         "amount": 100,
         "frequency": "semi-annual",
-        "deducts_from_eligible_spend": false
+        "deducts_from_eligible_spend": false,
+        "restrictions": "Split into two $50 windows per year"
       },
       {
         "name": "Dunkin' Credit",
         "amount": 84,
         "frequency": "monthly",
-        "deducts_from_eligible_spend": false
+        "deducts_from_eligible_spend": false,
+        "restrictions": "Issued as monthly allotments and does not roll over"
       }
     ],
     "multipliers": {
@@ -589,21 +1059,110 @@
       "categories": {
         "dining": {
           "rate": 4,
-          "cap_amount": 50000
+          "cap_amount": 50000,
+          "cap_period": "annual"
         },
         "groceries": {
           "rate": 4,
-          "cap_amount": 25000
+          "cap_amount": 25000,
+          "cap_period": "annual"
         },
-        "flights": {
+        "flights_direct_or_portal": {
           "rate": 3
         },
-        "hotels_prepaid": {
-          "rate": 2
+        "hotels_prepaid_portal": {
+          "rate": 2,
+          "requires_portal": true
         }
       }
     },
-    "developer_notes": "Credits do not roll over monthly; enrollment required for all credits; multipliers have annual spend caps"
+    "developer_notes": "Credits do not roll over monthly; enrollment required for all credits; multipliers have annual spend caps",
+    "transfer_partners": [
+      {
+        "name": "Aer Lingus AerClub",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Aeromexico Rewards",
+        "ratio": "1:1.6"
+      },
+      {
+        "name": "Air Canada Aeroplan",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Air France-KLM Flying Blue",
+        "ratio": "1:1"
+      },
+      {
+        "name": "ANA Mileage Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Avianca LifeMiles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "British Airways Executive Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Cathay Pacific Asia Miles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Delta SkyMiles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Emirates Skywards",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Etihad Guest",
+        "ratio": "1:1"
+      },
+      {
+        "name": "HawaiianMiles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Iberia Plus",
+        "ratio": "1:1"
+      },
+      {
+        "name": "JetBlue TrueBlue",
+        "ratio": "5:4"
+      },
+      {
+        "name": "Qantas Frequent Flyer",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Qatar Airways Privilege Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Singapore Airlines KrisFlyer",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Virgin Atlantic Flying Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Choice Privileges",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Hilton Honors",
+        "ratio": "1:2"
+      },
+      {
+        "name": "Marriott Bonvoy",
+        "ratio": "1:1"
+      }
+    ]
   },
   {
     "id": "capital-one-venture-x-rewards-credit-card",
@@ -615,7 +1174,7 @@
     "synergy_ecosystem": "Capital One Miles",
     "ftf_percentage": 0,
     "ui_elements": {
-      "image_url": null,
+      "image_url": "https://ecm.capitalone.com/WCM/card/products/venture-x-card-art.png",
       "apply_url": "https://www.capitalone.com/credit-cards/venture-x/"
     },
     "valuation": {
@@ -645,15 +1204,107 @@
     "multipliers": {
       "base_rate": 2,
       "categories": {
-        "hotels_rental_cars_portal": {
-          "rate": 10
+        "travel_portal_hotels_cars": {
+          "rate": 10,
+          "requires_portal": true
         },
-        "flights_vacation_rentals_portal": {
-          "rate": 5
+        "travel_portal_flights": {
+          "rate": 5,
+          "requires_portal": true
         }
       }
     },
-    "developer_notes": "Priority Pass guest access and authorized user lounge access removed February 2026 unless spending/fee requirements met"
+    "developer_notes": "Priority Pass guest access and authorized user lounge access removed February 2026 unless spending/fee requirements met",
+    "transfer_partners": [
+      {
+        "name": "Aeromexico Rewards",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Air Canada Aeroplan",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Avianca LifeMiles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "British Airways Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Cathay Pacific Asia Miles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Etihad Guest",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Finnair Plus",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Flying Blue",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Qantas Frequent Flyer",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Qatar Airways Privilege Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Singapore Airlines KrisFlyer",
+        "ratio": "1:1"
+      },
+      {
+        "name": "TAP Miles&Go",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Turkish Airlines Miles&Smiles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Virgin Red",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Emirates Skywards",
+        "ratio": "2:1.5"
+      },
+      {
+        "name": "EVA Air Infinity MileageLands",
+        "ratio": "2:1.5"
+      },
+      {
+        "name": "Japan Airlines Mileage Bank",
+        "ratio": "2:1.5"
+      },
+      {
+        "name": "JetBlue TrueBlue",
+        "ratio": "5:3"
+      },
+      {
+        "name": "Choice Privileges",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Wyndham Rewards",
+        "ratio": "1:1"
+      },
+      {
+        "name": "I Prefer Hotel Rewards",
+        "ratio": "1:2"
+      },
+      {
+        "name": "Accor Live Limitless",
+        "ratio": "2:1"
+      }
+    ]
   },
   {
     "id": "chase-freedom-rise",
@@ -690,7 +1341,65 @@
       "base_rate": 1.5,
       "categories": {}
     },
-    "developer_notes": "Approval odds increase with $250 Chase bank balance; Automatic annual evaluation for upgrade to Freedom Unlimited"
+    "developer_notes": "Approval odds increase with $250 Chase bank balance; Automatic annual evaluation for upgrade to Freedom Unlimited; Transfers to travel partners require pairing points with an eligible Sapphire or Ink Business Preferred account.",
+    "transfer_partners": [
+      {
+        "name": "Aer Lingus AerClub",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Air Canada Aeroplan",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Air France-KLM Flying Blue",
+        "ratio": "1:1"
+      },
+      {
+        "name": "British Airways Executive Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Emirates Skywards",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Iberia Plus",
+        "ratio": "1:1"
+      },
+      {
+        "name": "JetBlue TrueBlue",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Singapore Airlines KrisFlyer",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Southwest Rapid Rewards",
+        "ratio": "1:1"
+      },
+      {
+        "name": "United MileagePlus",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Virgin Atlantic Flying Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "World of Hyatt",
+        "ratio": "1:1"
+      },
+      {
+        "name": "IHG One Rewards",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Marriott Bonvoy",
+        "ratio": "1:1"
+      }
+    ]
   },
   {
     "id": "chase-slate-edge",
@@ -754,7 +1463,65 @@
         }
       }
     },
-    "developer_notes": "Subject to Chase 5/24 rule"
+    "developer_notes": "Subject to Chase 5/24 rule; Transfers to travel partners require combining points into an eligible Sapphire or Ink Business Preferred account.",
+    "transfer_partners": [
+      {
+        "name": "Aer Lingus AerClub",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Air Canada Aeroplan",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Air France-KLM Flying Blue",
+        "ratio": "1:1"
+      },
+      {
+        "name": "British Airways Executive Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Emirates Skywards",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Iberia Plus",
+        "ratio": "1:1"
+      },
+      {
+        "name": "JetBlue TrueBlue",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Singapore Airlines KrisFlyer",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Southwest Rapid Rewards",
+        "ratio": "1:1"
+      },
+      {
+        "name": "United MileagePlus",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Virgin Atlantic Flying Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "World of Hyatt",
+        "ratio": "1:1"
+      },
+      {
+        "name": "IHG One Rewards",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Marriott Bonvoy",
+        "ratio": "1:1"
+      }
+    ]
   },
   {
     "id": "ink-business-cash",
@@ -797,7 +1564,65 @@
         }
       }
     },
-    "developer_notes": "Does not count toward 5/24 but requires being under 5/24 to apply"
+    "developer_notes": "Does not count toward 5/24 but requires being under 5/24 to apply; Transfers to travel partners require combining points into an eligible Sapphire or Ink Business Preferred account.",
+    "transfer_partners": [
+      {
+        "name": "Aer Lingus AerClub",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Air Canada Aeroplan",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Air France-KLM Flying Blue",
+        "ratio": "1:1"
+      },
+      {
+        "name": "British Airways Executive Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Emirates Skywards",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Iberia Plus",
+        "ratio": "1:1"
+      },
+      {
+        "name": "JetBlue TrueBlue",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Singapore Airlines KrisFlyer",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Southwest Rapid Rewards",
+        "ratio": "1:1"
+      },
+      {
+        "name": "United MileagePlus",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Virgin Atlantic Flying Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "World of Hyatt",
+        "ratio": "1:1"
+      },
+      {
+        "name": "IHG One Rewards",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Marriott Bonvoy",
+        "ratio": "1:1"
+      }
+    ]
   },
   {
     "id": "ink-business-premier-credit-card",
@@ -827,7 +1652,8 @@
       "base_rate": 2,
       "categories": {
         "travel_portal": {
-          "rate": 5
+          "rate": 5,
+          "requires_portal": true
         },
         "large_purchases": {
           "rate": 2.5
@@ -864,13 +1690,15 @@
         "name": "Flexible Business Credit",
         "amount": 240,
         "frequency": "monthly",
-        "deducts_from_eligible_spend": false
+        "deducts_from_eligible_spend": false,
+        "restrictions": "Issued as monthly allotments and does not roll over"
       },
       {
         "name": "Walmart+ Credit",
         "amount": 155,
         "frequency": "monthly",
-        "deducts_from_eligible_spend": false
+        "deducts_from_eligible_spend": false,
+        "restrictions": "Monthly membership credit only; unused amounts do not roll over"
       },
       {
         "name": "Squarespace Credit",
@@ -884,14 +1712,102 @@
       "categories": {
         "top_two_categories": {
           "rate": 4,
-          "cap_amount": 150000
+          "cap_amount": 150000,
+          "cap_period": "annual"
         },
         "travel_portal": {
-          "rate": 3
+          "rate": 3,
+          "requires_portal": true
         }
       }
     },
-    "developer_notes": "4x multiplier capped at $150,000 combined spend per year; welcome offer eligibility based on history"
+    "developer_notes": "4x multiplier capped at $150,000 combined spend per year; welcome offer eligibility based on history",
+    "transfer_partners": [
+      {
+        "name": "Aer Lingus AerClub",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Aeromexico Rewards",
+        "ratio": "1:1.6"
+      },
+      {
+        "name": "Air Canada Aeroplan",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Air France-KLM Flying Blue",
+        "ratio": "1:1"
+      },
+      {
+        "name": "ANA Mileage Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Avianca LifeMiles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "British Airways Executive Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Cathay Pacific Asia Miles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Delta SkyMiles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Emirates Skywards",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Etihad Guest",
+        "ratio": "1:1"
+      },
+      {
+        "name": "HawaiianMiles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Iberia Plus",
+        "ratio": "1:1"
+      },
+      {
+        "name": "JetBlue TrueBlue",
+        "ratio": "5:4"
+      },
+      {
+        "name": "Qantas Frequent Flyer",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Qatar Airways Privilege Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Singapore Airlines KrisFlyer",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Virgin Atlantic Flying Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Choice Privileges",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Hilton Honors",
+        "ratio": "1:2"
+      },
+      {
+        "name": "Marriott Bonvoy",
+        "ratio": "1:1"
+      }
+    ]
   },
   {
     "id": "amex-green-card",
@@ -927,18 +1843,104 @@
     "multipliers": {
       "base_rate": 1,
       "categories": {
-        "travel_general": {
-          "rate": 3
-        },
         "transit": {
           "rate": 3
         },
         "dining": {
           "rate": 3
+        },
+        "travel": {
+          "rate": 3
         }
       }
     },
-    "developer_notes": "Features No Preset Spending Limit (NPSL)"
+    "developer_notes": "Features No Preset Spending Limit (NPSL)",
+    "transfer_partners": [
+      {
+        "name": "Aer Lingus AerClub",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Aeromexico Rewards",
+        "ratio": "1:1.6"
+      },
+      {
+        "name": "Air Canada Aeroplan",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Air France-KLM Flying Blue",
+        "ratio": "1:1"
+      },
+      {
+        "name": "ANA Mileage Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Avianca LifeMiles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "British Airways Executive Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Cathay Pacific Asia Miles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Delta SkyMiles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Emirates Skywards",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Etihad Guest",
+        "ratio": "1:1"
+      },
+      {
+        "name": "HawaiianMiles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Iberia Plus",
+        "ratio": "1:1"
+      },
+      {
+        "name": "JetBlue TrueBlue",
+        "ratio": "5:4"
+      },
+      {
+        "name": "Qantas Frequent Flyer",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Qatar Airways Privilege Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Singapore Airlines KrisFlyer",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Virgin Atlantic Flying Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Choice Privileges",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Hilton Honors",
+        "ratio": "1:2"
+      },
+      {
+        "name": "Marriott Bonvoy",
+        "ratio": "1:1"
+      }
+    ]
   },
   {
     "id": "blue-cash-preferred-card-from-american-express",
@@ -968,13 +1970,15 @@
         "name": "Disney Bundle Credit",
         "amount": 120,
         "frequency": "monthly",
-        "deducts_from_eligible_spend": false
+        "deducts_from_eligible_spend": false,
+        "restrictions": "Issued as monthly credits and does not roll over"
       },
       {
         "name": "Equinox+ Credit",
         "amount": 120,
         "frequency": "monthly",
-        "deducts_from_eligible_spend": false
+        "deducts_from_eligible_spend": false,
+        "restrictions": "Issued as monthly credits and does not roll over"
       }
     ],
     "multipliers": {
@@ -982,7 +1986,8 @@
       "categories": {
         "us_supermarkets": {
           "rate": 6,
-          "cap_amount": 6000
+          "cap_amount": 6000,
+          "cap_period": "annual"
         },
         "us_streaming": {
           "rate": 6
@@ -1025,13 +2030,15 @@
         "name": "Disney Bundle Credit",
         "amount": 84,
         "frequency": "monthly",
-        "deducts_from_eligible_spend": false
+        "deducts_from_eligible_spend": false,
+        "restrictions": "Issued as monthly credits and does not roll over"
       },
       {
         "name": "Home Chef Credit",
         "amount": 180,
         "frequency": "monthly",
-        "deducts_from_eligible_spend": false
+        "deducts_from_eligible_spend": false,
+        "restrictions": "Issued as monthly credits and does not roll over"
       }
     ],
     "multipliers": {
@@ -1039,15 +2046,18 @@
       "categories": {
         "us_supermarkets": {
           "rate": 3,
-          "cap_amount": 6000
+          "cap_amount": 6000,
+          "cap_period": "annual"
         },
         "us_online_retail": {
           "rate": 3,
-          "cap_amount": 6000
+          "cap_amount": 6000,
+          "cap_period": "annual"
         },
         "us_gas_stations": {
           "rate": 3,
-          "cap_amount": 6000
+          "cap_amount": 6000,
+          "cap_period": "annual"
         }
       }
     },
@@ -1082,14 +2092,102 @@
       "categories": {
         "us_supermarkets": {
           "rate": 2,
-          "cap_amount": 6000
+          "cap_amount": 6000,
+          "cap_period": "annual"
         },
         "travel_portal": {
-          "rate": 2
+          "rate": 2,
+          "requires_portal": true
         }
       }
     },
-    "developer_notes": "Closed to new applicants in late 2024; 20% bonus applies to total points earned in billing period"
+    "developer_notes": "Closed to new applicants in late 2024; 20% bonus applies to total points earned in billing period",
+    "transfer_partners": [
+      {
+        "name": "Aer Lingus AerClub",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Aeromexico Rewards",
+        "ratio": "1:1.6"
+      },
+      {
+        "name": "Air Canada Aeroplan",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Air France-KLM Flying Blue",
+        "ratio": "1:1"
+      },
+      {
+        "name": "ANA Mileage Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Avianca LifeMiles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "British Airways Executive Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Cathay Pacific Asia Miles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Delta SkyMiles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Emirates Skywards",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Etihad Guest",
+        "ratio": "1:1"
+      },
+      {
+        "name": "HawaiianMiles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Iberia Plus",
+        "ratio": "1:1"
+      },
+      {
+        "name": "JetBlue TrueBlue",
+        "ratio": "5:4"
+      },
+      {
+        "name": "Qantas Frequent Flyer",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Qatar Airways Privilege Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Singapore Airlines KrisFlyer",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Virgin Atlantic Flying Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Choice Privileges",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Hilton Honors",
+        "ratio": "1:2"
+      },
+      {
+        "name": "Marriott Bonvoy",
+        "ratio": "1:1"
+      }
+    ]
   },
   {
     "id": "amex-everyday-preferred-credit-card",
@@ -1120,17 +2218,105 @@
       "categories": {
         "us_supermarkets": {
           "rate": 3,
-          "cap_amount": 6000
+          "cap_amount": 6000,
+          "cap_period": "annual"
         },
         "us_gas_stations": {
           "rate": 2
         },
         "travel_portal": {
-          "rate": 2
+          "rate": 2,
+          "requires_portal": true
         }
       }
     },
-    "developer_notes": "Applications closed to new members as of late 2024; existing cardholders only"
+    "developer_notes": "Applications closed to new members as of late 2024; existing cardholders only",
+    "transfer_partners": [
+      {
+        "name": "Aer Lingus AerClub",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Aeromexico Rewards",
+        "ratio": "1:1.6"
+      },
+      {
+        "name": "Air Canada Aeroplan",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Air France-KLM Flying Blue",
+        "ratio": "1:1"
+      },
+      {
+        "name": "ANA Mileage Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Avianca LifeMiles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "British Airways Executive Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Cathay Pacific Asia Miles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Delta SkyMiles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Emirates Skywards",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Etihad Guest",
+        "ratio": "1:1"
+      },
+      {
+        "name": "HawaiianMiles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Iberia Plus",
+        "ratio": "1:1"
+      },
+      {
+        "name": "JetBlue TrueBlue",
+        "ratio": "5:4"
+      },
+      {
+        "name": "Qantas Frequent Flyer",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Qatar Airways Privilege Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Singapore Airlines KrisFlyer",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Virgin Atlantic Flying Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Choice Privileges",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Hilton Honors",
+        "ratio": "1:2"
+      },
+      {
+        "name": "Marriott Bonvoy",
+        "ratio": "1:1"
+      }
+    ]
   },
   {
     "id": "amex-cash-magnet-card",
@@ -1226,7 +2412,93 @@
         }
       }
     },
-    "developer_notes": "$10,000 initiation fee; invitation only (est. $250k-$1M+ annual spend requirement); no preset spending limit"
+    "developer_notes": "$10,000 initiation fee; invitation only (est. $250k-$1M+ annual spend requirement); no preset spending limit",
+    "transfer_partners": [
+      {
+        "name": "Aer Lingus AerClub",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Aeromexico Rewards",
+        "ratio": "1:1.6"
+      },
+      {
+        "name": "Air Canada Aeroplan",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Air France-KLM Flying Blue",
+        "ratio": "1:1"
+      },
+      {
+        "name": "ANA Mileage Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Avianca LifeMiles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "British Airways Executive Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Cathay Pacific Asia Miles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Delta SkyMiles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Emirates Skywards",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Etihad Guest",
+        "ratio": "1:1"
+      },
+      {
+        "name": "HawaiianMiles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Iberia Plus",
+        "ratio": "1:1"
+      },
+      {
+        "name": "JetBlue TrueBlue",
+        "ratio": "5:4"
+      },
+      {
+        "name": "Qantas Frequent Flyer",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Qatar Airways Privilege Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Singapore Airlines KrisFlyer",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Virgin Atlantic Flying Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Choice Privileges",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Hilton Honors",
+        "ratio": "1:2"
+      },
+      {
+        "name": "Marriott Bonvoy",
+        "ratio": "1:1"
+      }
+    ]
   },
   {
     "id": "amex-business-platinum",
@@ -1256,7 +2528,8 @@
         "name": "Hotel Credit",
         "amount": 600,
         "frequency": "semi-annual",
-        "deducts_from_eligible_spend": false
+        "deducts_from_eligible_spend": false,
+        "restrictions": "Split into two $300 windows per year"
       },
       {
         "name": "Airline Fee Credit",
@@ -1274,7 +2547,8 @@
         "name": "Wireless Credit",
         "amount": 120,
         "frequency": "monthly",
-        "deducts_from_eligible_spend": false
+        "deducts_from_eligible_spend": false,
+        "restrictions": "Issued as monthly allotments and does not roll over"
       },
       {
         "name": "Dell Credit",
@@ -1292,13 +2566,15 @@
         "name": "Indeed Credit",
         "amount": 360,
         "frequency": "quarterly",
-        "deducts_from_eligible_spend": false
+        "deducts_from_eligible_spend": false,
+        "restrictions": "Split into four $90 quarterly windows"
       },
       {
         "name": "Hilton Credit",
         "amount": 200,
         "frequency": "quarterly",
-        "deducts_from_eligible_spend": false
+        "deducts_from_eligible_spend": false,
+        "restrictions": "Split into four $50 quarterly windows"
       },
       {
         "name": "Global Entry/TSA PreCheck Credit",
@@ -1310,15 +2586,105 @@
     "multipliers": {
       "base_rate": 1,
       "categories": {
-        "flights_hotels_prepaid": {
-          "rate": 5
-        },
         "key_business_large_purchases": {
           "rate": 2
+        },
+        "flights_direct_or_portal": {
+          "rate": 5
+        },
+        "hotels_prepaid_portal": {
+          "rate": 5,
+          "requires_portal": true
         }
       }
     },
-    "developer_notes": "No preset spending limit; 35% points back on flights capped at 1M points per year"
+    "developer_notes": "No preset spending limit; 35% points back on flights capped at 1M points per year",
+    "transfer_partners": [
+      {
+        "name": "Aer Lingus AerClub",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Aeromexico Rewards",
+        "ratio": "1:1.6"
+      },
+      {
+        "name": "Air Canada Aeroplan",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Air France-KLM Flying Blue",
+        "ratio": "1:1"
+      },
+      {
+        "name": "ANA Mileage Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Avianca LifeMiles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "British Airways Executive Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Cathay Pacific Asia Miles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Delta SkyMiles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Emirates Skywards",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Etihad Guest",
+        "ratio": "1:1"
+      },
+      {
+        "name": "HawaiianMiles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Iberia Plus",
+        "ratio": "1:1"
+      },
+      {
+        "name": "JetBlue TrueBlue",
+        "ratio": "5:4"
+      },
+      {
+        "name": "Qantas Frequent Flyer",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Qatar Airways Privilege Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Singapore Airlines KrisFlyer",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Virgin Atlantic Flying Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Choice Privileges",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Hilton Honors",
+        "ratio": "1:2"
+      },
+      {
+        "name": "Marriott Bonvoy",
+        "ratio": "1:1"
+      }
+    ]
   },
   {
     "id": "blue-business-plus-credit-card",
@@ -1346,14 +2712,95 @@
     "statement_credits": [],
     "multipliers": {
       "base_rate": 1,
-      "categories": {
-        "all_purchases": {
-          "rate": 2,
-          "cap_amount": 50000
-        }
-      }
+      "categories": {}
     },
-    "developer_notes": "2x points cap resets every calendar year"
+    "developer_notes": "2x points cap resets every calendar year",
+    "transfer_partners": [
+      {
+        "name": "Aer Lingus AerClub",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Aeromexico Rewards",
+        "ratio": "1:1.6"
+      },
+      {
+        "name": "Air Canada Aeroplan",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Air France-KLM Flying Blue",
+        "ratio": "1:1"
+      },
+      {
+        "name": "ANA Mileage Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Avianca LifeMiles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "British Airways Executive Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Cathay Pacific Asia Miles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Delta SkyMiles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Emirates Skywards",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Etihad Guest",
+        "ratio": "1:1"
+      },
+      {
+        "name": "HawaiianMiles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Iberia Plus",
+        "ratio": "1:1"
+      },
+      {
+        "name": "JetBlue TrueBlue",
+        "ratio": "5:4"
+      },
+      {
+        "name": "Qantas Frequent Flyer",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Qatar Airways Privilege Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Singapore Airlines KrisFlyer",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Virgin Atlantic Flying Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Choice Privileges",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Hilton Honors",
+        "ratio": "1:2"
+      },
+      {
+        "name": "Marriott Bonvoy",
+        "ratio": "1:1"
+      }
+    ]
   },
   {
     "id": "capital-one-venture-rewards",
@@ -1395,12 +2842,103 @@
     "multipliers": {
       "base_rate": 2,
       "categories": {
-        "hotels_vacation_rentals_rental_cars_portal": {
-          "rate": 5
+        "travel_portal_hotels_cars": {
+          "rate": 5,
+          "requires_portal": true
         }
       }
     },
-    "developer_notes": "Ineligible if you received a Venture series bonus in the last 48 months"
+    "developer_notes": "Ineligible if you received a Venture series bonus in the last 48 months",
+    "transfer_partners": [
+      {
+        "name": "Aeromexico Rewards",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Air Canada Aeroplan",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Avianca LifeMiles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "British Airways Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Cathay Pacific Asia Miles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Etihad Guest",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Finnair Plus",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Flying Blue",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Qantas Frequent Flyer",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Qatar Airways Privilege Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Singapore Airlines KrisFlyer",
+        "ratio": "1:1"
+      },
+      {
+        "name": "TAP Miles&Go",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Turkish Airlines Miles&Smiles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Virgin Red",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Emirates Skywards",
+        "ratio": "2:1.5"
+      },
+      {
+        "name": "EVA Air Infinity MileageLands",
+        "ratio": "2:1.5"
+      },
+      {
+        "name": "Japan Airlines Mileage Bank",
+        "ratio": "2:1.5"
+      },
+      {
+        "name": "JetBlue TrueBlue",
+        "ratio": "5:3"
+      },
+      {
+        "name": "Choice Privileges",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Wyndham Rewards",
+        "ratio": "1:1"
+      },
+      {
+        "name": "I Prefer Hotel Rewards",
+        "ratio": "1:2"
+      },
+      {
+        "name": "Accor Live Limitless",
+        "ratio": "2:1"
+      }
+    ]
   },
   {
     "id": "capital-one-savor-cash-rewards",
@@ -1432,9 +2970,6 @@
         "capital_one_entertainment": {
           "rate": 8
         },
-        "capital_one_travel": {
-          "rate": 5
-        },
         "dining": {
           "rate": 3
         },
@@ -1446,10 +2981,104 @@
         },
         "grocery_stores": {
           "rate": 3
+        },
+        "travel_portal": {
+          "rate": 5,
+          "requires_portal": true
         }
       }
     },
-    "developer_notes": "Grocery 3% excludes superstores like Walmart and Target; legacy cardholders may have different terms (4% dining/95 fee)"
+    "developer_notes": "Grocery 3% excludes superstores like Walmart and Target; legacy cardholders may have different terms (4% dining/95 fee); Transfer partner redemptions require converting rewards into Capital One miles through an eligible miles-earning setup before transfer.",
+    "transfer_partners": [
+      {
+        "name": "Aeromexico Rewards",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Air Canada Aeroplan",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Avianca LifeMiles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "British Airways Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Cathay Pacific Asia Miles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Etihad Guest",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Finnair Plus",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Flying Blue",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Qantas Frequent Flyer",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Qatar Airways Privilege Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Singapore Airlines KrisFlyer",
+        "ratio": "1:1"
+      },
+      {
+        "name": "TAP Miles&Go",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Turkish Airlines Miles&Smiles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Virgin Red",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Emirates Skywards",
+        "ratio": "2:1.5"
+      },
+      {
+        "name": "EVA Air Infinity MileageLands",
+        "ratio": "2:1.5"
+      },
+      {
+        "name": "Japan Airlines Mileage Bank",
+        "ratio": "2:1.5"
+      },
+      {
+        "name": "JetBlue TrueBlue",
+        "ratio": "5:3"
+      },
+      {
+        "name": "Choice Privileges",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Wyndham Rewards",
+        "ratio": "1:1"
+      },
+      {
+        "name": "I Prefer Hotel Rewards",
+        "ratio": "1:2"
+      },
+      {
+        "name": "Accor Live Limitless",
+        "ratio": "2:1"
+      }
+    ]
   },
   {
     "id": "blue-business-cash-card",
@@ -1460,7 +3089,7 @@
     "reward_currency": "Cash Back",
     "ftf_percentage": 2.7,
     "ui_elements": {
-      "image_url": null,
+      "image_url": "https://icm.aexp-static.com/Internet/Acquisition/US_en/AppContent/OneSite/open/category/cardarts/blue-business-cash.png",
       "apply_url": "https://www.americanexpress.com/us/credit-cards/business/business-credit-cards/blue-business-cash-card/"
     },
     "valuation": {
@@ -1512,11 +3141,102 @@
       "base_rate": 1.25,
       "categories": {
         "travel_portal": {
-          "rate": 5
+          "rate": 5,
+          "requires_portal": true
         }
       }
     },
-    "developer_notes": "48-month rule for Venture family bonuses; 1 card every 6 months rule"
+    "developer_notes": "48-month rule for Venture family bonuses; 1 card every 6 months rule",
+    "transfer_partners": [
+      {
+        "name": "Aeromexico Rewards",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Air Canada Aeroplan",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Avianca LifeMiles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "British Airways Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Cathay Pacific Asia Miles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Etihad Guest",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Finnair Plus",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Flying Blue",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Qantas Frequent Flyer",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Qatar Airways Privilege Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Singapore Airlines KrisFlyer",
+        "ratio": "1:1"
+      },
+      {
+        "name": "TAP Miles&Go",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Turkish Airlines Miles&Smiles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Virgin Red",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Emirates Skywards",
+        "ratio": "2:1.5"
+      },
+      {
+        "name": "EVA Air Infinity MileageLands",
+        "ratio": "2:1.5"
+      },
+      {
+        "name": "Japan Airlines Mileage Bank",
+        "ratio": "2:1.5"
+      },
+      {
+        "name": "JetBlue TrueBlue",
+        "ratio": "5:3"
+      },
+      {
+        "name": "Choice Privileges",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Wyndham Rewards",
+        "ratio": "1:1"
+      },
+      {
+        "name": "I Prefer Hotel Rewards",
+        "ratio": "1:2"
+      },
+      {
+        "name": "Accor Live Limitless",
+        "ratio": "2:1"
+      }
+    ]
   },
   {
     "id": "capital-one-savorone-cash-rewards",
@@ -1549,7 +3269,8 @@
           "rate": 8
         },
         "travel_portal": {
-          "rate": 5
+          "rate": 5,
+          "requires_portal": true
         },
         "dining": {
           "rate": 3
@@ -1604,7 +3325,8 @@
           "rate": 3
         },
         "travel_portal": {
-          "rate": 5
+          "rate": 5,
+          "requires_portal": true
         }
       }
     },
@@ -1643,11 +3365,12 @@
     "multipliers": {
       "base_rate": 1.5,
       "categories": {
-        "hotels_direct": {
-          "rate": 5
-        },
         "entertainment": {
           "rate": 5
+        },
+        "travel_portal_hotels_cars": {
+          "rate": 5,
+          "requires_portal": true
         }
       }
     },
@@ -1680,7 +3403,8 @@
       "base_rate": 1.5,
       "categories": {
         "travel_portal": {
-          "rate": 5
+          "rate": 5,
+          "requires_portal": true
         }
       }
     },
@@ -1713,7 +3437,8 @@
       "base_rate": 1.5,
       "categories": {
         "travel_portal": {
-          "rate": 5
+          "rate": 5,
+          "requires_portal": true
         }
       }
     },
@@ -1739,7 +3464,8 @@
     "anniversary_bonus": null,
     "statement_credits": [],
     "multipliers": {
-      "base_rate": 0
+      "base_rate": 0,
+      "categories": {}
     },
     "developer_notes": "Designed for fair credit; No rewards; Automatic credit limit review after 6 months"
   },
@@ -1763,7 +3489,8 @@
     "anniversary_bonus": null,
     "statement_credits": [],
     "multipliers": {
-      "base_rate": 0
+      "base_rate": 0,
+      "categories": {}
     },
     "developer_notes": "Security deposit ($49, $99, or $200) determined by creditworthiness for same $200 limit; maximum deposit $1000"
   },
@@ -1807,15 +3534,107 @@
     "multipliers": {
       "base_rate": 2,
       "categories": {
-        "hotels_direct": {
-          "rate": 10
+        "travel_portal_hotels_cars": {
+          "rate": 10,
+          "requires_portal": true
         },
-        "flights_direct": {
-          "rate": 5
+        "travel_portal_flights": {
+          "rate": 5,
+          "requires_portal": true
         }
       }
     },
-    "developer_notes": "Pay-in-full charge card with no preset spending limit"
+    "developer_notes": "Pay-in-full charge card with no preset spending limit",
+    "transfer_partners": [
+      {
+        "name": "Aeromexico Rewards",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Air Canada Aeroplan",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Avianca LifeMiles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "British Airways Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Cathay Pacific Asia Miles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Etihad Guest",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Finnair Plus",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Flying Blue",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Qantas Frequent Flyer",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Qatar Airways Privilege Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Singapore Airlines KrisFlyer",
+        "ratio": "1:1"
+      },
+      {
+        "name": "TAP Miles&Go",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Turkish Airlines Miles&Smiles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Virgin Red",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Emirates Skywards",
+        "ratio": "2:1.5"
+      },
+      {
+        "name": "EVA Air Infinity MileageLands",
+        "ratio": "2:1.5"
+      },
+      {
+        "name": "Japan Airlines Mileage Bank",
+        "ratio": "2:1.5"
+      },
+      {
+        "name": "JetBlue TrueBlue",
+        "ratio": "5:3"
+      },
+      {
+        "name": "Choice Privileges",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Wyndham Rewards",
+        "ratio": "1:1"
+      },
+      {
+        "name": "I Prefer Hotel Rewards",
+        "ratio": "1:2"
+      },
+      {
+        "name": "Accor Live Limitless",
+        "ratio": "2:1"
+      }
+    ]
   },
   {
     "id": "capital-one-spark-miles-for-business",
@@ -1852,11 +3671,102 @@
       "base_rate": 2,
       "categories": {
         "travel_portal": {
-          "rate": 5
+          "rate": 5,
+          "requires_portal": true
         }
       }
     },
-    "developer_notes": "Welcome bonus may not be available for existing or previous cardholders"
+    "developer_notes": "Welcome bonus may not be available for existing or previous cardholders",
+    "transfer_partners": [
+      {
+        "name": "Aeromexico Rewards",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Air Canada Aeroplan",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Avianca LifeMiles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "British Airways Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Cathay Pacific Asia Miles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Etihad Guest",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Finnair Plus",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Flying Blue",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Qantas Frequent Flyer",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Qatar Airways Privilege Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Singapore Airlines KrisFlyer",
+        "ratio": "1:1"
+      },
+      {
+        "name": "TAP Miles&Go",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Turkish Airlines Miles&Smiles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Virgin Red",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Emirates Skywards",
+        "ratio": "2:1.5"
+      },
+      {
+        "name": "EVA Air Infinity MileageLands",
+        "ratio": "2:1.5"
+      },
+      {
+        "name": "Japan Airlines Mileage Bank",
+        "ratio": "2:1.5"
+      },
+      {
+        "name": "JetBlue TrueBlue",
+        "ratio": "5:3"
+      },
+      {
+        "name": "Choice Privileges",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Wyndham Rewards",
+        "ratio": "1:1"
+      },
+      {
+        "name": "I Prefer Hotel Rewards",
+        "ratio": "1:2"
+      },
+      {
+        "name": "Accor Live Limitless",
+        "ratio": "2:1"
+      }
+    ]
   },
   {
     "id": "capital-one-spark-cash-plus",
@@ -1886,14 +3796,16 @@
         "name": "Annual Fee Refund",
         "amount": 150,
         "frequency": "annual",
-        "deducts_from_eligible_spend": false
+        "deducts_from_eligible_spend": false,
+        "restrictions": "Requires $150,000 in annual spend"
       }
     ],
     "multipliers": {
       "base_rate": 2,
       "categories": {
         "travel_portal": {
-          "rate": 5
+          "rate": 5,
+          "requires_portal": true
         }
       }
     },
@@ -1927,7 +3839,8 @@
         "name": "Hotel Benefit",
         "amount": 300,
         "frequency": "annual",
-        "deducts_from_eligible_spend": true
+        "deducts_from_eligible_spend": true,
+        "restrictions": "Requires a minimum 2-night eligible hotel booking"
       },
       {
         "name": "Splurge Credit",
@@ -1951,15 +3864,102 @@
     "multipliers": {
       "base_rate": 1.5,
       "categories": {
-        "travel_portal": {
-          "rate": 12
-        },
         "dining": {
           "rate": 6
+        },
+        "travel_portal_hotels_cars": {
+          "rate": 12,
+          "requires_portal": true
+        },
+        "travel_portal_flights": {
+          "rate": 6,
+          "requires_portal": true
         }
       }
     },
-    "developer_notes": "6x Dining restricted to Citi Nights window; Hotel credit requires 2-night minimum booking; $75 fee per authorized user"
+    "developer_notes": "6x Dining restricted to Citi Nights window; Hotel credit requires 2-night minimum booking; $75 fee per authorized user",
+    "transfer_partners": [
+      {
+        "name": "Aeromexico Rewards",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Air France-KLM Flying Blue",
+        "ratio": "1:1"
+      },
+      {
+        "name": "American Airlines AAdvantage",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Avianca LifeMiles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Cathay Pacific Asia Miles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Emirates Skywards",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Etihad Guest",
+        "ratio": "1:1"
+      },
+      {
+        "name": "EVA Air Infinity MileageLands",
+        "ratio": "1:1"
+      },
+      {
+        "name": "JetBlue TrueBlue",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Qantas Frequent Flyer",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Qatar Airways Privilege Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Singapore Airlines KrisFlyer",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Thai Airways Royal Orchid Plus",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Turkish Airlines Miles&Smiles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Virgin Atlantic Flying Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Accor Live Limitless",
+        "ratio": "2:1"
+      },
+      {
+        "name": "Choice Privileges",
+        "ratio": "1:2"
+      },
+      {
+        "name": "Leaders Club",
+        "ratio": "5:1"
+      },
+      {
+        "name": "Preferred Hotels & Resorts (I Prefer)",
+        "ratio": "4:1"
+      },
+      {
+        "name": "Wyndham Rewards",
+        "ratio": "1:1"
+      }
+    ]
   },
   {
     "id": "citi-strata-premier-card",
@@ -1996,10 +3996,8 @@
       "base_rate": 1,
       "categories": {
         "travel_portal": {
-          "rate": 10
-        },
-        "3x_airfare": {
-          "rate": 3
+          "rate": 10,
+          "requires_portal": true
         },
         "hotels_direct": {
           "rate": 3
@@ -2012,10 +4010,95 @@
         },
         "gas_ev_transit": {
           "rate": 3
+        },
+        "flights_direct": {
+          "rate": 3
         }
       }
     },
-    "developer_notes": "Bonus restricted if received for this card in last 48 months"
+    "developer_notes": "Bonus restricted if received for this card in last 48 months",
+    "transfer_partners": [
+      {
+        "name": "Aeromexico Rewards",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Air France-KLM Flying Blue",
+        "ratio": "1:1"
+      },
+      {
+        "name": "American Airlines AAdvantage",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Avianca LifeMiles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Cathay Pacific Asia Miles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Emirates Skywards",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Etihad Guest",
+        "ratio": "1:1"
+      },
+      {
+        "name": "EVA Air Infinity MileageLands",
+        "ratio": "1:1"
+      },
+      {
+        "name": "JetBlue TrueBlue",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Qantas Frequent Flyer",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Qatar Airways Privilege Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Singapore Airlines KrisFlyer",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Thai Airways Royal Orchid Plus",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Turkish Airlines Miles&Smiles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Virgin Atlantic Flying Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Accor Live Limitless",
+        "ratio": "2:1"
+      },
+      {
+        "name": "Choice Privileges",
+        "ratio": "1:2"
+      },
+      {
+        "name": "Leaders Club",
+        "ratio": "5:1"
+      },
+      {
+        "name": "Preferred Hotels & Resorts (I Prefer)",
+        "ratio": "4:1"
+      },
+      {
+        "name": "Wyndham Rewards",
+        "ratio": "1:1"
+      }
+    ]
   },
   {
     "id": "citi-double-cash-card",
@@ -2045,11 +4128,94 @@
       "base_rate": 2,
       "categories": {
         "travel_portal": {
-          "rate": 5
+          "rate": 5,
+          "requires_portal": true
         }
       }
     },
-    "developer_notes": "Earns 1% when you buy and 1% as you pay; must pay minimum due to earn rewards"
+    "developer_notes": "Earns 1% when you buy and 1% as you pay; must pay minimum due to earn rewards; ThankYou transfer partner access and best transfer ratios generally require pooling points with an eligible Citi Strata Premier or Citi Strata Elite account.",
+    "transfer_partners": [
+      {
+        "name": "Aeromexico Rewards",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Air France-KLM Flying Blue",
+        "ratio": "1:1"
+      },
+      {
+        "name": "American Airlines AAdvantage",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Avianca LifeMiles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Cathay Pacific Asia Miles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Emirates Skywards",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Etihad Guest",
+        "ratio": "1:1"
+      },
+      {
+        "name": "EVA Air Infinity MileageLands",
+        "ratio": "1:1"
+      },
+      {
+        "name": "JetBlue TrueBlue",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Qantas Frequent Flyer",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Qatar Airways Privilege Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Singapore Airlines KrisFlyer",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Thai Airways Royal Orchid Plus",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Turkish Airlines Miles&Smiles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Virgin Atlantic Flying Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Accor Live Limitless",
+        "ratio": "2:1"
+      },
+      {
+        "name": "Choice Privileges",
+        "ratio": "1:2"
+      },
+      {
+        "name": "Leaders Club",
+        "ratio": "5:1"
+      },
+      {
+        "name": "Preferred Hotels & Resorts (I Prefer)",
+        "ratio": "4:1"
+      },
+      {
+        "name": "Wyndham Rewards",
+        "ratio": "1:1"
+      }
+    ]
   },
   {
     "id": "citi-custom-cash-card",
@@ -2080,14 +4246,98 @@
       "categories": {
         "top_category": {
           "rate": 5,
-          "cap_amount": 500
+          "cap_amount": 500,
+          "cap_period": "monthly"
         },
         "travel_portal": {
-          "rate": 4
+          "rate": 4,
+          "requires_portal": true
         }
       }
     },
-    "developer_notes": "Limit of one card per person; 5% rewards capped at $500 spend per billing cycle"
+    "developer_notes": "Limit of one card per person; 5% rewards capped at $500 spend per billing cycle; ThankYou transfer partner access and best transfer ratios generally require pooling points with an eligible Citi Strata Premier or Citi Strata Elite account.",
+    "transfer_partners": [
+      {
+        "name": "Aeromexico Rewards",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Air France-KLM Flying Blue",
+        "ratio": "1:1"
+      },
+      {
+        "name": "American Airlines AAdvantage",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Avianca LifeMiles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Cathay Pacific Asia Miles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Emirates Skywards",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Etihad Guest",
+        "ratio": "1:1"
+      },
+      {
+        "name": "EVA Air Infinity MileageLands",
+        "ratio": "1:1"
+      },
+      {
+        "name": "JetBlue TrueBlue",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Qantas Frequent Flyer",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Qatar Airways Privilege Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Singapore Airlines KrisFlyer",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Thai Airways Royal Orchid Plus",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Turkish Airlines Miles&Smiles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Virgin Atlantic Flying Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Accor Live Limitless",
+        "ratio": "2:1"
+      },
+      {
+        "name": "Choice Privileges",
+        "ratio": "1:2"
+      },
+      {
+        "name": "Leaders Club",
+        "ratio": "5:1"
+      },
+      {
+        "name": "Preferred Hotels & Resorts (I Prefer)",
+        "ratio": "4:1"
+      },
+      {
+        "name": "Wyndham Rewards",
+        "ratio": "1:1"
+      }
+    ]
   },
   {
     "id": "citi-rewards-plus",
@@ -2118,14 +4368,98 @@
       "categories": {
         "gas_ev_transit": {
           "rate": 2,
-          "cap_amount": 6
+          "cap_amount": 6000,
+          "cap_period": "annual"
         },
         "travel_portal": {
-          "rate": 5
+          "rate": 5,
+          "requires_portal": true
         }
       }
     },
-    "developer_notes": "Applications closed April 2025; Round up and 10% back features for legacy cardholders expire July 19, 2026; $6,000 cap is a combined limit for 2x categories"
+    "developer_notes": "Applications closed April 2025; Round up and 10% back features for legacy cardholders expire July 19, 2026; $6,000 cap is a combined limit for 2x categories; ThankYou transfer partner access and best transfer ratios generally require pooling points with an eligible Citi Strata Premier or Citi Strata Elite account.",
+    "transfer_partners": [
+      {
+        "name": "Aeromexico Rewards",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Air France-KLM Flying Blue",
+        "ratio": "1:1"
+      },
+      {
+        "name": "American Airlines AAdvantage",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Avianca LifeMiles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Cathay Pacific Asia Miles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Emirates Skywards",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Etihad Guest",
+        "ratio": "1:1"
+      },
+      {
+        "name": "EVA Air Infinity MileageLands",
+        "ratio": "1:1"
+      },
+      {
+        "name": "JetBlue TrueBlue",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Qantas Frequent Flyer",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Qatar Airways Privilege Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Singapore Airlines KrisFlyer",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Thai Airways Royal Orchid Plus",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Turkish Airlines Miles&Smiles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Virgin Atlantic Flying Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Accor Live Limitless",
+        "ratio": "2:1"
+      },
+      {
+        "name": "Choice Privileges",
+        "ratio": "1:2"
+      },
+      {
+        "name": "Leaders Club",
+        "ratio": "5:1"
+      },
+      {
+        "name": "Preferred Hotels & Resorts (I Prefer)",
+        "ratio": "4:1"
+      },
+      {
+        "name": "Wyndham Rewards",
+        "ratio": "1:1"
+      }
+    ]
   },
   {
     "id": "citi-simplicity-card",
@@ -2147,7 +4481,8 @@
     "anniversary_bonus": null,
     "statement_credits": [],
     "multipliers": {
-      "base_rate": 0
+      "base_rate": 0,
+      "categories": {}
     },
     "developer_notes": "Balance transfers must be completed within 4 months of account opening to qualify for intro APR"
   },
@@ -2171,7 +4506,8 @@
     "anniversary_bonus": null,
     "statement_credits": [],
     "multipliers": {
-      "base_rate": 0
+      "base_rate": 0,
+      "categories": {}
     },
     "developer_notes": "Balance transfers must be completed within 4 months of account opening; 5% (min $5) balance transfer fee"
   },
@@ -2195,7 +4531,8 @@
     "anniversary_bonus": null,
     "statement_credits": [],
     "multipliers": {
-      "base_rate": 0
+      "base_rate": 0,
+      "categories": {}
     },
     "developer_notes": "Security deposit of $200-$2500 required; deposit equals credit limit; no bankruptcy history in past 2 years"
   },
@@ -2227,7 +4564,8 @@
         "name": "Airline",
         "amount": 50,
         "frequency": "annual",
-        "deducts_from_eligible_spend": true
+        "deducts_from_eligible_spend": true,
+        "restrictions": "Requires a single airline purchase of at least $50"
       }
     ],
     "multipliers": {
@@ -2236,15 +4574,53 @@
         "hotels_direct": {
           "rate": 5
         },
-        "4x_airlines": {
+        "flights_direct": {
           "rate": 4
         },
-        "travel_portal": {
+        "travel": {
           "rate": 3
         }
       }
     },
-    "developer_notes": "5x and 4x multipliers require direct bookings with the hotel or airline; $50 airline credit requires a single purchase of at least $50"
+    "developer_notes": "5x and 4x multipliers require direct bookings with the hotel or airline; $50 airline credit requires a single purchase of at least $50",
+    "transfer_partners": [
+      {
+        "name": "Aer Lingus AerClub",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Air France-KLM Flying Blue",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Avianca LifeMiles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "British Airways Executive Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Iberia Plus",
+        "ratio": "1:1"
+      },
+      {
+        "name": "JetBlue TrueBlue",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Virgin Atlantic Flying Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Choice Privileges",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Hilton Honors",
+        "ratio": "1:2"
+      }
+    ]
   },
   {
     "id": "wells-fargo-autograph-card",
@@ -2277,7 +4653,8 @@
           "rate": 3
         },
         "travel_portal": {
-          "rate": 3
+          "rate": 3,
+          "requires_portal": true
         },
         "gas_ev_transit": {
           "rate": 3
@@ -2290,7 +4667,45 @@
         }
       }
     },
-    "developer_notes": "0% intro APR only applies to purchases and not balance transfers; points can be pooled with Autograph Journey for enhanced transfer options"
+    "developer_notes": "0% intro APR only applies to purchases and not balance transfers; points can be pooled with Autograph Journey for enhanced transfer options",
+    "transfer_partners": [
+      {
+        "name": "Aer Lingus AerClub",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Air France-KLM Flying Blue",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Avianca LifeMiles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "British Airways Executive Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Iberia Plus",
+        "ratio": "1:1"
+      },
+      {
+        "name": "JetBlue TrueBlue",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Virgin Atlantic Flying Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Choice Privileges",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Hilton Honors",
+        "ratio": "1:2"
+      }
+    ]
   },
   {
     "id": "wells-fargo-active-cash",
@@ -2317,9 +4732,48 @@
     "anniversary_bonus": null,
     "statement_credits": [],
     "multipliers": {
-      "base_rate": 2
+      "base_rate": 2,
+      "categories": {}
     },
-    "developer_notes": "Ineligible for welcome offer if a Wells Fargo card was opened in the past 6 months"
+    "developer_notes": "Ineligible for welcome offer if a Wells Fargo card was opened in the past 6 months; Transfer partner redemptions generally require moving rewards into an eligible Wells Fargo transfer-enabled card account (for example, Autograph Journey).",
+    "transfer_partners": [
+      {
+        "name": "Aer Lingus AerClub",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Air France-KLM Flying Blue",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Avianca LifeMiles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "British Airways Executive Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Iberia Plus",
+        "ratio": "1:1"
+      },
+      {
+        "name": "JetBlue TrueBlue",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Virgin Atlantic Flying Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Choice Privileges",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Hilton Honors",
+        "ratio": "1:2"
+      }
+    ]
   },
   {
     "id": "wells-fargo-reflect-card",
@@ -2341,7 +4795,8 @@
     "anniversary_bonus": null,
     "statement_credits": [],
     "multipliers": {
-      "base_rate": 0
+      "base_rate": 0,
+      "categories": {}
     },
     "developer_notes": "Balance transfers must be completed within 120 days to qualify for intro APR; 5% ($5 min) BT fee"
   },
@@ -2377,7 +4832,45 @@
         }
       }
     },
-    "developer_notes": "Earning 4% relies heavily on specific Merchant Category Codes (MCCs); cash rewards can be transferred to a Wells Fargo Autograph account to access travel transfer partners"
+    "developer_notes": "Earning 4% relies heavily on specific Merchant Category Codes (MCCs); cash rewards can be transferred to a Wells Fargo Autograph account to access travel transfer partners",
+    "transfer_partners": [
+      {
+        "name": "Aer Lingus AerClub",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Air France-KLM Flying Blue",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Avianca LifeMiles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "British Airways Executive Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Iberia Plus",
+        "ratio": "1:1"
+      },
+      {
+        "name": "JetBlue TrueBlue",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Virgin Atlantic Flying Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Choice Privileges",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Hilton Honors",
+        "ratio": "1:2"
+      }
+    ]
   },
   {
     "id": "wells-fargo-signia-card",
@@ -2414,14 +4907,53 @@
       "base_rate": 1,
       "categories": {
         "travel_portal": {
-          "rate": 5
+          "rate": 5,
+          "requires_portal": true
         },
         "dining": {
           "rate": 3
         }
       }
     },
-    "developer_notes": "Requires high credit score and often existing relationship for best approval odds"
+    "developer_notes": "Requires high credit score and often existing relationship for best approval odds; Transfer partner redemptions generally require moving rewards into an eligible Wells Fargo transfer-enabled card account (for example, Autograph Journey).",
+    "transfer_partners": [
+      {
+        "name": "Aer Lingus AerClub",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Air France-KLM Flying Blue",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Avianca LifeMiles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "British Airways Executive Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Iberia Plus",
+        "ratio": "1:1"
+      },
+      {
+        "name": "JetBlue TrueBlue",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Virgin Atlantic Flying Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Choice Privileges",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Hilton Honors",
+        "ratio": "1:2"
+      }
+    ]
   },
   {
     "id": "bank-of-america-premium-rewards-elite",
@@ -2470,7 +5002,8 @@
       "base_rate": 1.5,
       "categories": {
         "travel_portal": {
-          "rate": 2
+          "rate": 2,
+          "requires_portal": true
         }
       }
     },
@@ -2517,7 +5050,8 @@
       "base_rate": 1.5,
       "categories": {
         "travel_portal": {
-          "rate": 2
+          "rate": 2,
+          "requires_portal": true
         }
       }
     },
@@ -2586,11 +5120,7 @@
     "statement_credits": [],
     "multipliers": {
       "base_rate": 1.5,
-      "categories": {
-        "other": {
-          "rate": 2
-        }
-      }
+      "categories": {}
     },
     "developer_notes": "Preferred Rewards bonus excludes first-year 0.5% boost; Tier re-evaluation starts Nov 2026"
   },
@@ -2622,7 +5152,8 @@
       "base_rate": 1.5,
       "categories": {
         "travel_portal": {
-          "rate": 3
+          "rate": 3,
+          "requires_portal": true
         }
       }
     },
@@ -2648,7 +5179,8 @@
     "anniversary_bonus": null,
     "statement_credits": [],
     "multipliers": {
-      "base_rate": 0
+      "base_rate": 0,
+      "categories": {}
     },
     "developer_notes": "Primarily a balance transfer card with no rewards program"
   },
@@ -2692,13 +5224,14 @@
     "multipliers": {
       "base_rate": 1,
       "categories": {
-        "hotels_direct": {
-          "rate": 5
-        },
-        "travel_portal": {
+        "3x_mobile_wallet": {
           "rate": 3
         },
-        "3x_mobile_wallet": {
+        "travel_portal_hotels_cars": {
+          "rate": 5,
+          "requires_portal": true
+        },
+        "travel": {
           "rate": 3
         }
       }
@@ -2740,7 +5273,8 @@
       "base_rate": 1,
       "categories": {
         "travel_portal": {
-          "rate": 5
+          "rate": 5,
+          "requires_portal": true
         },
         "dining": {
           "rate": 2
@@ -2818,11 +5352,9 @@
     "multipliers": {
       "base_rate": 1,
       "categories": {
-        "other": {
-          "rate": 5
-        },
         "travel_portal": {
-          "rate": 5
+          "rate": 5,
+          "requires_portal": true
         }
       }
     },
@@ -2854,11 +5386,7 @@
     "statement_credits": [],
     "multipliers": {
       "base_rate": 2,
-      "categories": {
-        "other": {
-          "rate": 2.5
-        }
-      }
+      "categories": {}
     },
     "developer_notes": "Boosted rates capped at $10,000 spend per cycle and require specific account pairings"
   },
@@ -2889,14 +5417,16 @@
         "name": "Annual Statement Credit",
         "amount": 20,
         "frequency": "annual",
-        "deducts_from_eligible_spend": false
+        "deducts_from_eligible_spend": false,
+        "restrictions": "Requires purchases in 11 consecutive months"
       }
     ],
     "multipliers": {
       "base_rate": 0,
       "categories": {
         "travel_portal": {
-          "rate": 4
+          "rate": 4,
+          "requires_portal": true
         }
       }
     },
@@ -2930,7 +5460,8 @@
       "categories": {
         "rotating": {
           "rate": 5,
-          "cap_amount": 1
+          "cap_amount": 1500,
+          "cap_period": "quarterly"
         }
       }
     },
@@ -2960,7 +5491,8 @@
     "anniversary_bonus": null,
     "statement_credits": [],
     "multipliers": {
-      "base_rate": 1.5
+      "base_rate": 1.5,
+      "categories": {}
     },
     "developer_notes": "First year miles match replaces traditional signup bonus"
   },
@@ -2992,7 +5524,8 @@
       "categories": {
         "dining": {
           "rate": 2,
-          "cap_amount": 1
+          "cap_amount": 1000,
+          "cap_period": "quarterly"
         }
       }
     },
@@ -3026,7 +5559,8 @@
       "categories": {
         "rotating": {
           "rate": 5,
-          "cap_amount": 1
+          "cap_amount": 1500,
+          "cap_period": "quarterly"
         },
         "1_all_other": {
           "rate": 1
@@ -3063,7 +5597,8 @@
       "categories": {
         "dining": {
           "rate": 2,
-          "cap_amount": 1
+          "cap_amount": 1000,
+          "cap_period": "quarterly"
         }
       }
     },
@@ -3144,7 +5679,105 @@
         }
       }
     },
-    "developer_notes": "Transitioned from Wells Fargo to Column N.A. in Feb 2026; earnings require meeting spending thresholds or redeeming Bilt Cash; points capped at 100k/year on housing"
+    "developer_notes": "Transitioned from Wells Fargo to Column N.A. in Feb 2026; earnings require meeting spending thresholds or redeeming Bilt Cash; points capped at 100k/year on housing",
+    "transfer_partners": [
+      {
+        "name": "Spirit Airlines Free Spirit",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Etihad Guest",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Qatar Airways Privilege Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Japan Airlines Mileage Bank",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Southwest Rapid Rewards",
+        "ratio": "1:1"
+      },
+      {
+        "name": "TAP Miles&Go",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Air Canada Aeroplan",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Iberia Plus",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Aer Lingus AerClub",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Turkish Airlines Miles&Smiles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Cathay Pacific",
+        "ratio": "1:1"
+      },
+      {
+        "name": "British Airways Executive Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Emirates Skywards",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Virgin Atlantic Flying Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Virgin Red",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Air France-KLM Flying Blue",
+        "ratio": "1:1"
+      },
+      {
+        "name": "United MileagePlus",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Avianca LifeMiles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Atmos Rewards (Alaska Airlines + Hawaiian Airlines)",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Accor Live Limitless",
+        "ratio": "3:2"
+      },
+      {
+        "name": "IHG One Rewards",
+        "ratio": "1:1"
+      },
+      {
+        "name": "World of Hyatt",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Marriott Bonvoy",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Hilton Honors",
+        "ratio": "1:1"
+      }
+    ]
   },
   {
     "id": "bilt-palladium-card",
@@ -3174,7 +5807,8 @@
         "name": "Bilt Travel Hotel Credit",
         "amount": 400,
         "frequency": "semi-annual",
-        "deducts_from_eligible_spend": true
+        "deducts_from_eligible_spend": true,
+        "restrictions": "Split into two $200 windows per year"
       },
       {
         "name": "Bilt Cash",
@@ -3193,11 +5827,110 @@
           "rate": 3
         },
         "travel_portal": {
-          "rate": 2
+          "rate": 2,
+          "requires_portal": true
         }
       }
     },
-    "developer_notes": "Earns 4% Bilt Cash on all spend; Bilt Cash expires annually over $100; 1,000 bonus points monthly cap on Rent Day"
+    "developer_notes": "Earns 4% Bilt Cash on all spend; Bilt Cash expires annually over $100; 1,000 bonus points monthly cap on Rent Day",
+    "transfer_partners": [
+      {
+        "name": "Spirit Airlines Free Spirit",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Etihad Guest",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Qatar Airways Privilege Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Japan Airlines Mileage Bank",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Southwest Rapid Rewards",
+        "ratio": "1:1"
+      },
+      {
+        "name": "TAP Miles&Go",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Air Canada Aeroplan",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Iberia Plus",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Aer Lingus AerClub",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Turkish Airlines Miles&Smiles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Cathay Pacific",
+        "ratio": "1:1"
+      },
+      {
+        "name": "British Airways Executive Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Emirates Skywards",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Virgin Atlantic Flying Club",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Virgin Red",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Air France-KLM Flying Blue",
+        "ratio": "1:1"
+      },
+      {
+        "name": "United MileagePlus",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Avianca LifeMiles",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Atmos Rewards (Alaska Airlines + Hawaiian Airlines)",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Accor Live Limitless",
+        "ratio": "3:2"
+      },
+      {
+        "name": "IHG One Rewards",
+        "ratio": "1:1"
+      },
+      {
+        "name": "World of Hyatt",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Marriott Bonvoy",
+        "ratio": "1:1"
+      },
+      {
+        "name": "Hilton Honors",
+        "ratio": "1:1"
+      }
+    ]
   },
   {
     "id": "atmos-rewards-summit-visa-infinite",
@@ -3244,9 +5977,6 @@
         },
         "3x_foreign_transactions": {
           "rate": 3
-        },
-        "other": {
-          "rate": 3
         }
       }
     },
@@ -3287,7 +6017,8 @@
       "base_rate": 2,
       "categories": {
         "travel_portal": {
-          "rate": 3
+          "rate": 3,
+          "requires_portal": true
         }
       }
     },
@@ -3317,7 +6048,8 @@
     "anniversary_bonus": null,
     "statement_credits": [],
     "multipliers": {
-      "base_rate": 1.5
+      "base_rate": 1.5,
+      "categories": {}
     },
     "developer_notes": "Rewards earned upon payment not purchase; Reports as installment loan; No ATM cash advances"
   },
@@ -3382,7 +6114,8 @@
     "anniversary_bonus": null,
     "statement_credits": [],
     "multipliers": {
-      "base_rate": 1.5
+      "base_rate": 1.5,
+      "categories": {}
     },
     "developer_notes": "Acquired by Robinhood; Rewards rate lowered to 1.5x in late 2025; Underwriting based on income via Plaid"
   },
@@ -3446,7 +6179,8 @@
     "anniversary_bonus": null,
     "statement_credits": [],
     "multipliers": {
-      "base_rate": 2
+      "base_rate": 2,
+      "categories": {}
     },
     "developer_notes": "Online applications require an existing PNC Bank relationship; otherwise, applicants must apply in a physical branch"
   },
@@ -3484,7 +6218,8 @@
         },
         "groceries": {
           "rate": 2,
-          "cap_amount": 8
+          "cap_amount": 8000,
+          "cap_period": "annual"
         }
       }
     },
@@ -3515,12 +6250,8 @@
     "anniversary_bonus": null,
     "statement_credits": [],
     "multipliers": {
-      "base_rate": 4,
-      "categories": {
-        "other": {
-          "rate": 25
-        }
-      }
+      "base_rate": 1,
+      "categories": {}
     },
     "developer_notes": "No longer accepting new applications; points expire after 48 months"
   },
@@ -3558,13 +6289,13 @@
     "multipliers": {
       "base_rate": 1,
       "categories": {
-        "2x_airfare": {
-          "rate": 2
-        },
         "hotels_direct": {
           "rate": 2
         },
-        "rental_cars": {
+        "flights_direct": {
+          "rate": 2
+        },
+        "travel": {
           "rate": 2
         }
       }
@@ -3651,7 +6382,8 @@
       "base_rate": 1,
       "categories": {
         "travel_portal": {
-          "rate": 3
+          "rate": 3,
+          "requires_portal": true
         },
         "dining": {
           "rate": 2
@@ -3687,7 +6419,8 @@
       "base_rate": 1,
       "categories": {
         "travel_portal": {
-          "rate": 3
+          "rate": 3,
+          "requires_portal": true
         },
         "dining": {
           "rate": 3
@@ -3720,7 +6453,8 @@
     "anniversary_bonus": null,
     "statement_credits": [],
     "multipliers": {
-      "base_rate": 2
+      "base_rate": 2,
+      "categories": {}
     },
     "developer_notes": "Must have TD Bank deposit account for full 2% back redemption flexibility"
   },
@@ -3800,7 +6534,8 @@
       "base_rate": 2,
       "categories": {
         "travel_portal": {
-          "rate": 3
+          "rate": 3,
+          "requires_portal": true
         }
       }
     },
@@ -3874,7 +6609,8 @@
       "base_rate": 1.5,
       "categories": {
         "travel_portal": {
-          "rate": 4
+          "rate": 4,
+          "requires_portal": true
         },
         "dining": {
           "rate": 3
@@ -3908,11 +6644,7 @@
     "statement_credits": [],
     "multipliers": {
       "base_rate": 1.5,
-      "categories": {
-        "other": {
-          "rate": 2
-        }
-      }
+      "categories": {}
     },
     "developer_notes": "Must be a PenFed member to apply; Honors Advantage requires military service or a PenFed checking account with a $500 balance/direct deposit"
   },
@@ -3940,7 +6672,8 @@
     "anniversary_bonus": null,
     "statement_credits": [],
     "multipliers": {
-      "base_rate": 1.5
+      "base_rate": 1.5,
+      "categories": {}
     },
     "developer_notes": "Rewards expire after 4 years; $25 minimum redemption requirement"
   },
@@ -3992,8 +6725,8 @@
     "reward_currency": "Miles",
     "ftf_percentage": 0,
     "ui_elements": {
-      "image_url": null,
-      "apply_url": ""
+      "image_url": "https://mma.prnewswire.com/media/662298/Barclays_Arrival_Premier_World_Elite_Mastercard.jpg",
+      "apply_url": "https://cards.barclaycardus.com/banking/cards/arrival-premier-world-elite-mastercard/"
     },
     "valuation": {
       "cpp_floor": 0.5,
@@ -4014,12 +6747,8 @@
       }
     ],
     "multipliers": {
-      "base_rate": 2,
-      "categories": {
-        "2x_on_all_purchases": {
-          "rate": 2
-        }
-      }
+      "base_rate": 1,
+      "categories": {}
     },
     "developer_notes": "No longer available to new applicants; 10,000 mile minimum for travel redemptions"
   },
@@ -4047,7 +6776,8 @@
     "anniversary_bonus": null,
     "statement_credits": [],
     "multipliers": {
-      "base_rate": 2
+      "base_rate": 2,
+      "categories": {}
     },
     "developer_notes": "Requires Fifth Third Preferred Banking ($100k+ balance); Available only in FL, GA, IL, IN, KY, MI, NC, OH, SC, TN, and WV"
   },
@@ -4071,7 +6801,8 @@
     "anniversary_bonus": null,
     "statement_credits": [],
     "multipliers": {
-      "base_rate": 0
+      "base_rate": 0,
+      "categories": {}
     },
     "developer_notes": "The Lower Rate version of the Voice card does not earn rewards; Late Fee Grace provides one extra day to make a payment without a late fee"
   },
@@ -4136,7 +6867,8 @@
     "anniversary_bonus": null,
     "statement_credits": [],
     "multipliers": {
-      "base_rate": 1.8
+      "base_rate": 1.8,
+      "categories": {}
     },
     "developer_notes": "Discontinued for new applicants as of June 2025; 1.8% rate requires monthly use and direct deposit of rewards"
   }

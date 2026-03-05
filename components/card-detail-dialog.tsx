@@ -8,6 +8,7 @@ import {
   CircleDollarSign,
   CreditCard,
   Plane,
+  RefreshCw,
   Shield,
   Sparkles,
   Star,
@@ -363,6 +364,28 @@ export function CardDetailDialog({ card, open, onOpenChange }: Props) {
                     {showAllCredits ? "Show fewer credits" : `Show ${(card.statementCredits?.length ?? 0) - VISIBLE_CREDITS_DEFAULT} more credits`}
                   </button>
                 )}
+              </section>
+            )}
+
+            {(card.transferPartners?.length ?? 0) > 0 && (
+              <section>
+                {sectionTitle(RefreshCw, "Transfer Partners")}
+                <div className="grid gap-2 rounded-2xl border border-border bg-card p-3 sm:grid-cols-2">
+                  {card.transferPartners?.map((partner) => (
+                    <div
+                      key={`${partner.name}-${partner.ratio}`}
+                      className="flex items-center justify-between gap-3 rounded-xl border border-border/60 bg-background px-3 py-2"
+                    >
+                      <p className="font-medium text-foreground">{partner.name}</p>
+                      <Badge variant="secondary" className="rounded-full px-3 py-1 text-sm">
+                        {partner.ratio}
+                      </Badge>
+                    </div>
+                  ))}
+                </div>
+                <p className="mt-2 text-xs text-muted-foreground">
+                  Partner lists and ratios can change, and transfer eligibility may depend on your card setup.
+                </p>
               </section>
             )}
 

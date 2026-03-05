@@ -1,10 +1,14 @@
 import type {
+  CapPeriod,
   Card,
   CardRaw,
   CategoryEarnRate,
   CategoryMultipliers,
+  EarnChannel,
   SpendCategoryId,
   StatementCredit,
+  TransferPartner,
+  TravelSubtype,
 } from "@/lib/types"
 import cardCatalogJson from "@/data/cards.json"
 
@@ -35,7 +39,14 @@ const MULTIPLIER_CATEGORY_TO_SPEND: Record<string, SpendCategoryId> = {
   hotels_direct: "travel",
   flights_direct_or_portal: "travel",
   hotels_prepaid_portal: "travel",
+  travel_general: "travel",
   flights_hotels_direct: "travel",
+  flights: "travel",
+  hotels_prepaid: "travel",
+  hotels_vacation_rentals_rental_cars_portal: "travel",
+  "2x_airfare": "travel",
+  rental_cars: "travel",
+  travel_shipping_advertising_internet_cable_phone: "travel",
   dining: "dining",
   groceries: "groceries",
   gas: "gasEv",
@@ -48,11 +59,19 @@ const MULTIPLIER_CATEGORY_TO_SPEND: Record<string, SpendCategoryId> = {
   rent_mortgage: "rentMortgage",
   "1x_rent_and_mortgage": "rentMortgage",
   "1x125x_rent_and_mortgage": "rentMortgage",
-  rotating: "other",
-  rotating_categories: "other",
-  social_media_search_ads: "other",
   other: "other",
 }
+
+const GENERAL_OTHER_KEYS = new Set(["other", "1_all_other", "all_purchases"])
+const GENERAL_OTHER_KEY_RE = /^[0-9]+x_on_all_purchases$/
+
+const CONTAINS_TRAVEL_TOKEN_RE = /(travel|flight|airfare|airline|hotel|portal|rideshare|lyft|uber|rental|cruise)/
+const DINING_TOKEN_RE = /(^|_)(dining|restaurant)(_|$)/
+const GROCERY_TOKEN_RE = /(^|_)(grocery|groceries|supermarket|supermarkets)(_|$)/
+const GAS_EV_TOKEN_RE = /(^|_)(gas|fuel|ev|transit)(_|$)/
+const STREAMING_TOKEN_RE = /(^|_)(streaming|entertainment)(_|$)/
+const DRUGSTORE_TOKEN_RE = /(^|_)(drugstore|drugstores|pharmacy|pharmacies)(_|$)/
+const RENT_TOKEN_RE = /(^|_)(rent|mortgage)(_|$)/
 
 /** Humanize raw category key for channel label (e.g. "travel_portal" -> "Travel portal"). */
 function channelLabel(key: string): string {
@@ -62,25 +81,44 @@ function channelLabel(key: string): string {
     .join(" ")
 }
 
-function inferSpendCategoryFromKey(rawKey: string): SpendCategoryId {
+function inferSpendCategoryFromKey(rawKey: string): SpendCategoryId | null {
   const key = rawKey.trim().toLowerCase()
+  if (GENERAL_OTHER_KEYS.has(key) || GENERAL_OTHER_KEY_RE.test(key)) return "other"
+
   const explicit = MULTIPLIER_CATEGORY_TO_SPEND[key]
   if (explicit) return explicit
 
-  if (
-    /(travel|flight|airfare|airline|hotel|portal|rideshare|lyft|uber|rental|cruise)/.test(
-      key
-    )
-  ) {
-    return "travel"
-  }
-  if (/(dining|restaurant)/.test(key)) return "dining"
-  if (/(grocery|supermarket)/.test(key)) return "groceries"
-  if (/(gas|fuel|ev|transit)/.test(key)) return "gasEv"
-  if (/(streaming|entertainment)/.test(key)) return "streamingEntertainment"
-  if (/(drugstore|pharmacy)/.test(key)) return "drugstores"
-  if (/(rent|mortgage)/.test(key)) return "rentMortgage"
-  return "other"
+  // Travel-like keys must use canonical travel keys; do not inflate generic "other".
+  if (CONTAINS_TRAVEL_TOKEN_RE.test(key)) return null
+  if (DINING_TOKEN_RE.test(key)) return "dining"
+  if (GROCERY_TOKEN_RE.test(key)) return "groceries"
+  if (GAS_EV_TOKEN_RE.test(key)) return "gasEv"
+  if (STREAMING_TOKEN_RE.test(key)) return "streamingEntertainment"
+  if (DRUGSTORE_TOKEN_RE.test(key)) return "drugstores"
+  if (RENT_TOKEN_RE.test(key)) return "rentMortgage"
+  return null
+}
+
+function inferBookingChannelFromKey(rawKey: string): EarnChannel {
+  const key = rawKey.trim().toLowerCase()
+  if (key.includes("direct_or_portal")) return "either"
+  if (key.includes("portal")) return "portal"
+  if (key.includes("direct")) return "direct"
+  return "either"
+}
+
+function inferTravelSubtypeFromKey(rawKey: string): TravelSubtype {
+  const key = rawKey.trim().toLowerCase()
+  if (key.includes("flight") || key.includes("airfare")) return "flight"
+  if (key.includes("hotel")) return "hotel"
+  if (key.includes("rental_cars") || key.includes("car")) return "car"
+  return "general"
+}
+
+function normalizeCapPeriod(period?: CapPeriod): CapPeriod | undefined {
+  if (!period) return undefined
+  if (period === "monthly" || period === "quarterly" || period === "annual") return period
+  return undefined
 }
 
 function rawToCard(raw: CardRaw): Card {
@@ -101,14 +139,23 @@ function rawToCard(raw: CardRaw): Card {
 
   for (const [key, config] of Object.entries(cats)) {
     const spendCat = inferSpendCategoryFromKey(key)
+    if (!spendCat) continue
     const rate = config.rate
     if (rate > (mults[spendCat] ?? 0)) mults[spendCat] = rate
 
     const channel = channelLabel(key)
+    const capPeriod = normalizeCapPeriod(config.cap_period)
     const rateEntry: CategoryEarnRate = {
       channel,
       multiplier: rate,
       ...(config.cap_amount != null && { capAmount: config.cap_amount }),
+      ...(capPeriod && { capPeriod }),
+      rawKey: key,
+      ...(config.requires_portal != null && { requiresPortal: config.requires_portal }),
+      bookingChannel: config.booking_channel ?? inferBookingChannelFromKey(key),
+      ...(spendCat === "travel" && {
+        travelSubtype: config.travel_subtype ?? inferTravelSubtypeFromKey(key),
+      }),
     }
     if (!earnDetails[spendCat]) earnDetails[spendCat] = []
     earnDetails[spendCat]!.push(rateEntry)
@@ -125,6 +172,13 @@ function rawToCard(raw: CardRaw): Card {
           amount: sc.amount,
           deductsFromEligibleSpend: sc.deducts_from_eligible_spend,
           frequency: sc.frequency,
+        }))
+      : undefined
+  const transferPartners: TransferPartner[] | undefined =
+    raw.transfer_partners && raw.transfer_partners.length > 0
+      ? raw.transfer_partners.map((partner) => ({
+          name: partner.name,
+          ratio: partner.ratio,
         }))
       : undefined
 
@@ -145,6 +199,7 @@ function rawToCard(raw: CardRaw): Card {
     benefitSummary: (raw.ui_elements.benefits_list ?? []).slice(0, 3),
     applyUrl: raw.ui_elements.apply_url,
     statementCredits,
+    transferPartners,
     ...(raw.welcome_offer && {
       signUpBonus: raw.welcome_offer.points,
       signUpBonusSpendRequirement: raw.welcome_offer.spend_requirement,

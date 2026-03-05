@@ -71,6 +71,22 @@ function formatCpp(cents: number): string {
   return (cents / 100).toFixed(2)
 }
 
+function escapeRegExp(input: string): string {
+  return input.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
+}
+
+function compactCardName(card: CreditCard | null | undefined): string {
+  if (!card) return ""
+  const fullName = card.name.trim()
+  const issuer = card.issuer?.trim()
+  if (!issuer) return fullName
+
+  const issuerPattern = escapeRegExp(issuer)
+  const withoutPrefix = fullName.replace(new RegExp(`^${issuerPattern}[\\s:-]+`, "i"), "")
+  const withoutSuffix = withoutPrefix.replace(new RegExp(`\\s+from\\s+${issuerPattern}$`, "i"), "")
+  return withoutSuffix.length >= 4 ? withoutSuffix : fullName
+}
+
 function RecommendedCardImage({ card }: { card: { name: string; imageUrl?: string } }) {
   const [error, setError] = useState(false)
   if (!card.imageUrl || error) return null
@@ -91,6 +107,7 @@ function RecommendedCardImage({ card }: { card: { name: string; imageUrl?: strin
 export default function StrategyPage() {
   const { monthlySpend, walletCardIds } = usePointPath()
   const strategy = computeStrategy(monthlySpend, walletCardIds)
+  const recommendedCardId = strategy.recommendedCard?.id ?? null
   const [detailCard, setDetailCard] = useState<CreditCard | null>(null)
   const [detailOpen, setDetailOpen] = useState(false)
 
@@ -120,7 +137,7 @@ export default function StrategyPage() {
             Your Optimized Strategy
           </h1>
           <p className="mt-3 text-base text-muted-foreground">
-            Here is how you can maximize annual dollar value based on your spending.
+            Here is your best next-card strategy based on your spending profile.
           </p>
         </div>
 
@@ -140,13 +157,13 @@ export default function StrategyPage() {
           </Card>
         ) : (
           <>
-            {/* 1. Top Summary Cards (Maximum vs. Current) */}
+            {/* 1. Top Summary Cards (Recommended Card vs. Current) */}
             <section className="mb-14">
               <div className="flex flex-col items-stretch gap-6 lg:flex-row lg:items-center lg:gap-4">
                 <Card className="flex-1 border-2 border-primary/30 bg-gradient-to-br from-primary/5 to-transparent shadow-lg">
                   <CardHeader className="pb-2">
                     <CardTitle className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                      Maximum Potential Annual Value
+                      Annual Value With Recommended Card
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
@@ -238,18 +255,6 @@ export default function StrategyPage() {
                   </CardContent>
                 </Card>
               </div>
-              {strategy.strategyAssumptions.length > 0 && (
-                <div className="mt-4 rounded-lg border border-border/60 bg-muted/30 px-4 py-3">
-                  <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                    Assumptions used
-                  </p>
-                  <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
-                    {strategy.strategyAssumptions.map((assumption) => (
-                      <li key={assumption}>* {assumption}</li>
-                    ))}
-                  </ul>
-                </div>
-              )}
             </section>
 
             {/* 2. Category-by-Category Strategy Table */}
@@ -257,15 +262,29 @@ export default function StrategyPage() {
               <h2 className="mb-4 text-lg font-semibold text-foreground">
                 Category-by-Category Strategy
               </h2>
-              <Card className="overflow-hidden">
-                <Table>
+              <p className="mb-4 text-sm text-muted-foreground">
+                We still show the best strategy for each category. Rows marked{" "}
+                <span className="font-medium text-primary">Recommended pick</span> are what drive the
+                highlighted single-card upside.
+              </p>
+              <Card className="overflow-hidden border-border/70">
+                <div className="overflow-x-auto">
+                  <Table>
                   <TableHeader>
-                    <TableRow className="bg-muted/50 hover:bg-muted/50">
-                      <TableHead className="font-semibold">Category</TableHead>
-                      <TableHead className="font-semibold">Spend</TableHead>
-                      <TableHead className="font-semibold">Current Best Card</TableHead>
-                      <TableHead className="font-semibold">New Strategy</TableHead>
-                      <TableHead className="text-right font-semibold">
+                    <TableRow className="bg-muted/40 hover:bg-muted/40">
+                      <TableHead className="h-11 whitespace-nowrap text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                        Category
+                      </TableHead>
+                      <TableHead className="h-11 whitespace-nowrap text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                        Spend
+                      </TableHead>
+                      <TableHead className="h-11 whitespace-nowrap text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                        Current Best
+                      </TableHead>
+                      <TableHead className="h-11 whitespace-nowrap text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                        Suggested
+                      </TableHead>
+                      <TableHead className="h-11 whitespace-nowrap text-right text-xs font-semibold uppercase tracking-wide text-muted-foreground">
                         Incremental Annual Value
                       </TableHead>
                     </TableRow>
@@ -274,33 +293,44 @@ export default function StrategyPage() {
                     {strategy.categoryRows.map((row) => {
                       const Icon = CATEGORY_ICONS[row.categoryId]
                       const annualSpend = (monthlySpend[row.categoryId] ?? 0) * 12
+                      const isRecommendedRow =
+                        row.suggestedCard?.id === recommendedCardId && row.incrementalAnnualDollars > 0
                       return (
-                        <TableRow key={row.categoryId}>
-                          <TableCell className="font-medium">
+                        <TableRow
+                          key={row.categoryId}
+                          className={
+                            isRecommendedRow
+                              ? "bg-primary/5 transition-colors hover:bg-primary/10"
+                              : "transition-colors hover:bg-muted/30"
+                          }
+                        >
+                          <TableCell className="py-3 font-medium">
                             <span className="inline-flex items-center gap-2">
                               {Icon && <Icon className="size-4 text-muted-foreground" aria-hidden />}
                               {row.categoryLabel}
                             </span>
                           </TableCell>
-                          <TableCell className="tabular-nums text-muted-foreground">
+                          <TableCell className="py-3 tabular-nums text-muted-foreground">
                             {annualSpend > 0 ? formatSpend(annualSpend) + "/yr" : "—"}
                           </TableCell>
-                          <TableCell>
+                          <TableCell className="py-3">
                             {row.currentBestCard
                               ? (
                                 <button
                                   type="button"
                                   title={row.currentBestCard.name}
-                                  className="inline-flex max-w-[220px] items-center gap-1 rounded-sm font-medium text-foreground underline-offset-4 transition-colors hover:text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                                  className="inline-flex w-full max-w-[220px] min-w-0 items-center gap-1 rounded-sm font-medium text-foreground underline-offset-4 transition-colors hover:text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                                   onClick={() => openCardDetails(row.currentBestCard)}
                                 >
-                                  <span className="truncate">{row.currentBestCard.name}</span>
+                                  <span className="min-w-0 flex-1 truncate">
+                                    {compactCardName(row.currentBestCard)}
+                                  </span>
                                   <span className="shrink-0">({row.currentMultiplier}x)</span>
                                 </button>
                               )
                               : "—"}
                           </TableCell>
-                          <TableCell>
+                          <TableCell className="py-3">
                             {row.isOptimized ? (
                               <span className="text-muted-foreground">…</span>
                             ) : row.suggestedCard ? (
@@ -309,22 +339,36 @@ export default function StrategyPage() {
                                 <button
                                   type="button"
                                   title={row.suggestedCard.name}
-                                  className="inline-flex max-w-[220px] items-center gap-1 rounded-md bg-primary/15 px-2 py-0.5 text-sm font-medium text-primary transition-colors hover:bg-primary/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                                  className={
+                                    isRecommendedRow
+                                      ? "inline-flex w-full max-w-[220px] min-w-0 items-center gap-1 rounded-md bg-primary/15 px-2 py-0.5 text-sm font-medium text-primary transition-colors hover:bg-primary/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                                      : "inline-flex w-full max-w-[220px] min-w-0 items-center gap-1 rounded-md bg-muted px-2 py-0.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                                  }
                                   onClick={() => openCardDetails(row.suggestedCard)}
                                 >
-                                  <span className="truncate">{row.suggestedCard.name}</span>
-                                  <span className="shrink-0">({row.suggestedMultiplier}x)</span>
+                                  <span className="min-w-0 flex-1 truncate">
+                                    {compactCardName(row.suggestedCard)}
+                                  </span>
+                                  <span className="shrink-0">
+                                    ({row.suggestedMultiplier}x{isRecommendedRow ? " • Pick" : ""})
+                                  </span>
                                 </button>
                               </span>
                             ) : (
                               "—"
                             )}
                           </TableCell>
-                          <TableCell className="text-right">
+                          <TableCell className="py-3 text-right">
                             {row.isOptimized ? (
                               <span className="text-muted-foreground">—</span>
                             ) : (
-                              <span className="font-medium text-success">
+                              <span
+                                className={
+                                  isRecommendedRow
+                                    ? "font-medium text-success"
+                                    : "font-medium text-muted-foreground"
+                                }
+                              >
                                 +{formatSpend(row.incrementalAnnualDollars)}
                               </span>
                             )}
@@ -336,14 +380,15 @@ export default function StrategyPage() {
                   <TableFooter>
                     <TableRow className="bg-primary/5 font-semibold hover:bg-primary/5">
                       <TableCell colSpan={4} className="font-semibold">
-                        Total Incremental Annual Value
+                        Incremental Annual Value From Recommended Card
                       </TableCell>
                       <TableCell className="text-right font-semibold text-success">
                         +{formatSpend(strategy.incrementalAnnualDollars)}
                       </TableCell>
                     </TableRow>
                   </TableFooter>
-                </Table>
+                  </Table>
+                </div>
               </Card>
             </section>
 
@@ -422,6 +467,57 @@ export default function StrategyPage() {
                     </Button>
                   </CardContent>
                 </Card>
+              </section>
+            )}
+
+            {strategy.strategyAssumptions.length > 0 && (
+              <section className="mt-14">
+                <div className="rounded-lg border border-border/60 bg-muted/30 px-4 py-3">
+                  <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                    Assumptions used
+                  </p>
+                  <ul className="mt-3 list-disc space-y-3 pl-5 text-sm text-muted-foreground">
+                    {strategy.strategyAssumptions.map((assumption) => (
+                      <li key={assumption.id}>
+                        <span className="font-medium text-foreground">{assumption.title}:</span>{" "}
+                        {assumption.assumption}
+                        {assumption.whyItMatters ? (
+                          <span className="block text-xs text-muted-foreground/90">
+                            Why this matters: {assumption.whyItMatters}
+                          </span>
+                        ) : null}
+                        {assumption.sourceLabel ? (
+                          <span className="block text-xs text-muted-foreground/90">
+                            Source: {assumption.sourceLabel}
+                          </span>
+                        ) : null}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </section>
+            )}
+
+            {strategy.strategyLimitations.length > 0 && (
+              <section className="mt-4">
+                <div className="rounded-lg border border-border/60 bg-muted/30 px-4 py-3">
+                  <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                    Strategy limitations
+                  </p>
+                  <ul className="mt-3 list-disc space-y-3 pl-5 text-sm text-muted-foreground">
+                    {strategy.strategyLimitations.map((limitation) => (
+                      <li key={limitation.id}>
+                        <span className="font-medium text-foreground">{limitation.title}:</span>{" "}
+                        {limitation.limitation}
+                        {limitation.whyItMatters ? (
+                          <span className="block text-xs text-muted-foreground/90">
+                            Why this matters: {limitation.whyItMatters}
+                          </span>
+                        ) : null}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </section>
             )}
           </>

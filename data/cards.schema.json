@@ -55,6 +55,18 @@
           "additionalProperties": false
         }
       },
+      "transfer_partners": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": ["name", "ratio"],
+          "properties": {
+            "name": { "type": "string" },
+            "ratio": { "type": "string" }
+          },
+          "additionalProperties": false
+        }
+      },
       "multipliers": {
         "type": "object",
         "required": ["base_rate"],

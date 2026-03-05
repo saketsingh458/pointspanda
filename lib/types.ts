@@ -20,12 +20,26 @@ export type MonthlySpend = Record<SpendCategoryId, number>
 /** Reward structure: points per $1 in each category (e.g. 3 = 3x). Used for strategy; use best rate when multiple exist. */
 export type CategoryMultipliers = Record<SpendCategoryId, number>
 
+export type CapPeriod = "monthly" | "quarterly" | "annual"
+export type TravelSubtype = "flight" | "hotel" | "car" | "general"
+export type EarnChannel = "portal" | "direct" | "either"
+
 /** One earn rate within a category (e.g. "Chase Travel" 8x, "flights/hotels direct" 4x). */
 export interface CategoryEarnRate {
   channel: string
   multiplier: number
   /** Optional cap in USD per period (e.g. 300 = first $300/mo). */
   capAmount?: number
+  /** Optional period for capAmount. */
+  capPeriod?: CapPeriod
+  /** Original category key from cards.json multipliers.categories. */
+  rawKey?: string
+  /** Whether this earn rate requires booking via issuer portal. */
+  requiresPortal?: boolean
+  /** Optional travel subtype used for realistic weighting in strategy. */
+  travelSubtype?: TravelSubtype
+  /** Optional booking channel applicability for this earn rate. */
+  bookingChannel?: EarnChannel
 }
 
 /** Optional breakdown of earn by channel when a category has multiple rates (e.g. 8x portal, 4x direct). */
@@ -45,6 +59,14 @@ export interface MultiplierCategoryRaw {
   rate: number
   requires_portal?: boolean
   cap_amount?: number
+  cap_period?: CapPeriod
+  travel_subtype?: TravelSubtype
+  booking_channel?: EarnChannel
+}
+
+export interface TransferPartnerRaw {
+  name: string
+  ratio: string
 }
 
 export interface CardRaw {
@@ -70,6 +92,7 @@ export interface CardRaw {
     timeframe_months?: number
   }
   statement_credits?: StatementCreditRaw[]
+  transfer_partners?: TransferPartnerRaw[]
   multipliers?: {
     base_rate: number
     categories?: Record<string, MultiplierCategoryRaw>
@@ -121,6 +144,8 @@ export interface Card {
   sourceUrl?: string
   /** Statement credits (annual, etc.) for detail view and summary. */
   statementCredits?: StatementCredit[]
+  /** Transfer partners and published conversion ratios (e.g. 1:1). */
+  transferPartners?: TransferPartner[]
   /** Per-category earn caps in USD (e.g. first $300/mo) for summary display. */
   categoryCaps?: Partial<Record<SpendCategoryId, number>>
   /** Base earn rate (e.g. 1x); "Other" category always uses this. */
@@ -133,6 +158,11 @@ export interface StatementCredit {
   amount: number
   deductsFromEligibleSpend: boolean
   frequency: string
+}
+
+export interface TransferPartner {
+  name: string
+  ratio: string
 }
 
 /** User's wallet: list of card IDs (from catalog). */
@@ -154,6 +184,23 @@ export interface CategoryStrategyRow {
   isOptimized: boolean
 }
 
+/** Structured strategy assumption shown in the strategy UI. */
+export interface StrategyAssumption {
+  id: string
+  title: string
+  assumption: string
+  whyItMatters?: string
+  sourceLabel?: string
+}
+
+/** Structured strategy limitation shown in the strategy UI. */
+export interface StrategyLimitation {
+  id: string
+  title: string
+  limitation: string
+  whyItMatters?: string
+}
+
 /** Full computed strategy result for the strategy page. */
 export interface StrategyResult {
   currentAnnualPoints: number
@@ -162,7 +209,9 @@ export interface StrategyResult {
   currentBenefitLabels: string[]
   maxPotentialAnnualPoints: number
   maxPotentialAnnualDollars: number
+  /** Incremental value attributable to adding the single recommended card. */
   incrementalAnnualPoints: number
+  /** Incremental value attributable to adding the single recommended card. */
   incrementalAnnualDollars: number
   netAdditionalFee: number
   additionalBenefitLabels: string[]
@@ -176,5 +225,7 @@ export interface StrategyResult {
   /** Cents per point used for estimated value display (e.g. 125 = 1.25 cpp). */
   displayCppCents?: number
   /** Explicit assumptions applied in strategy math and shown as footnotes in UI. */
-  strategyAssumptions: string[]
+  strategyAssumptions: StrategyAssumption[]
+  /** Known model limitations shown as plain-language caveats in UI. */
+  strategyLimitations: StrategyLimitation[]
 }
