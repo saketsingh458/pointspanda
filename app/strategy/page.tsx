@@ -133,19 +133,26 @@ function getCppBaselineText(strategy: StrategyResult): string {
   const cpp = strategy.displayCppCents
   if (cpp == null) return ""
   const primary = formatCpp(cpp)
-  const src = strategy.displayCppSources
-  const hasEditorial =
-    src &&
-    (src.nerdwallet != null || src.pointsguy != null || src.bankrate != null || src.creditkarma != null)
-  if (hasEditorial) {
-    const labels: string[] = []
-    if (src!.nerdwallet != null) labels.push("NerdWallet")
-    if (src!.pointsguy != null) labels.push("TPG")
-    if (src!.bankrate != null) labels.push("Bankrate")
-    if (src!.creditkarma != null) labels.push("Credit Karma")
-    return `Using ${primary} cpp avg (${labels.join(", ")})`
+  const cardsToInspect: CreditCard[] = []
+  if (strategy.recommendedCard) {
+    cardsToInspect.push(strategy.recommendedCard)
   }
-  return `Using ${primary} cpp`
+  if (strategy.recommendedCards && strategy.recommendedCards.length > 0) {
+    cardsToInspect.push(...strategy.recommendedCards)
+  }
+  if (strategy.recommendedPortfolio?.cards && strategy.recommendedPortfolio.cards.length > 0) {
+    cardsToInspect.push(...strategy.recommendedPortfolio.cards)
+  }
+
+  const poolingNote = cardsToInspect.find(
+    (card) => card.pointsTransferEligibility === "pooling_only" && card.transferEligibilityNote
+  )?.transferEligibilityNote
+
+  if (poolingNote) {
+    return `Portfolio values use each card's assumed cpp; showing ${primary} cpp as a reference. ${poolingNote}`
+  }
+
+  return `Portfolio values use each card's assumed cpp; showing ${primary} cpp as a reference`
 }
 
 function deltaClassName(value: number): string {
@@ -511,6 +518,20 @@ function SingleCardRecommendationSection({
 }) {
   const card = strategy.recommendedCard
   const netAnnualImpact = strategy.incrementalAnnualDollars - strategy.netAdditionalFee
+  const usageRows =
+    card == null
+      ? []
+      : strategy.categoryRows
+          .filter(
+            (row) =>
+              row.suggestedCard?.id === card.id &&
+              row.incrementalAnnualDollars > 0
+          )
+          .sort(
+            (a, b) =>
+              b.incrementalAnnualDollars - a.incrementalAnnualDollars
+          )
+  const topUsageLabels = usageRows.slice(0, 3).map((row) => row.categoryLabel)
   if (!card) return null
 
   return (
@@ -544,10 +565,17 @@ function SingleCardRecommendationSection({
           <CardDescription className="text-base leading-relaxed text-muted-foreground">
             {strategy.summaryReason}
           </CardDescription>
+          {topUsageLabels.length > 0 && (
+            <p className="text-sm text-muted-foreground">
+              <span className="font-medium text-foreground">Use this card for:</span>{" "}
+              {topUsageLabels.join(", ")}
+              {usageRows.length > topUsageLabels.length ? " and other categories." : "."}
+            </p>
+          )}
           <div className="flex flex-wrap gap-6 border-y border-border py-4">
             <div className="flex flex-col">
               <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                Annual value change
+                Estimated extra rewards (before fee)
               </span>
               <span className={cn("text-lg font-semibold", deltaClassName(strategy.incrementalAnnualDollars))}>
                 {formatSignedSpend(strategy.incrementalAnnualDollars)}/yr
@@ -563,7 +591,7 @@ function SingleCardRecommendationSection({
             </div>
             <div className="flex flex-col">
               <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                Net annual impact
+                Net annual impact (after fee)
               </span>
               <span className={cn("text-lg font-semibold", deltaClassName(netAnnualImpact))}>
                 {formatSignedSpend(netAnnualImpact)}/yr

@@ -150,7 +150,7 @@ export function CardCompareDialog({
         </DialogHeader>
 
         <div className="flex-1 overflow-y-auto px-4 py-4 sm:px-6 sm:py-6">
-          <section className="sticky top-0 z-20 -mx-4 -mt-4 border-b border-border/70 bg-background/95 px-4 py-4 backdrop-blur sm:-mx-6 sm:-mt-6 sm:px-6 sm:py-5">
+          <section className="-mx-4 -mt-2 border-b border-border/70 bg-background px-4 py-4 sm:-mx-6 sm:px-6 sm:py-5">
             <div className="mb-4 flex items-center justify-between gap-3">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">

@@ -15,7 +15,7 @@ import {
   UtensilsCrossed,
 } from "lucide-react"
 import type { Card as CardType } from "@/lib/types"
-import { CATEGORY_LABELS, getCardAverageCppCents, getCardCppSources } from "@/lib/cards"
+import { CATEGORY_LABELS, getCardRankingCppCents, getCardCppSources } from "@/lib/cards"
 import { SPEND_CATEGORIES, type SpendCategoryId } from "@/lib/types"
 import {
   Dialog,
@@ -182,33 +182,27 @@ function PointValuationContent({
   card: CardType
   formatCpp: (cents: number) => string
 }) {
-  const avgCents = getCardAverageCppCents(card)
+  const displayCents = getCardRankingCppCents(card)
   const sources = getCardCppSources(card)
-  const assumedCents = card.pointsValueAssumedCents ?? card.pointsValueBaseCents ?? null
-  const displayCents = avgCents ?? assumedCents
-
-  if (displayCents == null) return null
 
   const editorialItems = EDITORIAL_SOURCES.filter((s) => sources[s.key] != null).map((s) => ({
     ...s,
     cents: sources[s.key]!,
   }))
 
-  const assumedDiffers =
-    assumedCents != null &&
-    avgCents != null &&
-    assumedCents !== avgCents
-
   return (
     <>
       <p className="text-3xl font-bold tracking-tight text-foreground">
-        {formatCpp(displayCents)} {avgCents != null ? "avg" : ""}
+        {formatCpp(displayCents)}
       </p>
       <p className="mt-1 text-sm text-muted-foreground">
-        {avgCents != null
-          ? "Average of editorial valuations; used for dollar estimates."
-          : "Used for dollar estimates."}
+        Used for dollar estimates.
       </p>
+      {card.pointsTransferEligibility === "pooling_only" && card.transferEligibilityNote && (
+        <p className="mt-1 text-xs text-muted-foreground">
+          {card.transferEligibilityNote}
+        </p>
+      )}
       {editorialItems.length > 0 && (
         <p className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm">
           {editorialItems.map((item, i) => (
@@ -224,11 +218,6 @@ function PointValuationContent({
               </a>
             </span>
           ))}
-        </p>
-      )}
-      {assumedDiffers && (
-        <p className="mt-2 text-xs text-muted-foreground">
-          Conservative estimate: {formatCpp(assumedCents!)}
         </p>
       )}
       {(card.synergyEcosystem ?? card.issuer) && (
@@ -453,25 +442,42 @@ export function CardDetailDialog({ card, open, onOpenChange }: Props) {
               </section>
             )}
 
-            {(card.transferPartners?.length ?? 0) > 0 && (
+            {(card.pointsTransferEligibility != null || (card.transferPartners?.length ?? 0) > 0) && (
               <section>
                 {sectionTitle(RefreshCw, "Transfer Partners")}
-                <div className="grid gap-2 rounded-2xl border border-border bg-card p-3 sm:grid-cols-2">
-                  {card.transferPartners?.map((partner) => (
-                    <div
-                      key={`${partner.name}-${partner.ratio}`}
-                      className="flex items-center justify-between gap-3 rounded-xl border border-border/60 bg-background px-3 py-2"
-                    >
-                      <p className="font-medium text-foreground">{partner.name}</p>
-                      <Badge variant="secondary" className="rounded-full px-3 py-1 text-sm">
-                        {partner.ratio}
-                      </Badge>
+                {card.pointsTransferEligibility === "none" && (
+                  <p className="rounded-2xl border border-border bg-muted/30 px-4 py-3 text-sm text-muted-foreground">
+                    This card does not allow transferring points to airline or hotel partners.
+                  </p>
+                )}
+                {card.pointsTransferEligibility === "pooling_only" && card.transferEligibilityNote && (
+                  <p className="mb-3 rounded-xl border border-amber-200/70 bg-amber-50/50 px-4 py-2 text-sm text-foreground">
+                    {card.transferEligibilityNote}
+                  </p>
+                )}
+                {card.pointsTransferEligibility === "direct" && (
+                  <p className="mb-3 text-sm text-muted-foreground">Points can be transferred directly to partners.</p>
+                )}
+                {card.pointsTransferEligibility === "direct" && (card.transferPartners?.length ?? 0) > 0 && (
+                  <>
+                    <div className="grid gap-2 rounded-2xl border border-border bg-card p-3 sm:grid-cols-2">
+                      {card.transferPartners?.map((partner) => (
+                        <div
+                          key={`${partner.name}-${partner.ratio}`}
+                          className="flex items-center justify-between gap-3 rounded-xl border border-border/60 bg-background px-3 py-2"
+                        >
+                          <p className="font-medium text-foreground">{partner.name}</p>
+                          <Badge variant="secondary" className="rounded-full px-3 py-1 text-sm">
+                            {partner.ratio}
+                          </Badge>
+                        </div>
+                      ))}
                     </div>
-                  ))}
-                </div>
-                <p className="mt-2 text-xs text-muted-foreground">
-                  Partner lists and ratios can change, and transfer eligibility may depend on your card setup.
-                </p>
+                    <p className="mt-2 text-xs text-muted-foreground">
+                      Partner lists and ratios can change; transfer eligibility may depend on your card setup.
+                    </p>
+                  </>
+                )}
               </section>
             )}
 

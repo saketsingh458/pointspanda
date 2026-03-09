@@ -210,6 +210,7 @@ function rawToCard(raw: CardRaw): Card {
     id: raw.id,
     name: raw.name,
     issuer: raw.issuer,
+    ...(raw.card_type && { cardType: raw.card_type }),
     annualFee: raw.annual_fee,
     baseRate: base,
     categoryMultipliers: mults,
@@ -221,6 +222,12 @@ function rawToCard(raw: CardRaw): Card {
     imageUrl: raw.ui_elements.image_url ?? undefined,
     statementCredits,
     transferPartners,
+    ...(raw.points_transfer_eligibility && {
+      pointsTransferEligibility: raw.points_transfer_eligibility,
+    }),
+    ...(raw.transfer_eligibility_note && {
+      transferEligibilityNote: raw.transfer_eligibility_note,
+    }),
     ...(raw.welcome_offer && {
       signUpBonus: raw.welcome_offer.points,
       signUpBonusSpendRequirement: raw.welcome_offer.spend_requirement,
@@ -294,41 +301,16 @@ export function getCardsForBrand(brandId: string): Card[] {
 
 const DEFAULT_CPP_CENTS = 125
 
-const EDITORIAL_CPP_KEYS = [
-  "pointsValueNerdWalletCents",
-  "pointsValuePointsGuyCents",
-  "pointsValueBankrateCents",
-  "pointsValueCreditKarmaCents",
-] as const
-
 /**
- * Average of the 4 editorial CPP sources (NerdWallet, TPG, Bankrate, Credit Karma).
- * Returns null when no editorial sources exist (e.g. cash-back cards).
- */
-export function getCardAverageCppCents(card: Card): number | null {
-  const values: number[] = []
-  for (const key of EDITORIAL_CPP_KEYS) {
-    const v = card[key] as number | undefined
-    if (v != null && v > 0) values.push(v)
-  }
-  if (values.length === 0) return null
-  const sum = values.reduce((a, b) => a + b, 0)
-  return Math.round(sum / values.length)
-}
-
-/**
- * CPP (cents per point) used for strategy ranking.
- * Uses average of NerdWallet, TPG, Bankrate, Credit Karma when available;
- * otherwise falls back to assumed, legacy base, then 1.25.
+ * CPP (cents per point) used for strategy ranking and display.
+ * Uses assumed only; 0 is normalized to 1.00 cpp (100 cents).
  */
 export function getCardRankingCppCents(card: Card): number {
-  const avg = getCardAverageCppCents(card)
-  if (avg != null) return avg
-  return (
+  const raw =
     card.pointsValueAssumedCents ??
     card.pointsValueBaseCents ??
     DEFAULT_CPP_CENTS
-  )
+  return raw === 0 ? 100 : raw
 }
 
 /**

@@ -470,6 +470,22 @@ function validateNew(card, index, audit) {
       }
     }
   }
+  const validEligibility = new Set(["direct", "pooling_only", "none"])
+  if (card?.points_transfer_eligibility != null) {
+    if (!validEligibility.has(card.points_transfer_eligibility)) {
+      console.error(
+        `${prefix}: points_transfer_eligibility must be one of: direct, pooling_only, none. Got: ${card.points_transfer_eligibility}`
+      )
+      failed = true
+    }
+    if (card.points_transfer_eligibility === "pooling_only" && (card.transfer_eligibility_note == null || typeof card.transfer_eligibility_note !== "string" || !card.transfer_eligibility_note.trim())) {
+      console.error(`${prefix}: transfer_eligibility_note is recommended when points_transfer_eligibility is pooling_only.`)
+    }
+  }
+  if (card?.transfer_eligibility_note != null && card?.points_transfer_eligibility !== "pooling_only") {
+    console.error(`${prefix}: transfer_eligibility_note should only be set when points_transfer_eligibility is pooling_only.`)
+    failed = true
+  }
   const expectedAnniversaryBonus = REQUIRED_ANNIVERSARY_BONUSES[card?.id]
   if (expectedAnniversaryBonus) {
     const bonus = typeof card?.anniversary_bonus === "string" ? card.anniversary_bonus.trim() : ""

@@ -123,3 +123,88 @@ describe("computeStrategyViews scenario coverage", () => {
     }
   )
 })
+
+describe("pooling-aware CPP behavior", () => {
+  it("values Freedom at 1.0cpp when not pooled and higher when paired with Sapphire", () => {
+    const monthlySpend = makeSpend({
+      dining: 1000,
+      groceries: 500,
+      other: 500,
+    })
+
+    const viewsFreedomOnly = computeStrategyViews(monthlySpend, ["chase-freedom-unlimited"])
+    const currFreedomOnly = viewsFreedomOnly.nextBestCard
+    const effectiveCppFreedomOnly =
+      currFreedomOnly.currentAnnualPoints > 0
+        ? Math.round(
+            (currFreedomOnly.currentAnnualDollars / currFreedomOnly.currentAnnualPoints) * 10000
+          )
+        : 0
+
+    const viewsFreedomWithSapphire = computeStrategyViews(monthlySpend, [
+      "chase-freedom-unlimited",
+      "chase-sapphire-reserve",
+    ])
+    const currFreedomWithSapphire = viewsFreedomWithSapphire.nextBestCard
+    const effectiveCppFreedomWithSapphire =
+      currFreedomWithSapphire.currentAnnualPoints > 0
+        ? Math.round(
+            (currFreedomWithSapphire.currentAnnualDollars /
+              currFreedomWithSapphire.currentAnnualPoints) *
+              10000
+          )
+        : 0
+
+    expect(effectiveCppFreedomOnly).toBe(100)
+    expect(effectiveCppFreedomWithSapphire).toBeGreaterThan(100)
+  })
+
+  it("prefers consumer cards over business cards when best-single-card value is tied", () => {
+    const monthlySpend = makeSpend({
+      other: 2000,
+    })
+
+    const views = computeStrategyViews(monthlySpend, [])
+    const bestSingle = views.bestSingleCard.recommendedCard
+
+    expect(bestSingle).not.toBeNull()
+    if (!bestSingle) return
+
+    expect(bestSingle.id).not.toBe("capital-one-spark-miles-for-business")
+  })
+
+  it("values Citi pooling-only cards higher when paired with Strata Premier", () => {
+    const monthlySpend = makeSpend({
+      dining: 800,
+      groceries: 600,
+      other: 600,
+    })
+
+    const viewsDoubleCashOnly = computeStrategyViews(monthlySpend, ["citi-double-cash-card"])
+    const currDoubleCashOnly = viewsDoubleCashOnly.nextBestCard
+    const effectiveCppDoubleCashOnly =
+      currDoubleCashOnly.currentAnnualPoints > 0
+        ? Math.round(
+            (currDoubleCashOnly.currentAnnualDollars / currDoubleCashOnly.currentAnnualPoints) *
+              10000
+          )
+        : 0
+
+    const viewsDoubleCashWithStrata = computeStrategyViews(monthlySpend, [
+      "citi-double-cash-card",
+      "citi-strata-premier-card",
+    ])
+    const currDoubleCashWithStrata = viewsDoubleCashWithStrata.nextBestCard
+    const effectiveCppDoubleCashWithStrata =
+      currDoubleCashWithStrata.currentAnnualPoints > 0
+        ? Math.round(
+            (currDoubleCashWithStrata.currentAnnualDollars /
+              currDoubleCashWithStrata.currentAnnualPoints) *
+              10000
+          )
+        : 0
+
+    expect(effectiveCppDoubleCashOnly).toBe(100)
+    expect(effectiveCppDoubleCashWithStrata).toBeGreaterThan(100)
+  })
+})

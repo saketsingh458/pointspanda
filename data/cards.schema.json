@@ -10,6 +10,11 @@
       "id": { "type": "string" },
       "name": { "type": "string" },
       "issuer": { "type": "string" },
+      "card_type": {
+        "type": "string",
+        "enum": ["consumer", "business"],
+        "description": "High-level card type; used for strategy tie-breaking (e.g. consumer vs business)."
+      },
       "annual_fee": { "type": "number" },
       "reward_currency": { "type": "string" },
       "anniversary_bonus": {
@@ -91,6 +96,11 @@
           "additionalProperties": false
         }
       },
+      "points_transfer_eligibility": {
+        "type": "string",
+        "enum": ["direct", "pooling_only", "none"]
+      },
+      "transfer_eligibility_note": { "type": "string" },
       "multipliers": {
         "type": "object",
         "required": ["base_rate"],

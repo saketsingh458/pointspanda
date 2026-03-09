@@ -49,6 +49,33 @@ function getCardCppCents(card: Card): number {
 }
 
 /**
+ * Context-aware CPP for strategy ranking.
+ *
+ * For pooling-only cards (e.g. Chase Freedom, Citi Double Cash), value points at 1.0 cpp
+ * unless the portfolio includes a direct-transfer card in the same ecosystem (e.g. Sapphire
+ * or Ink Preferred for Chase UR, Strata Premier/Elite for Citi ThankYou).
+ */
+function getCardCppCentsInContext(card: Card, portfolioCards: Card[]): number {
+  const baseCpp = getCardRankingCppCents(card)
+  if (card.pointsTransferEligibility !== "pooling_only") {
+    return baseCpp
+  }
+
+  const ecosystem = normalizeEcosystem(card)
+  if (!ecosystem) {
+    return baseCpp
+  }
+
+  const hasDirectInEcosystem = portfolioCards.some((portfolioCard) => {
+    if (portfolioCard.pointsTransferEligibility !== "direct") return false
+    const portfolioEcosystem = normalizeEcosystem(portfolioCard)
+    return portfolioEcosystem?.ecosystemId === ecosystem.ecosystemId
+  })
+
+  return hasDirectInEcosystem ? baseCpp : 100
+}
+
+/**
  * pointsValueBaseCents stores cpp in hundredths (e.g. 125 => 1.25 cpp).
  * Dollars = points * cpp(cents/point) / 100(cents per dollar).
  */
@@ -304,7 +331,7 @@ function getBestCardForCategoryByDollars(
 
   for (const c of cards) {
     const { annualPoints } = getAnnualPointsForCardCategory(c, categoryId, monthlySpendAmount, assumptionNotes)
-    const annualDollars = pointsToDollars(annualPoints, getCardCppCents(c))
+    const annualDollars = pointsToDollars(annualPoints, getCardCppCentsInContext(c, cards))
     if (annualDollars > bestAnnualDollars) {
       best = c
       bestAnnualPoints = annualPoints
@@ -538,25 +565,79 @@ function evaluateBestCandidate(
   }
 }
 
+function formatAnnualValueApprox(amount: number): string {
+  if (amount === 0) return "$0/yr"
+  const rounded = Math.round(Math.abs(amount) / 10) * 10
+  const prefix = amount < 0 ? "-$" : "$"
+  return `${prefix}${rounded.toLocaleString("en-US")}/yr`
+}
+
+function buildCategoryHighlightSummary(categoryRows: CategoryStrategyRow[], limit: number): string | null {
+  const positive = categoryRows
+    .filter((row) => row.incrementalAnnualDollars > 0)
+    .sort((a, b) => b.incrementalAnnualDollars - a.incrementalAnnualDollars)
+
+  if (positive.length === 0) return null
+
+  const top = positive.slice(0, limit).map((row) => row.categoryLabel)
+  if (top.length === 1) {
+    return top[0]
+  }
+  if (top.length === 2) {
+    return `${top[0]} and ${top[1]}`
+  }
+  return `${top[0]}, ${top[1]} and others`
+}
+
 function buildNextBestCardSummaryReason(
   recommendedCard: Card | null,
   hasGrossOpportunity: boolean,
-  walletCardCount: number
+  walletCardCount: number,
+  incrementalAnnualDollars: number,
+  netAdditionalFee: number,
+  categoryRows: CategoryStrategyRow[]
 ): string {
   if (!recommendedCard) {
     return hasGrossOpportunity
       ? "No changes recommended — no single new card improves your net annual value after fee."
       : "No changes recommended — you're already optimized."
   }
+
+  const approxNet = formatAnnualValueApprox(incrementalAnnualDollars - netAdditionalFee)
+  const approxGross = formatAnnualValueApprox(incrementalAnnualDollars)
+  const categoryHighlight = buildCategoryHighlightSummary(categoryRows, 2)
+
   if (walletCardCount === 0) {
-    return `${recommendedCard.name} is your best starter card for net annual value.`
+    if (categoryHighlight) {
+      return `${recommendedCard.name} is your best starter card for net annual value, adding about ${approxNet} after its annual fee, mostly from ${categoryHighlight}.`
+    }
+    return `${recommendedCard.name} is your best starter card for net annual value, adding about ${approxNet} after its annual fee.`
   }
-  return `${recommendedCard.name} gives the highest net annual value boost when added to your portfolio.`
+
+  if (categoryHighlight) {
+    return `${recommendedCard.name} gives the highest net annual value boost when added to your portfolio, adding about ${approxNet} after its annual fee (around ${approxGross} in extra rewards), mostly from ${categoryHighlight}.`
+  }
+
+  return `${recommendedCard.name} gives the highest net annual value boost when added to your portfolio, adding about ${approxNet} after its annual fee (around ${approxGross} in extra rewards).`
 }
 
-function buildBestSingleCardSummaryReason(card: Card | null): string {
+function buildBestSingleCardSummaryReason(
+  card: Card | null,
+  incrementalAnnualDollars: number,
+  netAdditionalFee: number,
+  categoryRows: CategoryStrategyRow[]
+): string {
   if (!card) return "No single-card strategy is available."
-  return `${card.name} is the strongest one-card strategy for your spending profile after annual fee.`
+
+  const approxNet = formatAnnualValueApprox(incrementalAnnualDollars - netAdditionalFee)
+  const approxGross = formatAnnualValueApprox(incrementalAnnualDollars)
+  const categoryHighlight = buildCategoryHighlightSummary(categoryRows, 2)
+
+  if (categoryHighlight) {
+    return `${card.name} is the strongest one-card strategy for your spending profile after annual fee, adding about ${approxNet} net (around ${approxGross} in extra rewards), mostly from ${categoryHighlight}.`
+  }
+
+  return `${card.name} is the strongest one-card strategy for your spending profile after annual fee, adding about ${approxNet} net (around ${approxGross} in extra rewards).`
 }
 
 function toSlug(input: string): string {
@@ -670,6 +751,15 @@ function buildPortfolioCombinations(cards: Card[], maxSize: number): Card[][] {
   return combos
 }
 
+function isBusinessCard(card: Card): boolean {
+  if (card.cardType === "business") return true
+  if (card.cardType === "consumer") return false
+  const name = card.name.toLowerCase()
+  const id = card.id.toLowerCase()
+  if (name.includes("business") || id.includes("-business-")) return true
+  return false
+}
+
 function isPortfolioBetter(
   candidate: StrategyPortfolioSummary,
   currentBest: StrategyPortfolioSummary | null
@@ -681,10 +771,28 @@ function isPortfolioBetter(
   if (candidate.annualDollars !== currentBest.annualDollars) {
     return candidate.annualDollars > currentBest.annualDollars
   }
-  if (candidate.cards.length !== currentBest.cards.length) {
-    return candidate.cards.length < currentBest.cards.length
+
+  const candidateSize = candidate.cards.length
+  const currentSize = currentBest.cards.length
+  if (candidateSize !== currentSize) {
+    return candidateSize < currentSize
   }
-  return candidate.annualFee < currentBest.annualFee
+
+  const candidateFee = candidate.annualFee
+  const currentFee = currentBest.annualFee
+  if (candidateFee !== currentFee) {
+    return candidateFee < currentFee
+  }
+
+  if (candidateSize === 1 && currentSize === 1) {
+    const candidateIsBusiness = isBusinessCard(candidate.cards[0]!)
+    const currentIsBusiness = isBusinessCard(currentBest.cards[0]!)
+    if (candidateIsBusiness !== currentIsBusiness) {
+      return !candidateIsBusiness && currentIsBusiness
+    }
+  }
+
+  return false
 }
 
 function sortEcosystemOptions(a: EcosystemStrategyOption, b: EcosystemStrategyOption): number {
@@ -763,8 +871,11 @@ function evaluateEcosystemOptions(
 }
 
 function getDisplayCppCents(currentCards: Card[], recommendedCards: Card[]): number {
-  const card = currentCards[0] ?? recommendedCards[0]
-  return card ? getCardRankingCppCents(card) : DEFAULT_CPP_CENTS
+  const referenceCard = currentCards[0] ?? recommendedCards[0]
+  if (!referenceCard) return DEFAULT_CPP_CENTS
+
+  const portfolioCards = recommendedCards.length > 0 ? recommendedCards : currentCards
+  return getCardCppCentsInContext(referenceCard, portfolioCards)
 }
 
 function getDisplayCppSources(currentCards: Card[], recommendedCards: Card[]): StrategyResult["displayCppSources"] {
@@ -814,6 +925,14 @@ function getStrategyLimitations(viewId: StrategyViewId): StrategyLimitation[] {
         "We estimate one typical month and multiply by 12, instead of modeling seasonal or one-time spikes.",
       whyItMatters:
         "If your spending changes a lot across the year, actual results can differ.",
+    },
+    {
+      id: "pooling_only_cpp_behavior",
+      title: "Pooling-only points valued conservatively",
+      limitation:
+        "Cards that require pooling with a premium card to access transfer partners (such as some Freedom, Ink, Citi, Capital One, or Wells Fargo cards) are valued at 1.0¢ per point unless your portfolio includes an eligible direct-transfer card in the same ecosystem.",
+      whyItMatters:
+        "If you currently hold only pooling-only cards, their points are treated as cash-back until you add a qualifying premium card, which can increase their effective value.",
     },
   ]
 
@@ -948,6 +1067,8 @@ function computeNextBestCardStrategy(monthlySpend: MonthlySpend, walletCards: Ca
   const scenarioCards = recommendedCard ? [...walletCards, recommendedCard] : walletCards
   const scenarioPortfolio = getPortfolioSummary(monthlySpend, scenarioCards, assumptionNotes)
   const categoryRows = buildCategoryRows(monthlySpend, walletCards, scenarioCards, assumptionNotes)
+  const incrementalAnnualDollars = scenarioPortfolio.annualDollars - currentAnnualDollars
+  const netAdditionalFee = scenarioPortfolio.annualFee - currentAnnualFee
 
   return buildStrategyResult({
     viewId: "nextBestCard",
@@ -961,7 +1082,10 @@ function computeNextBestCardStrategy(monthlySpend: MonthlySpend, walletCards: Ca
     summaryReason: buildNextBestCardSummaryReason(
       recommendedCard,
       candidateEvaluation.bestGrossIncrementalDollars > 0,
-      walletCards.length
+      walletCards.length,
+      incrementalAnnualDollars,
+      netAdditionalFee,
+      categoryRows
     ),
     strategyAssumptions: Array.from(assumptionNotes.values()),
     strategyLimitations: getStrategyLimitations("nextBestCard"),
@@ -980,6 +1104,8 @@ function computeBestSingleCardStrategy(monthlySpend: MonthlySpend, walletCards: 
   const recommendedCards = recommendedCard ? [recommendedCard] : []
   const scenarioPortfolio = getPortfolioSummary(monthlySpend, recommendedCards, assumptionNotes)
   const categoryRows = buildCategoryRows(monthlySpend, walletCards, recommendedCards, assumptionNotes)
+  const incrementalAnnualDollars = scenarioPortfolio.annualDollars - currentAnnualDollars
+  const netAdditionalFee = scenarioPortfolio.annualFee - currentAnnualFee
 
   return buildStrategyResult({
     viewId: "bestSingleCard",
@@ -990,7 +1116,12 @@ function computeBestSingleCardStrategy(monthlySpend: MonthlySpend, walletCards: 
     scenarioPortfolio,
     categoryRows,
     recommendedCards,
-    summaryReason: buildBestSingleCardSummaryReason(recommendedCard),
+    summaryReason: buildBestSingleCardSummaryReason(
+      recommendedCard,
+      incrementalAnnualDollars,
+      netAdditionalFee,
+      categoryRows
+    ),
     strategyAssumptions: Array.from(assumptionNotes.values()),
     strategyLimitations: getStrategyLimitations("bestSingleCard"),
     displayCppCents: getDisplayCppCents(walletCards, recommendedCards),

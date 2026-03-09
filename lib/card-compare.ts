@@ -129,8 +129,34 @@ function getAnnualCreditsValue(card: Card): CompareCellValue {
 
 function getTransferPartnersValue(card: Card): CompareCellValue {
   const partners = card.transferPartners ?? []
-  if (partners.length === 0) return { primary: null }
+  const eligibility = card.pointsTransferEligibility
+  const note = card.transferEligibilityNote
 
+  if (eligibility === "none") {
+    return {
+      primary: "No transfer to partners",
+      secondary: null,
+      items: [],
+    }
+  }
+
+  if (eligibility === "pooling_only" && note) {
+    return {
+      primary: note,
+      secondary: null,
+      items: [],
+    }
+  }
+
+  if (eligibility === "direct") {
+    return {
+      primary: "Direct transfer",
+      secondary: partners.length > 0 ? `${partners.length} partner${partners.length === 1 ? "" : "s"}` : null,
+      items: partners.map((partner) => `${partner.name} (${partner.ratio})`),
+    }
+  }
+
+  if (partners.length === 0) return { primary: null }
   return {
     primary: `${partners.length}`,
     secondary: partners.length === 1 ? "transfer partner" : "transfer partners",

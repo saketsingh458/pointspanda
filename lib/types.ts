@@ -83,6 +83,8 @@ export interface CardRaw {
   id: string
   name: string
   issuer: string
+  /** High-level card type; defaults to consumer when omitted. */
+  card_type?: "consumer" | "business"
   synergy_ecosystem?: string
   annual_fee: number
   reward_currency: string
@@ -109,6 +111,10 @@ export interface CardRaw {
   }
   statement_credits?: StatementCreditRaw[]
   transfer_partners?: TransferPartnerRaw[]
+  /** Whether this card can transfer points to airline/hotel partners: direct, pooling_only, or none. */
+  points_transfer_eligibility?: "direct" | "pooling_only" | "none"
+  /** When pooling_only, e.g. "When combined with Sapphire or Ink Preferred". */
+  transfer_eligibility_note?: string
   multipliers?: {
     base_rate: number
     categories?: Record<string, MultiplierCategoryRaw>
@@ -119,6 +125,8 @@ export interface Card {
   id: string
   name: string
   annualFee: number
+  /** High-level card type for strategy tie-breaking (e.g. consumer vs business). */
+  cardType?: "consumer" | "business"
   categoryMultipliers: CategoryMultipliers
   /** When present, use for display; strategy still uses categoryMultipliers (best rate). */
   categoryEarnDetails?: CategoryEarnDetails
@@ -174,6 +182,10 @@ export interface Card {
   statementCredits?: StatementCredit[]
   /** Transfer partners and published conversion ratios (e.g. 1:1). */
   transferPartners?: TransferPartner[]
+  /** Whether this card can transfer points to airline/hotel partners: direct, pooling_only, or none. */
+  pointsTransferEligibility?: "direct" | "pooling_only" | "none"
+  /** When pooling_only, e.g. "When combined with Sapphire or Ink Preferred". */
+  transferEligibilityNote?: string
   /** Per-category earn caps in USD (e.g. first $300/mo) for summary display. */
   categoryCaps?: Partial<Record<SpendCategoryId, number>>
   /** Base earn rate (e.g. 1x); "Other" category always uses this. */

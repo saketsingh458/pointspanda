@@ -1,0 +1,102 @@
+card_id	card_name	points_transfer_eligibility	transfer_eligibility_note	source
+robinhood-gold-card	Robinhood Gold Card	none		issuer/TPG/NerdWallet/Bankrate
+robinhood-platinum-card	Robinhood Platinum Card	none		issuer/TPG/NerdWallet/Bankrate
+gemini-credit-card	Gemini Credit Card®	none		issuer/TPG/NerdWallet/Bankrate
+chase-sapphire-reserve	Chase Sapphire Reserve®	direct		issuer/TPG/NerdWallet/Bankrate
+chase-sapphire-preferred-card	Chase Sapphire Preferred® Card	direct		issuer/TPG/NerdWallet/Bankrate
+chase-freedom-unlimited	Chase Freedom Unlimited®	pooling_only	When combined with Sapphire or Ink Business Preferred	issuer/TPG/NerdWallet/Bankrate
+chase-freedom-flex	Chase Freedom Flex®	pooling_only	When combined with Sapphire or Ink Business Preferred	issuer/TPG/NerdWallet/Bankrate
+sapphire-reserve-for-business	Sapphire Reserve for Business℠	direct		issuer/TPG/NerdWallet/Bankrate
+ink-business-preferred-credit-card	Ink Business Preferred® Credit Card	direct		issuer/TPG/NerdWallet/Bankrate
+amex-platinum-card	The Platinum Card® from American Express	direct		issuer/TPG/NerdWallet/Bankrate
+amex-gold-card	American Express® Gold Card	direct		issuer/TPG/NerdWallet/Bankrate
+capital-one-venture-x-rewards-credit-card	Capital One Venture X Rewards Credit Card	direct		issuer/TPG/NerdWallet/Bankrate
+chase-freedom-rise	Chase Freedom Rise®	pooling_only	When combined with Sapphire or Ink Business Preferred	issuer/TPG/NerdWallet/Bankrate
+chase-slate-edge	Chase Slate Edge℠	none		issuer/TPG/NerdWallet/Bankrate
+ink-business-unlimited-credit-card	Ink Business Unlimited® Credit Card	pooling_only	When combined with Sapphire or Ink Business Preferred	issuer/TPG/NerdWallet/Bankrate
+ink-business-cash	Ink Business Cash® Credit Card	pooling_only	When combined with Sapphire or Ink Business Preferred	issuer/TPG/NerdWallet/Bankrate
+ink-business-premier-credit-card	Ink Business Premier® Credit Card	none		issuer/TPG/NerdWallet/Bankrate
+american-express-business-gold-card	American Express® Gold Card for Business	direct		issuer/TPG/NerdWallet/Bankrate
+amex-green-card	American Express® Green Card	direct		issuer/TPG/NerdWallet/Bankrate
+blue-cash-preferred-card-from-american-express	Blue Cash Preferred® Card from American Express	none		issuer/TPG/NerdWallet/Bankrate
+blue-cash-everyday-card	Blue Cash Everyday® Card from American Express	none		issuer/TPG/NerdWallet/Bankrate
+amex-everyday-credit-card	Amex EveryDay® Credit Card	direct		issuer/TPG/NerdWallet/Bankrate
+amex-everyday-preferred-credit-card	Amex EveryDay® Preferred Credit Card	direct		issuer/TPG/NerdWallet/Bankrate
+amex-cash-magnet-card	Amex Cash Magnet® Card	none		issuer/TPG/NerdWallet/Bankrate
+amex-centurion-card	Centurion® Card from American Express	direct		issuer/TPG/NerdWallet/Bankrate
+amex-business-platinum	The Business Platinum Card® from American Express	direct		issuer/TPG/NerdWallet/Bankrate
+blue-business-plus-credit-card	Blue Business® Plus Credit Card	direct		issuer/TPG/NerdWallet/Bankrate
+capital-one-venture-rewards	Capital One Venture Rewards Credit Card	direct		issuer/TPG/NerdWallet/Bankrate
+capital-one-savor-cash-rewards	Capital One Savor Cash Rewards Credit Card	pooling_only	When converted to Capital One miles via eligible miles-earning card	issuer/TPG/NerdWallet/Bankrate
+blue-business-cash-card	Blue Business Cash™ Card	none		issuer/TPG/NerdWallet/Bankrate
+capital-one-ventureone-rewards-credit-card	Capital One VentureOne Rewards Credit Card	direct		issuer/TPG/NerdWallet/Bankrate
+capital-one-savorone-cash-rewards	Capital One SavorOne Cash Rewards Credit Card	none		issuer/TPG/NerdWallet/Bankrate
+capital-one-savor-student-cash-rewards	Capital One Savor Student Cash Rewards	none		issuer/TPG/NerdWallet/Bankrate
+capital-one-quicksilver-cash-rewards	Capital One Quicksilver Cash Rewards Credit Card	none		issuer/TPG/NerdWallet/Bankrate
+capital-one-quicksilverone-cash-rewards	Capital One QuicksilverOne Cash Rewards	none		issuer/TPG/NerdWallet/Bankrate
+capital-one-quicksilver-secured-cash-rewards	Capital One Quicksilver Secured Cash Rewards	none		issuer/TPG/NerdWallet/Bankrate
+capital-one-platinum-credit-card	Capital One Platinum Credit Card	none		issuer/TPG/NerdWallet/Bankrate
+capital-one-platinum-secured	Capital One Platinum Secured Credit Card	none		issuer/TPG/NerdWallet/Bankrate
+venture-x-business	Capital One Venture X Business	direct		issuer/TPG/NerdWallet/Bankrate
+capital-one-spark-miles-for-business	Capital One Spark Miles for Business	direct		issuer/TPG/NerdWallet/Bankrate
+capital-one-spark-cash-plus	Capital One Spark Cash Plus	none		issuer/TPG/NerdWallet/Bankrate
+citi-strata-elite-card	Citi Strata Elite℠ Card	direct		issuer/TPG/NerdWallet/Bankrate
+citi-strata-premier-card	Citi Strata Premier℠ Card	direct		issuer/TPG/NerdWallet/Bankrate
+citi-double-cash-card	Citi Double Cash® Card	pooling_only	When combined with Citi Strata Premier or Strata Elite	issuer/TPG/NerdWallet/Bankrate
+citi-custom-cash-card	Citi Custom Cash® Card	pooling_only	When combined with Citi Strata Premier or Strata Elite	issuer/TPG/NerdWallet/Bankrate
+citi-rewards-plus	Citi Rewards+® Card	pooling_only	When combined with Citi Strata Premier or Strata Elite	issuer/TPG/NerdWallet/Bankrate
+citi-simplicity-card	Citi Simplicity® Card	none		issuer/TPG/NerdWallet/Bankrate
+citi-diamond-preferred-card	Citi® Diamond Preferred® Card	none		issuer/TPG/NerdWallet/Bankrate
+citi-secured-mastercard	Citi® Secured Mastercard®	none		issuer/TPG/NerdWallet/Bankrate
+wells-fargo-autograph-journey	Wells Fargo Autograph Journey℠ Card	direct		issuer/TPG/NerdWallet/Bankrate
+wells-fargo-autograph-card	Wells Fargo Autograph® Card	direct		issuer/TPG/NerdWallet/Bankrate
+wells-fargo-active-cash	Wells Fargo Active Cash® Card	pooling_only	When combined with Autograph Journey or Autograph	issuer/TPG/NerdWallet/Bankrate
+wells-fargo-reflect-card	Wells Fargo Reflect® Card	pooling_only	When combined with Autograph Journey	issuer/TPG/NerdWallet/Bankrate
+wells-fargo-attune-card	Wells Fargo Attune℠ Card	pooling_only	When combined with Wells Fargo Autograph	issuer/TPG/NerdWallet/Bankrate
+wells-fargo-signia-card	Wells Fargo Signia Card	none		issuer/TPG/NerdWallet/Bankrate
+bank-of-america-premium-rewards-elite	Bank of America® Premium Rewards® Elite	none		issuer/TPG/NerdWallet/Bankrate
+bank-of-america-premium-rewards	Bank of America® Premium Rewards®	none		issuer/TPG/NerdWallet/Bankrate
+bank-of-america-customized-cash-rewards	Bank of America® Customized Cash Rewards	none		issuer/TPG/NerdWallet/Bankrate
+bank-of-america-unlimited-cash-rewards	Bank of America® Unlimited Cash Rewards	none		issuer/TPG/NerdWallet/Bankrate
+bank-of-america-travel-rewards	Bank of America® Travel Rewards	none		issuer/TPG/NerdWallet/Bankrate
+bank-of-america-bankamericard	Bank of America® BankAmericard®	none		issuer/TPG/NerdWallet/Bankrate
+us-bank-altitude-reserve-visa-infinite	U.S. Bank Altitude® Reserve Visa Infinite®	none		issuer/TPG/NerdWallet/Bankrate
+us-bank-altitude-connect-visa-signature	U.S. Bank Altitude® Connect Visa Signature®	none		issuer/TPG/NerdWallet/Bankrate
+us-bank-altitude-go-visa-signature	U.S. Bank Altitude® Go Visa Signature®	none		issuer/TPG/NerdWallet/Bankrate
+us-bank-cash-plus-visa-signature	U.S. Bank Cash+® Visa Signature®	none		issuer/TPG/NerdWallet/Bankrate
+us-bank-smartly-visa-signature	U.S. Bank Smartly™ Visa Signature®	none		issuer/TPG/NerdWallet/Bankrate
+us-bank-shield-visa-card	U.S. Bank Shield™ Visa® Card	none		issuer/TPG/NerdWallet/Bankrate
+discover-it-cash-back	Discover it® Cash Back	none		issuer/TPG/NerdWallet/Bankrate
+discover-it-miles	Discover it® Miles	none		issuer/TPG/NerdWallet/Bankrate
+discover-it-chrome	Discover it® Chrome	none		issuer/TPG/NerdWallet/Bankrate
+discover-it-student-cash-back	Discover it® Student Cash Back	none		issuer/TPG/NerdWallet/Bankrate
+discover-it-secured	Discover it® Secured Credit Card	none		issuer/TPG/NerdWallet/Bankrate
+apple-card	Apple Card	none		issuer/TPG/NerdWallet/Bankrate
+bilt-blue-card	Bilt World Mastercard®	direct		issuer/TPG/NerdWallet/Bankrate
+bilt-palladium-card	Bilt Palladium Card	direct		issuer/TPG/NerdWallet/Bankrate
+atmos-rewards-summit-visa-infinite	Atmos™ Rewards Summit Visa Infinite®	none		issuer/TPG/NerdWallet/Bankrate
+sofi-unlimited-2-percent-credit-card	SoFi Unlimited 2% Credit Card	none		issuer/TPG/NerdWallet/Bankrate
+upgrade-cash-rewards-visa	Upgrade Cash Rewards Visa®	none		issuer/TPG/NerdWallet/Bankrate
+venmo-credit-card	Venmo Credit Card	none		issuer/TPG/NerdWallet/Bankrate
+x1-card	X1 Card	none		issuer/TPG/NerdWallet/Bankrate
+x1-plus-card	X1+ Card	none		issuer/TPG/NerdWallet/Bankrate
+pnc-cash-unlimited-visa-signature	PNC Cash Unlimited® Visa Signature®	none		issuer/TPG/NerdWallet/Bankrate
+pnc-cash-rewards-visa	PNC Cash Rewards® Visa®	none		issuer/TPG/NerdWallet/Bankrate
+pnc-points-visa	PNC Points® Visa®	none		issuer/TPG/NerdWallet/Bankrate
+truist-enjoy-travel	Truist Enjoy Travel	none		issuer/TPG/NerdWallet/Bankrate
+truist-enjoy-cash	Truist Enjoy Cash	none		issuer/TPG/NerdWallet/Bankrate
+truist-enjoy-beyond	Truist Enjoy Beyond	none		issuer/TPG/NerdWallet/Bankrate
+td-first-class-visa-signature	TD First Class℠ Visa Signature®	none		issuer/TPG/NerdWallet/Bankrate
+td-double-up-credit-card	TD Double Up℠ Credit Card	none		issuer/TPG/NerdWallet/Bankrate
+td-cash-credit-card	TD Cash Credit Card	none		issuer/TPG/NerdWallet/Bankrate
+navy-federal-flagship-rewards	Navy Federal Flagship Rewards	none		issuer/TPG/NerdWallet/Bankrate
+navy-federal-cashrewards	Navy Federal CashRewards	none		issuer/TPG/NerdWallet/Bankrate
+penfed-pathfinder-rewards	PenFed Pathfinder® Rewards	none		issuer/TPG/NerdWallet/Bankrate
+penfed-power-cash-rewards	PenFed Power Cash Rewards	none		issuer/TPG/NerdWallet/Bankrate
+alliant-cashback-visa-signature-credit-card	Alliant Visa® Signature	none		issuer/TPG/NerdWallet/Bankrate
+barclays-view-mastercard	Barclays View™ Mastercard®	none		issuer/TPG/NerdWallet/Bankrate
+barclays-arrival-premier	Barclays Arrival® Premier	none		issuer/TPG/NerdWallet/Bankrate
+fifth-third-preferred-cash-back	Fifth Third Preferred Cash/Back	none		issuer/TPG/NerdWallet/Bankrate
+huntington-voice-credit-card	Huntington Voice Credit Card®	none		issuer/TPG/NerdWallet/Bankrate
+regions-prestige-visa	Regions Prestige Visa®	none		issuer/TPG/NerdWallet/Bankrate
+citizens-bank-cash-back-plus	Citizens Bank Cash Back Plus	none		issuer/TPG/NerdWallet/Bankrate

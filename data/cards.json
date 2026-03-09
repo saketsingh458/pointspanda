@@ -31,7 +31,8 @@
         }
       }
     },
-    "developer_notes": "Must have active Robinhood Gold subscription ($5/mo or $50/yr)"
+    "developer_notes": "Must have active Robinhood Gold subscription ($5/mo or $50/yr)",
+    "points_transfer_eligibility": "none"
   },
   {
     "id": "robinhood-platinum-card",
@@ -159,7 +160,8 @@
         }
       }
     },
-    "developer_notes": "Benefits reflect Robinhood legal overview last updated 2026-03-04. Some benefits require enrollment or account linkage in app and may change at any time. Non-statement benefits include DashPass membership, Priority Pass Select, Amazon One Medical membership sponsorship, and Robinhood Gold membership."
+    "developer_notes": "Benefits reflect Robinhood legal overview last updated 2026-03-04. Some benefits require enrollment or account linkage in app and may change at any time. Non-statement benefits include DashPass membership, Priority Pass Select, Amazon One Medical membership sponsorship, and Robinhood Gold membership.",
+    "points_transfer_eligibility": "none"
   },
   {
     "id": "gemini-credit-card",
@@ -200,7 +202,8 @@
         }
       }
     },
-    "developer_notes": "4% category capped at first $300 spend per month; spend cycle refreshes on the 1st of the month"
+    "developer_notes": "4% category capped at first $300 spend per month; spend cycle refreshes on the 1st of the month",
+    "points_transfer_eligibility": "none"
   },
   {
     "id": "chase-sapphire-reserve",
@@ -218,7 +221,7 @@
     "valuation": {
       "cpp_nerdwallet": 1.8,
       "cpp_pointsguy": 2.05,
-      "cpp_assumed": 1.25,
+      "cpp_assumed": 1.89,
       "cpp_bankrate": 2,
       "cpp_creditkarma": 1.71
     },
@@ -376,7 +379,8 @@
         "name": "Marriott Bonvoy",
         "ratio": "1:1"
       }
-    ]
+    ],
+    "points_transfer_eligibility": "direct"
   },
   {
     "id": "chase-sapphire-preferred-card",
@@ -394,7 +398,7 @@
     "valuation": {
       "cpp_nerdwallet": 1.8,
       "cpp_pointsguy": 2.05,
-      "cpp_assumed": 1.25,
+      "cpp_assumed": 1.89,
       "cpp_bankrate": 2,
       "cpp_creditkarma": 1.71
     },
@@ -499,7 +503,8 @@
         "name": "Marriott Bonvoy",
         "ratio": "1:1"
       }
-    ]
+    ],
+    "points_transfer_eligibility": "direct"
   },
   {
     "id": "chase-freedom-unlimited",
@@ -517,7 +522,7 @@
     "valuation": {
       "cpp_nerdwallet": 1.8,
       "cpp_pointsguy": 2.05,
-      "cpp_assumed": 1.25,
+      "cpp_assumed": 1.89,
       "cpp_bankrate": 2,
       "cpp_creditkarma": 1.71
     },
@@ -601,7 +606,9 @@
         "name": "Marriott Bonvoy",
         "ratio": "1:1"
       }
-    ]
+    ],
+    "points_transfer_eligibility": "pooling_only",
+    "transfer_eligibility_note": "When combined with Sapphire or Ink Business Preferred"
   },
   {
     "id": "chase-freedom-flex",
@@ -619,7 +626,7 @@
     "valuation": {
       "cpp_nerdwallet": 1.8,
       "cpp_pointsguy": 2.05,
-      "cpp_assumed": 1.25,
+      "cpp_assumed": 1.89,
       "cpp_bankrate": 2,
       "cpp_creditkarma": 1.71
     },
@@ -708,7 +715,9 @@
         "name": "Marriott Bonvoy",
         "ratio": "1:1"
       }
-    ]
+    ],
+    "points_transfer_eligibility": "pooling_only",
+    "transfer_eligibility_note": "When combined with Sapphire or Ink Business Preferred"
   },
   {
     "id": "sapphire-reserve-for-business",
@@ -726,7 +735,7 @@
     "valuation": {
       "cpp_nerdwallet": 1.8,
       "cpp_pointsguy": 2.05,
-      "cpp_assumed": 1.25,
+      "cpp_assumed": 1.89,
       "cpp_bankrate": 2,
       "cpp_creditkarma": 1.71
     },
@@ -870,7 +879,8 @@
         "name": "Marriott Bonvoy",
         "ratio": "1:1"
       }
-    ]
+    ],
+    "points_transfer_eligibility": "direct"
   },
   {
     "id": "ink-business-preferred-credit-card",
@@ -888,7 +898,7 @@
     "valuation": {
       "cpp_nerdwallet": 1.8,
       "cpp_pointsguy": 2.05,
-      "cpp_assumed": 1.25,
+      "cpp_assumed": 1.89,
       "cpp_bankrate": 2,
       "cpp_creditkarma": 1.71
     },
@@ -978,7 +988,8 @@
         "name": "Marriott Bonvoy",
         "ratio": "1:1"
       }
-    ]
+    ],
+    "points_transfer_eligibility": "direct"
   },
   {
     "id": "amex-platinum-card",
@@ -996,7 +1007,7 @@
     "valuation": {
       "cpp_nerdwallet": 1.6,
       "cpp_pointsguy": 2,
-      "cpp_assumed": 1.25,
+      "cpp_assumed": 1.82,
       "cpp_bankrate": 2,
       "cpp_creditkarma": 1.67
     },
@@ -1204,7 +1215,8 @@
         "name": "Marriott Bonvoy",
         "ratio": "1:1"
       }
-    ]
+    ],
+    "points_transfer_eligibility": "direct"
   },
   {
     "id": "amex-gold-card",
@@ -1222,7 +1234,7 @@
     "valuation": {
       "cpp_nerdwallet": 1.6,
       "cpp_pointsguy": 2,
-      "cpp_assumed": 1.25,
+      "cpp_assumed": 1.82,
       "cpp_bankrate": 2,
       "cpp_creditkarma": 1.67
     },
@@ -1370,7 +1382,8 @@
         "name": "Marriott Bonvoy",
         "ratio": "1:1"
       }
-    ]
+    ],
+    "points_transfer_eligibility": "direct"
   },
   {
     "id": "capital-one-venture-x-rewards-credit-card",
@@ -1388,7 +1401,7 @@
     "valuation": {
       "cpp_nerdwallet": 1.6,
       "cpp_pointsguy": 1.85,
-      "cpp_assumed": 1.25,
+      "cpp_assumed": 1.66,
       "cpp_bankrate": 1.7,
       "cpp_creditkarma": 1.48
     },
@@ -1515,7 +1528,8 @@
         "name": "Accor Live Limitless",
         "ratio": "2:1"
       }
-    ]
+    ],
+    "points_transfer_eligibility": "direct"
   },
   {
     "id": "chase-freedom-rise",
@@ -1533,7 +1547,7 @@
     "valuation": {
       "cpp_nerdwallet": 1.8,
       "cpp_pointsguy": 2.05,
-      "cpp_assumed": 1.25,
+      "cpp_assumed": 1.89,
       "cpp_bankrate": 2,
       "cpp_creditkarma": 1.71
     },
@@ -1613,7 +1627,9 @@
         "name": "Marriott Bonvoy",
         "ratio": "1:1"
       }
-    ]
+    ],
+    "points_transfer_eligibility": "pooling_only",
+    "transfer_eligibility_note": "When combined with Sapphire or Ink Business Preferred"
   },
   {
     "id": "chase-slate-edge",
@@ -1629,11 +1645,11 @@
       "apply_url": "https://www.chase.com/personal/credit-cards/slate-edge"
     },
     "valuation": {
-      "cpp_nerdwallet": 0,
-      "cpp_pointsguy": 0,
-      "cpp_assumed": 0,
-      "cpp_bankrate": 0,
-      "cpp_creditkarma": 0
+      "cpp_nerdwallet": 1,
+      "cpp_pointsguy": 1,
+      "cpp_assumed": 1,
+      "cpp_bankrate": 1,
+      "cpp_creditkarma": 1
     },
     "welcome_offer": {
       "points": 0,
@@ -1646,7 +1662,8 @@
       "base_rate": 0,
       "categories": {}
     },
-    "developer_notes": "Requires Good to Excellent credit; APR can reduce by 2% annually with $1,000 spend and on-time payments"
+    "developer_notes": "Requires Good to Excellent credit; APR can reduce by 2% annually with $1,000 spend and on-time payments",
+    "points_transfer_eligibility": "none"
   },
   {
     "id": "ink-business-unlimited-credit-card",
@@ -1664,7 +1681,7 @@
     "valuation": {
       "cpp_nerdwallet": 1.8,
       "cpp_pointsguy": 2.05,
-      "cpp_assumed": 1.25,
+      "cpp_assumed": 1.89,
       "cpp_bankrate": 2,
       "cpp_creditkarma": 1.71
     },
@@ -1741,7 +1758,9 @@
         "name": "Marriott Bonvoy",
         "ratio": "1:1"
       }
-    ]
+    ],
+    "points_transfer_eligibility": "pooling_only",
+    "transfer_eligibility_note": "When combined with Sapphire or Ink Business Preferred"
   },
   {
     "id": "ink-business-cash",
@@ -1759,7 +1778,7 @@
     "valuation": {
       "cpp_nerdwallet": 1.8,
       "cpp_pointsguy": 2.05,
-      "cpp_assumed": 1.25,
+      "cpp_assumed": 1.89,
       "cpp_bankrate": 2,
       "cpp_creditkarma": 1.71
     },
@@ -1845,7 +1864,9 @@
         "name": "Marriott Bonvoy",
         "ratio": "1:1"
       }
-    ]
+    ],
+    "points_transfer_eligibility": "pooling_only",
+    "transfer_eligibility_note": "When combined with Sapphire or Ink Business Preferred"
   },
   {
     "id": "ink-business-premier-credit-card",
@@ -1861,11 +1882,11 @@
       "apply_url": "https://www.chase.com/business/credit-cards/ink/ink-business-premier"
     },
     "valuation": {
-      "cpp_nerdwallet": 0,
-      "cpp_pointsguy": 0,
-      "cpp_assumed": 0,
-      "cpp_bankrate": 0,
-      "cpp_creditkarma": 0
+      "cpp_nerdwallet": 1,
+      "cpp_pointsguy": 1,
+      "cpp_assumed": 1,
+      "cpp_bankrate": 1,
+      "cpp_creditkarma": 1
     },
     "welcome_offer": {
       "points": 100000,
@@ -1886,7 +1907,8 @@
         }
       }
     },
-    "developer_notes": "Points cannot be transferred to airline or hotel partners or pooled with other Chase cards; Pay-in-full card structure with Flex for Business financing; Subject to Chase 5/24 rule."
+    "developer_notes": "Points cannot be transferred to airline or hotel partners or pooled with other Chase cards; Pay-in-full card structure with Flex for Business financing; Subject to Chase 5/24 rule.",
+    "points_transfer_eligibility": "none"
   },
   {
     "id": "american-express-business-gold-card",
@@ -1904,7 +1926,7 @@
     "valuation": {
       "cpp_nerdwallet": 1.6,
       "cpp_pointsguy": 2,
-      "cpp_assumed": 1.25,
+      "cpp_assumed": 1.82,
       "cpp_bankrate": 2,
       "cpp_creditkarma": 1.67
     },
@@ -2036,7 +2058,8 @@
         "name": "Marriott Bonvoy",
         "ratio": "1:1"
       }
-    ]
+    ],
+    "points_transfer_eligibility": "direct"
   },
   {
     "id": "amex-green-card",
@@ -2054,7 +2077,7 @@
     "valuation": {
       "cpp_nerdwallet": 1.6,
       "cpp_pointsguy": 2,
-      "cpp_assumed": 1.25,
+      "cpp_assumed": 1.82,
       "cpp_bankrate": 2,
       "cpp_creditkarma": 1.67
     },
@@ -2172,7 +2195,8 @@
         "name": "Marriott Bonvoy",
         "ratio": "1:1"
       }
-    ]
+    ],
+    "points_transfer_eligibility": "direct"
   },
   {
     "id": "blue-cash-preferred-card-from-american-express",
@@ -2188,11 +2212,11 @@
       "apply_url": "https://www.americanexpress.com/us/credit-cards/card/blue-cash-preferred/"
     },
     "valuation": {
-      "cpp_nerdwallet": 0,
-      "cpp_pointsguy": 0,
-      "cpp_assumed": 0,
-      "cpp_bankrate": 0,
-      "cpp_creditkarma": 0
+      "cpp_nerdwallet": 1,
+      "cpp_pointsguy": 1,
+      "cpp_assumed": 1,
+      "cpp_bankrate": 1,
+      "cpp_creditkarma": 1
     },
     "welcome_offer": {
       "points": 300,
@@ -2228,7 +2252,8 @@
         }
       }
     },
-    "developer_notes": "6% grocery capped at $6k spend annually; cash back received as Reward Dollars"
+    "developer_notes": "6% grocery capped at $6k spend annually; cash back received as Reward Dollars",
+    "points_transfer_eligibility": "none"
   },
   {
     "id": "blue-cash-everyday-card",
@@ -2244,11 +2269,11 @@
       "apply_url": "https://www.americanexpress.com/us/credit-cards/card/blue-cash-everyday/"
     },
     "valuation": {
-      "cpp_nerdwallet": 0,
-      "cpp_pointsguy": 0,
-      "cpp_assumed": 0,
-      "cpp_bankrate": 0,
-      "cpp_creditkarma": 0
+      "cpp_nerdwallet": 1,
+      "cpp_pointsguy": 1,
+      "cpp_assumed": 1,
+      "cpp_bankrate": 1,
+      "cpp_creditkarma": 1
     },
     "welcome_offer": {
       "points": 200,
@@ -2292,7 +2317,8 @@
         }
       }
     },
-    "developer_notes": "$6,000 annual spend cap per 3% category; cash back earned as Reward Dollars"
+    "developer_notes": "$6,000 annual spend cap per 3% category; cash back earned as Reward Dollars",
+    "points_transfer_eligibility": "none"
   },
   {
     "id": "amex-everyday-credit-card",
@@ -2310,7 +2336,7 @@
     "valuation": {
       "cpp_nerdwallet": 1.6,
       "cpp_pointsguy": 2,
-      "cpp_assumed": 1.25,
+      "cpp_assumed": 1.82,
       "cpp_bankrate": 2,
       "cpp_creditkarma": 1.67
     },
@@ -2421,7 +2447,8 @@
         "name": "Marriott Bonvoy",
         "ratio": "1:1"
       }
-    ]
+    ],
+    "points_transfer_eligibility": "direct"
   },
   {
     "id": "amex-everyday-preferred-credit-card",
@@ -2439,7 +2466,7 @@
     "valuation": {
       "cpp_nerdwallet": 1.6,
       "cpp_pointsguy": 2,
-      "cpp_assumed": 1.25,
+      "cpp_assumed": 1.82,
       "cpp_bankrate": 2,
       "cpp_creditkarma": 1.67
     },
@@ -2553,7 +2580,8 @@
         "name": "Marriott Bonvoy",
         "ratio": "1:1"
       }
-    ]
+    ],
+    "points_transfer_eligibility": "direct"
   },
   {
     "id": "amex-cash-magnet-card",
@@ -2569,11 +2597,11 @@
       "apply_url": "https://www.americanexpress.com/us/credit-cards/card/cash-magnet/"
     },
     "valuation": {
-      "cpp_nerdwallet": 0,
-      "cpp_pointsguy": 0,
-      "cpp_assumed": 0,
-      "cpp_bankrate": 0,
-      "cpp_creditkarma": 0
+      "cpp_nerdwallet": 1,
+      "cpp_pointsguy": 1,
+      "cpp_assumed": 1,
+      "cpp_bankrate": 1,
+      "cpp_creditkarma": 1
     },
     "welcome_offer": {
       "points": 200,
@@ -2586,7 +2614,8 @@
       "base_rate": 1.5,
       "categories": {}
     },
-    "developer_notes": "Cash back cannot be used to pay the minimum due; Rewards only earned on eligible purchases (excludes gift cards and person-to-person)"
+    "developer_notes": "Cash back cannot be used to pay the minimum due; Rewards only earned on eligible purchases (excludes gift cards and person-to-person)",
+    "points_transfer_eligibility": "none"
   },
   {
     "id": "amex-centurion-card",
@@ -2604,7 +2633,7 @@
     "valuation": {
       "cpp_nerdwallet": 1.6,
       "cpp_pointsguy": 2,
-      "cpp_assumed": 1.25,
+      "cpp_assumed": 1.82,
       "cpp_bankrate": 2,
       "cpp_creditkarma": 1.67
     },
@@ -2747,7 +2776,8 @@
         "name": "Marriott Bonvoy",
         "ratio": "1:1"
       }
-    ]
+    ],
+    "points_transfer_eligibility": "direct"
   },
   {
     "id": "amex-business-platinum",
@@ -2765,7 +2795,7 @@
     "valuation": {
       "cpp_nerdwallet": 1.6,
       "cpp_pointsguy": 2,
-      "cpp_assumed": 1.25,
+      "cpp_assumed": 1.82,
       "cpp_bankrate": 2,
       "cpp_creditkarma": 1.67
     },
@@ -2936,7 +2966,8 @@
         "name": "Marriott Bonvoy",
         "ratio": "1:1"
       }
-    ]
+    ],
+    "points_transfer_eligibility": "direct"
   },
   {
     "id": "blue-business-plus-credit-card",
@@ -2954,7 +2985,7 @@
     "valuation": {
       "cpp_nerdwallet": 1.6,
       "cpp_pointsguy": 2,
-      "cpp_assumed": 1.25,
+      "cpp_assumed": 1.82,
       "cpp_bankrate": 2,
       "cpp_creditkarma": 1.67
     },
@@ -3055,7 +3086,8 @@
         "name": "Marriott Bonvoy",
         "ratio": "1:1"
       }
-    ]
+    ],
+    "points_transfer_eligibility": "direct"
   },
   {
     "id": "capital-one-venture-rewards",
@@ -3073,7 +3105,7 @@
     "valuation": {
       "cpp_nerdwallet": 1.6,
       "cpp_pointsguy": 1.85,
-      "cpp_assumed": 1.25,
+      "cpp_assumed": 1.66,
       "cpp_bankrate": 1.7,
       "cpp_creditkarma": 1.48
     },
@@ -3196,7 +3228,8 @@
         "name": "Accor Live Limitless",
         "ratio": "2:1"
       }
-    ]
+    ],
+    "points_transfer_eligibility": "direct"
   },
   {
     "id": "capital-one-savor-cash-rewards",
@@ -3214,7 +3247,7 @@
     "valuation": {
       "cpp_nerdwallet": 1.6,
       "cpp_pointsguy": 1.85,
-      "cpp_assumed": 1,
+      "cpp_assumed": 1.66,
       "cpp_bankrate": 1.7,
       "cpp_creditkarma": 1.48
     },
@@ -3339,7 +3372,9 @@
         "name": "Accor Live Limitless",
         "ratio": "2:1"
       }
-    ]
+    ],
+    "points_transfer_eligibility": "pooling_only",
+    "transfer_eligibility_note": "When converted to Capital One miles via eligible miles-earning card"
   },
   {
     "id": "blue-business-cash-card",
@@ -3375,7 +3410,8 @@
         }
       }
     },
-    "developer_notes": "2% rewards capped at $50,000 spend per calendar year; over-limit spending via Expanded Buying Power must be paid in full monthly"
+    "developer_notes": "2% rewards capped at $50,000 spend per calendar year; over-limit spending via Expanded Buying Power must be paid in full monthly",
+    "points_transfer_eligibility": "none"
   },
   {
     "id": "capital-one-ventureone-rewards-credit-card",
@@ -3393,7 +3429,7 @@
     "valuation": {
       "cpp_nerdwallet": 1.6,
       "cpp_pointsguy": 1.85,
-      "cpp_assumed": 1.25,
+      "cpp_assumed": 1.66,
       "cpp_bankrate": 1.7,
       "cpp_creditkarma": 1.48
     },
@@ -3503,7 +3539,8 @@
         "name": "Accor Live Limitless",
         "ratio": "2:1"
       }
-    ]
+    ],
+    "points_transfer_eligibility": "direct"
   },
   {
     "id": "capital-one-savorone-cash-rewards",
@@ -3549,7 +3586,8 @@
         }
       }
     },
-    "developer_notes": "Grocery category excludes superstores like Walmart and Target; Designed for Fair credit; Rebranded in 2025"
+    "developer_notes": "Grocery category excludes superstores like Walmart and Target; Designed for Fair credit; Rebranded in 2025",
+    "points_transfer_eligibility": "none"
   },
   {
     "id": "capital-one-savor-student-cash-rewards",
@@ -3595,7 +3633,8 @@
         }
       }
     },
-    "developer_notes": "Grocery category excludes superstores like Walmart and Target"
+    "developer_notes": "Grocery category excludes superstores like Walmart and Target",
+    "points_transfer_eligibility": "none"
   },
   {
     "id": "capital-one-quicksilver-cash-rewards",
@@ -3642,7 +3681,8 @@
         }
       }
     },
-    "developer_notes": "Bonus ineligible if received in past 48 months"
+    "developer_notes": "Bonus ineligible if received in past 48 months",
+    "points_transfer_eligibility": "none"
   },
   {
     "id": "capital-one-quicksilverone-cash-rewards",
@@ -3679,7 +3719,8 @@
         }
       }
     },
-    "developer_notes": "Automatically considered for a higher credit line in as little as 6 months; designed for fair/average credit"
+    "developer_notes": "Automatically considered for a higher credit line in as little as 6 months; designed for fair/average credit",
+    "points_transfer_eligibility": "none"
   },
   {
     "id": "capital-one-quicksilver-secured-cash-rewards",
@@ -3716,7 +3757,8 @@
         }
       }
     },
-    "developer_notes": "Requires $200 minimum refundable security deposit"
+    "developer_notes": "Requires $200 minimum refundable security deposit",
+    "points_transfer_eligibility": "none"
   },
   {
     "id": "capital-one-platinum-credit-card",
@@ -3743,12 +3785,13 @@
     },
     "developer_notes": "Designed for fair credit; No rewards; Automatic credit limit review after 6 months",
     "valuation": {
-      "cpp_nerdwallet": 0,
-      "cpp_pointsguy": 0,
-      "cpp_assumed": 0,
-      "cpp_bankrate": 0,
-      "cpp_creditkarma": 0
-    }
+      "cpp_nerdwallet": 1,
+      "cpp_pointsguy": 1,
+      "cpp_assumed": 1,
+      "cpp_bankrate": 1,
+      "cpp_creditkarma": 1
+    },
+    "points_transfer_eligibility": "none"
   },
   {
     "id": "capital-one-platinum-secured",
@@ -3775,12 +3818,13 @@
     },
     "developer_notes": "Security deposit ($49, $99, or $200) determined by creditworthiness for same $200 limit; maximum deposit $1000",
     "valuation": {
-      "cpp_nerdwallet": 0,
-      "cpp_pointsguy": 0,
-      "cpp_assumed": 0,
-      "cpp_bankrate": 0,
-      "cpp_creditkarma": 0
-    }
+      "cpp_nerdwallet": 1,
+      "cpp_pointsguy": 1,
+      "cpp_assumed": 1,
+      "cpp_bankrate": 1,
+      "cpp_creditkarma": 1
+    },
+    "points_transfer_eligibility": "none"
   },
   {
     "id": "venture-x-business",
@@ -3798,7 +3842,7 @@
     "valuation": {
       "cpp_nerdwallet": 1.6,
       "cpp_pointsguy": 1.85,
-      "cpp_assumed": 1.25,
+      "cpp_assumed": 1.66,
       "cpp_bankrate": 1.7,
       "cpp_creditkarma": 1.48
     },
@@ -3925,12 +3969,14 @@
         "name": "Accor Live Limitless",
         "ratio": "2:1"
       }
-    ]
+    ],
+    "points_transfer_eligibility": "direct"
   },
   {
     "id": "capital-one-spark-miles-for-business",
     "name": "Capital One Spark Miles for Business",
     "issuer": "Capital One",
+    "card_type": "business",
     "network": "Visa",
     "annual_fee": 95,
     "reward_currency": "Capital One Miles",
@@ -3943,7 +3989,7 @@
     "valuation": {
       "cpp_nerdwallet": 1.6,
       "cpp_pointsguy": 1.85,
-      "cpp_assumed": 1.25,
+      "cpp_assumed": 1.66,
       "cpp_bankrate": 1.7,
       "cpp_creditkarma": 1.48
     },
@@ -4060,7 +4106,8 @@
         "name": "Accor Live Limitless",
         "ratio": "2:1"
       }
-    ]
+    ],
+    "points_transfer_eligibility": "direct"
   },
   {
     "id": "capital-one-spark-cash-plus",
@@ -4102,7 +4149,8 @@
         }
       }
     },
-    "developer_notes": "Charge card must be paid in full monthly; refund requires $150,000 annual spend"
+    "developer_notes": "Charge card must be paid in full monthly; refund requires $150,000 annual spend",
+    "points_transfer_eligibility": "none"
   },
   {
     "id": "citi-strata-elite-card",
@@ -4120,7 +4168,7 @@
     "valuation": {
       "cpp_nerdwallet": 1.6,
       "cpp_pointsguy": 1.9,
-      "cpp_assumed": 1.25,
+      "cpp_assumed": 1.66,
       "cpp_bankrate": 1.6,
       "cpp_creditkarma": 1.55
     },
@@ -4255,7 +4303,8 @@
         "name": "Wyndham Rewards",
         "ratio": "1:1"
       }
-    ]
+    ],
+    "points_transfer_eligibility": "direct"
   },
   {
     "id": "citi-strata-premier-card",
@@ -4273,7 +4322,7 @@
     "valuation": {
       "cpp_nerdwallet": 1.6,
       "cpp_pointsguy": 1.9,
-      "cpp_assumed": 1.25,
+      "cpp_assumed": 1.66,
       "cpp_bankrate": 1.6,
       "cpp_creditkarma": 1.55
     },
@@ -4398,7 +4447,8 @@
         "name": "Wyndham Rewards",
         "ratio": "1:1"
       }
-    ]
+    ],
+    "points_transfer_eligibility": "direct"
   },
   {
     "id": "citi-double-cash-card",
@@ -4416,7 +4466,7 @@
     "valuation": {
       "cpp_nerdwallet": 1.6,
       "cpp_pointsguy": 1.9,
-      "cpp_assumed": 1.25,
+      "cpp_assumed": 1.66,
       "cpp_bankrate": 1.6,
       "cpp_creditkarma": 1.55
     },
@@ -4518,7 +4568,9 @@
         "name": "Wyndham Rewards",
         "ratio": "1:1"
       }
-    ]
+    ],
+    "points_transfer_eligibility": "pooling_only",
+    "transfer_eligibility_note": "When combined with Citi Strata Premier or Strata Elite"
   },
   {
     "id": "citi-custom-cash-card",
@@ -4536,7 +4588,7 @@
     "valuation": {
       "cpp_nerdwallet": 1.6,
       "cpp_pointsguy": 1.9,
-      "cpp_assumed": 1.25,
+      "cpp_assumed": 1.66,
       "cpp_bankrate": 1.6,
       "cpp_creditkarma": 1.55
     },
@@ -4643,7 +4695,9 @@
         "name": "Wyndham Rewards",
         "ratio": "1:1"
       }
-    ]
+    ],
+    "points_transfer_eligibility": "pooling_only",
+    "transfer_eligibility_note": "When combined with Citi Strata Premier or Strata Elite"
   },
   {
     "id": "citi-rewards-plus",
@@ -4661,7 +4715,7 @@
     "valuation": {
       "cpp_nerdwallet": 1.6,
       "cpp_pointsguy": 1.9,
-      "cpp_assumed": 1.25,
+      "cpp_assumed": 1.66,
       "cpp_bankrate": 1.6,
       "cpp_creditkarma": 1.55
     },
@@ -4768,7 +4822,9 @@
         "name": "Wyndham Rewards",
         "ratio": "1:1"
       }
-    ]
+    ],
+    "points_transfer_eligibility": "pooling_only",
+    "transfer_eligibility_note": "When combined with Citi Strata Premier or Strata Elite"
   },
   {
     "id": "citi-simplicity-card",
@@ -4795,12 +4851,13 @@
     },
     "developer_notes": "Balance transfers must be completed within 4 months of account opening to qualify for intro APR",
     "valuation": {
-      "cpp_nerdwallet": 0,
-      "cpp_pointsguy": 0,
-      "cpp_assumed": 0,
-      "cpp_bankrate": 0,
-      "cpp_creditkarma": 0
-    }
+      "cpp_nerdwallet": 1,
+      "cpp_pointsguy": 1,
+      "cpp_assumed": 1,
+      "cpp_bankrate": 1,
+      "cpp_creditkarma": 1
+    },
+    "points_transfer_eligibility": "none"
   },
   {
     "id": "citi-diamond-preferred-card",
@@ -4827,12 +4884,13 @@
     },
     "developer_notes": "Balance transfers must be completed within 4 months of account opening; 5% (min $5) balance transfer fee",
     "valuation": {
-      "cpp_nerdwallet": 0,
-      "cpp_pointsguy": 0,
-      "cpp_assumed": 0,
-      "cpp_bankrate": 0,
-      "cpp_creditkarma": 0
-    }
+      "cpp_nerdwallet": 1,
+      "cpp_pointsguy": 1,
+      "cpp_assumed": 1,
+      "cpp_bankrate": 1,
+      "cpp_creditkarma": 1
+    },
+    "points_transfer_eligibility": "none"
   },
   {
     "id": "citi-secured-mastercard",
@@ -4859,12 +4917,13 @@
     },
     "developer_notes": "Security deposit of $200-$2500 required; deposit equals credit limit; no bankruptcy history in past 2 years",
     "valuation": {
-      "cpp_nerdwallet": 0,
-      "cpp_pointsguy": 0,
-      "cpp_assumed": 0,
-      "cpp_bankrate": 0,
-      "cpp_creditkarma": 0
-    }
+      "cpp_nerdwallet": 1,
+      "cpp_pointsguy": 1,
+      "cpp_assumed": 1,
+      "cpp_bankrate": 1,
+      "cpp_creditkarma": 1
+    },
+    "points_transfer_eligibility": "none"
   },
   {
     "id": "wells-fargo-autograph-journey",
@@ -4882,7 +4941,7 @@
     "valuation": {
       "cpp_nerdwallet": 1,
       "cpp_pointsguy": 1.65,
-      "cpp_assumed": 1,
+      "cpp_assumed": 1.22,
       "cpp_bankrate": 1
     },
     "welcome_offer": {
@@ -4952,7 +5011,8 @@
         "name": "Hilton Honors",
         "ratio": "1:2"
       }
-    ]
+    ],
+    "points_transfer_eligibility": "direct"
   },
   {
     "id": "wells-fargo-autograph-card",
@@ -4970,7 +5030,7 @@
     "valuation": {
       "cpp_nerdwallet": 1,
       "cpp_pointsguy": 1.65,
-      "cpp_assumed": 1,
+      "cpp_assumed": 1.22,
       "cpp_bankrate": 1
     },
     "welcome_offer": {
@@ -5039,7 +5099,8 @@
         "name": "Hilton Honors",
         "ratio": "1:2"
       }
-    ]
+    ],
+    "points_transfer_eligibility": "direct"
   },
   {
     "id": "wells-fargo-active-cash",
@@ -5057,7 +5118,7 @@
     "valuation": {
       "cpp_nerdwallet": 1,
       "cpp_pointsguy": 1.65,
-      "cpp_assumed": 1,
+      "cpp_assumed": 1.22,
       "cpp_bankrate": 1
     },
     "welcome_offer": {
@@ -5109,7 +5170,9 @@
         "name": "Hilton Honors",
         "ratio": "1:2"
       }
-    ]
+    ],
+    "points_transfer_eligibility": "pooling_only",
+    "transfer_eligibility_note": "When combined with Autograph Journey or Autograph"
   },
   {
     "id": "wells-fargo-reflect-card",
@@ -5136,12 +5199,14 @@
     },
     "developer_notes": "Balance transfers must be completed within 120 days to qualify for intro APR; 5% ($5 min) BT fee",
     "valuation": {
-      "cpp_nerdwallet": 0,
-      "cpp_pointsguy": 0,
-      "cpp_assumed": 0,
-      "cpp_bankrate": 0,
-      "cpp_creditkarma": 0
-    }
+      "cpp_nerdwallet": 1,
+      "cpp_pointsguy": 1,
+      "cpp_assumed": 1,
+      "cpp_bankrate": 1,
+      "cpp_creditkarma": 1
+    },
+    "points_transfer_eligibility": "pooling_only",
+    "transfer_eligibility_note": "When combined with Autograph Journey"
   },
   {
     "id": "wells-fargo-attune-card",
@@ -5159,7 +5224,7 @@
     "valuation": {
       "cpp_nerdwallet": 1,
       "cpp_pointsguy": 1.65,
-      "cpp_assumed": 1,
+      "cpp_assumed": 1.22,
       "cpp_bankrate": 1
     },
     "welcome_offer": {
@@ -5215,7 +5280,9 @@
         "name": "Hilton Honors",
         "ratio": "1:2"
       }
-    ]
+    ],
+    "points_transfer_eligibility": "pooling_only",
+    "transfer_eligibility_note": "When combined with Wells Fargo Autograph"
   },
   {
     "id": "wells-fargo-signia-card",
@@ -5233,7 +5300,7 @@
     "valuation": {
       "cpp_nerdwallet": 1,
       "cpp_pointsguy": 1.65,
-      "cpp_assumed": 1,
+      "cpp_assumed": 1.22,
       "cpp_bankrate": 1
     },
     "welcome_offer": {
@@ -5300,7 +5367,8 @@
         "name": "Hilton Honors",
         "ratio": "1:2"
       }
-    ]
+    ],
+    "points_transfer_eligibility": "none"
   },
   {
     "id": "bank-of-america-premium-rewards-elite",
@@ -5355,7 +5423,8 @@
         }
       }
     },
-    "developer_notes": "25-75% point bonus for Preferred Rewards members; Primary Rental Car CDW; No transfer partners"
+    "developer_notes": "25-75% point bonus for Preferred Rewards members; Primary Rental Car CDW; No transfer partners",
+    "points_transfer_eligibility": "none"
   },
   {
     "id": "bank-of-america-premium-rewards",
@@ -5404,7 +5473,8 @@
         }
       }
     },
-    "developer_notes": "Preferred Rewards members earn 25% to 75% more points"
+    "developer_notes": "Preferred Rewards members earn 25% to 75% more points",
+    "points_transfer_eligibility": "none"
   },
   {
     "id": "bank-of-america-customized-cash-rewards",
@@ -5442,7 +5512,8 @@
         }
       }
     },
-    "developer_notes": "$2,500 quarterly cap on combined 3% and 2% categories; category can be changed once per month"
+    "developer_notes": "$2,500 quarterly cap on combined 3% and 2% categories; category can be changed once per month",
+    "points_transfer_eligibility": "none"
   },
   {
     "id": "bank-of-america-unlimited-cash-rewards",
@@ -5472,7 +5543,8 @@
       "base_rate": 1.5,
       "categories": {}
     },
-    "developer_notes": "Preferred Rewards bonus excludes first-year 0.5% boost; Tier re-evaluation starts Nov 2026"
+    "developer_notes": "Preferred Rewards bonus excludes first-year 0.5% boost; Tier re-evaluation starts Nov 2026",
+    "points_transfer_eligibility": "none"
   },
   {
     "id": "bank-of-america-travel-rewards",
@@ -5507,7 +5579,8 @@
         }
       }
     },
-    "developer_notes": "Preferred Rewards/BofA Rewards members earn 25% to 75% bonus; Points only worth 1 cent for travel and dining statement credits"
+    "developer_notes": "Preferred Rewards/BofA Rewards members earn 25% to 75% bonus; Points only worth 1 cent for travel and dining statement credits",
+    "points_transfer_eligibility": "none"
   },
   {
     "id": "bank-of-america-bankamericard",
@@ -5534,12 +5607,13 @@
     },
     "developer_notes": "Primarily a balance transfer card with no rewards program",
     "valuation": {
-      "cpp_nerdwallet": 0,
-      "cpp_pointsguy": 0,
-      "cpp_assumed": 0,
-      "cpp_bankrate": 0,
-      "cpp_creditkarma": 0
-    }
+      "cpp_nerdwallet": 1,
+      "cpp_pointsguy": 1,
+      "cpp_assumed": 1,
+      "cpp_bankrate": 1,
+      "cpp_creditkarma": 1
+    },
+    "points_transfer_eligibility": "none"
   },
   {
     "id": "us-bank-altitude-reserve-visa-infinite",
@@ -5555,7 +5629,7 @@
       "apply_url": "https://www.usbank.com/credit-cards/altitude-reserve-visa-infinite-credit-card.html"
     },
     "valuation": {
-      "cpp_assumed": 1.25,
+      "cpp_assumed": 1.5,
       "cpp_bankrate": 1.5
     },
     "welcome_offer": {
@@ -5593,7 +5667,8 @@
         }
       }
     },
-    "developer_notes": "Currently not accepting new applications; points are worth 1.5 cents toward travel redemptions"
+    "developer_notes": "Currently not accepting new applications; points are worth 1.5 cents toward travel redemptions",
+    "points_transfer_eligibility": "none"
   },
   {
     "id": "us-bank-altitude-connect-visa-signature",
@@ -5609,7 +5684,7 @@
       "apply_url": "https://www.usbank.com/credit-cards/altitude-connect-visa-signature-credit-card.html"
     },
     "valuation": {
-      "cpp_assumed": 1,
+      "cpp_assumed": 1.5,
       "cpp_bankrate": 1.5
     },
     "welcome_offer": {
@@ -5638,7 +5713,8 @@
         }
       }
     },
-    "developer_notes": "Points are fixed value; No transfer partners; 4x category capped at $1,000 spend per quarter"
+    "developer_notes": "Points are fixed value; No transfer partners; 4x category capped at $1,000 spend per quarter",
+    "points_transfer_eligibility": "none"
   },
   {
     "id": "us-bank-altitude-go-visa-signature",
@@ -5680,7 +5756,8 @@
         }
       }
     },
-    "developer_notes": "4x dining multiplier capped at $2,000 spend per quarter; points expire after 12 months of inactivity"
+    "developer_notes": "4x dining multiplier capped at $2,000 spend per quarter; points expire after 12 months of inactivity",
+    "points_transfer_eligibility": "none"
   },
   {
     "id": "us-bank-cash-plus-visa-signature",
@@ -5717,7 +5794,8 @@
         }
       }
     },
-    "developer_notes": "Must manually activate categories each quarter to earn bonus; Rewards expire after 36 months; $25 minimum redemption"
+    "developer_notes": "Must manually activate categories each quarter to earn bonus; Rewards expire after 36 months; $25 minimum redemption",
+    "points_transfer_eligibility": "none"
   },
   {
     "id": "us-bank-smartly-visa-signature",
@@ -5746,7 +5824,8 @@
       "base_rate": 2,
       "categories": {}
     },
-    "developer_notes": "Boosted rates capped at $10,000 spend per cycle and require specific account pairings"
+    "developer_notes": "Boosted rates capped at $10,000 spend per cycle and require specific account pairings",
+    "points_transfer_eligibility": "none"
   },
   {
     "id": "us-bank-shield-visa-card",
@@ -5791,7 +5870,8 @@
         }
       }
     },
-    "developer_notes": "$20 credit requires 11 consecutive months of purchases"
+    "developer_notes": "$20 credit requires 11 consecutive months of purchases",
+    "points_transfer_eligibility": "none"
   },
   {
     "id": "discover-it-cash-back",
@@ -5829,7 +5909,8 @@
         }
       }
     },
-    "developer_notes": "Must activate categories quarterly; Cashback Match only for first year"
+    "developer_notes": "Must activate categories quarterly; Cashback Match only for first year",
+    "points_transfer_eligibility": "none"
   },
   {
     "id": "discover-it-miles",
@@ -5858,7 +5939,8 @@
       "base_rate": 1.5,
       "categories": {}
     },
-    "developer_notes": "First year miles match replaces traditional signup bonus"
+    "developer_notes": "First year miles match replaces traditional signup bonus",
+    "points_transfer_eligibility": "none"
   },
   {
     "id": "discover-it-chrome",
@@ -5896,7 +5978,8 @@
         }
       }
     },
-    "developer_notes": "2% rewards cap resets quarterly; Cashback Match only for first year"
+    "developer_notes": "2% rewards cap resets quarterly; Cashback Match only for first year",
+    "points_transfer_eligibility": "none"
   },
   {
     "id": "discover-it-student-cash-back",
@@ -5937,7 +6020,8 @@
         }
       }
     },
-    "developer_notes": "Activation required for 5% categories; Must provide proof of enrollment; First late fee waived"
+    "developer_notes": "Activation required for 5% categories; Must provide proof of enrollment; First late fee waived",
+    "points_transfer_eligibility": "none"
   },
   {
     "id": "discover-it-secured",
@@ -5975,7 +6059,8 @@
         }
       }
     },
-    "developer_notes": "Automatic account reviews starting at 7 months for possible upgrade to unsecured card; security deposit defines credit limit"
+    "developer_notes": "Automatic account reviews starting at 7 months for possible upgrade to unsecured card; security deposit defines credit limit",
+    "points_transfer_eligibility": "none"
   },
   {
     "id": "apple-card",
@@ -6011,7 +6096,8 @@
         }
       }
     },
-    "developer_notes": "0% APR financing for Apple products, no fees of any kind, physical card transactions limited to 1%"
+    "developer_notes": "0% APR financing for Apple products, no fees of any kind, physical card transactions limited to 1%",
+    "points_transfer_eligibility": "none"
   },
   {
     "id": "bilt-blue-card",
@@ -6029,7 +6115,7 @@
     "valuation": {
       "cpp_nerdwallet": 1.8,
       "cpp_pointsguy": 2.2,
-      "cpp_assumed": 1.25,
+      "cpp_assumed": 1.97,
       "cpp_bankrate": 2.1,
       "cpp_creditkarma": 1.78
     },
@@ -6152,7 +6238,8 @@
         "name": "Hilton Honors",
         "ratio": "1:1"
       }
-    ]
+    ],
+    "points_transfer_eligibility": "direct"
   },
   {
     "id": "bilt-palladium-card",
@@ -6170,7 +6257,7 @@
     "valuation": {
       "cpp_nerdwallet": 1.8,
       "cpp_pointsguy": 2.2,
-      "cpp_assumed": 1.25,
+      "cpp_assumed": 1.97,
       "cpp_bankrate": 2.1,
       "cpp_creditkarma": 1.78
     },
@@ -6308,7 +6395,8 @@
         "name": "Hilton Honors",
         "ratio": "1:1"
       }
-    ]
+    ],
+    "points_transfer_eligibility": "direct"
   },
   {
     "id": "atmos-rewards-summit-visa-infinite",
@@ -6353,7 +6441,8 @@
         }
       }
     },
-    "developer_notes": "Bank of America 2/3/4 rule applies, 3/12 rule for non-customers, 10% relationship bonus for BofA account holders"
+    "developer_notes": "Bank of America 2/3/4 rule applies, 3/12 rule for non-customers, 10% relationship bonus for BofA account holders",
+    "points_transfer_eligibility": "none"
   },
   {
     "id": "sofi-unlimited-2-percent-credit-card",
@@ -6394,7 +6483,8 @@
         }
       }
     },
-    "developer_notes": "Points must be redeemed into SoFi accounts for 1 cent per point value; some users may be targeted for a $10 monthly fee to maintain SoFi Plus benefits"
+    "developer_notes": "Points must be redeemed into SoFi accounts for 1 cent per point value; some users may be targeted for a $10 monthly fee to maintain SoFi Plus benefits",
+    "points_transfer_eligibility": "none"
   },
   {
     "id": "upgrade-cash-rewards-visa",
@@ -6426,7 +6516,8 @@
       "base_rate": 1.5,
       "categories": {}
     },
-    "developer_notes": "Rewards earned upon payment not purchase; Reports as installment loan; No ATM cash advances"
+    "developer_notes": "Rewards earned upon payment not purchase; Reports as installment loan; No ATM cash advances",
+    "points_transfer_eligibility": "none"
   },
   {
     "id": "venmo-credit-card",
@@ -6462,7 +6553,8 @@
         }
       }
     },
-    "developer_notes": "Top spend categories are automatically calculated monthly; rewards can be auto-converted to crypto"
+    "developer_notes": "Top spend categories are automatically calculated monthly; rewards can be auto-converted to crypto",
+    "points_transfer_eligibility": "none"
   },
   {
     "id": "x1-card",
@@ -6490,7 +6582,8 @@
       "base_rate": 1.5,
       "categories": {}
     },
-    "developer_notes": "Acquired by Robinhood; Rewards rate lowered to 1.5x in late 2025; Underwriting based on income via Plaid"
+    "developer_notes": "Acquired by Robinhood; Rewards rate lowered to 1.5x in late 2025; Underwriting based on income via Plaid",
+    "points_transfer_eligibility": "none"
   },
   {
     "id": "x1-plus-card",
@@ -6525,7 +6618,8 @@
         }
       }
     },
-    "developer_notes": "Applications currently closed; Card uses income-based underwriting instead of credit scores"
+    "developer_notes": "Applications currently closed; Card uses income-based underwriting instead of credit scores",
+    "points_transfer_eligibility": "none"
   },
   {
     "id": "pnc-cash-unlimited-visa-signature",
@@ -6557,7 +6651,8 @@
       "base_rate": 2,
       "categories": {}
     },
-    "developer_notes": "Online applications require an existing PNC Bank relationship; otherwise, applicants must apply in a physical branch"
+    "developer_notes": "Online applications require an existing PNC Bank relationship; otherwise, applicants must apply in a physical branch",
+    "points_transfer_eligibility": "none"
   },
   {
     "id": "pnc-cash-rewards-visa",
@@ -6601,7 +6696,8 @@
         }
       }
     },
-    "developer_notes": "$8,000 annual spending cap on bonus categories; $25 minimum redemption amount; SUB requires online application"
+    "developer_notes": "$8,000 annual spending cap on bonus categories; $25 minimum redemption amount; SUB requires online application",
+    "points_transfer_eligibility": "none"
   },
   {
     "id": "pnc-points-visa",
@@ -6630,7 +6726,8 @@
       "base_rate": 1,
       "categories": {}
     },
-    "developer_notes": "No longer accepting new applications; points expire after 48 months"
+    "developer_notes": "No longer accepting new applications; points expire after 48 months",
+    "points_transfer_eligibility": "none"
   },
   {
     "id": "truist-enjoy-travel",
@@ -6676,7 +6773,8 @@
         }
       }
     },
-    "developer_notes": "Miles expire after 5 years and require a 2,500 mile minimum for redemption"
+    "developer_notes": "Miles expire after 5 years and require a 2,500 mile minimum for redemption",
+    "points_transfer_eligibility": "none"
   },
   {
     "id": "truist-enjoy-cash",
@@ -6718,7 +6816,8 @@
         }
       }
     },
-    "developer_notes": "Cardholder must choose between tiered (3-2-1) or flat (1.5) rewards at application and cannot change it later"
+    "developer_notes": "Cardholder must choose between tiered (3-2-1) or flat (1.5) rewards at application and cannot change it later",
+    "points_transfer_eligibility": "none"
   },
   {
     "id": "truist-enjoy-beyond",
@@ -6768,7 +6867,8 @@
         }
       }
     },
-    "developer_notes": "Annual fee waived for Wealth Clients; 10% to 50% Loyalty Cash Bonus on redemptions into Truist deposit accounts"
+    "developer_notes": "Annual fee waived for Wealth Clients; 10% to 50% Loyalty Cash Bonus on redemptions into Truist deposit accounts",
+    "points_transfer_eligibility": "none"
   },
   {
     "id": "td-first-class-visa-signature",
@@ -6804,7 +6904,8 @@
         }
       }
     },
-    "developer_notes": "Miles never expire as long as account is open; bonus split into first purchase and spend requirement; 0% intro APR on balance transfers for 12 months"
+    "developer_notes": "Miles never expire as long as account is open; bonus split into first purchase and spend requirement; 0% intro APR on balance transfers for 12 months",
+    "points_transfer_eligibility": "none"
   },
   {
     "id": "td-double-up-credit-card",
@@ -6836,7 +6937,8 @@
       "base_rate": 2,
       "categories": {}
     },
-    "developer_notes": "Must have TD Bank deposit account for full 2% back redemption flexibility"
+    "developer_notes": "Must have TD Bank deposit account for full 2% back redemption flexibility",
+    "points_transfer_eligibility": "none"
   },
   {
     "id": "td-cash-credit-card",
@@ -6875,7 +6977,8 @@
         }
       }
     },
-    "developer_notes": "Must choose spending categories quarterly or defaults to Dining (3%) and Grocery (2%)"
+    "developer_notes": "Must choose spending categories quarterly or defaults to Dining (3%) and Grocery (2%)",
+    "points_transfer_eligibility": "none"
   },
   {
     "id": "navy-federal-flagship-rewards",
@@ -6921,7 +7024,8 @@
         }
       }
     },
-    "developer_notes": "Must be a Navy Federal member to apply; Points value is fixed at 1 cent each"
+    "developer_notes": "Must be a Navy Federal member to apply; Points value is fixed at 1 cent each",
+    "points_transfer_eligibility": "none"
   },
   {
     "id": "navy-federal-cashrewards",
@@ -6957,7 +7061,8 @@
         }
       }
     },
-    "developer_notes": "Membership required (Armed Forces, DoD, veterans, or family); Approval for $5k+ limit automatically issues cashRewards Plus version"
+    "developer_notes": "Membership required (Armed Forces, DoD, veterans, or family); Approval for $5k+ limit automatically issues cashRewards Plus version",
+    "points_transfer_eligibility": "none"
   },
   {
     "id": "penfed-pathfinder-rewards",
@@ -7012,7 +7117,8 @@
           "rate": 3
         }
       }
-    }
+    },
+    "points_transfer_eligibility": "none"
   },
   {
     "id": "penfed-power-cash-rewards",
@@ -7044,7 +7150,8 @@
       "base_rate": 1.5,
       "categories": {}
     },
-    "developer_notes": "Must be a PenFed member to apply; Honors Advantage requires military service or a PenFed checking account with a $500 balance/direct deposit"
+    "developer_notes": "Must be a PenFed member to apply; Honors Advantage requires military service or a PenFed checking account with a $500 balance/direct deposit",
+    "points_transfer_eligibility": "none"
   },
   {
     "id": "alliant-cashback-visa-signature-credit-card",
@@ -7076,7 +7183,8 @@
       "base_rate": 1.5,
       "categories": {}
     },
-    "developer_notes": "Rewards expire after 4 years; $25 minimum redemption requirement"
+    "developer_notes": "Rewards expire after 4 years; $25 minimum redemption requirement",
+    "points_transfer_eligibility": "none"
   },
   {
     "id": "barclays-view-mastercard",
@@ -7114,7 +7222,8 @@
         }
       }
     },
-    "developer_notes": "Points forfeited if account closed for non-use; Targeted offer only"
+    "developer_notes": "Points forfeited if account closed for non-use; Targeted offer only",
+    "points_transfer_eligibility": "none"
   },
   {
     "id": "barclays-arrival-premier",
@@ -7149,7 +7258,8 @@
       "base_rate": 1,
       "categories": {}
     },
-    "developer_notes": "No longer available to new applicants; 10,000 mile minimum for travel redemptions"
+    "developer_notes": "No longer available to new applicants; 10,000 mile minimum for travel redemptions",
+    "points_transfer_eligibility": "none"
   },
   {
     "id": "fifth-third-preferred-cash-back",
@@ -7181,7 +7291,8 @@
       "base_rate": 2,
       "categories": {}
     },
-    "developer_notes": "Requires Fifth Third Preferred Banking ($100k+ balance); Available only in FL, GA, IL, IN, KY, MI, NC, OH, SC, TN, and WV"
+    "developer_notes": "Requires Fifth Third Preferred Banking ($100k+ balance); Available only in FL, GA, IL, IN, KY, MI, NC, OH, SC, TN, and WV",
+    "points_transfer_eligibility": "none"
   },
   {
     "id": "huntington-voice-credit-card",
@@ -7208,12 +7319,13 @@
     },
     "developer_notes": "The Lower Rate version of the Voice card does not earn rewards; Late Fee Grace provides one extra day to make a payment without a late fee",
     "valuation": {
-      "cpp_nerdwallet": 0,
-      "cpp_pointsguy": 0,
-      "cpp_assumed": 0,
-      "cpp_bankrate": 0,
-      "cpp_creditkarma": 0
-    }
+      "cpp_nerdwallet": 1,
+      "cpp_pointsguy": 1,
+      "cpp_assumed": 1,
+      "cpp_bankrate": 1,
+      "cpp_creditkarma": 1
+    },
+    "points_transfer_eligibility": "none"
   },
   {
     "id": "regions-prestige-visa",
@@ -7249,7 +7361,8 @@
         }
       }
     },
-    "developer_notes": "Rewards Multiplier program allows earning up to 1% extra based on deposit account balances"
+    "developer_notes": "Rewards Multiplier program allows earning up to 1% extra based on deposit account balances",
+    "points_transfer_eligibility": "none"
   },
   {
     "id": "citizens-bank-cash-back-plus",
@@ -7281,6 +7394,7 @@
       "base_rate": 1.8,
       "categories": {}
     },
-    "developer_notes": "Discontinued for new applicants as of June 2025; 1.8% rate requires monthly use and direct deposit of rewards"
+    "developer_notes": "Discontinued for new applicants as of June 2025; 1.8% rate requires monthly use and direct deposit of rewards",
+    "points_transfer_eligibility": "none"
   }
 ]
