@@ -12,6 +12,9 @@
       "issuer": { "type": "string" },
       "annual_fee": { "type": "number" },
       "reward_currency": { "type": "string" },
+      "anniversary_bonus": {
+        "type": ["string", "null"]
+      },
       "ui_elements": {
         "type": "object",
         "properties": {
@@ -27,8 +30,11 @@
       "valuation": {
         "type": "object",
         "properties": {
-          "cpp_floor": { "type": "number" },
-          "cpp_ceiling": { "type": "number" }
+          "cpp_nerdwallet": { "type": "number" },
+          "cpp_pointsguy": { "type": "number" },
+          "cpp_assumed": { "type": "number" },
+          "cpp_bankrate": { "type": "number" },
+          "cpp_creditkarma": { "type": "number" }
         },
         "additionalProperties": false
       },
@@ -50,7 +56,25 @@
             "name": { "type": "string" },
             "amount": { "type": "number" },
             "deducts_from_eligible_spend": { "type": "boolean" },
-            "frequency": { "type": "string" }
+            "frequency": {
+              "type": "string",
+              "anyOf": [
+                {
+                  "enum": [
+                    "monthly",
+                    "quarterly",
+                    "yearly",
+                    "semi_annual",
+                    "one_time",
+                    "per_instance"
+                  ]
+                },
+                {
+                  "pattern": "^every_[1-9][0-9]*_years$"
+                }
+              ]
+            },
+            "restrictions": { "type": "string" }
           },
           "additionalProperties": false
         }

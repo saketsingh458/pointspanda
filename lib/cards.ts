@@ -62,6 +62,16 @@ const MULTIPLIER_CATEGORY_TO_SPEND: Record<string, SpendCategoryId> = {
   other: "other",
 }
 
+/**
+ * Normalize issuer-specific or legacy key aliases to canonical keys before parsing.
+ * This avoids silent 1x fallback when new cards introduce equivalent naming.
+ */
+const MULTIPLIER_CATEGORY_KEY_ALIASES: Record<string, string> = {
+  flights_robinhood_portal: "travel_portal_flights",
+  hotels_rental_cars_robinhood_portal: "travel_portal_hotels_cars",
+  lyft: "travel",
+}
+
 const GENERAL_OTHER_KEYS = new Set(["other", "1_all_other", "all_purchases"])
 const GENERAL_OTHER_KEY_RE = /^[0-9]+x_on_all_purchases$/
 
@@ -81,8 +91,13 @@ function channelLabel(key: string): string {
     .join(" ")
 }
 
-function inferSpendCategoryFromKey(rawKey: string): SpendCategoryId | null {
+function normalizeMultiplierCategoryKey(rawKey: string): string {
   const key = rawKey.trim().toLowerCase()
+  return MULTIPLIER_CATEGORY_KEY_ALIASES[key] ?? key
+}
+
+function inferSpendCategoryFromKey(rawKey: string): SpendCategoryId | null {
+  const key = normalizeMultiplierCategoryKey(rawKey)
   if (GENERAL_OTHER_KEYS.has(key) || GENERAL_OTHER_KEY_RE.test(key)) return "other"
 
   const explicit = MULTIPLIER_CATEGORY_TO_SPEND[key]
@@ -100,7 +115,7 @@ function inferSpendCategoryFromKey(rawKey: string): SpendCategoryId | null {
 }
 
 function inferBookingChannelFromKey(rawKey: string): EarnChannel {
-  const key = rawKey.trim().toLowerCase()
+  const key = normalizeMultiplierCategoryKey(rawKey)
   if (key.includes("direct_or_portal")) return "either"
   if (key.includes("portal")) return "portal"
   if (key.includes("direct")) return "direct"
@@ -108,7 +123,7 @@ function inferBookingChannelFromKey(rawKey: string): EarnChannel {
 }
 
 function inferTravelSubtypeFromKey(rawKey: string): TravelSubtype {
-  const key = rawKey.trim().toLowerCase()
+  const key = normalizeMultiplierCategoryKey(rawKey)
   if (key.includes("flight") || key.includes("airfare")) return "flight"
   if (key.includes("hotel")) return "hotel"
   if (key.includes("rental_cars") || key.includes("car")) return "car"
@@ -138,12 +153,13 @@ function rawToCard(raw: CardRaw): Card {
   const caps: Partial<Record<SpendCategoryId, number>> = {}
 
   for (const [key, config] of Object.entries(cats)) {
+    const normalizedKey = normalizeMultiplierCategoryKey(key)
     const spendCat = inferSpendCategoryFromKey(key)
     if (!spendCat) continue
     const rate = config.rate
     if (rate > (mults[spendCat] ?? 0)) mults[spendCat] = rate
 
-    const channel = channelLabel(key)
+    const channel = channelLabel(normalizedKey)
     const capPeriod = normalizeCapPeriod(config.cap_period)
     const rateEntry: CategoryEarnRate = {
       channel,
@@ -172,6 +188,7 @@ function rawToCard(raw: CardRaw): Card {
           amount: sc.amount,
           deductsFromEligibleSpend: sc.deducts_from_eligible_spend,
           frequency: sc.frequency,
+          ...(sc.restrictions ? { restrictions: sc.restrictions } : {}),
         }))
       : undefined
   const transferPartners: TransferPartner[] | undefined =
@@ -183,8 +200,11 @@ function rawToCard(raw: CardRaw): Card {
       : undefined
 
   const valuation = raw.valuation
-  const cppFloor = valuation?.cpp_floor
-  const cppCeiling = valuation?.cpp_ceiling
+  const cppNerdWallet = valuation?.cpp_nerdwallet
+  const cppPointsGuy = valuation?.cpp_pointsguy
+  const cppBankrate = valuation?.cpp_bankrate
+  const cppCreditKarma = valuation?.cpp_creditkarma
+  const cppAssumed = valuation?.cpp_assumed
 
   return {
     id: raw.id,
@@ -198,6 +218,7 @@ function rawToCard(raw: CardRaw): Card {
     benefits: raw.ui_elements.benefits_list ?? [],
     benefitSummary: (raw.ui_elements.benefits_list ?? []).slice(0, 3),
     applyUrl: raw.ui_elements.apply_url,
+    imageUrl: raw.ui_elements.image_url ?? undefined,
     statementCredits,
     transferPartners,
     ...(raw.welcome_offer && {
@@ -205,11 +226,21 @@ function rawToCard(raw: CardRaw): Card {
       signUpBonusSpendRequirement: raw.welcome_offer.spend_requirement,
       signUpBonusTimeframeMonths: raw.welcome_offer.timeframe_months,
     }),
-    ...(cppFloor != null && {
-      pointsValueBaseCents: Math.round(cppFloor * 100),
+    ...(raw.anniversary_bonus && { anniversaryBonus: raw.anniversary_bonus }),
+    ...(cppNerdWallet != null && {
+      pointsValueNerdWalletCents: Math.round(cppNerdWallet * 100),
     }),
-    ...(cppCeiling != null && {
-      pointsValueMaxCents: Math.round(cppCeiling * 100),
+    ...(cppPointsGuy != null && {
+      pointsValuePointsGuyCents: Math.round(cppPointsGuy * 100),
+    }),
+    ...(cppBankrate != null && {
+      pointsValueBankrateCents: Math.round(cppBankrate * 100),
+    }),
+    ...(cppCreditKarma != null && {
+      pointsValueCreditKarmaCents: Math.round(cppCreditKarma * 100),
+    }),
+    ...(cppAssumed != null && {
+      pointsValueAssumedCents: Math.round(cppAssumed * 100),
     }),
     ...(raw.reward_currency && { rewardCurrency: raw.reward_currency }),
     ...(raw.synergy_ecosystem && { synergyEcosystem: raw.synergy_ecosystem }),
@@ -259,4 +290,68 @@ export function getCardsForBrand(brandId: string): Card[] {
   return CARD_CATALOG.filter(
     (c) => c.brandIds && c.brandIds.includes(brandId)
   )
+}
+
+const DEFAULT_CPP_CENTS = 125
+
+const EDITORIAL_CPP_KEYS = [
+  "pointsValueNerdWalletCents",
+  "pointsValuePointsGuyCents",
+  "pointsValueBankrateCents",
+  "pointsValueCreditKarmaCents",
+] as const
+
+/**
+ * Average of the 4 editorial CPP sources (NerdWallet, TPG, Bankrate, Credit Karma).
+ * Returns null when no editorial sources exist (e.g. cash-back cards).
+ */
+export function getCardAverageCppCents(card: Card): number | null {
+  const values: number[] = []
+  for (const key of EDITORIAL_CPP_KEYS) {
+    const v = card[key] as number | undefined
+    if (v != null && v > 0) values.push(v)
+  }
+  if (values.length === 0) return null
+  const sum = values.reduce((a, b) => a + b, 0)
+  return Math.round(sum / values.length)
+}
+
+/**
+ * CPP (cents per point) used for strategy ranking.
+ * Uses average of NerdWallet, TPG, Bankrate, Credit Karma when available;
+ * otherwise falls back to assumed, legacy base, then 1.25.
+ */
+export function getCardRankingCppCents(card: Card): number {
+  const avg = getCardAverageCppCents(card)
+  if (avg != null) return avg
+  return (
+    card.pointsValueAssumedCents ??
+    card.pointsValueBaseCents ??
+    DEFAULT_CPP_CENTS
+  )
+}
+
+/**
+ * CPP sources for display (NerdWallet, TPG, Bankrate, Credit Karma, assumed), in cents. Excludes null/undefined.
+ */
+export function getCardCppSources(card: Card): {
+  nerdwallet?: number
+  pointsguy?: number
+  bankrate?: number
+  creditkarma?: number
+  assumed?: number
+} {
+  const out: {
+    nerdwallet?: number
+    pointsguy?: number
+    bankrate?: number
+    creditkarma?: number
+    assumed?: number
+  } = {}
+  if (card.pointsValueNerdWalletCents != null) out.nerdwallet = card.pointsValueNerdWalletCents
+  if (card.pointsValuePointsGuyCents != null) out.pointsguy = card.pointsValuePointsGuyCents
+  if (card.pointsValueBankrateCents != null) out.bankrate = card.pointsValueBankrateCents
+  if (card.pointsValueCreditKarmaCents != null) out.creditkarma = card.pointsValueCreditKarmaCents
+  if (card.pointsValueAssumedCents != null) out.assumed = card.pointsValueAssumedCents
+  return out
 }

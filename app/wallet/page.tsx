@@ -2,8 +2,11 @@
 
 import { useState, useMemo } from "react"
 import Link from "next/link"
-import { Search, ArrowRight, ArrowLeft, Plus, Wallet, CreditCard } from "lucide-react"
+import { Search, ArrowRight, ArrowLeft, Plus, Wallet, CreditCard, GitCompare } from "lucide-react"
 import type { Card } from "@/lib/types"
+import { COMPARE_MAX_CARDS, COMPARE_MIN_CARDS } from "@/lib/card-compare"
+import { CardCompareDialog } from "@/components/card-compare-dialog"
+import { CardCompareTray } from "@/components/card-compare-tray"
 import { StepIndicator } from "@/components/step-indicator"
 import { CardDetailDialog } from "@/components/card-detail-dialog"
 import { Card as CardUi, CardContent } from "@/components/ui/card"
@@ -14,17 +17,36 @@ import { usePointPath } from "@/contexts/pointpath-context"
 import { getCardsByIds, searchCards } from "@/lib/cards"
 
 export default function WalletPage() {
-  const { walletCardIds, addWalletCard, removeWalletCard } = usePointPath()
+  const {
+    walletCardIds,
+    compareCardIds,
+    addWalletCard,
+    removeWalletCard,
+    toggleCompareCard,
+    removeCompareCard,
+    clearCompareCards,
+  } = usePointPath()
   const [searchQuery, setSearchQuery] = useState("")
   const [detailCard, setDetailCard] = useState<Card | null>(null)
   const [detailOpen, setDetailOpen] = useState(false)
+  const [compareOpen, setCompareOpen] = useState(false)
 
   const walletCards = useMemo(() => getCardsByIds(walletCardIds), [walletCardIds])
+  const compareCards = useMemo(() => getCardsByIds(compareCardIds), [compareCardIds])
 
   const searchResults = useMemo(() => {
     const results = searchCards(searchQuery)
     return results.filter((c) => !walletCardIds.includes(c.id))
   }, [searchQuery, walletCardIds])
+
+  const compareLimitReached = compareCardIds.length >= COMPARE_MAX_CARDS
+  const compareReady = compareCards.length >= COMPARE_MIN_CARDS
+
+  function openCardDetails(card: Card) {
+    setCompareOpen(false)
+    setDetailCard(card)
+    setDetailOpen(true)
+  }
 
   return (
     <main className="min-h-svh bg-background">
@@ -35,7 +57,9 @@ export default function WalletPage() {
         </div>
       </div>
 
-      <div className="mx-auto max-w-5xl px-6 py-10 md:py-12">
+      <div
+        className={`mx-auto max-w-5xl px-6 py-10 md:py-12 ${compareCards.length > 0 ? "pb-36" : ""}`}
+      >
         {/* Header */}
         <div className="mb-8 text-center">
           <div className="mx-auto mb-4 flex size-14 items-center justify-center rounded-2xl bg-accent/10">
@@ -67,18 +91,42 @@ export default function WalletPage() {
           {searchQuery.trim() && searchResults.length > 0 && (
             <div className="absolute top-full left-0 right-0 z-10 mt-1 max-h-60 overflow-auto rounded-lg border border-border bg-card shadow-lg">
               {searchResults.slice(0, 8).map((card) => (
-                <button
+                <div
                   key={card.id}
-                  type="button"
-                  className="flex w-full items-center justify-between gap-2 px-4 py-3 text-left hover:bg-muted/50"
-                  onClick={() => {
-                    addWalletCard(card.id)
-                    setSearchQuery("")
-                  }}
+                  className="flex items-center justify-between gap-3 px-4 py-3 hover:bg-muted/50"
                 >
-                  <span className="font-medium text-foreground">{card.name}</span>
-                  <Plus className="size-4 shrink-0 text-muted-foreground" aria-hidden />
-                </button>
+                  <div className="min-w-0">
+                    <p className="truncate font-medium text-foreground">{card.name}</p>
+                    <p className="truncate text-sm text-muted-foreground">
+                      {card.issuer ?? card.synergyEcosystem ?? "Card"}
+                    </p>
+                  </div>
+                  <div className="flex shrink-0 items-center gap-2">
+                    <Button
+                      type="button"
+                      variant={compareCardIds.includes(card.id) ? "secondary" : "outline"}
+                      size="sm"
+                      className="rounded-xl"
+                      disabled={compareLimitReached && !compareCardIds.includes(card.id)}
+                      onClick={() => toggleCompareCard(card.id)}
+                    >
+                      <GitCompare className="size-4" aria-hidden />
+                      {compareCardIds.includes(card.id) ? "Selected" : "Compare"}
+                    </Button>
+                    <Button
+                      type="button"
+                      size="sm"
+                      className="rounded-xl"
+                      onClick={() => {
+                        addWalletCard(card.id)
+                        setSearchQuery("")
+                      }}
+                    >
+                      <Plus className="size-4" aria-hidden />
+                      Add
+                    </Button>
+                  </div>
+                </div>
               ))}
             </div>
           )}
@@ -116,6 +164,9 @@ export default function WalletPage() {
                   key={card.id}
                   card={card}
                   onRemove={() => removeWalletCard(card.id)}
+                  onCompareToggle={() => toggleCompareCard(card.id)}
+                  isCompared={compareCardIds.includes(card.id)}
+                  compareDisabled={compareLimitReached && !compareCardIds.includes(card.id)}
                   onCardClick={() => {
                     setDetailCard(card)
                     setDetailOpen(true)
@@ -133,6 +184,14 @@ export default function WalletPage() {
             setDetailOpen(open)
             if (!open) setDetailCard(null)
           }}
+        />
+
+        <CardCompareDialog
+          cards={compareCards}
+          open={compareOpen && compareReady}
+          onOpenChange={setCompareOpen}
+          onRemoveCard={removeCompareCard}
+          onOpenCardDetails={openCardDetails}
         />
 
         {/* Navigation Buttons */}
@@ -155,6 +214,17 @@ export default function WalletPage() {
           </Button>
         </div>
       </div>
+
+      <CardCompareTray
+        cards={compareCards}
+        onRemoveCard={removeCompareCard}
+        onClear={clearCompareCards}
+        onCompare={() => {
+          if (compareReady) {
+            setCompareOpen(true)
+          }
+        }}
+      />
     </main>
   )
 }

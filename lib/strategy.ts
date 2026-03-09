@@ -2,16 +2,26 @@ import type {
   CapPeriod,
   Card,
   CategoryEarnRate,
+  EcosystemStrategyOption,
   MonthlySpend,
   CategoryStrategyRow,
   SpendCategoryId,
   StrategyAssumption,
   StrategyLimitation,
+  StrategyPageData,
+  StrategyPortfolioSummary,
   StrategyResult,
+  StrategyViewId,
   TravelSubtype,
 } from "@/lib/types"
 import { SPEND_CATEGORIES } from "@/lib/types"
-import { CARD_CATALOG, CATEGORY_LABELS, getCardById } from "@/lib/cards"
+import {
+  CARD_CATALOG,
+  CATEGORY_LABELS,
+  getCardById,
+  getCardRankingCppCents,
+  getCardCppSources,
+} from "@/lib/cards"
 import {
   BENCHMARK_SOURCES,
   DEFAULT_CAP_PERIOD_ASSUMPTION,
@@ -21,6 +31,7 @@ import {
 
 const MONTHS_PER_YEAR = 12
 const DEFAULT_CPP_CENTS = 125
+const MAX_ECOSYSTEM_PORTFOLIO_SIZE = 4
 type AssumptionCollector = Map<string, StrategyAssumption>
 
 function addAssumption(
@@ -32,8 +43,9 @@ function addAssumption(
   }
 }
 
+/** CPP used for strategy ranking (assumed > nerdwallet > pointsguy > legacy base). */
 function getCardCppCents(card: Card): number {
-  return card.pointsValueBaseCents ?? DEFAULT_CPP_CENTS
+  return getCardRankingCppCents(card)
 }
 
 /**
@@ -311,250 +323,7 @@ function getBestCardForCategoryByDollars(
     : null
 }
 
-/**
- * Current annual points: for each category, use best multiplier from wallet × monthly spend × 12.
- */
-export function calculateCurrentAnnualPoints(
-  monthlySpend: MonthlySpend,
-  walletCards: Card[],
-  assumptionNotes: AssumptionCollector
-): number {
-  if (walletCards.length === 0) return 0
-  let total = 0
-  for (const cat of SPEND_CATEGORIES) {
-    const monthly = monthlySpend[cat] ?? 0
-    const best = getBestCardForCategoryByDollars(walletCards, cat, monthly, assumptionNotes)
-    total += best?.annualPoints ?? 0
-  }
-  return Math.round(total)
-}
-
-function calculateCurrentAnnualDollars(
-  monthlySpend: MonthlySpend,
-  walletCards: Card[],
-  assumptionNotes: AssumptionCollector
-): number {
-  if (walletCards.length === 0) return 0
-  let total = 0
-  for (const cat of SPEND_CATEGORIES) {
-    const monthly = monthlySpend[cat] ?? 0
-    const best = getBestCardForCategoryByDollars(walletCards, cat, monthly, assumptionNotes)
-    total += best?.annualDollars ?? 0
-  }
-  return Math.round(total)
-}
-
-/**
- * Current total annual fee from wallet cards.
- */
-export function getCurrentAnnualFee(walletCards: Card[]): number {
-  return walletCards.reduce((sum, c) => sum + c.annualFee, 0)
-}
-
-/**
- * All unique benefit labels from wallet cards (for "Key Existing Benefits").
- */
-export function getCurrentBenefitLabels(walletCards: Card[]): string[] {
-  const set = new Set<string>()
-  for (const c of walletCards) {
-    c.benefits.forEach((b) => set.add(b))
-  }
-  return Array.from(set)
-}
-
-/**
- * Build category-by-category strategy: current best, suggested best (from full catalog),
- * incremental points, and whether already optimized.
- */
-function buildCategoryRows(
-  monthlySpend: MonthlySpend,
-  walletCards: Card[],
-  recommendedCard: Card | null,
-  assumptionNotes: AssumptionCollector
-): CategoryStrategyRow[] {
-  const scenarioCards = recommendedCard ? [...walletCards, recommendedCard] : walletCards
-  const rows: CategoryStrategyRow[] = []
-  for (const categoryId of SPEND_CATEGORIES) {
-    const monthly = monthlySpend[categoryId] ?? 0
-    const currentBest = getBestCardForCategoryByDollars(
-      walletCards,
-      categoryId,
-      monthly,
-      assumptionNotes
-    )
-    const currentMult = currentBest?.multiplier ?? 0
-    const bestInScenario = getBestCardForCategoryByDollars(
-      scenarioCards,
-      categoryId,
-      monthly,
-      assumptionNotes
-    )
-    const suggestedMult = bestInScenario?.multiplier ?? 0
-    const suggestedCard = bestInScenario?.card ?? null
-    const currentAnnualDollars = currentBest?.annualDollars ?? 0
-    const suggestedAnnualDollars = bestInScenario?.annualDollars ?? 0
-    const isOptimized = suggestedAnnualDollars <= currentAnnualDollars || suggestedMult === 0
-    const incrementalAnnualPoints = isOptimized
-      ? 0
-      : Math.round((bestInScenario?.annualPoints ?? 0) - (currentBest?.annualPoints ?? 0))
-    const incrementalAnnualDollars = isOptimized
-      ? 0
-      : Math.round(suggestedAnnualDollars - currentAnnualDollars)
-
-    rows.push({
-      categoryId,
-      categoryLabel: CATEGORY_LABELS[categoryId],
-      currentBestCard: currentBest?.card ?? null,
-      currentMultiplier: currentMult,
-      suggestedCard: isOptimized ? null : suggestedCard,
-      suggestedMultiplier: suggestedMult,
-      incrementalAnnualPoints,
-      incrementalAnnualDollars,
-      isOptimized,
-    })
-  }
-  return rows
-}
-
-interface CandidateEvaluation {
-  recommendedCard: Card | null
-  grossIncrementalPoints: number
-  grossIncrementalDollars: number
-  bestGrossIncrementalDollars: number
-}
-
-function evaluateBestCandidate(
-  monthlySpend: MonthlySpend,
-  walletCards: Card[],
-  currentAnnualPoints: number,
-  currentAnnualDollars: number,
-  assumptionNotes: AssumptionCollector
-): CandidateEvaluation {
-  const walletIds = new Set(walletCards.map((card) => card.id))
-  let recommendedCard: Card | null = null
-  let bestNetIncrementalDollars = 0
-  let bestGrossIncrementalDollars = 0
-  let bestGrossIncrementalPoints = 0
-  let bestCandidateGrossIncrementalDollars = 0
-
-  for (const candidate of CARD_CATALOG) {
-    if (walletIds.has(candidate.id)) continue
-    const candidateWallet = [...walletCards, candidate]
-    const candidateAnnualDollars = calculateCurrentAnnualDollars(
-      monthlySpend,
-      candidateWallet,
-      assumptionNotes
-    )
-    const candidateAnnualPoints = calculateCurrentAnnualPoints(
-      monthlySpend,
-      candidateWallet,
-      assumptionNotes
-    )
-    const grossIncrementalDollars = Math.max(0, candidateAnnualDollars - currentAnnualDollars)
-    const grossIncrementalPoints = Math.max(0, candidateAnnualPoints - currentAnnualPoints)
-    const netIncrementalDollars = grossIncrementalDollars - candidate.annualFee
-    bestCandidateGrossIncrementalDollars = Math.max(
-      bestCandidateGrossIncrementalDollars,
-      grossIncrementalDollars
-    )
-    if (
-      netIncrementalDollars > bestNetIncrementalDollars ||
-      (netIncrementalDollars === bestNetIncrementalDollars &&
-        grossIncrementalDollars > bestGrossIncrementalDollars)
-    ) {
-      recommendedCard = candidate
-      bestNetIncrementalDollars = netIncrementalDollars
-      bestGrossIncrementalDollars = grossIncrementalDollars
-      bestGrossIncrementalPoints = grossIncrementalPoints
-    }
-  }
-
-  return {
-    recommendedCard,
-    grossIncrementalPoints: recommendedCard ? bestGrossIncrementalPoints : 0,
-    grossIncrementalDollars: recommendedCard ? bestGrossIncrementalDollars : 0,
-    bestGrossIncrementalDollars: bestCandidateGrossIncrementalDollars,
-  }
-}
-
-/**
- * Build summary reason string (e.g. "Adding United Explorer and dropping Amex Gold").
- */
-function buildSummaryReason(
-  recommendedCard: Card | null,
-  hasGrossOpportunity: boolean,
-  walletCardCount: number
-): string {
-  if (!recommendedCard) {
-    return hasGrossOpportunity
-      ? "No changes recommended — no single new card improves your net annual value after fee."
-      : "No changes recommended — you're already optimized."
-  }
-  if (walletCardCount === 0) {
-    return `${recommendedCard.name} is your best starter card for net annual value.`
-  }
-  return `${recommendedCard.name} gives the highest net annual value boost when added to your portfolio.`
-}
-
-function getStrategyLimitations(): StrategyLimitation[] {
-  return [
-    {
-      id: "fixed_travel_mix",
-      title: "Travel behavior is estimated",
-      limitation:
-        "Travel spend is split into a fixed mix across hotels, flights, car rentals, and other travel, plus a fixed portal vs direct booking split.",
-      whyItMatters:
-        "If your travel pattern is different, your real card value can be higher or lower than shown.",
-    },
-    {
-      id: "missing_cap_period_guess",
-      title: "Some card caps may be guessed",
-      limitation:
-        "When a card's cap period is missing in source data, we infer whether that cap is monthly, quarterly, or annual.",
-      whyItMatters:
-        "A wrong cap-period guess can change estimated rewards for that card.",
-    },
-    {
-      id: "single_card_recommendation",
-      title: "Recommendation is limited to one new card",
-      limitation:
-        "The strategy picks only one card to add, even if the best real setup might involve adding two cards or replacing an existing card.",
-      whyItMatters: "You may be able to do better with a multi-card or swap strategy.",
-    },
-    {
-      id: "fee_aware_but_perks_excluded",
-      title: "Ranking includes fee, but not full perks valuation",
-      limitation:
-        "Card ranking is portfolio-level and uses net rewards uplift minus the added annual fee for one new card; category rows remain a rewards-only view for explanation, while statement credits and perks are shown separately instead of fully priced into ranking.",
-      whyItMatters:
-        "Cards with strong credits or benefits can still be under- or over-valued in the recommendation.",
-    },
-    {
-      id: "signup_bonus_excluded",
-      title: "Sign-up bonus is not part of ranking",
-      limitation:
-        "Welcome offers are displayed but are not included in the core ranking logic.",
-      whyItMatters:
-        "If you care most about first-year value, your best card choice may differ.",
-    },
-    {
-      id: "flat_monthly_projection",
-      title: "Annual value assumes stable monthly spend",
-      limitation:
-        "We estimate one typical month and multiply by 12, instead of modeling seasonal or one-time spikes.",
-      whyItMatters:
-        "If your spending changes a lot across the year, actual results can differ.",
-    },
-  ]
-}
-
-/**
- * Full strategy computation: current vs max potential, category table, recommended card.
- */
-export function computeStrategy(
-  monthlySpend: MonthlySpend,
-  walletCardIds: string[]
-): StrategyResult {
+function createAssumptionCollector(): AssumptionCollector {
   const assumptionNotes: AssumptionCollector = new Map()
   addAssumption(assumptionNotes, {
     id: "travel_subtype_mix",
@@ -585,72 +354,704 @@ export function computeStrategy(
     assumption: "Travel defaults are anchored to public travel-industry benchmarks and issuer-distribution behavior.",
     sourceLabel: `${BENCHMARK_SOURCES.join("; ")} (see data/issuer_earn_rate_sources_us_usd.md)`,
   })
+  return assumptionNotes
+}
 
-  const walletCards = walletCardIds
-    .map((id) => getCardById(id))
-    .filter((c): c is Card => c !== undefined)
+function calculateAnnualMetrics(
+  monthlySpend: MonthlySpend,
+  cards: Card[],
+  assumptionNotes: AssumptionCollector
+): { annualPoints: number; annualDollars: number } {
+  if (cards.length === 0) {
+    return { annualPoints: 0, annualDollars: 0 }
+  }
 
-  const currentAnnualPoints = calculateCurrentAnnualPoints(monthlySpend, walletCards, assumptionNotes)
-  const currentAnnualDollars = calculateCurrentAnnualDollars(monthlySpend, walletCards, assumptionNotes)
-  const currentAnnualFee = getCurrentAnnualFee(walletCards)
-  const currentBenefitLabels = getCurrentBenefitLabels(walletCards)
-
-  const candidateEvaluation = evaluateBestCandidate(
-    monthlySpend,
-    walletCards,
-    currentAnnualPoints,
-    currentAnnualDollars,
-    assumptionNotes
-  )
-  const recommendedCard = candidateEvaluation.recommendedCard
-  const categoryRows = buildCategoryRows(monthlySpend, walletCards, recommendedCard, assumptionNotes)
-  const totalIncremental = categoryRows.reduce((sum, row) => sum + row.incrementalAnnualPoints, 0)
-  const totalIncrementalDollars = categoryRows.reduce(
-    (sum, row) => sum + row.incrementalAnnualDollars,
-    0
-  )
-  const maxPotentialAnnualPoints = currentAnnualPoints + totalIncremental
-  const maxPotentialAnnualDollars = currentAnnualDollars + totalIncrementalDollars
-
-  const additionalBenefitLabels = recommendedCard
-    ? recommendedCard.benefits.filter((b) => !currentBenefitLabels.includes(b))
-    : []
-  const netAdditionalFee = recommendedCard ? recommendedCard.annualFee : 0
-
-  const summaryReason = buildSummaryReason(
-    recommendedCard,
-    candidateEvaluation.bestGrossIncrementalDollars > 0,
-    walletCards.length
-  )
-
-  // Display cpp: prefer first wallet card's base cpp, else recommended card's, else default 1.25 cpp (125)
-  const displayCppCents =
-    walletCards[0]?.pointsValueBaseCents ??
-    recommendedCard?.pointsValueBaseCents ??
-    DEFAULT_CPP_CENTS
-  const estimatedValueCurrentDollars = currentAnnualDollars
-  const estimatedValueMaxDollars = maxPotentialAnnualDollars
-  const strategyAssumptions = Array.from(assumptionNotes.values())
-  const strategyLimitations = getStrategyLimitations()
+  let annualPoints = 0
+  let annualDollars = 0
+  for (const categoryId of SPEND_CATEGORIES) {
+    const monthly = monthlySpend[categoryId] ?? 0
+    const best = getBestCardForCategoryByDollars(cards, categoryId, monthly, assumptionNotes)
+    annualPoints += best?.annualPoints ?? 0
+    annualDollars += best?.annualDollars ?? 0
+  }
 
   return {
+    annualPoints: Math.round(annualPoints),
+    annualDollars: Math.round(annualDollars),
+  }
+}
+
+/**
+ * Current annual points: for each category, use best multiplier from wallet × monthly spend × 12.
+ */
+export function calculateCurrentAnnualPoints(
+  monthlySpend: MonthlySpend,
+  walletCards: Card[],
+  assumptionNotes: AssumptionCollector
+): number {
+  return calculateAnnualMetrics(monthlySpend, walletCards, assumptionNotes).annualPoints
+}
+
+function calculateCurrentAnnualDollars(
+  monthlySpend: MonthlySpend,
+  walletCards: Card[],
+  assumptionNotes: AssumptionCollector
+): number {
+  return calculateAnnualMetrics(monthlySpend, walletCards, assumptionNotes).annualDollars
+}
+
+/**
+ * Current total annual fee from wallet cards.
+ */
+export function getCurrentAnnualFee(walletCards: Card[]): number {
+  return walletCards.reduce((sum, c) => sum + c.annualFee, 0)
+}
+
+function getBenefitLabels(cards: Card[]): string[] {
+  const set = new Set<string>()
+  for (const c of cards) {
+    c.benefits.forEach((b) => set.add(b))
+  }
+  return Array.from(set)
+}
+
+/**
+ * All unique benefit labels from wallet cards (for "Key Existing Benefits").
+ */
+export function getCurrentBenefitLabels(walletCards: Card[]): string[] {
+  return getBenefitLabels(walletCards)
+}
+
+function getPortfolioSummary(
+  monthlySpend: MonthlySpend,
+  cards: Card[],
+  assumptionNotes: AssumptionCollector
+): StrategyPortfolioSummary {
+  const metrics = calculateAnnualMetrics(monthlySpend, cards, assumptionNotes)
+  const annualFee = getCurrentAnnualFee(cards)
+  return {
+    cards,
+    annualPoints: metrics.annualPoints,
+    annualDollars: metrics.annualDollars,
+    annualFee,
+    netAnnualValue: Math.round(metrics.annualDollars - annualFee),
+    benefitLabels: getBenefitLabels(cards),
+  }
+}
+
+/**
+ * Build category-by-category strategy comparing the user's current wallet to a scenario portfolio.
+ */
+function buildCategoryRows(
+  monthlySpend: MonthlySpend,
+  currentCards: Card[],
+  scenarioCards: Card[],
+  assumptionNotes: AssumptionCollector
+): CategoryStrategyRow[] {
+  const rows: CategoryStrategyRow[] = []
+  for (const categoryId of SPEND_CATEGORIES) {
+    const monthly = monthlySpend[categoryId] ?? 0
+    const currentBest = getBestCardForCategoryByDollars(
+      currentCards,
+      categoryId,
+      monthly,
+      assumptionNotes
+    )
+    const scenarioBest = getBestCardForCategoryByDollars(
+      scenarioCards,
+      categoryId,
+      monthly,
+      assumptionNotes
+    )
+    const currentMult = currentBest?.multiplier ?? 0
+    const suggestedMult = scenarioBest?.multiplier ?? 0
+    const suggestedCard = scenarioBest?.card ?? null
+    const incrementalAnnualPoints = Math.round(
+      (scenarioBest?.annualPoints ?? 0) - (currentBest?.annualPoints ?? 0)
+    )
+    const incrementalAnnualDollars = Math.round(
+      (scenarioBest?.annualDollars ?? 0) - (currentBest?.annualDollars ?? 0)
+    )
+    const isOptimized =
+      (currentBest?.card.id ?? null) === (scenarioBest?.card.id ?? null) && incrementalAnnualDollars === 0
+
+    rows.push({
+      categoryId,
+      categoryLabel: CATEGORY_LABELS[categoryId],
+      currentBestCard: currentBest?.card ?? null,
+      currentMultiplier: currentMult,
+      suggestedCard,
+      suggestedMultiplier: suggestedMult,
+      incrementalAnnualPoints,
+      incrementalAnnualDollars,
+      isOptimized,
+    })
+  }
+  return rows
+}
+
+interface CandidateEvaluation {
+  recommendedCard: Card | null
+  bestGrossIncrementalDollars: number
+}
+
+function evaluateBestCandidate(
+  monthlySpend: MonthlySpend,
+  walletCards: Card[],
+  currentAnnualDollars: number,
+  assumptionNotes: AssumptionCollector
+): CandidateEvaluation {
+  const walletIds = new Set(walletCards.map((card) => card.id))
+  let recommendedCard: Card | null = null
+  let bestNetIncrementalDollars = 0
+  let bestGrossIncrementalDollars = 0
+  let bestCandidateGrossIncrementalDollars = 0
+
+  for (const candidate of CARD_CATALOG) {
+    if (walletIds.has(candidate.id)) continue
+    const candidateWallet = [...walletCards, candidate]
+    const candidateAnnualDollars = calculateCurrentAnnualDollars(
+      monthlySpend,
+      candidateWallet,
+      assumptionNotes
+    )
+    const grossIncrementalDollars = Math.max(0, candidateAnnualDollars - currentAnnualDollars)
+    const netIncrementalDollars = grossIncrementalDollars - candidate.annualFee
+    bestCandidateGrossIncrementalDollars = Math.max(
+      bestCandidateGrossIncrementalDollars,
+      grossIncrementalDollars
+    )
+    if (
+      netIncrementalDollars > bestNetIncrementalDollars ||
+      (netIncrementalDollars === bestNetIncrementalDollars &&
+        grossIncrementalDollars > bestGrossIncrementalDollars)
+    ) {
+      recommendedCard = candidate
+      bestNetIncrementalDollars = netIncrementalDollars
+      bestGrossIncrementalDollars = grossIncrementalDollars
+    }
+  }
+
+  return {
+    recommendedCard,
+    bestGrossIncrementalDollars: bestCandidateGrossIncrementalDollars,
+  }
+}
+
+function buildNextBestCardSummaryReason(
+  recommendedCard: Card | null,
+  hasGrossOpportunity: boolean,
+  walletCardCount: number
+): string {
+  if (!recommendedCard) {
+    return hasGrossOpportunity
+      ? "No changes recommended — no single new card improves your net annual value after fee."
+      : "No changes recommended — you're already optimized."
+  }
+  if (walletCardCount === 0) {
+    return `${recommendedCard.name} is your best starter card for net annual value.`
+  }
+  return `${recommendedCard.name} gives the highest net annual value boost when added to your portfolio.`
+}
+
+function buildBestSingleCardSummaryReason(card: Card | null): string {
+  if (!card) return "No single-card strategy is available."
+  return `${card.name} is the strongest one-card strategy for your spending profile after annual fee.`
+}
+
+function toSlug(input: string): string {
+  return input
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+}
+
+function getRawEcosystemLabel(card: Card): string | null {
+  const synergy = card.synergyEcosystem?.trim()
+  if (synergy && !/cash\s*back/i.test(synergy)) return synergy
+
+  const rewardCurrency = card.rewardCurrency?.trim()
+  if (rewardCurrency && !/cash\s*back/i.test(rewardCurrency)) return rewardCurrency
+
+  return card.issuer?.trim() ?? rewardCurrency ?? synergy ?? null
+}
+
+function normalizeEcosystem(card: Card): { ecosystemId: string; ecosystemLabel: string } | null {
+  const rawLabel = getRawEcosystemLabel(card)
+  if (!rawLabel) return null
+
+  const normalized = rawLabel.toLowerCase()
+  if (
+    normalized.includes("ultimate rewards") ||
+    normalized.includes("chase ur") ||
+    normalized === "chase"
+  ) {
+    return {
+      ecosystemId: "chase-ultimate-rewards",
+      ecosystemLabel: "Chase Ultimate Rewards",
+    }
+  }
+  if (normalized.includes("membership rewards")) {
+    return {
+      ecosystemId: "amex-membership-rewards",
+      ecosystemLabel: "American Express Membership Rewards",
+    }
+  }
+  if (normalized.includes("capital one")) {
+    return {
+      ecosystemId: "capital-one-miles",
+      ecosystemLabel: "Capital One Miles",
+    }
+  }
+  if (normalized.includes("thankyou")) {
+    return {
+      ecosystemId: "citi-thankyou-rewards",
+      ecosystemLabel: "Citi ThankYou Rewards",
+    }
+  }
+  if (normalized.includes("bilt")) {
+    return {
+      ecosystemId: "bilt-rewards",
+      ecosystemLabel: "Bilt Rewards",
+    }
+  }
+  if (normalized.includes("wells fargo")) {
+    return {
+      ecosystemId: "wells-fargo-rewards",
+      ecosystemLabel: "Wells Fargo Rewards",
+    }
+  }
+
+  return {
+    ecosystemId: toSlug(rawLabel),
+    ecosystemLabel: rawLabel,
+  }
+}
+
+function groupCardsByEcosystem(cards: Card[]): Map<string, { ecosystemLabel: string; cards: Card[] }> {
+  const grouped = new Map<string, { ecosystemLabel: string; cards: Card[] }>()
+
+  for (const card of cards) {
+    const ecosystem = normalizeEcosystem(card)
+    if (!ecosystem) continue
+
+    const existing = grouped.get(ecosystem.ecosystemId)
+    if (existing) {
+      existing.cards.push(card)
+      continue
+    }
+
+    grouped.set(ecosystem.ecosystemId, {
+      ecosystemLabel: ecosystem.ecosystemLabel,
+      cards: [card],
+    })
+  }
+
+  return grouped
+}
+
+function buildPortfolioCombinations(cards: Card[], maxSize: number): Card[][] {
+  const combos: Card[][] = []
+
+  function backtrack(startIndex: number, currentCombo: Card[]) {
+    if (currentCombo.length > 0) {
+      combos.push([...currentCombo])
+    }
+    if (currentCombo.length === maxSize) return
+
+    for (let i = startIndex; i < cards.length; i += 1) {
+      currentCombo.push(cards[i])
+      backtrack(i + 1, currentCombo)
+      currentCombo.pop()
+    }
+  }
+
+  backtrack(0, [])
+  return combos
+}
+
+function isPortfolioBetter(
+  candidate: StrategyPortfolioSummary,
+  currentBest: StrategyPortfolioSummary | null
+): boolean {
+  if (!currentBest) return true
+  if (candidate.netAnnualValue !== currentBest.netAnnualValue) {
+    return candidate.netAnnualValue > currentBest.netAnnualValue
+  }
+  if (candidate.annualDollars !== currentBest.annualDollars) {
+    return candidate.annualDollars > currentBest.annualDollars
+  }
+  if (candidate.cards.length !== currentBest.cards.length) {
+    return candidate.cards.length < currentBest.cards.length
+  }
+  return candidate.annualFee < currentBest.annualFee
+}
+
+function sortEcosystemOptions(a: EcosystemStrategyOption, b: EcosystemStrategyOption): number {
+  if (a.portfolio.netAnnualValue !== b.portfolio.netAnnualValue) {
+    return b.portfolio.netAnnualValue - a.portfolio.netAnnualValue
+  }
+  if (a.portfolio.annualDollars !== b.portfolio.annualDollars) {
+    return b.portfolio.annualDollars - a.portfolio.annualDollars
+  }
+  if (a.portfolio.cards.length !== b.portfolio.cards.length) {
+    return a.portfolio.cards.length - b.portfolio.cards.length
+  }
+  return a.portfolio.annualFee - b.portfolio.annualFee
+}
+
+function buildEcosystemSummaryReason(
+  ecosystemLabel: string,
+  portfolio: StrategyPortfolioSummary
+): string {
+  if (portfolio.cards.length === 1) {
+    return `${ecosystemLabel} performs best as a single-card ecosystem for your spend.`
+  }
+  return `${ecosystemLabel} performs best as a ${portfolio.cards.length}-card ecosystem portfolio for your spend.`
+}
+
+function evaluateBestSingleCard(
+  monthlySpend: MonthlySpend,
+  assumptionNotes: AssumptionCollector
+): Card | null {
+  let bestCard: Card | null = null
+  let bestPortfolio: StrategyPortfolioSummary | null = null
+
+  for (const candidate of CARD_CATALOG) {
+    const portfolio = getPortfolioSummary(monthlySpend, [candidate], assumptionNotes)
+    if (isPortfolioBetter(portfolio, bestPortfolio)) {
+      bestCard = candidate
+      bestPortfolio = portfolio
+    }
+  }
+
+  return bestCard
+}
+
+function evaluateEcosystemOptions(
+  monthlySpend: MonthlySpend,
+  currentCards: Card[],
+  assumptionNotes: AssumptionCollector
+): EcosystemStrategyOption[] {
+  const grouped = groupCardsByEcosystem(CARD_CATALOG)
+  const options: EcosystemStrategyOption[] = []
+
+  for (const [ecosystemId, group] of grouped.entries()) {
+    const maxSize = Math.min(MAX_ECOSYSTEM_PORTFOLIO_SIZE, group.cards.length)
+    const combinations = buildPortfolioCombinations(group.cards, maxSize)
+
+    let bestPortfolio: StrategyPortfolioSummary | null = null
+    let bestRows: CategoryStrategyRow[] = []
+    for (const combo of combinations) {
+      const portfolio = getPortfolioSummary(monthlySpend, combo, assumptionNotes)
+      if (!isPortfolioBetter(portfolio, bestPortfolio)) continue
+      bestPortfolio = portfolio
+      bestRows = buildCategoryRows(monthlySpend, currentCards, combo, assumptionNotes)
+    }
+
+    if (!bestPortfolio) continue
+    options.push({
+      ecosystemId,
+      ecosystemLabel: group.ecosystemLabel,
+      portfolio: bestPortfolio,
+      categoryRows: bestRows,
+      summaryReason: buildEcosystemSummaryReason(group.ecosystemLabel, bestPortfolio),
+    })
+  }
+
+  return options.sort(sortEcosystemOptions)
+}
+
+function getDisplayCppCents(currentCards: Card[], recommendedCards: Card[]): number {
+  const card = currentCards[0] ?? recommendedCards[0]
+  return card ? getCardRankingCppCents(card) : DEFAULT_CPP_CENTS
+}
+
+function getDisplayCppSources(currentCards: Card[], recommendedCards: Card[]): StrategyResult["displayCppSources"] {
+  const card = currentCards[0] ?? recommendedCards[0]
+  if (!card) return undefined
+  return getCardCppSources(card)
+}
+
+function getStrategyLimitations(viewId: StrategyViewId): StrategyLimitation[] {
+  const baseLimitations: StrategyLimitation[] = [
+    {
+      id: "fixed_travel_mix",
+      title: "Travel behavior is estimated",
+      limitation:
+        "Travel spend is split into a fixed mix across hotels, flights, car rentals, and other travel, plus a fixed portal vs direct booking split.",
+      whyItMatters:
+        "If your travel pattern is different, your real card value can be higher or lower than shown.",
+    },
+    {
+      id: "missing_cap_period_guess",
+      title: "Some card caps may be guessed",
+      limitation:
+        "When a card's cap period is missing in source data, we infer whether that cap is monthly, quarterly, or annual.",
+      whyItMatters:
+        "A wrong cap-period guess can change estimated rewards for that card.",
+    },
+    {
+      id: "fee_aware_but_perks_excluded",
+      title: "Ranking includes fee, but not full perks valuation",
+      limitation:
+        "Rankings use rewards value minus annual fee. Statement credits, lounge access, insurance, and similar perks are surfaced in the UI but are not fully monetized in the core ranking logic.",
+      whyItMatters:
+        "Cards with strong credits or non-points perks can still be under- or over-valued in the recommendation.",
+    },
+    {
+      id: "signup_bonus_excluded",
+      title: "Sign-up bonus is not part of ranking",
+      limitation:
+        "Welcome offers are displayed but are not included in the core ranking logic.",
+      whyItMatters:
+        "If you care most about first-year value, your best card choice may differ.",
+    },
+    {
+      id: "flat_monthly_projection",
+      title: "Annual value assumes stable monthly spend",
+      limitation:
+        "We estimate one typical month and multiply by 12, instead of modeling seasonal or one-time spikes.",
+      whyItMatters:
+        "If your spending changes a lot across the year, actual results can differ.",
+    },
+  ]
+
+  if (viewId === "nextBestCard") {
+    return [
+      ...baseLimitations,
+      {
+        id: "single_card_recommendation",
+        title: "Recommendation is limited to one new card",
+        limitation:
+          "This view picks only one new card to add, even if the best real setup might involve adding two cards or replacing an existing card.",
+        whyItMatters: "You may be able to do better with a multi-card or swap strategy.",
+      },
+    ]
+  }
+
+  if (viewId === "bestSingleCard") {
+    return [
+      ...baseLimitations,
+      {
+        id: "single_card_forced",
+        title: "This view forces one-card simplicity",
+        limitation:
+          "The ranking assumes you want one card to cover every category, even if a multi-card setup would earn materially more.",
+        whyItMatters:
+          "This makes the result easier to use day to day, but it can understate the value of multi-card strategies.",
+      },
+    ]
+  }
+
+  return [
+    ...baseLimitations,
+    {
+      id: "ecosystem_portfolio_cap",
+      title: "Ecosystem portfolio search is capped",
+      limitation:
+        `The ecosystem optimizer evaluates portfolios up to ${MAX_ECOSYSTEM_PORTFOLIO_SIZE} cards per ecosystem instead of searching every possible portfolio size.`,
+      whyItMatters:
+        "A larger ecosystem setup could theoretically beat the displayed recommendation, especially if your spend is spread across many categories.",
+    },
+    {
+      id: "ecosystem_from_scratch",
+      title: "Ecosystem view is optimized from scratch",
+      limitation:
+        "This view ignores your current wallet composition when building the recommended ecosystem portfolio and instead starts fresh within each ecosystem.",
+      whyItMatters:
+        "The best ecosystem from scratch may differ from the best upgrade path from what you hold today.",
+    },
+  ]
+}
+
+function buildStrategyResult({
+  viewId,
+  currentAnnualPoints,
+  currentAnnualDollars,
+  currentAnnualFee,
+  currentBenefitLabels,
+  scenarioPortfolio,
+  categoryRows,
+  recommendedCards,
+  summaryReason,
+  strategyAssumptions,
+  strategyLimitations,
+  ecosystemId,
+  ecosystemLabel,
+  alternativeOptions,
+  displayCppCents,
+  displayCppSources,
+}: {
+  viewId: StrategyViewId
+  currentAnnualPoints: number
+  currentAnnualDollars: number
+  currentAnnualFee: number
+  currentBenefitLabels: string[]
+  scenarioPortfolio: StrategyPortfolioSummary
+  categoryRows: CategoryStrategyRow[]
+  recommendedCards: Card[]
+  summaryReason: string
+  strategyAssumptions: StrategyAssumption[]
+  strategyLimitations: StrategyLimitation[]
+  ecosystemId?: string
+  ecosystemLabel?: string
+  alternativeOptions?: EcosystemStrategyOption[]
+  displayCppCents: number
+  displayCppSources?: StrategyResult["displayCppSources"]
+}): StrategyResult {
+  return {
+    viewId,
     currentAnnualPoints,
     currentAnnualDollars,
     currentAnnualFee,
     currentBenefitLabels,
-    maxPotentialAnnualPoints,
-    maxPotentialAnnualDollars,
-    incrementalAnnualPoints: totalIncremental,
-    incrementalAnnualDollars: totalIncrementalDollars,
-    netAdditionalFee,
-    additionalBenefitLabels,
+    maxPotentialAnnualPoints: scenarioPortfolio.annualPoints,
+    maxPotentialAnnualDollars: scenarioPortfolio.annualDollars,
+    incrementalAnnualPoints: scenarioPortfolio.annualPoints - currentAnnualPoints,
+    incrementalAnnualDollars: scenarioPortfolio.annualDollars - currentAnnualDollars,
+    netAdditionalFee: scenarioPortfolio.annualFee - currentAnnualFee,
+    additionalBenefitLabels: scenarioPortfolio.benefitLabels.filter(
+      (label) => !currentBenefitLabels.includes(label)
+    ),
     categoryRows,
-    recommendedCard,
+    recommendedCard: recommendedCards[0] ?? null,
+    recommendedCards,
+    recommendedPortfolio: scenarioPortfolio,
+    ...(ecosystemId ? { ecosystemId } : {}),
+    ...(ecosystemLabel ? { ecosystemLabel } : {}),
+    ...(alternativeOptions ? { alternativeOptions } : {}),
     summaryReason,
-    estimatedValueCurrentDollars,
-    estimatedValueMaxDollars,
+    estimatedValueCurrentDollars: currentAnnualDollars,
+    estimatedValueMaxDollars: scenarioPortfolio.annualDollars,
     displayCppCents,
+    ...(displayCppSources && Object.keys(displayCppSources).length > 0 ? { displayCppSources } : {}),
     strategyAssumptions,
     strategyLimitations,
   }
+}
+
+function computeNextBestCardStrategy(monthlySpend: MonthlySpend, walletCards: Card[]): StrategyResult {
+  const assumptionNotes = createAssumptionCollector()
+  const currentAnnualPoints = calculateCurrentAnnualPoints(monthlySpend, walletCards, assumptionNotes)
+  const currentAnnualDollars = calculateCurrentAnnualDollars(monthlySpend, walletCards, assumptionNotes)
+  const currentAnnualFee = getCurrentAnnualFee(walletCards)
+  const currentBenefitLabels = getCurrentBenefitLabels(walletCards)
+  const candidateEvaluation = evaluateBestCandidate(
+    monthlySpend,
+    walletCards,
+    currentAnnualDollars,
+    assumptionNotes
+  )
+  const recommendedCard = candidateEvaluation.recommendedCard
+  const recommendedCards = recommendedCard ? [recommendedCard] : []
+  const scenarioCards = recommendedCard ? [...walletCards, recommendedCard] : walletCards
+  const scenarioPortfolio = getPortfolioSummary(monthlySpend, scenarioCards, assumptionNotes)
+  const categoryRows = buildCategoryRows(monthlySpend, walletCards, scenarioCards, assumptionNotes)
+
+  return buildStrategyResult({
+    viewId: "nextBestCard",
+    currentAnnualPoints,
+    currentAnnualDollars,
+    currentAnnualFee,
+    currentBenefitLabels,
+    scenarioPortfolio,
+    categoryRows,
+    recommendedCards,
+    summaryReason: buildNextBestCardSummaryReason(
+      recommendedCard,
+      candidateEvaluation.bestGrossIncrementalDollars > 0,
+      walletCards.length
+    ),
+    strategyAssumptions: Array.from(assumptionNotes.values()),
+    strategyLimitations: getStrategyLimitations("nextBestCard"),
+    displayCppCents: getDisplayCppCents(walletCards, recommendedCards),
+    displayCppSources: getDisplayCppSources(walletCards, recommendedCards),
+  })
+}
+
+function computeBestSingleCardStrategy(monthlySpend: MonthlySpend, walletCards: Card[]): StrategyResult {
+  const assumptionNotes = createAssumptionCollector()
+  const currentAnnualPoints = calculateCurrentAnnualPoints(monthlySpend, walletCards, assumptionNotes)
+  const currentAnnualDollars = calculateCurrentAnnualDollars(monthlySpend, walletCards, assumptionNotes)
+  const currentAnnualFee = getCurrentAnnualFee(walletCards)
+  const currentBenefitLabels = getCurrentBenefitLabels(walletCards)
+  const recommendedCard = evaluateBestSingleCard(monthlySpend, assumptionNotes)
+  const recommendedCards = recommendedCard ? [recommendedCard] : []
+  const scenarioPortfolio = getPortfolioSummary(monthlySpend, recommendedCards, assumptionNotes)
+  const categoryRows = buildCategoryRows(monthlySpend, walletCards, recommendedCards, assumptionNotes)
+
+  return buildStrategyResult({
+    viewId: "bestSingleCard",
+    currentAnnualPoints,
+    currentAnnualDollars,
+    currentAnnualFee,
+    currentBenefitLabels,
+    scenarioPortfolio,
+    categoryRows,
+    recommendedCards,
+    summaryReason: buildBestSingleCardSummaryReason(recommendedCard),
+    strategyAssumptions: Array.from(assumptionNotes.values()),
+    strategyLimitations: getStrategyLimitations("bestSingleCard"),
+    displayCppCents: getDisplayCppCents(walletCards, recommendedCards),
+    displayCppSources: getDisplayCppSources(walletCards, recommendedCards),
+  })
+}
+
+function computeBestEcosystemStrategy(monthlySpend: MonthlySpend, walletCards: Card[]): StrategyResult {
+  const assumptionNotes = createAssumptionCollector()
+  const currentAnnualPoints = calculateCurrentAnnualPoints(monthlySpend, walletCards, assumptionNotes)
+  const currentAnnualDollars = calculateCurrentAnnualDollars(monthlySpend, walletCards, assumptionNotes)
+  const currentAnnualFee = getCurrentAnnualFee(walletCards)
+  const currentBenefitLabels = getCurrentBenefitLabels(walletCards)
+  const rankedOptions = evaluateEcosystemOptions(monthlySpend, walletCards, assumptionNotes)
+  const winningOption = rankedOptions[0]
+  const recommendedCards = winningOption?.portfolio.cards ?? []
+  const scenarioPortfolio = winningOption?.portfolio ?? getPortfolioSummary(monthlySpend, [], assumptionNotes)
+  const categoryRows = winningOption?.categoryRows ?? buildCategoryRows(monthlySpend, walletCards, [], assumptionNotes)
+
+  return buildStrategyResult({
+    viewId: "bestEcosystem",
+    currentAnnualPoints,
+    currentAnnualDollars,
+    currentAnnualFee,
+    currentBenefitLabels,
+    scenarioPortfolio,
+    categoryRows,
+    recommendedCards,
+    summaryReason:
+      winningOption?.summaryReason ?? "No ecosystem portfolio recommendation is currently available.",
+    strategyAssumptions: Array.from(assumptionNotes.values()),
+    strategyLimitations: getStrategyLimitations("bestEcosystem"),
+    ecosystemId: winningOption?.ecosystemId,
+    ecosystemLabel: winningOption?.ecosystemLabel,
+    alternativeOptions: rankedOptions.slice(1, 4),
+    displayCppCents: getDisplayCppCents(walletCards, recommendedCards),
+    displayCppSources: getDisplayCppSources(walletCards, recommendedCards),
+  })
+}
+
+export function computeStrategyViews(
+  monthlySpend: MonthlySpend,
+  walletCardIds: string[]
+): StrategyPageData {
+  const walletCards = walletCardIds
+    .map((id) => getCardById(id))
+    .filter((c): c is Card => c !== undefined)
+
+  return {
+    nextBestCard: computeNextBestCardStrategy(monthlySpend, walletCards),
+    bestSingleCard: computeBestSingleCardStrategy(monthlySpend, walletCards),
+    bestEcosystem: computeBestEcosystemStrategy(monthlySpend, walletCards),
+  }
+}
+
+/**
+ * Backward-compatible alias for the original single-view strategy page.
+ */
+export function computeStrategy(
+  monthlySpend: MonthlySpend,
+  walletCardIds: string[]
+): StrategyResult {
+  return computeStrategyViews(monthlySpend, walletCardIds).nextBestCard
 }

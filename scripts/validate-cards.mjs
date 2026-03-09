@@ -55,6 +55,60 @@ const TRAVEL_KEY_ALIASES = {
 const CAP_PERIODS = new Set(["monthly", "quarterly", "annual"])
 const TRAVEL_SUBTYPES = new Set(["flight", "hotel", "car", "general"])
 const BOOKING_CHANNELS = new Set(["portal", "direct", "either"])
+const CREDIT_FREQUENCIES = new Set([
+  "monthly",
+  "quarterly",
+  "yearly",
+  "semi_annual",
+  "one_time",
+  "per_instance",
+])
+const EVERY_YEARS_RE = /^every_([1-9]\d*)_years$/
+
+const MULTIPLIER_CATEGORY_TO_SPEND = {
+  travel_portal_hotels_cars: "travel",
+  travel_portal_flights: "travel",
+  travel_portal: "travel",
+  travel: "travel",
+  flights_direct: "travel",
+  hotels_direct: "travel",
+  flights_direct_or_portal: "travel",
+  hotels_prepaid_portal: "travel",
+  travel_general: "travel",
+  flights_hotels_direct: "travel",
+  flights: "travel",
+  hotels_prepaid: "travel",
+  hotels_vacation_rentals_rental_cars_portal: "travel",
+  "2x_airfare": "travel",
+  rental_cars: "travel",
+  travel_shipping_advertising_internet_cable_phone: "travel",
+  dining: "dining",
+  groceries: "groceries",
+  gas: "gasEv",
+  gas_ev_transit: "gasEv",
+  streaming: "streamingEntertainment",
+  entertainment: "streamingEntertainment",
+  us_streaming: "streamingEntertainment",
+  popular_streaming: "streamingEntertainment",
+  drugstores: "drugstores",
+  rent_mortgage: "rentMortgage",
+  "1x_rent_and_mortgage": "rentMortgage",
+  "1x125x_rent_and_mortgage": "rentMortgage",
+  other: "other",
+}
+
+const MULTIPLIER_CATEGORY_KEY_ALIASES = {
+  flights_robinhood_portal: "travel_portal_flights",
+  hotels_rental_cars_robinhood_portal: "travel_portal_hotels_cars",
+  lyft: "travel",
+}
+
+const DINING_TOKEN_RE = /(^|_)(dining|restaurant)(_|$)/
+const GROCERY_TOKEN_RE = /(^|_)(grocery|groceries|supermarket|supermarkets)(_|$)/
+const GAS_EV_TOKEN_RE = /(^|_)(gas|fuel|ev|transit)(_|$)/
+const STREAMING_TOKEN_RE = /(^|_)(streaming|entertainment)(_|$)/
+const DRUGSTORE_TOKEN_RE = /(^|_)(drugstore|drugstores|pharmacy|pharmacies)(_|$)/
+const RENT_TOKEN_RE = /(^|_)(rent|mortgage)(_|$)/
 
 const CARD_SPECIFIC_TRAVEL_RULES = {
   "citi-strata-elite-card": {
@@ -63,6 +117,51 @@ const CARD_SPECIFIC_TRAVEL_RULES = {
     message:
       "must split portal travel into travel_portal_hotels_cars and travel_portal_flights to avoid overstating portal flight earn.",
   },
+}
+
+const REQUIRED_ANNIVERSARY_BONUSES = {
+  "chase-sapphire-preferred-card": {
+    pattern: /10%\s+total spend points boost/i,
+    description: 'the published "10% total spend points boost" anniversary bonus',
+  },
+  "sapphire-reserve-for-business": {
+    pattern: /IHG One Rewards Diamond Elite status.*Southwest A-List status/i,
+    description:
+      'the published anniversary bonus covering IHG One Rewards Diamond Elite status and Southwest A-List status',
+  },
+  "capital-one-venture-x-rewards-credit-card": {
+    pattern: /10000\s+miles/i,
+    description: 'the published "10000 miles" anniversary bonus',
+  },
+  "venture-x-business": {
+    pattern: /10000\s+miles/i,
+    description: 'the published "10000 miles" anniversary bonus',
+  },
+}
+
+function normalizeMultiplierCategoryKey(rawKey) {
+  const key = String(rawKey).trim().toLowerCase()
+  return MULTIPLIER_CATEGORY_KEY_ALIASES[key] ?? key
+}
+
+function inferSpendCategoryFromKey(rawKey) {
+  const key = normalizeMultiplierCategoryKey(rawKey)
+  if (GENERAL_OTHER_KEYS.has(key) || GENERAL_OTHER_KEY_RE.test(key)) return "other"
+  if (MULTIPLIER_CATEGORY_TO_SPEND[key]) return MULTIPLIER_CATEGORY_TO_SPEND[key]
+  if (TRAVEL_TOKEN_RE.test(key)) return null
+  if (DINING_TOKEN_RE.test(key)) return "dining"
+  if (GROCERY_TOKEN_RE.test(key)) return "groceries"
+  if (GAS_EV_TOKEN_RE.test(key)) return "gasEv"
+  if (STREAMING_TOKEN_RE.test(key)) return "streamingEntertainment"
+  if (DRUGSTORE_TOKEN_RE.test(key)) return "drugstores"
+  if (RENT_TOKEN_RE.test(key)) return "rentMortgage"
+  return null
+}
+
+function recordAudit(auditMap, cardId, value) {
+  const id = cardId || "unknown-card-id"
+  if (!auditMap.has(id)) auditMap.set(id, new Set())
+  auditMap.get(id).add(value)
 }
 
 function isNewSchema(card) {
@@ -93,7 +192,7 @@ function validateLegacy(card, index) {
   return failed
 }
 
-function validateNew(card, index) {
+function validateNew(card, index, audit) {
   const prefix = `Card ${index} (id: ${card?.id ?? "?"}) [new schema]`
   let failed = false
   for (const key of NEW_REQUIRED) {
@@ -107,6 +206,13 @@ function validateNew(card, index) {
       console.error(`${prefix}: ui_elements.benefits_list must be an array.`)
       failed = true
     }
+  }
+  if (
+    card?.anniversary_bonus != null &&
+    (typeof card.anniversary_bonus !== "string" || !card.anniversary_bonus.trim())
+  ) {
+    console.error(`${prefix}: anniversary_bonus must be a non-empty string when present.`)
+    failed = true
   }
   const hasMultipliers = card?.multipliers != null
   const hasBenefitsList =
@@ -125,6 +231,20 @@ function validateNew(card, index) {
     const cats = card?.multipliers?.categories
     if (cats && typeof cats === "object") {
       for (const [key, config] of Object.entries(cats)) {
+        const normalizedKey = normalizeMultiplierCategoryKey(key)
+        const inferredSpendCategory = inferSpendCategoryFromKey(key)
+        if (normalizedKey !== String(key).trim().toLowerCase()) {
+          console.warn(
+            `${prefix}: multiplier key "${key}" is recognized as alias "${normalizedKey}". Prefer canonical key in data.`
+          )
+          recordAudit(audit.aliasesByCard, card?.id, `${key} -> ${normalizedKey}`)
+        }
+        if (inferredSpendCategory == null) {
+          console.warn(
+            `${prefix}: unmapped multiplier key "${key}". It may be ignored by parsing logic without an explicit mapping or supported pattern.`
+          )
+          recordAudit(audit.unmappedKeysByCard, card?.id, key)
+        }
         if (typeof config !== "object" || config == null) {
           console.error(`${prefix}: multipliers.categories.${key} must be an object.`)
           failed = true
@@ -201,19 +321,19 @@ function validateNew(card, index) {
         }
         if (TRAVEL_TOKEN_RE.test(key)) {
           if (Object.prototype.hasOwnProperty.call(TRAVEL_KEY_ALIASES, key)) {
-            console.error(
+            console.warn(
               `${prefix}: deprecated travel key "${key}". Use "${TRAVEL_KEY_ALIASES[key]}" instead.`
             )
-            failed = true
-          } else if (!CANONICAL_TRAVEL_KEYS.has(key)) {
-            console.error(
+            recordAudit(audit.nonCanonicalTravelKeysByCard, card?.id, `${key} -> ${TRAVEL_KEY_ALIASES[key]}`)
+          } else if (!CANONICAL_TRAVEL_KEYS.has(normalizedKey)) {
+            console.warn(
               `${prefix}: non-canonical travel key "${key}". Allowed travel keys: ${Array.from(
                 CANONICAL_TRAVEL_KEYS
               ).join(", ")}`
             )
-            failed = true
+            recordAudit(audit.nonCanonicalTravelKeysByCard, card?.id, key)
           }
-          if (PORTAL_ONLY_KEYS.has(key) && config.requires_portal !== true) {
+          if (PORTAL_ONLY_KEYS.has(normalizedKey) && config.requires_portal !== true) {
             console.error(
               `${prefix}: ${key} must set requires_portal: true to make portal-only earn explicit.`
             )
@@ -225,24 +345,27 @@ function validateNew(card, index) {
           !GENERAL_OTHER_KEYS.has(key) &&
           !GENERAL_OTHER_KEY_RE.test(key)
         ) {
-          console.error(
+          console.warn(
             `${prefix}: non-general "other" key "${key}". Allowed generic other keys: ${Array.from(
               GENERAL_OTHER_KEYS
             ).join(", ")}`
           )
-          failed = true
+          recordAudit(audit.unmappedKeysByCard, card?.id, key)
         }
       }
       const specificRule = CARD_SPECIFIC_TRAVEL_RULES[card.id]
       if (specificRule) {
+        const normalizedCatKeys = new Set(
+          Object.keys(cats).map((categoryKey) => normalizeMultiplierCategoryKey(categoryKey))
+        )
         for (const requiredKey of specificRule.required) {
-          if (!Object.prototype.hasOwnProperty.call(cats, requiredKey)) {
+          if (!normalizedCatKeys.has(requiredKey)) {
             console.error(`${prefix}: ${specificRule.message} Missing "${requiredKey}".`)
             failed = true
           }
         }
         for (const forbiddenKey of specificRule.forbidden) {
-          if (Object.prototype.hasOwnProperty.call(cats, forbiddenKey)) {
+          if (normalizedCatKeys.has(forbiddenKey)) {
             console.error(`${prefix}: ${specificRule.message} Remove "${forbiddenKey}".`)
             failed = true
           }
@@ -256,9 +379,24 @@ function validateNew(card, index) {
     )
     failed = true
   }
-  if (card?.valuation != null && typeof card.valuation !== "object") {
-    console.error(`${prefix}: valuation must be an object.`)
-    failed = true
+  if (card?.valuation != null) {
+    if (typeof card.valuation !== "object") {
+      console.error(`${prefix}: valuation must be an object.`)
+      failed = true
+    } else {
+      const v = card.valuation
+      const allowed = ["cpp_nerdwallet", "cpp_pointsguy", "cpp_assumed", "cpp_bankrate", "cpp_creditkarma"]
+      for (const key of Object.keys(v)) {
+        if (!allowed.includes(key)) {
+          console.error(`${prefix}: valuation.${key} is invalid. Use cpp_nerdwallet, cpp_pointsguy, cpp_assumed.`)
+          failed = true
+        }
+        if (typeof v[key] !== "number" || !Number.isFinite(v[key])) {
+          console.error(`${prefix}: valuation.${key} must be a finite number.`)
+          failed = true
+        }
+      }
+    }
   }
   if (card?.statement_credits != null) {
     if (!Array.isArray(card.statement_credits)) {
@@ -273,6 +411,38 @@ function validateNew(card, index) {
             console.error(`${prefix}: statement_credits[${i}] missing "${k}".`)
             failed = true
           }
+        }
+        if (typeof sc.name !== "string" || !sc.name.trim()) {
+          console.error(`${prefix}: statement_credits[${i}].name must be a non-empty string.`)
+          failed = true
+        }
+        if (typeof sc.amount !== "number" || !Number.isFinite(sc.amount) || sc.amount <= 0) {
+          console.error(`${prefix}: statement_credits[${i}].amount must be a positive number.`)
+          failed = true
+        }
+        if (typeof sc.deducts_from_eligible_spend !== "boolean") {
+          console.error(
+            `${prefix}: statement_credits[${i}].deducts_from_eligible_spend must be boolean.`
+          )
+          failed = true
+        }
+        if (typeof sc.frequency !== "string") {
+          console.error(`${prefix}: statement_credits[${i}].frequency must be a string.`)
+          failed = true
+        } else {
+          const freq = sc.frequency.trim()
+          if (!CREDIT_FREQUENCIES.has(freq) && !EVERY_YEARS_RE.test(freq)) {
+            console.error(
+              `${prefix}: statement_credits[${i}].frequency "${freq}" is invalid. Use one of ${Array.from(
+                CREDIT_FREQUENCIES
+              ).join(", ")} or every_<n>_years.`
+            )
+            failed = true
+          }
+        }
+        if (sc.restrictions != null && typeof sc.restrictions !== "string") {
+          console.error(`${prefix}: statement_credits[${i}].restrictions must be a string when present.`)
+          failed = true
         }
       }
     }
@@ -300,6 +470,16 @@ function validateNew(card, index) {
       }
     }
   }
+  const expectedAnniversaryBonus = REQUIRED_ANNIVERSARY_BONUSES[card?.id]
+  if (expectedAnniversaryBonus) {
+    const bonus = typeof card?.anniversary_bonus === "string" ? card.anniversary_bonus.trim() : ""
+    if (!expectedAnniversaryBonus.pattern.test(bonus)) {
+      console.error(
+        `${prefix}: anniversary_bonus must include ${expectedAnniversaryBonus.description}.`
+      )
+      failed = true
+    }
+  }
   return failed
 }
 
@@ -319,6 +499,11 @@ function main() {
 
   const ids = new Set()
   let failed = false
+  const audit = {
+    aliasesByCard: new Map(),
+    unmappedKeysByCard: new Map(),
+    nonCanonicalTravelKeysByCard: new Map(),
+  }
 
   for (let i = 0; i < cards.length; i++) {
     const card = cards[i]
@@ -330,11 +515,23 @@ function main() {
       ids.add(card.id)
     }
     if (isNewSchema(card)) {
-      failed = validateNew(card, i) || failed
+      failed = validateNew(card, i, audit) || failed
     } else {
       failed = validateLegacy(card, i) || failed
     }
   }
+
+  const printAuditSection = (title, entries) => {
+    if (entries.size === 0) return
+    console.warn(`\n[validate:cards] ${title}`)
+    for (const [cardId, values] of [...entries.entries()].sort(([a], [b]) => a.localeCompare(b))) {
+      console.warn(`- ${cardId}: ${[...values].sort().join(", ")}`)
+    }
+  }
+
+  printAuditSection("Aliased multiplier keys detected", audit.aliasesByCard)
+  printAuditSection("Unmapped multiplier keys detected", audit.unmappedKeysByCard)
+  printAuditSection("Non-canonical travel keys detected", audit.nonCanonicalTravelKeysByCard)
 
   if (failed) process.exit(1)
   console.log("Validation passed: data/cards.json is structurally and semantically valid.")

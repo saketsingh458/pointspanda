@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Adds new cards from a TSV to data/cards.json (only cards not already present).
- * TSV columns: Card Name, Card ID, Issuer, Annual Fee, Reward Currency, CPP Floor, CPP Ceiling,
+ * TSV columns: Card Name, Card ID, Issuer, Annual Fee, Reward Currency, CPP NerdWallet, CPP TPG, CPP Assumed,
  * SUB Points, SUB Spend Req, SUB Timeframe, Base Multiplier, Category Multipliers & Caps,
  * Statement Credits, UI Benefits List, Image URL, Apply URL, Dev Notes, Card Network,
  * FTF %, Synergy Ecosystem, Anniversary Bonus
@@ -130,28 +130,59 @@ function parseBenefitsList(str) {
   return str.split(/\s*[-–]\s*/).map((s) => s.trim()).filter(Boolean);
 }
 
+const isOldTsvFormat = (parts) => {
+  const col7 = parseFloat(String(parts[7] || "").replace(/,/g, "").trim());
+  const col8 = parseFloat(String(parts[8] || "").replace(/,/g, "").trim());
+  return Number.isFinite(col7) && col7 > 20 && Number.isFinite(col8) && col8 >= 0;
+};
+
 function buildCard(parts) {
   const id = (parts[1] || "").trim();
   const name = (parts[0] || "").trim();
   const issuer = (parts[2] || "").trim();
   const annualFee = parseNum(parts[3]);
   const rewardCurrency = (parts[4] || "").trim() || "None";
-  const cppFloor = parseNum(parts[5]);
-  const cppCeiling = parseNum(parts[6]);
-  const subPoints = parseSubPoints(parts[7]);
-  const subSpend = parseNum(parts[8]);
-  const subMonths = parseNum(parts[9]);
-  const baseRate = parseBaseRate(parts[10]);
-  const categoryStr = parts[11] || "";
-  const statementCreditsStr = parts[12] || "";
-  const benefitsStr = parts[13] || "";
-  const imageUrl = (parts[14] || "").trim();
-  const applyUrl = (parts[15] || "").trim();
-  const devNotes = (parts[16] || "").trim();
-  const network = (parts[17] || "").trim();
-  const ftf = parseFtf(parts[18]);
-  const synergy = (parts[19] || "").trim();
-  const anniversaryBonus = (parts[20] || "").trim();
+  const useOldFormat = isOldTsvFormat(parts);
+  let cppNerdWallet, cppTPG, cppAssumed, subPoints, subSpend, subMonths, baseRate, categoryStr, statementCreditsStr, benefitsStr, imageUrl, applyUrl, devNotes, network, ftf, synergy, anniversaryBonus;
+  if (useOldFormat) {
+    const cppFloor = parseNum(parts[5]);
+    const cppCeiling = parseNum(parts[6]);
+    cppNerdWallet = null;
+    cppTPG = cppCeiling > 0 ? cppCeiling : null;
+    cppAssumed = cppFloor >= 0 ? cppFloor : (rewardCurrency === "None" || !rewardCurrency ? 0 : 1);
+    subPoints = parseSubPoints(parts[7]);
+    subSpend = parseNum(parts[8]);
+    subMonths = parseNum(parts[9]);
+    baseRate = parseBaseRate(parts[10]);
+    categoryStr = parts[11] || "";
+    statementCreditsStr = parts[12] || "";
+    benefitsStr = parts[13] || "";
+    imageUrl = (parts[14] || "").trim();
+    applyUrl = (parts[15] || "").trim();
+    devNotes = (parts[16] || "").trim();
+    network = (parts[17] || "").trim();
+    ftf = parseFtf(parts[18]);
+    synergy = (parts[19] || "").trim();
+    anniversaryBonus = (parts[20] || "").trim();
+  } else {
+    cppNerdWallet = parts[5] != null && String(parts[5]).trim() !== "" && String(parts[5]) !== "N/A" ? parseNum(parts[5]) : null;
+    cppTPG = parts[6] != null && String(parts[6]).trim() !== "" && String(parts[6]) !== "N/A" ? parseNum(parts[6]) : null;
+    cppAssumed = parts[7] != null && String(parts[7]).trim() !== "" && String(parts[7]) !== "N/A" ? parseNum(parts[7]) : null;
+    subPoints = parseSubPoints(parts[8]);
+    subSpend = parseNum(parts[9]);
+    subMonths = parseNum(parts[10]);
+    baseRate = parseBaseRate(parts[11]);
+    categoryStr = parts[12] || "";
+    statementCreditsStr = parts[13] || "";
+    benefitsStr = parts[14] || "";
+    imageUrl = (parts[15] || "").trim();
+    applyUrl = (parts[16] || "").trim();
+    devNotes = (parts[17] || "").trim();
+    network = (parts[18] || "").trim();
+    ftf = parseFtf(parts[19]);
+    synergy = (parts[20] || "").trim();
+    anniversaryBonus = (parts[21] || "").trim();
+  }
 
   const statementCredits = parseStatementCredits(statementCreditsStr);
   const categories = parseCategories(categoryStr);
@@ -174,7 +205,13 @@ function buildCard(parts) {
         benefits_list: benefitsList.length ? benefitsList : (benefitsStr ? [benefitsStr] : [name + " benefits"]),
       }),
     },
-    valuation: cppFloor > 0 || cppCeiling > 0 ? { cpp_floor: cppFloor, cpp_ceiling: cppCeiling } : undefined,
+    valuation: (() => {
+      const v = {};
+      if (cppNerdWallet != null && cppNerdWallet >= 0) v.cpp_nerdwallet = cppNerdWallet;
+      if (cppTPG != null && cppTPG >= 0) v.cpp_pointsguy = cppTPG;
+      if (cppAssumed != null && cppAssumed >= 0) v.cpp_assumed = cppAssumed;
+      return Object.keys(v).length > 0 ? v : undefined;
+    })(),
     welcome_offer: {
       points: subPoints,
       spend_requirement: subSpend,

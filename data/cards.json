@@ -13,8 +13,7 @@
       "apply_url": "https://robinhood.com/creditcard"
     },
     "valuation": {
-      "cpp_floor": 0.01,
-      "cpp_ceiling": 0.01
+      "cpp_assumed": 1
     },
     "welcome_offer": {
       "points": 0,
@@ -35,6 +34,134 @@
     "developer_notes": "Must have active Robinhood Gold subscription ($5/mo or $50/yr)"
   },
   {
+    "id": "robinhood-platinum-card",
+    "name": "Robinhood Platinum Card",
+    "issuer": "Robinhood",
+    "network": "Visa",
+    "annual_fee": 695,
+    "reward_currency": "Cash Back",
+    "synergy_ecosystem": "Robinhood Gold",
+    "ftf_percentage": 0,
+    "ui_elements": {
+      "image_url": "https://images.ctfassets.net/ilblxxee70tt/27XxlbgMQzgWYSW5KLarzl/3f5a2272a06d0503f42cb3b5bbe792fc/meta-image.jpg",
+      "apply_url": "https://robinhood.com/us/en/creditcard/platinum"
+    },
+    "valuation": {
+      "cpp_assumed": 1
+    },
+    "welcome_offer": {
+      "points": 0,
+      "spend_requirement": 0,
+      "timeframe_months": 0
+    },
+    "anniversary_bonus": null,
+    "statement_credits": [
+      {
+        "name": "Dining Statement Credit",
+        "amount": 20,
+        "frequency": "monthly",
+        "deducts_from_eligible_spend": false,
+        "restrictions": "Qualifying participating local restaurants only; up to $20 each month; credits do not roll over and refunded charges reverse credits"
+      },
+      {
+        "name": "Dining December Bonus",
+        "amount": 10,
+        "frequency": "yearly",
+        "deducts_from_eligible_spend": false,
+        "restrictions": "Extra $10 available in December for eligible dining purchases to reach up to $250 total annual dining credits"
+      },
+      {
+        "name": "DoorDash Monthly Credits",
+        "amount": 20,
+        "frequency": "monthly",
+        "deducts_from_eligible_spend": false,
+        "restrictions": "Requires DashPass activation; typically two $10 discounts per month on qualifying $50+ delivery orders; monthly discounts do not roll over"
+      },
+      {
+        "name": "DoorDash January Bonus",
+        "amount": 10,
+        "frequency": "yearly",
+        "deducts_from_eligible_spend": false,
+        "restrictions": "January receives one extra $10 DoorDash discount (up to three total $10 discounts) to reach up to $250 annual DoorDash value"
+      },
+      {
+        "name": "Function Health Membership Credit",
+        "amount": 365,
+        "frequency": "yearly",
+        "deducts_from_eligible_spend": false,
+        "restrictions": "Enrollment required in app; annual statement credit applies after eligible Function Health membership charge posts"
+      },
+      {
+        "name": "Health Wearables Credit",
+        "amount": 200,
+        "frequency": "yearly",
+        "deducts_from_eligible_spend": false,
+        "restrictions": "Up to $200 total statement credits per membership year on qualifying health wearable purchases"
+      },
+      {
+        "name": "Oura Membership Credit",
+        "amount": 70,
+        "frequency": "one_time",
+        "deducts_from_eligible_spend": false,
+        "restrictions": "Requires app opt-in and eligible Oura Ring purchase with prepaid annual membership within six months; limited-time offer terms apply"
+      },
+      {
+        "name": "Travel Statement Credit",
+        "amount": 150,
+        "frequency": "semi_annual",
+        "deducts_from_eligible_spend": false,
+        "restrictions": "Up to $300 total per membership year, generally disbursed as $150 every six months on qualifying travel purchases; credits do not roll over"
+      },
+      {
+        "name": "Hotel Booking Credit (Robinhood Travel)",
+        "amount": 250,
+        "frequency": "semi_annual",
+        "deducts_from_eligible_spend": false,
+        "restrictions": "Qualifying luxury hotels booked through Robinhood Travel only; minimum 2-night stay; each six-month period allows up to $250 total with up to $100 usable toward standard hotel bookings"
+      },
+      {
+        "name": "Global Entry/TSA PreCheck",
+        "amount": 120,
+        "frequency": "every_4_years",
+        "deducts_from_eligible_spend": false,
+        "restrictions": "One application fee reimbursement per 4-year cycle for an eligible trusted traveler program"
+      },
+      {
+        "name": "Autonomous Ride Credit",
+        "amount": 20,
+        "frequency": "monthly",
+        "deducts_from_eligible_spend": false,
+        "restrictions": "Eligible autonomous ride purchases only; up to $20 each month; credits do not roll over and refunded charges reverse credits"
+      },
+      {
+        "name": "Autonomous Ride December Bonus",
+        "amount": 10,
+        "frequency": "yearly",
+        "deducts_from_eligible_spend": false,
+        "restrictions": "Extra $10 available in December for eligible autonomous rides to reach up to $250 total annual autonomous ride credits"
+      }
+    ],
+    "multipliers": {
+      "base_rate": 1,
+      "categories": {
+        "dining": {
+          "rate": 5,
+          "cap_amount": 50000,
+          "cap_period": "annual"
+        },
+        "travel_portal_flights": {
+          "rate": 5,
+          "requires_portal": true
+        },
+        "travel_portal_hotels_cars": {
+          "rate": 10,
+          "requires_portal": true
+        }
+      }
+    },
+    "developer_notes": "Benefits reflect Robinhood legal overview last updated 2026-03-04. Some benefits require enrollment or account linkage in app and may change at any time. Non-statement benefits include DashPass membership, Priority Pass Select, Amazon One Medical membership sponsorship, and Robinhood Gold membership."
+  },
+  {
     "id": "gemini-credit-card",
     "name": "Gemini Credit Card®",
     "issuer": "WebBank",
@@ -48,8 +175,7 @@
       "apply_url": "https://www.gemini.com/credit-card"
     },
     "valuation": {
-      "cpp_floor": 1,
-      "cpp_ceiling": 1
+      "cpp_assumed": 1
     },
     "welcome_offer": {
       "points": 0,
@@ -87,11 +213,14 @@
     "ftf_percentage": 0,
     "ui_elements": {
       "image_url": "https://creditcards.chase.com/content/dam/jpmc-marketplace/card-art/sapphire_reserve_card_Halo.png",
-      "apply_url": "https://www.chase.com"
+      "apply_url": "https://creditcards.chase.com/rewards-credit-cards/sapphire/reserve"
     },
     "valuation": {
-      "cpp_floor": 1,
-      "cpp_ceiling": 2
+      "cpp_nerdwallet": 1.8,
+      "cpp_pointsguy": 2.05,
+      "cpp_assumed": 1.25,
+      "cpp_bankrate": 2,
+      "cpp_creditkarma": 1.71
     },
     "welcome_offer": {
       "points": 125000,
@@ -103,55 +232,62 @@
       {
         "name": "Travel",
         "amount": 300,
-        "frequency": "annual",
+        "frequency": "yearly",
         "deducts_from_eligible_spend": true,
         "restrictions": "Automatically applies to eligible travel purchases; purchases offset by this credit do not earn points"
       },
       {
         "name": "Dining",
-        "amount": 300,
-        "frequency": "semi-annual",
+        "amount": 150,
+        "frequency": "semi_annual",
         "deducts_from_eligible_spend": false,
         "restrictions": "Split into two $150 windows per cardmember year; valid only at eligible Sapphire Reserve Exclusive Tables restaurants"
       },
       {
         "name": "The Edit",
         "amount": 500,
-        "frequency": "annual",
+        "frequency": "yearly",
         "deducts_from_eligible_spend": false,
         "restrictions": "Up to $250 per prepaid eligible booking through The Edit (minimum 2-night stay); requires two bookings to realize full $500"
       },
       {
         "name": "StubHub",
-        "amount": 300,
-        "frequency": "semi-annual",
+        "amount": 150,
+        "frequency": "semi_annual",
         "deducts_from_eligible_spend": false,
         "restrictions": "Split into two $150 windows per year at StubHub/Viagogo; activation required"
       },
       {
+        "name": "DoorDash",
+        "amount": 25,
+        "frequency": "monthly",
+        "deducts_from_eligible_spend": false,
+        "restrictions": "Up to $300 per year in monthly non-restaurant DoorDash promos; active DashPass enrollment required and monthly allotments do not roll over"
+      },
+      {
         "name": "Apple Subscriptions",
         "amount": 288,
-        "frequency": "annual",
+        "frequency": "yearly",
         "deducts_from_eligible_spend": false,
         "restrictions": "One-time activation required for eligible Apple subscription benefits"
       },
       {
         "name": "Select Hotel",
         "amount": 250,
-        "frequency": "one-time",
+        "frequency": "one_time",
         "deducts_from_eligible_spend": false,
         "restrictions": "Prepaid booking through eligible Chase Travel partner hotels with a minimum 2-night stay"
       },
       {
         "name": "Lyft",
-        "amount": 120,
+        "amount": 10,
         "frequency": "monthly",
         "deducts_from_eligible_spend": false,
         "restrictions": "$10 monthly in-app credit; use-it-or-lose-it and does not roll over"
       },
       {
         "name": "Peloton",
-        "amount": 120,
+        "amount": 10,
         "frequency": "monthly",
         "deducts_from_eligible_spend": false,
         "restrictions": "$10 monthly membership credit; activation required and unused value does not roll over"
@@ -159,7 +295,7 @@
       {
         "name": "Global Entry/TSA PreCheck/NEXUS",
         "amount": 120,
-        "frequency": "every 4 years",
+        "frequency": "every_4_years",
         "deducts_from_eligible_spend": false,
         "restrictions": "One application fee reimbursement per 4-year cycle for an eligible trusted traveler program"
       }
@@ -256,8 +392,11 @@
       "apply_url": "https://creditcards.chase.com/travel-credit-cards/sapphire-preferred"
     },
     "valuation": {
-      "cpp_floor": 1,
-      "cpp_ceiling": 2.05
+      "cpp_nerdwallet": 1.8,
+      "cpp_pointsguy": 2.05,
+      "cpp_assumed": 1.25,
+      "cpp_bankrate": 2,
+      "cpp_creditkarma": 1.71
     },
     "welcome_offer": {
       "points": 75000,
@@ -269,13 +408,13 @@
       {
         "name": "Hotel Credit",
         "amount": 50,
-        "frequency": "annual",
+        "frequency": "yearly",
         "deducts_from_eligible_spend": false,
         "restrictions": "Valid on eligible hotel purchases made through Chase Travel"
       },
       {
         "name": "DashPass Monthly Promo",
-        "amount": 120,
+        "amount": 10,
         "frequency": "monthly",
         "deducts_from_eligible_spend": false,
         "restrictions": "$10 monthly non-restaurant DoorDash promo with active DashPass enrollment; unused amounts do not roll over"
@@ -376,8 +515,11 @@
       "apply_url": "https://www.chase.com/personal/credit-cards/freedom/unlimited"
     },
     "valuation": {
-      "cpp_floor": 1,
-      "cpp_ceiling": 2
+      "cpp_nerdwallet": 1.8,
+      "cpp_pointsguy": 2.05,
+      "cpp_assumed": 1.25,
+      "cpp_bankrate": 2,
+      "cpp_creditkarma": 1.71
     },
     "welcome_offer": {
       "points": 20000,
@@ -475,8 +617,11 @@
       "apply_url": "https://creditcards.chase.com/cash-back-credit-cards/freedom/flex"
     },
     "valuation": {
-      "cpp_floor": 1,
-      "cpp_ceiling": 2
+      "cpp_nerdwallet": 1.8,
+      "cpp_pointsguy": 2.05,
+      "cpp_assumed": 1.25,
+      "cpp_bankrate": 2,
+      "cpp_creditkarma": 1.71
     },
     "welcome_offer": {
       "points": 20000,
@@ -579,8 +724,11 @@
       "apply_url": "https://www.chase.com/business/credit-cards/sapphire-reserve-business"
     },
     "valuation": {
-      "cpp_floor": 1,
-      "cpp_ceiling": 2
+      "cpp_nerdwallet": 1.8,
+      "cpp_pointsguy": 2.05,
+      "cpp_assumed": 1.25,
+      "cpp_bankrate": 2,
+      "cpp_creditkarma": 1.71
     },
     "welcome_offer": {
       "points": 150000,
@@ -592,30 +740,58 @@
       {
         "name": "Travel",
         "amount": 300,
-        "frequency": "annual",
+        "frequency": "yearly",
         "deducts_from_eligible_spend": true,
         "restrictions": "Automatically applies to eligible travel purchases; purchases offset by this credit do not earn points"
       },
       {
         "name": "Google Workspace",
         "amount": 200,
-        "frequency": "annual",
+        "frequency": "yearly",
         "deducts_from_eligible_spend": false,
         "restrictions": "Valid on eligible Google Workspace purchases"
       },
       {
         "name": "ZipRecruiter",
-        "amount": 400,
-        "frequency": "semi-annual",
+        "amount": 200,
+        "frequency": "semi_annual",
         "deducts_from_eligible_spend": false,
         "restrictions": "Split into two $200 windows per year on eligible ZipRecruiter purchases"
       },
       {
         "name": "The Edit",
         "amount": 500,
-        "frequency": "annual",
+        "frequency": "yearly",
         "deducts_from_eligible_spend": false,
         "restrictions": "Up to $250 per prepaid eligible booking through The Edit (minimum 2-night stay); requires two bookings to realize full $500"
+      },
+      {
+        "name": "DoorDash",
+        "amount": 25,
+        "frequency": "monthly",
+        "deducts_from_eligible_spend": false,
+        "restrictions": "Up to $300 per year in monthly non-restaurant DoorDash promos; active DashPass enrollment required and monthly allotments do not roll over"
+      },
+      {
+        "name": "Lyft",
+        "amount": 10,
+        "frequency": "monthly",
+        "deducts_from_eligible_spend": false,
+        "restrictions": "$10 monthly in-app credit; use-it-or-lose-it and does not roll over"
+      },
+      {
+        "name": "Giftcards.com",
+        "amount": 100,
+        "frequency": "yearly",
+        "deducts_from_eligible_spend": false,
+        "restrictions": "Requires eligible Giftcards.com purchases"
+      },
+      {
+        "name": "Global Entry/TSA PreCheck/NEXUS",
+        "amount": 120,
+        "frequency": "every_4_years",
+        "deducts_from_eligible_spend": false,
+        "restrictions": "One application fee reimbursement per 4-year cycle for an eligible trusted traveler program"
       }
     ],
     "multipliers": {
@@ -710,8 +886,11 @@
       "apply_url": "https://www.chase.com/business/credit-cards/ink/ink-business-preferred"
     },
     "valuation": {
-      "cpp_floor": 1,
-      "cpp_ceiling": 2.05
+      "cpp_nerdwallet": 1.8,
+      "cpp_pointsguy": 2.05,
+      "cpp_assumed": 1.25,
+      "cpp_bankrate": 2,
+      "cpp_creditkarma": 1.71
     },
     "welcome_offer": {
       "points": 100000,
@@ -815,8 +994,11 @@
       "apply_url": "https://www.americanexpress.com/us/credit-cards/card/platinum/"
     },
     "valuation": {
-      "cpp_floor": 1,
-      "cpp_ceiling": 2
+      "cpp_nerdwallet": 1.6,
+      "cpp_pointsguy": 2,
+      "cpp_assumed": 1.25,
+      "cpp_bankrate": 2,
+      "cpp_creditkarma": 1.67
     },
     "welcome_offer": {
       "points": 175000,
@@ -827,78 +1009,101 @@
     "statement_credits": [
       {
         "name": "Uber Cash",
-        "amount": 200,
+        "amount": 15,
         "frequency": "monthly",
         "deducts_from_eligible_spend": false,
-        "restrictions": "Issued in monthly allotments and does not roll over"
+        "restrictions": "$15 monthly Uber Cash for U.S. rides/orders; use-it-or-lose-it and does not roll over"
+      },
+      {
+        "name": "Uber Cash December Bonus",
+        "amount": 20,
+        "frequency": "yearly",
+        "deducts_from_eligible_spend": false,
+        "restrictions": "Additional $20 Uber Cash issued in December (on top of monthly allotment)"
       },
       {
         "name": "Uber One",
-        "amount": 120,
-        "frequency": "annual",
-        "deducts_from_eligible_spend": false
+        "amount": 10,
+        "frequency": "monthly",
+        "deducts_from_eligible_spend": false,
+        "restrictions": "Up to $120 per year for auto-renewing Uber One membership billed to Platinum Card"
       },
       {
         "name": "Airline Fee",
         "amount": 200,
-        "frequency": "annual",
-        "deducts_from_eligible_spend": false
+        "frequency": "yearly",
+        "deducts_from_eligible_spend": false,
+        "restrictions": "Enrollment required; applies to eligible incidental fees on selected qualifying airline"
       },
       {
         "name": "Hotel",
-        "amount": 600,
-        "frequency": "annual",
-        "deducts_from_eligible_spend": false
+        "amount": 300,
+        "frequency": "semi_annual",
+        "deducts_from_eligible_spend": false,
+        "restrictions": "Up to $300 per six-month period on prepaid Fine Hotels + Resorts or Hotel Collection bookings via Amex Travel; minimum 2-night stay for THC properties"
       },
       {
         "name": "Resy",
-        "amount": 400,
-        "frequency": "annual",
-        "deducts_from_eligible_spend": false
+        "amount": 100,
+        "frequency": "quarterly",
+        "deducts_from_eligible_spend": false,
+        "restrictions": "Up to $100 per quarter at eligible U.S. Resy restaurants and other qualifying Resy purchases"
       },
       {
         "name": "Digital Entertainment",
-        "amount": 300,
-        "frequency": "annual",
-        "deducts_from_eligible_spend": false
+        "amount": 25,
+        "frequency": "monthly",
+        "deducts_from_eligible_spend": false,
+        "restrictions": "Enrollment required; up to $25 monthly on eligible digital subscriptions"
       },
       {
         "name": "CLEAR+",
         "amount": 209,
-        "frequency": "annual",
-        "deducts_from_eligible_spend": false
+        "frequency": "yearly",
+        "deducts_from_eligible_spend": false,
+        "restrictions": "Statement credit after eligible CLEAR+ membership purchase with Platinum Card"
       },
       {
         "name": "Saks",
-        "amount": 100,
-        "frequency": "semi-annual",
+        "amount": 50,
+        "frequency": "semi_annual",
         "deducts_from_eligible_spend": false,
         "restrictions": "Split into two $50 windows per year"
       },
       {
         "name": "lululemon",
-        "amount": 300,
-        "frequency": "annual",
-        "deducts_from_eligible_spend": false
+        "amount": 75,
+        "frequency": "quarterly",
+        "deducts_from_eligible_spend": false,
+        "restrictions": "Up to $75 per quarter on eligible lululemon purchases with Platinum Card"
       },
       {
         "name": "Oura Ring",
         "amount": 200,
-        "frequency": "annual",
-        "deducts_from_eligible_spend": false
+        "frequency": "yearly",
+        "deducts_from_eligible_spend": false,
+        "restrictions": "Up to $200 per year for eligible Oura Ring hardware purchases"
       },
       {
         "name": "Equinox",
         "amount": 300,
-        "frequency": "annual",
-        "deducts_from_eligible_spend": false
+        "frequency": "yearly",
+        "deducts_from_eligible_spend": false,
+        "restrictions": "Enrollment required; up to $300 annual statement credit on eligible Equinox memberships/services"
       },
       {
         "name": "Walmart+",
-        "amount": 155,
+        "amount": 12.95,
         "frequency": "monthly",
         "deducts_from_eligible_spend": false,
-        "restrictions": "Monthly membership credit only; unused amounts do not roll over"
+        "restrictions": "Enrollment required; monthly Walmart+ membership credit (plus applicable tax), Plus Ups not eligible"
+      },
+      {
+        "name": "Global Entry/TSA PreCheck",
+        "amount": 120,
+        "frequency": "every_4_years",
+        "deducts_from_eligible_spend": false,
+        "restrictions": "One application fee reimbursement per 4-year cycle for an eligible trusted traveler program"
       }
     ],
     "multipliers": {
@@ -1015,8 +1220,11 @@
       "apply_url": "https://www.americanexpress.com/us/credit-cards/card/gold-card/"
     },
     "valuation": {
-      "cpp_floor": 1,
-      "cpp_ceiling": 2
+      "cpp_nerdwallet": 1.6,
+      "cpp_pointsguy": 2,
+      "cpp_assumed": 1.25,
+      "cpp_bankrate": 2,
+      "cpp_creditkarma": 1.67
     },
     "welcome_offer": {
       "points": 100000,
@@ -1027,28 +1235,28 @@
     "statement_credits": [
       {
         "name": "Uber Cash",
-        "amount": 120,
+        "amount": 10,
         "frequency": "monthly",
         "deducts_from_eligible_spend": false,
         "restrictions": "Issued as monthly allotments and does not roll over"
       },
       {
         "name": "Dining Credit",
-        "amount": 120,
+        "amount": 10,
         "frequency": "monthly",
         "deducts_from_eligible_spend": false,
         "restrictions": "Partner-limited monthly credit; enrollment may be required and unused amounts do not roll over"
       },
       {
         "name": "Resy Credit",
-        "amount": 100,
-        "frequency": "semi-annual",
+        "amount": 50,
+        "frequency": "semi_annual",
         "deducts_from_eligible_spend": false,
         "restrictions": "Split into two $50 windows per year"
       },
       {
         "name": "Dunkin' Credit",
-        "amount": 84,
+        "amount": 7,
         "frequency": "monthly",
         "deducts_from_eligible_spend": false,
         "restrictions": "Issued as monthly allotments and does not roll over"
@@ -1178,8 +1386,11 @@
       "apply_url": "https://www.capitalone.com/credit-cards/venture-x/"
     },
     "valuation": {
-      "cpp_floor": 1,
-      "cpp_ceiling": 1.85
+      "cpp_nerdwallet": 1.6,
+      "cpp_pointsguy": 1.85,
+      "cpp_assumed": 1.25,
+      "cpp_bankrate": 1.7,
+      "cpp_creditkarma": 1.48
     },
     "welcome_offer": {
       "points": 75000,
@@ -1191,13 +1402,13 @@
       {
         "name": "Capital One Travel",
         "amount": 300,
-        "frequency": "annual",
+        "frequency": "yearly",
         "deducts_from_eligible_spend": true
       },
       {
         "name": "TSA PreCheck/Global Entry",
         "amount": 120,
-        "frequency": "every 4 years",
+        "frequency": "every_4_years",
         "deducts_from_eligible_spend": false
       }
     ],
@@ -1320,8 +1531,11 @@
       "apply_url": "https://www.chase.com/personal/credit-cards/freedom/rise"
     },
     "valuation": {
-      "cpp_floor": 1,
-      "cpp_ceiling": 1
+      "cpp_nerdwallet": 1.8,
+      "cpp_pointsguy": 2.05,
+      "cpp_assumed": 1.25,
+      "cpp_bankrate": 2,
+      "cpp_creditkarma": 1.71
     },
     "welcome_offer": {
       "points": 0,
@@ -1333,7 +1547,7 @@
       {
         "name": "Autopay Credit",
         "amount": 25,
-        "frequency": "one-time",
+        "frequency": "one_time",
         "deducts_from_eligible_spend": false
       }
     ],
@@ -1415,8 +1629,11 @@
       "apply_url": "https://www.chase.com/personal/credit-cards/slate-edge"
     },
     "valuation": {
-      "cpp_floor": 0,
-      "cpp_ceiling": 0
+      "cpp_nerdwallet": 0,
+      "cpp_pointsguy": 0,
+      "cpp_assumed": 0,
+      "cpp_bankrate": 0,
+      "cpp_creditkarma": 0
     },
     "welcome_offer": {
       "points": 0,
@@ -1445,8 +1662,11 @@
       "apply_url": "https://www.chase.com/business/credit-cards/ink/unlimited"
     },
     "valuation": {
-      "cpp_floor": 1,
-      "cpp_ceiling": 2
+      "cpp_nerdwallet": 1.8,
+      "cpp_pointsguy": 2.05,
+      "cpp_assumed": 1.25,
+      "cpp_bankrate": 2,
+      "cpp_creditkarma": 1.71
     },
     "welcome_offer": {
       "points": 75000,
@@ -1537,8 +1757,11 @@
       "apply_url": "https://creditcards.chase.com/business-credit-cards/ink/cash"
     },
     "valuation": {
-      "cpp_floor": 1,
-      "cpp_ceiling": 2
+      "cpp_nerdwallet": 1.8,
+      "cpp_pointsguy": 2.05,
+      "cpp_assumed": 1.25,
+      "cpp_bankrate": 2,
+      "cpp_creditkarma": 1.71
     },
     "welcome_offer": {
       "points": 75000,
@@ -1638,8 +1861,11 @@
       "apply_url": "https://www.chase.com/business/credit-cards/ink/ink-business-premier"
     },
     "valuation": {
-      "cpp_floor": 1,
-      "cpp_ceiling": 1
+      "cpp_nerdwallet": 0,
+      "cpp_pointsguy": 0,
+      "cpp_assumed": 0,
+      "cpp_bankrate": 0,
+      "cpp_creditkarma": 0
     },
     "welcome_offer": {
       "points": 100000,
@@ -1676,8 +1902,11 @@
       "apply_url": "https://www.americanexpress.com/us/credit-cards/business/business-gold-card/"
     },
     "valuation": {
-      "cpp_floor": 0.01,
-      "cpp_ceiling": 0.02
+      "cpp_nerdwallet": 1.6,
+      "cpp_pointsguy": 2,
+      "cpp_assumed": 1.25,
+      "cpp_bankrate": 2,
+      "cpp_creditkarma": 1.67
     },
     "welcome_offer": {
       "points": 100000,
@@ -1688,7 +1917,7 @@
     "statement_credits": [
       {
         "name": "Flexible Business Credit",
-        "amount": 240,
+        "amount": 20,
         "frequency": "monthly",
         "deducts_from_eligible_spend": false,
         "restrictions": "Issued as monthly allotments and does not roll over"
@@ -1696,14 +1925,14 @@
       {
         "name": "Walmart+ Credit",
         "amount": 155,
-        "frequency": "monthly",
+        "frequency": "yearly",
         "deducts_from_eligible_spend": false,
         "restrictions": "Monthly membership credit only; unused amounts do not roll over"
       },
       {
         "name": "Squarespace Credit",
         "amount": 150,
-        "frequency": "annual",
+        "frequency": "yearly",
         "deducts_from_eligible_spend": false
       }
     ],
@@ -1823,8 +2052,11 @@
       "apply_url": "https://www.americanexpress.com/us/credit-cards/card/green/"
     },
     "valuation": {
-      "cpp_floor": 1,
-      "cpp_ceiling": 2
+      "cpp_nerdwallet": 1.6,
+      "cpp_pointsguy": 2,
+      "cpp_assumed": 1.25,
+      "cpp_bankrate": 2,
+      "cpp_creditkarma": 1.67
     },
     "welcome_offer": {
       "points": 40000,
@@ -1836,7 +2068,7 @@
       {
         "name": "CLEAR Plus",
         "amount": 209,
-        "frequency": "annual",
+        "frequency": "yearly",
         "deducts_from_eligible_spend": false
       }
     ],
@@ -1956,8 +2188,11 @@
       "apply_url": "https://www.americanexpress.com/us/credit-cards/card/blue-cash-preferred/"
     },
     "valuation": {
-      "cpp_floor": 1,
-      "cpp_ceiling": 1
+      "cpp_nerdwallet": 0,
+      "cpp_pointsguy": 0,
+      "cpp_assumed": 0,
+      "cpp_bankrate": 0,
+      "cpp_creditkarma": 0
     },
     "welcome_offer": {
       "points": 300,
@@ -1968,14 +2203,7 @@
     "statement_credits": [
       {
         "name": "Disney Bundle Credit",
-        "amount": 120,
-        "frequency": "monthly",
-        "deducts_from_eligible_spend": false,
-        "restrictions": "Issued as monthly credits and does not roll over"
-      },
-      {
-        "name": "Equinox+ Credit",
-        "amount": 120,
+        "amount": 10,
         "frequency": "monthly",
         "deducts_from_eligible_spend": false,
         "restrictions": "Issued as monthly credits and does not roll over"
@@ -2016,8 +2244,11 @@
       "apply_url": "https://www.americanexpress.com/us/credit-cards/card/blue-cash-everyday/"
     },
     "valuation": {
-      "cpp_floor": 1,
-      "cpp_ceiling": 1
+      "cpp_nerdwallet": 0,
+      "cpp_pointsguy": 0,
+      "cpp_assumed": 0,
+      "cpp_bankrate": 0,
+      "cpp_creditkarma": 0
     },
     "welcome_offer": {
       "points": 200,
@@ -2077,8 +2308,11 @@
       "apply_url": "https://www.americanexpress.com/us/credit-cards/card/amex-everyday/"
     },
     "valuation": {
-      "cpp_floor": 0.7,
-      "cpp_ceiling": 2
+      "cpp_nerdwallet": 1.6,
+      "cpp_pointsguy": 2,
+      "cpp_assumed": 1.25,
+      "cpp_bankrate": 2,
+      "cpp_creditkarma": 1.67
     },
     "welcome_offer": {
       "points": 10000,
@@ -2203,8 +2437,11 @@
       "apply_url": "https://www.americanexpress.com/us/credit-cards/card/amex-everyday-preferred/"
     },
     "valuation": {
-      "cpp_floor": 0.5,
-      "cpp_ceiling": 2
+      "cpp_nerdwallet": 1.6,
+      "cpp_pointsguy": 2,
+      "cpp_assumed": 1.25,
+      "cpp_bankrate": 2,
+      "cpp_creditkarma": 1.67
     },
     "welcome_offer": {
       "points": 0,
@@ -2332,8 +2569,11 @@
       "apply_url": "https://www.americanexpress.com/us/credit-cards/card/cash-magnet/"
     },
     "valuation": {
-      "cpp_floor": 1,
-      "cpp_ceiling": 1
+      "cpp_nerdwallet": 0,
+      "cpp_pointsguy": 0,
+      "cpp_assumed": 0,
+      "cpp_bankrate": 0,
+      "cpp_creditkarma": 0
     },
     "welcome_offer": {
       "points": 200,
@@ -2362,8 +2602,11 @@
       "apply_url": "Invitation Only"
     },
     "valuation": {
-      "cpp_floor": 1,
-      "cpp_ceiling": 2
+      "cpp_nerdwallet": 1.6,
+      "cpp_pointsguy": 2,
+      "cpp_assumed": 1.25,
+      "cpp_bankrate": 2,
+      "cpp_creditkarma": 1.67
     },
     "welcome_offer": {
       "points": 0,
@@ -2375,31 +2618,37 @@
       {
         "name": "Saks Fifth Avenue",
         "amount": 1000,
-        "frequency": "annual",
+        "frequency": "yearly",
         "deducts_from_eligible_spend": false
       },
       {
         "name": "Uber Cash",
         "amount": 200,
-        "frequency": "annual",
+        "frequency": "yearly",
         "deducts_from_eligible_spend": false
       },
       {
         "name": "CLEAR+",
         "amount": 369,
-        "frequency": "annual",
+        "frequency": "yearly",
         "deducts_from_eligible_spend": false
       },
       {
         "name": "Uber One",
         "amount": 120,
-        "frequency": "annual",
+        "frequency": "yearly",
         "deducts_from_eligible_spend": false
       },
       {
         "name": "Airline Fee",
         "amount": 200,
-        "frequency": "annual",
+        "frequency": "yearly",
+        "deducts_from_eligible_spend": false
+      },
+      {
+        "name": "Equinox All-Access",
+        "amount": 3600,
+        "frequency": "yearly",
         "deducts_from_eligible_spend": false
       }
     ],
@@ -2514,8 +2763,11 @@
       "apply_url": "https://www.americanexpress.com/us/credit-cards/business/business-credit-cards/american-express-business-platinum-card-amex/"
     },
     "valuation": {
-      "cpp_floor": 0.5,
-      "cpp_ceiling": 2
+      "cpp_nerdwallet": 1.6,
+      "cpp_pointsguy": 2,
+      "cpp_assumed": 1.25,
+      "cpp_bankrate": 2,
+      "cpp_creditkarma": 1.67
     },
     "welcome_offer": {
       "points": 200000,
@@ -2526,26 +2778,26 @@
     "statement_credits": [
       {
         "name": "Hotel Credit",
-        "amount": 600,
-        "frequency": "semi-annual",
+        "amount": 300,
+        "frequency": "semi_annual",
         "deducts_from_eligible_spend": false,
         "restrictions": "Split into two $300 windows per year"
       },
       {
         "name": "Airline Fee Credit",
         "amount": 200,
-        "frequency": "annual",
+        "frequency": "yearly",
         "deducts_from_eligible_spend": false
       },
       {
         "name": "CLEAR+ Credit",
-        "amount": 209,
-        "frequency": "annual",
+        "amount": 199,
+        "frequency": "yearly",
         "deducts_from_eligible_spend": false
       },
       {
         "name": "Wireless Credit",
-        "amount": 120,
+        "amount": 10,
         "frequency": "monthly",
         "deducts_from_eligible_spend": false,
         "restrictions": "Issued as monthly allotments and does not roll over"
@@ -2553,25 +2805,25 @@
       {
         "name": "Dell Credit",
         "amount": 1150,
-        "frequency": "annual",
+        "frequency": "yearly",
         "deducts_from_eligible_spend": false
       },
       {
         "name": "Adobe Credit",
         "amount": 250,
-        "frequency": "annual",
+        "frequency": "yearly",
         "deducts_from_eligible_spend": false
       },
       {
         "name": "Indeed Credit",
-        "amount": 360,
+        "amount": 90,
         "frequency": "quarterly",
         "deducts_from_eligible_spend": false,
         "restrictions": "Split into four $90 quarterly windows"
       },
       {
         "name": "Hilton Credit",
-        "amount": 200,
+        "amount": 50,
         "frequency": "quarterly",
         "deducts_from_eligible_spend": false,
         "restrictions": "Split into four $50 quarterly windows"
@@ -2579,7 +2831,7 @@
       {
         "name": "Global Entry/TSA PreCheck Credit",
         "amount": 120,
-        "frequency": "every 4 years",
+        "frequency": "every_4_years",
         "deducts_from_eligible_spend": false
       }
     ],
@@ -2700,8 +2952,11 @@
       "apply_url": "https://www.americanexpress.com/us/credit-cards/business/business-credit-cards/blue-business-plus-credit-card/"
     },
     "valuation": {
-      "cpp_floor": 0.6,
-      "cpp_ceiling": 2
+      "cpp_nerdwallet": 1.6,
+      "cpp_pointsguy": 2,
+      "cpp_assumed": 1.25,
+      "cpp_bankrate": 2,
+      "cpp_creditkarma": 1.67
     },
     "welcome_offer": {
       "points": 15000,
@@ -2816,8 +3071,11 @@
       "apply_url": "https://www.capitalone.com/credit-cards/venture/"
     },
     "valuation": {
-      "cpp_floor": 1,
-      "cpp_ceiling": 1.8
+      "cpp_nerdwallet": 1.6,
+      "cpp_pointsguy": 1.85,
+      "cpp_assumed": 1.25,
+      "cpp_bankrate": 1.7,
+      "cpp_creditkarma": 1.48
     },
     "welcome_offer": {
       "points": 75000,
@@ -2829,13 +3087,13 @@
       {
         "name": "Global Entry or TSA PreCheck",
         "amount": 120,
-        "frequency": "every 4 years",
+        "frequency": "every_4_years",
         "deducts_from_eligible_spend": false
       },
       {
         "name": "Capital One Travel",
         "amount": 250,
-        "frequency": "one-time",
+        "frequency": "one_time",
         "deducts_from_eligible_spend": false
       }
     ],
@@ -2954,8 +3212,11 @@
       "apply_url": "https://www.capitalone.com/credit-cards/savor/"
     },
     "valuation": {
-      "cpp_floor": 1,
-      "cpp_ceiling": 1
+      "cpp_nerdwallet": 1.6,
+      "cpp_pointsguy": 1.85,
+      "cpp_assumed": 1,
+      "cpp_bankrate": 1.7,
+      "cpp_creditkarma": 1.48
     },
     "welcome_offer": {
       "points": 200,
@@ -3093,8 +3354,11 @@
       "apply_url": "https://www.americanexpress.com/us/credit-cards/business/business-credit-cards/blue-business-cash-card/"
     },
     "valuation": {
-      "cpp_floor": 1,
-      "cpp_ceiling": 1
+      "cpp_nerdwallet": 1,
+      "cpp_pointsguy": 1,
+      "cpp_assumed": 1,
+      "cpp_bankrate": 1,
+      "cpp_creditkarma": 1
     },
     "welcome_offer": {
       "points": 250,
@@ -3127,8 +3391,11 @@
       "apply_url": "https://www.capitalone.com/credit-cards/ventureone/"
     },
     "valuation": {
-      "cpp_floor": 1,
-      "cpp_ceiling": 1.7
+      "cpp_nerdwallet": 1.6,
+      "cpp_pointsguy": 1.85,
+      "cpp_assumed": 1.25,
+      "cpp_bankrate": 1.7,
+      "cpp_creditkarma": 1.48
     },
     "welcome_offer": {
       "points": 20000,
@@ -3248,12 +3515,11 @@
     "synergy_ecosystem": "Capital One",
     "ftf_percentage": 0,
     "ui_elements": {
-      "image_url": "https://ads.capitalone.com/images/SavorOne_61172_282x178_1.png",
-      "apply_url": "https://www.capitalone.com/credit-cards/savorone-for-fair-credit/"
+      "image_url": "https://ecm.capitalone.com/WCM/card/products/savorone-card-art/mobile.png",
+      "apply_url": "https://www.capitalone.com/credit-cards/savorone/"
     },
     "valuation": {
-      "cpp_floor": 1,
-      "cpp_ceiling": 1
+      "cpp_assumed": 1
     },
     "welcome_offer": {
       "points": 0,
@@ -3299,8 +3565,7 @@
       "apply_url": "https://www.capitalone.com/credit-cards/savor-student/"
     },
     "valuation": {
-      "cpp_floor": 1,
-      "cpp_ceiling": 1
+      "cpp_assumed": 1
     },
     "welcome_offer": {
       "points": 5000,
@@ -3345,8 +3610,11 @@
       "apply_url": "https://www.capitalone.com/credit-cards/quicksilver/"
     },
     "valuation": {
-      "cpp_floor": 1,
-      "cpp_ceiling": 1
+      "cpp_nerdwallet": 1,
+      "cpp_pointsguy": 1,
+      "cpp_assumed": 1,
+      "cpp_bankrate": 1,
+      "cpp_creditkarma": 1
     },
     "welcome_offer": {
       "points": 200,
@@ -3358,7 +3626,7 @@
       {
         "name": "Capital One Travel",
         "amount": 100,
-        "frequency": "one-time",
+        "frequency": "one_time",
         "deducts_from_eligible_spend": true
       }
     ],
@@ -3389,8 +3657,11 @@
       "apply_url": "https://www.capitalone.com/credit-cards/quicksilverone/"
     },
     "valuation": {
-      "cpp_floor": 1,
-      "cpp_ceiling": 1
+      "cpp_nerdwallet": 1,
+      "cpp_pointsguy": 1,
+      "cpp_assumed": 1,
+      "cpp_bankrate": 1,
+      "cpp_creditkarma": 1
     },
     "welcome_offer": {
       "points": 0,
@@ -3423,8 +3694,11 @@
       "apply_url": "https://www.capitalone.com/credit-cards/quicksilver-secured/"
     },
     "valuation": {
-      "cpp_floor": 1,
-      "cpp_ceiling": 1
+      "cpp_nerdwallet": 1,
+      "cpp_pointsguy": 1,
+      "cpp_assumed": 1,
+      "cpp_bankrate": 1,
+      "cpp_creditkarma": 1
     },
     "welcome_offer": {
       "points": 0,
@@ -3467,7 +3741,14 @@
       "base_rate": 0,
       "categories": {}
     },
-    "developer_notes": "Designed for fair credit; No rewards; Automatic credit limit review after 6 months"
+    "developer_notes": "Designed for fair credit; No rewards; Automatic credit limit review after 6 months",
+    "valuation": {
+      "cpp_nerdwallet": 0,
+      "cpp_pointsguy": 0,
+      "cpp_assumed": 0,
+      "cpp_bankrate": 0,
+      "cpp_creditkarma": 0
+    }
   },
   {
     "id": "capital-one-platinum-secured",
@@ -3492,7 +3773,14 @@
       "base_rate": 0,
       "categories": {}
     },
-    "developer_notes": "Security deposit ($49, $99, or $200) determined by creditworthiness for same $200 limit; maximum deposit $1000"
+    "developer_notes": "Security deposit ($49, $99, or $200) determined by creditworthiness for same $200 limit; maximum deposit $1000",
+    "valuation": {
+      "cpp_nerdwallet": 0,
+      "cpp_pointsguy": 0,
+      "cpp_assumed": 0,
+      "cpp_bankrate": 0,
+      "cpp_creditkarma": 0
+    }
   },
   {
     "id": "venture-x-business",
@@ -3508,8 +3796,11 @@
       "apply_url": "https://www.capitalone.com/small-business/credit-cards/venture-x-business/"
     },
     "valuation": {
-      "cpp_floor": 1,
-      "cpp_ceiling": 1.85
+      "cpp_nerdwallet": 1.6,
+      "cpp_pointsguy": 1.85,
+      "cpp_assumed": 1.25,
+      "cpp_bankrate": 1.7,
+      "cpp_creditkarma": 1.48
     },
     "welcome_offer": {
       "points": 150000,
@@ -3521,13 +3812,13 @@
       {
         "name": "Travel",
         "amount": 300,
-        "frequency": "annual",
+        "frequency": "yearly",
         "deducts_from_eligible_spend": true
       },
       {
         "name": "Global Entry or TSA PreCheck",
         "amount": 120,
-        "frequency": "every 4 years",
+        "frequency": "every_4_years",
         "deducts_from_eligible_spend": true
       }
     ],
@@ -3650,8 +3941,11 @@
       "apply_url": "https://www.capitalone.com/small-business/credit-cards/spark-miles/"
     },
     "valuation": {
-      "cpp_floor": 1,
-      "cpp_ceiling": 1.7
+      "cpp_nerdwallet": 1.6,
+      "cpp_pointsguy": 1.85,
+      "cpp_assumed": 1.25,
+      "cpp_bankrate": 1.7,
+      "cpp_creditkarma": 1.48
     },
     "welcome_offer": {
       "points": 50000,
@@ -3663,7 +3957,7 @@
       {
         "name": "Global Entry/TSA PreCheck",
         "amount": 120,
-        "frequency": "every 4 years",
+        "frequency": "every_4_years",
         "deducts_from_eligible_spend": true
       }
     ],
@@ -3782,8 +4076,7 @@
       "apply_url": "https://www.capitalone.com/small-business/credit-cards/spark-cash-plus/"
     },
     "valuation": {
-      "cpp_floor": 1,
-      "cpp_ceiling": 1
+      "cpp_assumed": 1
     },
     "welcome_offer": {
       "points": 2000,
@@ -3795,7 +4088,7 @@
       {
         "name": "Annual Fee Refund",
         "amount": 150,
-        "frequency": "annual",
+        "frequency": "yearly",
         "deducts_from_eligible_spend": false,
         "restrictions": "Requires $150,000 in annual spend"
       }
@@ -3825,8 +4118,11 @@
       "apply_url": "https://www.citi.com/credit-cards/citi-strata-elite-card"
     },
     "valuation": {
-      "cpp_floor": 1,
-      "cpp_ceiling": 1.9
+      "cpp_nerdwallet": 1.6,
+      "cpp_pointsguy": 1.9,
+      "cpp_assumed": 1.25,
+      "cpp_bankrate": 1.6,
+      "cpp_creditkarma": 1.55
     },
     "welcome_offer": {
       "points": 75000,
@@ -3838,26 +4134,26 @@
       {
         "name": "Hotel Benefit",
         "amount": 300,
-        "frequency": "annual",
+        "frequency": "yearly",
         "deducts_from_eligible_spend": true,
         "restrictions": "Requires a minimum 2-night eligible hotel booking"
       },
       {
         "name": "Splurge Credit",
         "amount": 200,
-        "frequency": "annual",
+        "frequency": "yearly",
         "deducts_from_eligible_spend": false
       },
       {
         "name": "Blacklane Credit",
-        "amount": 200,
-        "frequency": "annual",
+        "amount": 100,
+        "frequency": "semi_annual",
         "deducts_from_eligible_spend": false
       },
       {
         "name": "Global Entry/TSA PreCheck",
         "amount": 120,
-        "frequency": "every 4 years",
+        "frequency": "every_4_years",
         "deducts_from_eligible_spend": true
       }
     ],
@@ -3975,8 +4271,11 @@
       "apply_url": "https://www.citi.com/credit-cards/citi-strata-premier-credit-card"
     },
     "valuation": {
-      "cpp_floor": 0.75,
-      "cpp_ceiling": 1.9
+      "cpp_nerdwallet": 1.6,
+      "cpp_pointsguy": 1.9,
+      "cpp_assumed": 1.25,
+      "cpp_bankrate": 1.6,
+      "cpp_creditkarma": 1.55
     },
     "welcome_offer": {
       "points": 60000,
@@ -3988,8 +4287,9 @@
       {
         "name": "Hotel Savings",
         "amount": 100,
-        "frequency": "annual",
-        "deducts_from_eligible_spend": true
+        "frequency": "yearly",
+        "deducts_from_eligible_spend": true,
+        "restrictions": "Applies once per calendar year on a single hotel stay of $500 or more (excluding taxes and fees) booked through Citi Travel"
       }
     ],
     "multipliers": {
@@ -4114,8 +4414,11 @@
       "apply_url": "https://www.citi.com/credit-cards/citi-double-cash-credit-card"
     },
     "valuation": {
-      "cpp_floor": 0.01,
-      "cpp_ceiling": 0.01
+      "cpp_nerdwallet": 1.6,
+      "cpp_pointsguy": 1.9,
+      "cpp_assumed": 1.25,
+      "cpp_bankrate": 1.6,
+      "cpp_creditkarma": 1.55
     },
     "welcome_offer": {
       "points": 20000,
@@ -4231,8 +4534,11 @@
       "apply_url": "https://www.citi.com/credit-cards/citi-custom-cash-credit-card"
     },
     "valuation": {
-      "cpp_floor": 1,
-      "cpp_ceiling": 2
+      "cpp_nerdwallet": 1.6,
+      "cpp_pointsguy": 1.9,
+      "cpp_assumed": 1.25,
+      "cpp_bankrate": 1.6,
+      "cpp_creditkarma": 1.55
     },
     "welcome_offer": {
       "points": 20000,
@@ -4353,8 +4659,11 @@
       "apply_url": "https://www.citi.com/credit-cards/citi-rewards-plus-credit-card"
     },
     "valuation": {
-      "cpp_floor": 0.5,
-      "cpp_ceiling": 1
+      "cpp_nerdwallet": 1.6,
+      "cpp_pointsguy": 1.9,
+      "cpp_assumed": 1.25,
+      "cpp_bankrate": 1.6,
+      "cpp_creditkarma": 1.55
     },
     "welcome_offer": {
       "points": 20000,
@@ -4484,7 +4793,14 @@
       "base_rate": 0,
       "categories": {}
     },
-    "developer_notes": "Balance transfers must be completed within 4 months of account opening to qualify for intro APR"
+    "developer_notes": "Balance transfers must be completed within 4 months of account opening to qualify for intro APR",
+    "valuation": {
+      "cpp_nerdwallet": 0,
+      "cpp_pointsguy": 0,
+      "cpp_assumed": 0,
+      "cpp_bankrate": 0,
+      "cpp_creditkarma": 0
+    }
   },
   {
     "id": "citi-diamond-preferred-card",
@@ -4509,7 +4825,14 @@
       "base_rate": 0,
       "categories": {}
     },
-    "developer_notes": "Balance transfers must be completed within 4 months of account opening; 5% (min $5) balance transfer fee"
+    "developer_notes": "Balance transfers must be completed within 4 months of account opening; 5% (min $5) balance transfer fee",
+    "valuation": {
+      "cpp_nerdwallet": 0,
+      "cpp_pointsguy": 0,
+      "cpp_assumed": 0,
+      "cpp_bankrate": 0,
+      "cpp_creditkarma": 0
+    }
   },
   {
     "id": "citi-secured-mastercard",
@@ -4534,7 +4857,14 @@
       "base_rate": 0,
       "categories": {}
     },
-    "developer_notes": "Security deposit of $200-$2500 required; deposit equals credit limit; no bankruptcy history in past 2 years"
+    "developer_notes": "Security deposit of $200-$2500 required; deposit equals credit limit; no bankruptcy history in past 2 years",
+    "valuation": {
+      "cpp_nerdwallet": 0,
+      "cpp_pointsguy": 0,
+      "cpp_assumed": 0,
+      "cpp_bankrate": 0,
+      "cpp_creditkarma": 0
+    }
   },
   {
     "id": "wells-fargo-autograph-journey",
@@ -4550,8 +4880,10 @@
       "apply_url": "https://www.wellsfargo.com/credit-cards/autograph-journey/"
     },
     "valuation": {
-      "cpp_floor": 1,
-      "cpp_ceiling": 1.5
+      "cpp_nerdwallet": 1,
+      "cpp_pointsguy": 1.65,
+      "cpp_assumed": 1,
+      "cpp_bankrate": 1
     },
     "welcome_offer": {
       "points": 60000,
@@ -4563,7 +4895,7 @@
       {
         "name": "Airline",
         "amount": 50,
-        "frequency": "annual",
+        "frequency": "yearly",
         "deducts_from_eligible_spend": true,
         "restrictions": "Requires a single airline purchase of at least $50"
       }
@@ -4636,8 +4968,10 @@
       "apply_url": "https://www.wellsfargo.com/credit-cards/autograph/"
     },
     "valuation": {
-      "cpp_floor": 1,
-      "cpp_ceiling": 1.65
+      "cpp_nerdwallet": 1,
+      "cpp_pointsguy": 1.65,
+      "cpp_assumed": 1,
+      "cpp_bankrate": 1
     },
     "welcome_offer": {
       "points": 20000,
@@ -4717,12 +5051,14 @@
     "synergy_ecosystem": "Wells Fargo Rewards",
     "ftf_percentage": 3,
     "ui_elements": {
-      "image_url": "https://www.wellsfargo.com/credit-cards/active-cash/",
+      "image_url": "https://creditcards.wellsfargo.com/W-Card-PaidDigital/v4-9-25/images/Products/ActiveCash/active_cash_card.png",
       "apply_url": "https://www.wellsfargo.com/credit-cards/active-cash/"
     },
     "valuation": {
-      "cpp_floor": 1,
-      "cpp_ceiling": 1
+      "cpp_nerdwallet": 1,
+      "cpp_pointsguy": 1.65,
+      "cpp_assumed": 1,
+      "cpp_bankrate": 1
     },
     "welcome_offer": {
       "points": 200,
@@ -4784,7 +5120,7 @@
     "reward_currency": "None",
     "ftf_percentage": 3,
     "ui_elements": {
-      "image_url": "https://creditcards.wellsfargo.com/m/reflect-visa-credit-card/",
+      "image_url": "https://creditcards.wellsfargo.com/W-Card-PaidDigital/v4-9-25/images/Products/Reflect/reflect_card.png",
       "apply_url": "https://www.wellsfargo.com/credit-cards/reflect/"
     },
     "welcome_offer": {
@@ -4798,7 +5134,14 @@
       "base_rate": 0,
       "categories": {}
     },
-    "developer_notes": "Balance transfers must be completed within 120 days to qualify for intro APR; 5% ($5 min) BT fee"
+    "developer_notes": "Balance transfers must be completed within 120 days to qualify for intro APR; 5% ($5 min) BT fee",
+    "valuation": {
+      "cpp_nerdwallet": 0,
+      "cpp_pointsguy": 0,
+      "cpp_assumed": 0,
+      "cpp_bankrate": 0,
+      "cpp_creditkarma": 0
+    }
   },
   {
     "id": "wells-fargo-attune-card",
@@ -4810,12 +5153,14 @@
     "synergy_ecosystem": "Wells Fargo Rewards",
     "ftf_percentage": 0,
     "ui_elements": {
-      "image_url": "https://www.wellsfargo.com/credit-cards/attune/",
+      "image_url": "https://creditcards.wellsfargo.com/W-Card-PaidDigital/v4-9-25/images/Products/Attune/attune_card.png",
       "apply_url": "https://www.wellsfargo.com/credit-cards/attune/"
     },
     "valuation": {
-      "cpp_floor": 1,
-      "cpp_ceiling": 1
+      "cpp_nerdwallet": 1,
+      "cpp_pointsguy": 1.65,
+      "cpp_assumed": 1,
+      "cpp_bankrate": 1
     },
     "welcome_offer": {
       "points": 100,
@@ -4886,8 +5231,10 @@
       "apply_url": "https://www.wellsfargo.com/credit-cards/signia/"
     },
     "valuation": {
-      "cpp_floor": 1,
-      "cpp_ceiling": 2
+      "cpp_nerdwallet": 1,
+      "cpp_pointsguy": 1.65,
+      "cpp_assumed": 1,
+      "cpp_bankrate": 1
     },
     "welcome_offer": {
       "points": 75000,
@@ -4899,7 +5246,7 @@
       {
         "name": "Travel Credit",
         "amount": 300,
-        "frequency": "annual",
+        "frequency": "yearly",
         "deducts_from_eligible_spend": true
       }
     ],
@@ -4969,8 +5316,9 @@
       "apply_url": "https://www.bankofamerica.com/credit-cards/products/premium-rewards-elite-credit-card/"
     },
     "valuation": {
-      "cpp_floor": 1,
-      "cpp_ceiling": 1.25
+      "cpp_nerdwallet": 1,
+      "cpp_assumed": 1,
+      "cpp_bankrate": 1
     },
     "welcome_offer": {
       "points": 75000,
@@ -4982,19 +5330,19 @@
       {
         "name": "Airline Incidental",
         "amount": 300,
-        "frequency": "annual",
+        "frequency": "yearly",
         "deducts_from_eligible_spend": true
       },
       {
         "name": "Lifestyle",
         "amount": 150,
-        "frequency": "annual",
+        "frequency": "yearly",
         "deducts_from_eligible_spend": false
       },
       {
         "name": "Global Entry/TSA PreCheck",
         "amount": 120,
-        "frequency": "every 4 years",
+        "frequency": "every_4_years",
         "deducts_from_eligible_spend": true
       }
     ],
@@ -5023,8 +5371,9 @@
       "apply_url": "https://www.bankofamerica.com/credit-cards/products/premium-rewards-credit-card/"
     },
     "valuation": {
-      "cpp_floor": 1,
-      "cpp_ceiling": 1
+      "cpp_nerdwallet": 1,
+      "cpp_assumed": 1,
+      "cpp_bankrate": 1
     },
     "welcome_offer": {
       "points": 60000,
@@ -5036,13 +5385,13 @@
       {
         "name": "Airline Incidental",
         "amount": 100,
-        "frequency": "annual",
+        "frequency": "yearly",
         "deducts_from_eligible_spend": true
       },
       {
         "name": "TSA PreCheck or Global Entry",
         "amount": 100,
-        "frequency": "every 4 years",
+        "frequency": "every_4_years",
         "deducts_from_eligible_spend": true
       }
     ],
@@ -5071,8 +5420,9 @@
       "apply_url": "https://www.bankofamerica.com/credit-cards/products/cash-back-credit-card/"
     },
     "valuation": {
-      "cpp_floor": 1,
-      "cpp_ceiling": 1
+      "cpp_nerdwallet": 1,
+      "cpp_assumed": 1,
+      "cpp_bankrate": 1
     },
     "welcome_offer": {
       "points": 200,
@@ -5104,12 +5454,12 @@
     "synergy_ecosystem": "BofA Rewards",
     "ftf_percentage": 3,
     "ui_elements": {
-      "image_url": "https://www.bankofamerica.com/credit-cards/products/unlimited-cash-back-credit-card/",
+      "image_url": "https://cdn-cards.lendingtree.com/card/unlimited-cash-rewards_default_main.jpg",
       "apply_url": "https://www.bankofamerica.com/credit-cards/products/unlimited-cash-back-credit-card/"
     },
     "valuation": {
-      "cpp_floor": 1,
-      "cpp_ceiling": 1
+      "cpp_assumed": 1,
+      "cpp_bankrate": 1
     },
     "welcome_offer": {
       "points": 200,
@@ -5138,8 +5488,8 @@
       "apply_url": "https://www.bankofamerica.com/credit-cards/products/travel-rewards-credit-card/"
     },
     "valuation": {
-      "cpp_floor": 1,
-      "cpp_ceiling": 1
+      "cpp_assumed": 1,
+      "cpp_bankrate": 1
     },
     "welcome_offer": {
       "points": 25000,
@@ -5182,7 +5532,14 @@
       "base_rate": 0,
       "categories": {}
     },
-    "developer_notes": "Primarily a balance transfer card with no rewards program"
+    "developer_notes": "Primarily a balance transfer card with no rewards program",
+    "valuation": {
+      "cpp_nerdwallet": 0,
+      "cpp_pointsguy": 0,
+      "cpp_assumed": 0,
+      "cpp_bankrate": 0,
+      "cpp_creditkarma": 0
+    }
   },
   {
     "id": "us-bank-altitude-reserve-visa-infinite",
@@ -5198,8 +5555,8 @@
       "apply_url": "https://www.usbank.com/credit-cards/altitude-reserve-visa-infinite-credit-card.html"
     },
     "valuation": {
-      "cpp_floor": 1,
-      "cpp_ceiling": 1.5
+      "cpp_assumed": 1.25,
+      "cpp_bankrate": 1.5
     },
     "welcome_offer": {
       "points": 50000,
@@ -5211,13 +5568,13 @@
       {
         "name": "Travel and Dining",
         "amount": 325,
-        "frequency": "annual",
+        "frequency": "yearly",
         "deducts_from_eligible_spend": true
       },
       {
         "name": "TSA PreCheck/Global Entry",
         "amount": 100,
-        "frequency": "every 4 years",
+        "frequency": "every_4_years",
         "deducts_from_eligible_spend": true
       }
     ],
@@ -5252,8 +5609,8 @@
       "apply_url": "https://www.usbank.com/credit-cards/altitude-connect-visa-signature-credit-card.html"
     },
     "valuation": {
-      "cpp_floor": 0.01,
-      "cpp_ceiling": 0.01
+      "cpp_assumed": 1,
+      "cpp_bankrate": 1.5
     },
     "welcome_offer": {
       "points": 30000,
@@ -5265,7 +5622,7 @@
       {
         "name": "TSA PreCheck/Global Entry",
         "amount": 100,
-        "frequency": "every 4 years",
+        "frequency": "every_4_years",
         "deducts_from_eligible_spend": true
       }
     ],
@@ -5296,8 +5653,7 @@
       "apply_url": "https://www.usbank.com/credit-cards/altitude-go-visa-signature-card.html"
     },
     "valuation": {
-      "cpp_floor": 0.008,
-      "cpp_ceiling": 0.01
+      "cpp_assumed": 1
     },
     "welcome_offer": {
       "points": 20000,
@@ -5309,7 +5665,7 @@
       {
         "name": "Streaming Service",
         "amount": 15,
-        "frequency": "annual",
+        "frequency": "yearly",
         "deducts_from_eligible_spend": false
       }
     ],
@@ -5339,8 +5695,11 @@
       "apply_url": "https://www.usbank.com/credit-cards/cash-plus-visa-signature-credit-card.html"
     },
     "valuation": {
-      "cpp_floor": 1,
-      "cpp_ceiling": 1
+      "cpp_nerdwallet": 1,
+      "cpp_pointsguy": 1,
+      "cpp_assumed": 1,
+      "cpp_bankrate": 1,
+      "cpp_creditkarma": 1
     },
     "welcome_offer": {
       "points": 200,
@@ -5374,8 +5733,7 @@
       "apply_url": "https://www.usbank.com/credit-cards/bank-smartly-visa-signature-credit-card.html"
     },
     "valuation": {
-      "cpp_floor": 0.01,
-      "cpp_ceiling": 0.01
+      "cpp_assumed": 1
     },
     "welcome_offer": {
       "points": 0,
@@ -5403,8 +5761,11 @@
       "apply_url": "https://www.usbank.com/credit-cards/shield-visa-credit-card.html"
     },
     "valuation": {
-      "cpp_floor": 1,
-      "cpp_ceiling": 1
+      "cpp_nerdwallet": 1,
+      "cpp_pointsguy": 1,
+      "cpp_assumed": 1,
+      "cpp_bankrate": 1,
+      "cpp_creditkarma": 1
     },
     "welcome_offer": {
       "points": 0,
@@ -5416,7 +5777,7 @@
       {
         "name": "Annual Statement Credit",
         "amount": 20,
-        "frequency": "annual",
+        "frequency": "yearly",
         "deducts_from_eligible_spend": false,
         "restrictions": "Requires purchases in 11 consecutive months"
       }
@@ -5445,8 +5806,11 @@
       "apply_url": "https://www.discover.com/credit-cards/cash-back/it-card.html"
     },
     "valuation": {
-      "cpp_floor": 1,
-      "cpp_ceiling": 1.2
+      "cpp_nerdwallet": 1,
+      "cpp_pointsguy": 1,
+      "cpp_assumed": 1,
+      "cpp_bankrate": 1,
+      "cpp_creditkarma": 1
     },
     "welcome_offer": {
       "points": 0,
@@ -5480,8 +5844,8 @@
       "apply_url": "https://www.discover.com/credit-cards/travel/"
     },
     "valuation": {
-      "cpp_floor": 0.01,
-      "cpp_ceiling": 0.01
+      "cpp_assumed": 1,
+      "cpp_bankrate": 1
     },
     "welcome_offer": {
       "points": 0,
@@ -5509,8 +5873,11 @@
       "apply_url": "https://www.discover.com/credit-cards/chrome/"
     },
     "valuation": {
-      "cpp_floor": 1,
-      "cpp_ceiling": 1.2
+      "cpp_nerdwallet": 1,
+      "cpp_pointsguy": 1,
+      "cpp_assumed": 1,
+      "cpp_bankrate": 1,
+      "cpp_creditkarma": 1
     },
     "welcome_offer": {
       "points": 0,
@@ -5544,8 +5911,11 @@
       "apply_url": "https://www.discover.com/credit-cards/student-cashback/"
     },
     "valuation": {
-      "cpp_floor": 1,
-      "cpp_ceiling": 1
+      "cpp_nerdwallet": 1,
+      "cpp_pointsguy": 1,
+      "cpp_assumed": 1,
+      "cpp_bankrate": 1,
+      "cpp_creditkarma": 1
     },
     "welcome_offer": {
       "points": 0,
@@ -5582,8 +5952,11 @@
       "apply_url": "https://www.discover.com/credit-cards/secured/"
     },
     "valuation": {
-      "cpp_floor": 1,
-      "cpp_ceiling": 1
+      "cpp_nerdwallet": 1,
+      "cpp_pointsguy": 1,
+      "cpp_assumed": 1,
+      "cpp_bankrate": 1,
+      "cpp_creditkarma": 1
     },
     "welcome_offer": {
       "points": 0,
@@ -5618,8 +5991,7 @@
       "apply_url": "https://www.apple.com/apple-card/"
     },
     "valuation": {
-      "cpp_floor": 1,
-      "cpp_ceiling": 1
+      "cpp_assumed": 1
     },
     "welcome_offer": {
       "points": 0,
@@ -5651,12 +6023,15 @@
     "synergy_ecosystem": "Bilt Rewards",
     "ftf_percentage": 0,
     "ui_elements": {
-      "image_url": "https://www.biltrewards.com/card",
+      "image_url": "https://cdn-cards.lendingtree.com/card/bilt-card_default_All_webp.webp",
       "apply_url": "https://www.biltrewards.com/card"
     },
     "valuation": {
-      "cpp_floor": 0.5,
-      "cpp_ceiling": 2.2
+      "cpp_nerdwallet": 1.8,
+      "cpp_pointsguy": 2.2,
+      "cpp_assumed": 1.25,
+      "cpp_bankrate": 2.1,
+      "cpp_creditkarma": 1.78
     },
     "welcome_offer": {
       "points": 0,
@@ -5789,12 +6164,15 @@
     "synergy_ecosystem": "Bilt Rewards",
     "ftf_percentage": 0,
     "ui_elements": {
-      "image_url": "https://www.biltrewards.com/card/palladium",
-      "apply_url": "https://www.biltrewards.com/card"
+      "image_url": "https://framerusercontent.com/images/BSsq3cHyPJfTeMB9alAG9PRmnH8.png",
+      "apply_url": "https://www.biltrewards.com/card/palladium"
     },
     "valuation": {
-      "cpp_floor": 1.25,
-      "cpp_ceiling": 2.2
+      "cpp_nerdwallet": 1.8,
+      "cpp_pointsguy": 2.2,
+      "cpp_assumed": 1.25,
+      "cpp_bankrate": 2.1,
+      "cpp_creditkarma": 1.78
     },
     "welcome_offer": {
       "points": 50000,
@@ -5805,15 +6183,15 @@
     "statement_credits": [
       {
         "name": "Bilt Travel Hotel Credit",
-        "amount": 400,
-        "frequency": "semi-annual",
+        "amount": 200,
+        "frequency": "semi_annual",
         "deducts_from_eligible_spend": true,
         "restrictions": "Split into two $200 windows per year"
       },
       {
         "name": "Bilt Cash",
         "amount": 200,
-        "frequency": "annual",
+        "frequency": "yearly",
         "deducts_from_eligible_spend": false
       }
     ],
@@ -5946,8 +6324,9 @@
       "apply_url": "https://secure.bankofamerica.com/apply-now-services/credit-cards/initialize-icai?requesttype=C&campaignid=4077490&productoffercode=PT&locale=en_US"
     },
     "valuation": {
-      "cpp_floor": 1,
-      "cpp_ceiling": 1.8
+      "cpp_nerdwallet": 1,
+      "cpp_assumed": 1,
+      "cpp_bankrate": 1
     },
     "welcome_offer": {
       "points": 80000,
@@ -5959,13 +6338,7 @@
       {
         "name": "TSA PreCheck or Global Entry",
         "amount": 120,
-        "frequency": "every 4 years",
-        "deducts_from_eligible_spend": true
-      },
-      {
-        "name": "Travel Delay",
-        "amount": 50,
-        "frequency": "per instance",
+        "frequency": "every_4_years",
         "deducts_from_eligible_spend": true
       }
     ],
@@ -5996,8 +6369,7 @@
       "apply_url": "https://www.sofi.com/card/"
     },
     "valuation": {
-      "cpp_floor": 0.01,
-      "cpp_ceiling": 0.01
+      "cpp_assumed": 1
     },
     "welcome_offer": {
       "points": 0,
@@ -6009,7 +6381,7 @@
       {
         "name": "Lyft Credit",
         "amount": 60,
-        "frequency": "annual",
+        "frequency": "yearly",
         "deducts_from_eligible_spend": false
       }
     ],
@@ -6037,8 +6409,11 @@
       "apply_url": "https://www.upgrade.com/credit-card/cash-rewards/"
     },
     "valuation": {
-      "cpp_floor": 1,
-      "cpp_ceiling": 1
+      "cpp_nerdwallet": 1,
+      "cpp_pointsguy": 1,
+      "cpp_assumed": 1,
+      "cpp_bankrate": 1,
+      "cpp_creditkarma": 1
     },
     "welcome_offer": {
       "points": 200,
@@ -6063,12 +6438,11 @@
     "synergy_ecosystem": "PayPal/Venmo",
     "ftf_percentage": 0,
     "ui_elements": {
-      "image_url": "https://venmo.com/about/creditcard/",
+      "image_url": "https://cdn-cards.lendingtree.com/card/venmo_default_All_webp.webp",
       "apply_url": "https://venmo.com/about/creditcard/"
     },
     "valuation": {
-      "cpp_floor": 1,
-      "cpp_ceiling": 1
+      "cpp_assumed": 1
     },
     "welcome_offer": {
       "points": 0,
@@ -6103,8 +6477,7 @@
       "apply_url": "https://x1.co/"
     },
     "valuation": {
-      "cpp_floor": 0.7,
-      "cpp_ceiling": 1
+      "cpp_assumed": 0.7
     },
     "welcome_offer": {
       "points": 0,
@@ -6132,8 +6505,7 @@
       "apply_url": "https://x1.co/plus"
     },
     "valuation": {
-      "cpp_floor": 0.007,
-      "cpp_ceiling": 0.01
+      "cpp_assumed": 1
     },
     "welcome_offer": {
       "points": 0,
@@ -6164,12 +6536,15 @@
     "reward_currency": "Cash Back",
     "ftf_percentage": 0,
     "ui_elements": {
-      "image_url": null,
+      "image_url": "https://mma.prnewswire.com/media/2406704/PNC_Unlimited_Visa_Signature_Credit_Card.jpg",
       "apply_url": "https://www.pnc.com/en/personal-banking/banking/credit-cards/pnc-cash-unlimited-visa-signature-credit-card.html"
     },
     "valuation": {
-      "cpp_floor": 0.01,
-      "cpp_ceiling": 0.01
+      "cpp_nerdwallet": 1,
+      "cpp_pointsguy": 1,
+      "cpp_assumed": 1,
+      "cpp_bankrate": 1,
+      "cpp_creditkarma": 1
     },
     "welcome_offer": {
       "points": 0,
@@ -6197,8 +6572,11 @@
       "apply_url": "https://www.pnc.com/en/personal-banking/banking/credit-cards/pnc-cash-rewards-visa-credit-card.html"
     },
     "valuation": {
-      "cpp_floor": 1,
-      "cpp_ceiling": 1
+      "cpp_nerdwallet": 1,
+      "cpp_pointsguy": 1,
+      "cpp_assumed": 1,
+      "cpp_bankrate": 1,
+      "cpp_creditkarma": 1
     },
     "welcome_offer": {
       "points": 200,
@@ -6239,8 +6617,7 @@
       "apply_url": "https://www.pnc.com/en/personal/banking/credit-cards/pnc-points-visa-credit-card.html"
     },
     "valuation": {
-      "cpp_floor": 0.002,
-      "cpp_ceiling": 0.0025
+      "cpp_assumed": 1
     },
     "welcome_offer": {
       "points": 100000,
@@ -6269,8 +6646,7 @@
       "apply_url": "https://www.truist.com/credit-cards/enjoy-travel"
     },
     "valuation": {
-      "cpp_floor": 1,
-      "cpp_ceiling": 1.5
+      "cpp_assumed": 1
     },
     "welcome_offer": {
       "points": 20000,
@@ -6282,7 +6658,7 @@
       {
         "name": "TSA PreCheck or Global Entry",
         "amount": 85,
-        "frequency": "every 4 years",
+        "frequency": "every_4_years",
         "deducts_from_eligible_spend": true
       }
     ],
@@ -6315,8 +6691,11 @@
       "apply_url": "https://www.truist.com/credit-cards/enjoy-cash"
     },
     "valuation": {
-      "cpp_floor": 1,
-      "cpp_ceiling": 1
+      "cpp_nerdwallet": 1,
+      "cpp_pointsguy": 1,
+      "cpp_assumed": 1,
+      "cpp_bankrate": 1,
+      "cpp_creditkarma": 1
     },
     "welcome_offer": {
       "points": 0,
@@ -6355,8 +6734,7 @@
       "apply_url": "https://www.truist.com/credit-cards/enjoy-beyond"
     },
     "valuation": {
-      "cpp_floor": 0.01,
-      "cpp_ceiling": 0.01
+      "cpp_assumed": 1
     },
     "welcome_offer": {
       "points": 30000,
@@ -6368,13 +6746,13 @@
       {
         "name": "Travel Experience",
         "amount": 100,
-        "frequency": "annual",
+        "frequency": "yearly",
         "deducts_from_eligible_spend": true
       },
       {
         "name": "TSA PreCheck or Global Entry",
         "amount": 120,
-        "frequency": "every 4 years",
+        "frequency": "every_4_years",
         "deducts_from_eligible_spend": true
       }
     ],
@@ -6401,12 +6779,11 @@
     "reward_currency": "First Class miles",
     "ftf_percentage": 0,
     "ui_elements": {
-      "image_url": "https://www.td.com/us/en/personal-banking/credit-cards/first-class",
+      "image_url": "https://www.td.com/content/dam/tdb/images/products/credit-cards/td-first-class-card-142x90.png",
       "apply_url": "https://www.td.com/us/en/personal-banking/credit-cards/first-class"
     },
     "valuation": {
-      "cpp_floor": 0.01,
-      "cpp_ceiling": 0.01
+      "cpp_assumed": 1
     },
     "welcome_offer": {
       "points": 25000,
@@ -6442,8 +6819,11 @@
       "apply_url": "https://www.td.com/us/en/personal-banking/credit-cards/double-up"
     },
     "valuation": {
-      "cpp_floor": 0.01,
-      "cpp_ceiling": 0.01
+      "cpp_nerdwallet": 1,
+      "cpp_pointsguy": 1,
+      "cpp_assumed": 1,
+      "cpp_bankrate": 1,
+      "cpp_creditkarma": 1
     },
     "welcome_offer": {
       "points": 20000,
@@ -6471,8 +6851,11 @@
       "apply_url": "https://www.td.com/us/en/personal-banking/credit-cards/td-cash"
     },
     "valuation": {
-      "cpp_floor": 1,
-      "cpp_ceiling": 1
+      "cpp_nerdwallet": 1,
+      "cpp_pointsguy": 1,
+      "cpp_assumed": 1,
+      "cpp_bankrate": 1,
+      "cpp_creditkarma": 1
     },
     "welcome_offer": {
       "points": 200,
@@ -6507,8 +6890,7 @@
       "apply_url": "https://www.navyfederal.org/loans-cards/credit-cards/flagship-rewards.html"
     },
     "valuation": {
-      "cpp_floor": 0.01,
-      "cpp_ceiling": 0.01
+      "cpp_assumed": 1
     },
     "welcome_offer": {
       "points": 35000,
@@ -6520,13 +6902,13 @@
       {
         "name": "Amazon Prime",
         "amount": 139,
-        "frequency": "annual",
+        "frequency": "yearly",
         "deducts_from_eligible_spend": false
       },
       {
         "name": "Global Entry or TSA PreCheck",
         "amount": 120,
-        "frequency": "every 4 years",
+        "frequency": "every_4_years",
         "deducts_from_eligible_spend": true
       }
     ],
@@ -6554,8 +6936,11 @@
       "apply_url": "https://www.navyfederal.org/loans-cards/credit-cards/cashrewards.html"
     },
     "valuation": {
-      "cpp_floor": 1,
-      "cpp_ceiling": 1
+      "cpp_nerdwallet": 1,
+      "cpp_pointsguy": 1,
+      "cpp_assumed": 1,
+      "cpp_bankrate": 1,
+      "cpp_creditkarma": 1
     },
     "welcome_offer": {
       "points": 250,
@@ -6578,18 +6963,23 @@
     "id": "penfed-pathfinder-rewards",
     "name": "PenFed Pathfinder® Rewards",
     "issuer": "PenFed Credit Union",
-    "network": "Annual fee waived for Honors Advantage members; Points expire after 5 years; Honors Advantage requires military or specific checking account",
+    "network": "Visa",
     "annual_fee": 95,
     "reward_currency": "PenFed Points",
-    "synergy_ecosystem": "0%",
+    "synergy_ecosystem": "PenFed Rewards",
     "ftf_percentage": 0,
     "ui_elements": {
-      "image_url": "Priority Pass Membership, Global Entry/TSA PreCheck Credit, $100 Air Ancillary Credit",
-      "apply_url": "https://www.penfed.org/content/dam/penfed/en/products/credit-cards/pathfinder-visa-signature-card-01.png"
+      "image_url": "https://www.penfed.org/content/dam/penfed/en/products/credit-cards/pathfinder-visa-signature-card-01.png",
+      "apply_url": "https://www.penfed.org/credit-cards/pathfinder-rewards-visa",
+      "benefits_list": [
+        "Priority Pass Membership",
+        "Global Entry/TSA PreCheck Credit",
+        "$100 Air Ancillary Credit"
+      ]
     },
+    "developer_notes": "https://www.penfed.org/credit-cards/pathfinder-rewards-visa",
     "valuation": {
-      "cpp_floor": 0.0085,
-      "cpp_ceiling": 0.01
+      "cpp_assumed": 1
     },
     "welcome_offer": {
       "points": 50000,
@@ -6601,7 +6991,13 @@
       {
         "name": "Domestic Air Ancillary",
         "amount": 100,
-        "frequency": "annual",
+        "frequency": "yearly",
+        "deducts_from_eligible_spend": false
+      },
+      {
+        "name": "Global Entry or TSA PreCheck",
+        "amount": 120,
+        "frequency": "every_4_years",
         "deducts_from_eligible_spend": false
       }
     ],
@@ -6616,8 +7012,7 @@
           "rate": 3
         }
       }
-    },
-    "developer_notes": "https://www.penfed.org/credit-cards/pathfinder-rewards-visa"
+    }
   },
   {
     "id": "penfed-power-cash-rewards",
@@ -6632,8 +7027,11 @@
       "apply_url": "https://www.penfed.org/credit-cards/power-cash-rewards"
     },
     "valuation": {
-      "cpp_floor": 1,
-      "cpp_ceiling": 1
+      "cpp_nerdwallet": 1,
+      "cpp_pointsguy": 1,
+      "cpp_assumed": 1,
+      "cpp_bankrate": 1,
+      "cpp_creditkarma": 1
     },
     "welcome_offer": {
       "points": 100,
@@ -6661,8 +7059,11 @@
       "apply_url": "https://www.alliantcreditunion.org/bank/visa-signature-card"
     },
     "valuation": {
-      "cpp_floor": 1,
-      "cpp_ceiling": 1
+      "cpp_nerdwallet": 1,
+      "cpp_pointsguy": 1,
+      "cpp_assumed": 1,
+      "cpp_bankrate": 1,
+      "cpp_creditkarma": 1
     },
     "welcome_offer": {
       "points": 0,
@@ -6690,8 +7091,7 @@
       "apply_url": "https://cards.barclaycardus.com/banking/cards/barclays-view-mastercard/"
     },
     "valuation": {
-      "cpp_floor": 0.01,
-      "cpp_ceiling": 0.01
+      "cpp_assumed": 1
     },
     "welcome_offer": {
       "points": 0,
@@ -6729,8 +7129,7 @@
       "apply_url": "https://cards.barclaycardus.com/banking/cards/arrival-premier-world-elite-mastercard/"
     },
     "valuation": {
-      "cpp_floor": 0.5,
-      "cpp_ceiling": 1
+      "cpp_assumed": 0.5
     },
     "welcome_offer": {
       "points": 0,
@@ -6742,7 +7141,7 @@
       {
         "name": "Global Entry or TSA PreCheck",
         "amount": 100,
-        "frequency": "every 5 years",
+        "frequency": "every_5_years",
         "deducts_from_eligible_spend": true
       }
     ],
@@ -6765,8 +7164,11 @@
       "apply_url": "https://www.53.com/content/fifth-third/en/personal-banking/bank/credit-cards/preferred-cash-back-card.html"
     },
     "valuation": {
-      "cpp_floor": 0.01,
-      "cpp_ceiling": 0.01
+      "cpp_nerdwallet": 1,
+      "cpp_pointsguy": 1,
+      "cpp_assumed": 1,
+      "cpp_bankrate": 1,
+      "cpp_creditkarma": 1
     },
     "welcome_offer": {
       "points": 0,
@@ -6804,7 +7206,14 @@
       "base_rate": 0,
       "categories": {}
     },
-    "developer_notes": "The Lower Rate version of the Voice card does not earn rewards; Late Fee Grace provides one extra day to make a payment without a late fee"
+    "developer_notes": "The Lower Rate version of the Voice card does not earn rewards; Late Fee Grace provides one extra day to make a payment without a late fee",
+    "valuation": {
+      "cpp_nerdwallet": 0,
+      "cpp_pointsguy": 0,
+      "cpp_assumed": 0,
+      "cpp_bankrate": 0,
+      "cpp_creditkarma": 0
+    }
   },
   {
     "id": "regions-prestige-visa",
@@ -6820,8 +7229,7 @@
       "apply_url": "https://www.regions.com/personal-banking/credit-cards/prestige-visa"
     },
     "valuation": {
-      "cpp_floor": 0.01,
-      "cpp_ceiling": 0.01
+      "cpp_assumed": 1
     },
     "welcome_offer": {
       "points": 20000,
@@ -6856,8 +7264,11 @@
       "apply_url": "https://www.citizensbank.com/credit-cards/cash-back-world-mastercard.aspx"
     },
     "valuation": {
-      "cpp_floor": 1,
-      "cpp_ceiling": 1
+      "cpp_nerdwallet": 1,
+      "cpp_pointsguy": 1,
+      "cpp_assumed": 1,
+      "cpp_bankrate": 1,
+      "cpp_creditkarma": 1
     },
     "welcome_offer": {
       "points": 0,

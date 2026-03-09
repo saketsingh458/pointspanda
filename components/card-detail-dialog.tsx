@@ -15,7 +15,7 @@ import {
   UtensilsCrossed,
 } from "lucide-react"
 import type { Card as CardType } from "@/lib/types"
-import { CATEGORY_LABELS } from "@/lib/cards"
+import { CATEGORY_LABELS, getCardAverageCppCents, getCardCppSources } from "@/lib/cards"
 import { SPEND_CATEGORIES, type SpendCategoryId } from "@/lib/types"
 import {
   Dialog,
@@ -68,19 +68,21 @@ function formatCpp(cents: number): string {
 
 function getFrequencyMultiplier(freq: string): number {
   const normalized = freq.trim().toLowerCase()
-  if (normalized === "annual" || normalized === "yearly") return 1
+  if (normalized === "yearly") return 1
   if (normalized === "monthly") return 12
   if (normalized === "quarterly") return 4
-  if (normalized === "semiannual" || normalized === "semi-annually") return 2
-  if (normalized === "weekly") return 52
-  if (normalized === "biweekly" || normalized === "bi-weekly") return 26
-  if (normalized === "one-time") return 1
-  const everyYears = normalized.match(/^every\s+(\d+)\s+years?$/)
+  if (normalized === "semi_annual") return 2
+  if (normalized === "one_time" || normalized === "per_instance") return 1
+  const everyYears = normalized.match(/^every_(\d+)_years$/)
   if (everyYears) {
     const years = Number(everyYears[1])
     return years > 0 ? 1 / years : 1
   }
   return 1
+}
+
+function formatFrequencyLabel(freq: string): string {
+  return freq.replaceAll("_", " ")
 }
 
 function annualizedCreditAmount(amount: number, frequency: string): number {
@@ -162,8 +164,88 @@ function sectionTitle(
   )
 }
 
+const EDITORIAL_SOURCES: {
+  key: "nerdwallet" | "pointsguy" | "bankrate" | "creditkarma"
+  label: string
+  href: string
+}[] = [
+  { key: "nerdwallet", label: "NerdWallet", href: "https://www.nerdwallet.com/travel/learn/airline-miles-and-hotel-points-valuations" },
+  { key: "pointsguy", label: "TPG", href: "https://thepointsguy.com/loyalty-programs/monthly-valuations/" },
+  { key: "bankrate", label: "Bankrate", href: "https://www.bankrate.com/credit-cards/travel/points-and-miles-valuations/#card" },
+  { key: "creditkarma", label: "Credit Karma", href: "https://www.creditkarma.com/credit-cards/i/credit-card-point-valuations" },
+]
+
+function PointValuationContent({
+  card,
+  formatCpp,
+}: {
+  card: CardType
+  formatCpp: (cents: number) => string
+}) {
+  const avgCents = getCardAverageCppCents(card)
+  const sources = getCardCppSources(card)
+  const assumedCents = card.pointsValueAssumedCents ?? card.pointsValueBaseCents ?? null
+  const displayCents = avgCents ?? assumedCents
+
+  if (displayCents == null) return null
+
+  const editorialItems = EDITORIAL_SOURCES.filter((s) => sources[s.key] != null).map((s) => ({
+    ...s,
+    cents: sources[s.key]!,
+  }))
+
+  const assumedDiffers =
+    assumedCents != null &&
+    avgCents != null &&
+    assumedCents !== avgCents
+
+  return (
+    <>
+      <p className="text-3xl font-bold tracking-tight text-foreground">
+        {formatCpp(displayCents)} {avgCents != null ? "avg" : ""}
+      </p>
+      <p className="mt-1 text-sm text-muted-foreground">
+        {avgCents != null
+          ? "Average of editorial valuations; used for dollar estimates."
+          : "Used for dollar estimates."}
+      </p>
+      {editorialItems.length > 0 && (
+        <p className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm">
+          {editorialItems.map((item, i) => (
+            <span key={item.key} className="inline-flex items-center gap-1">
+              {i > 0 && <span className="text-muted-foreground/60">·</span>}
+              <a
+                href={item.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline decoration-muted-foreground/40 underline-offset-2 transition-colors hover:text-foreground"
+              >
+                {item.label} {formatCpp(item.cents)}
+              </a>
+            </span>
+          ))}
+        </p>
+      )}
+      {assumedDiffers && (
+        <p className="mt-2 text-xs text-muted-foreground">
+          Conservative estimate: {formatCpp(assumedCents!)}
+        </p>
+      )}
+      {(card.synergyEcosystem ?? card.issuer) && (
+        <div className="mt-3 border-t border-border pt-3">
+          <p className="text-sm text-muted-foreground">Ecosystem</p>
+          <p className="mt-1 text-xl font-semibold text-foreground">
+            {card.synergyEcosystem ?? card.issuer}
+          </p>
+        </div>
+      )}
+    </>
+  )
+}
+
 export function CardDetailDialog({ card, open, onOpenChange }: Props) {
   const [showAllCredits, setShowAllCredits] = useState(false)
+  const [imgError, setImgError] = useState(false)
   if (!card) return null
 
   const earnRows = getEarnDisplayRows(card)
@@ -205,13 +287,14 @@ export function CardDetailDialog({ card, open, onOpenChange }: Props) {
         </DialogHeader>
 
         <div className="relative aspect-[1.586/1] w-full min-h-[170px] shrink-0 overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
-          {isValidImageSrc(card.imageUrl) ? (
+          {isValidImageSrc(card.imageUrl) && !imgError ? (
             <Image
               src={imageUrl}
               alt={card.name}
               fill
               className="object-cover object-center"
               sizes="(max-width: 512px) 100vw, 512px"
+              onError={() => setImgError(true)}
             />
           ) : (
             <>
@@ -307,28 +390,17 @@ export function CardDetailDialog({ card, open, onOpenChange }: Props) {
               </section>
             )}
 
-            {(card.pointsValueBaseCents != null || card.pointsValueMaxCents != null || card.synergyEcosystem) && (
+            {(card.pointsValueNerdWalletCents != null ||
+              card.pointsValuePointsGuyCents != null ||
+              card.pointsValueBankrateCents != null ||
+              card.pointsValueCreditKarmaCents != null ||
+              card.pointsValueAssumedCents != null ||
+              card.pointsValueBaseCents != null ||
+              card.synergyEcosystem) && (
               <section>
                 {sectionTitle(CircleDollarSign, "Point Valuation")}
-                <div className="grid overflow-hidden rounded-2xl border border-border bg-card sm:grid-cols-3">
-                  <div className="px-4 py-4 sm:border-r sm:border-border">
-                    <p className="text-sm text-muted-foreground">Floor Value</p>
-                    <p className="mt-1 text-4xl font-bold tracking-tight text-foreground">
-                      {card.pointsValueBaseCents != null ? formatCpp(card.pointsValueBaseCents) : "N/A"}
-                    </p>
-                  </div>
-                  <div className="border-y border-border px-4 py-4 sm:border-x sm:border-y-0">
-                    <p className="text-sm text-muted-foreground">Ceiling Value</p>
-                    <p className="mt-1 text-4xl font-bold tracking-tight text-emerald-600">
-                      {card.pointsValueMaxCents != null ? formatCpp(card.pointsValueMaxCents) : "N/A"}
-                    </p>
-                  </div>
-                  <div className="px-4 py-4">
-                    <p className="text-sm text-muted-foreground">Ecosystem</p>
-                    <p className="mt-1 text-2xl font-semibold text-foreground">
-                      {card.synergyEcosystem ?? card.issuer ?? "N/A"}
-                    </p>
-                  </div>
+                <div className="rounded-2xl border border-border bg-card p-4">
+                  <PointValuationContent card={card} formatCpp={formatCpp} />
                 </div>
               </section>
             )}
@@ -345,9 +417,12 @@ export function CardDetailDialog({ card, open, onOpenChange }: Props) {
                       <div>
                         <p className="font-medium text-foreground">{sc.name}</p>
                         <p className="text-xs capitalize text-muted-foreground">
-                          {sc.frequency}
+                          {formatFrequencyLabel(sc.frequency)}
                           {sc.deductsFromEligibleSpend && " · Deducts from eligible spend"}
                         </p>
+                        {sc.restrictions && (
+                          <p className="mt-1 text-xs text-muted-foreground">{sc.restrictions}</p>
+                        )}
                       </div>
                       <p className="text-3xl font-bold tracking-tight text-foreground">
                         {formatCurrency(sc.amount)}
@@ -364,6 +439,17 @@ export function CardDetailDialog({ card, open, onOpenChange }: Props) {
                     {showAllCredits ? "Show fewer credits" : `Show ${(card.statementCredits?.length ?? 0) - VISIBLE_CREDITS_DEFAULT} more credits`}
                   </button>
                 )}
+              </section>
+            )}
+
+            {card.anniversaryBonus && (
+              <section>
+                {sectionTitle(Sparkles, "Anniversary Bonus")}
+                <div className="rounded-2xl border border-emerald-200/70 bg-emerald-50/60 p-4">
+                  <p className="text-2xl font-semibold tracking-tight text-foreground">
+                    {card.anniversaryBonus}
+                  </p>
+                </div>
               </section>
             )}
 

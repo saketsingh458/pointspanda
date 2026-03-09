@@ -48,11 +48,21 @@ export type CategoryEarnDetails = Partial<
 >
 
 /** Raw card from catalog JSON (snake_case, nested). Matches data/cards.schema.json. */
+export type StatementCreditFrequency =
+  | "monthly"
+  | "quarterly"
+  | "yearly"
+  | "semi_annual"
+  | "one_time"
+  | "per_instance"
+  | `every_${number}_years`
+
 export interface StatementCreditRaw {
   name: string
   amount: number
   deducts_from_eligible_spend: boolean
-  frequency: string
+  frequency: StatementCreditFrequency
+  restrictions?: string
 }
 
 export interface MultiplierCategoryRaw {
@@ -77,12 +87,18 @@ export interface CardRaw {
   annual_fee: number
   reward_currency: string
   developer_notes?: string
+  anniversary_bonus?: string | null
   ui_elements: {
     image_url?: string
     apply_url?: string
     benefits_list?: string[]
   }
   valuation?: {
+    cpp_nerdwallet?: number
+    cpp_pointsguy?: number
+    cpp_assumed?: number
+    cpp_bankrate?: number
+    cpp_creditkarma?: number
     cpp_floor?: number
     cpp_ceiling?: number
   }
@@ -116,6 +132,8 @@ export interface Card {
   signUpBonusSpendRequirement?: number
   /** Optional: sign-up bonus timeframe in months (e.g. 3). */
   signUpBonusTimeframeMonths?: number
+  /** Optional anniversary/member bonus text (e.g. "10000 miles"). */
+  anniversaryBonus?: string
   /** Optional: apply URL for "Apply Now". */
   applyUrl?: string
   /** Optional: brand ids this card is co-branded with (e.g. "united", "delta"). */
@@ -124,9 +142,19 @@ export interface Card {
   issuer?: string
   /** URL or path to card art (see plan §2.4). */
   imageUrl?: string
-  /** Baseline cents per point (e.g. 125 = 1.25 cpp). */
+  /** NerdWallet valuation in cents per point (e.g. 180 = 1.8 cpp). */
+  pointsValueNerdWalletCents?: number
+  /** The Points Guy valuation in cents per point (e.g. 205 = 2.05 cpp). */
+  pointsValuePointsGuyCents?: number
+  /** Bankrate valuation in cents per point (e.g. 200 = 2.0 cpp). */
+  pointsValueBankrateCents?: number
+  /** Credit Karma valuation in cents per point (e.g. 171 = 1.71 cpp). */
+  pointsValueCreditKarmaCents?: number
+  /** Assumed valuation for strategy ranking (e.g. 125 = 1.25 cpp). */
+  pointsValueAssumedCents?: number
+  /** @deprecated Use pointsValueAssumedCents. Legacy baseline cents per point. */
   pointsValueBaseCents?: number
-  /** High-value redemption cpp (e.g. 200 = 2.0 cpp). */
+  /** @deprecated Use pointsValueNerdWalletCents/pointsValuePointsGuyCents. Legacy high-value cpp. */
   pointsValueMaxCents?: number
   /** Note for points valuation (e.g. "Max with Chase Travel redemptions"). */
   pointsValueNote?: string
@@ -157,7 +185,8 @@ export interface StatementCredit {
   name: string
   amount: number
   deductsFromEligibleSpend: boolean
-  frequency: string
+  frequency: StatementCreditFrequency
+  restrictions?: string
 }
 
 export interface TransferPartner {
@@ -201,8 +230,30 @@ export interface StrategyLimitation {
   whyItMatters?: string
 }
 
+export type StrategyViewId = "nextBestCard" | "bestSingleCard" | "bestEcosystem"
+
+/** Summary of a recommended portfolio, including multi-card ecosystem setups. */
+export interface StrategyPortfolioSummary {
+  cards: Card[]
+  annualPoints: number
+  annualDollars: number
+  annualFee: number
+  netAnnualValue: number
+  benefitLabels: string[]
+}
+
+/** Ranked ecosystem option shown in the ecosystem tab. */
+export interface EcosystemStrategyOption {
+  ecosystemId: string
+  ecosystemLabel: string
+  portfolio: StrategyPortfolioSummary
+  categoryRows: CategoryStrategyRow[]
+  summaryReason: string
+}
+
 /** Full computed strategy result for the strategy page. */
 export interface StrategyResult {
+  viewId: StrategyViewId
   currentAnnualPoints: number
   currentAnnualDollars: number
   currentAnnualFee: number
@@ -217,6 +268,11 @@ export interface StrategyResult {
   additionalBenefitLabels: string[]
   categoryRows: CategoryStrategyRow[]
   recommendedCard: Card | null
+  recommendedCards: Card[]
+  recommendedPortfolio?: StrategyPortfolioSummary
+  ecosystemId?: string
+  ecosystemLabel?: string
+  alternativeOptions?: EcosystemStrategyOption[]
   summaryReason: string
   /** Estimated dollar value of current points at display cpp (e.g. 1.25 cpp). */
   estimatedValueCurrentDollars?: number
@@ -224,8 +280,23 @@ export interface StrategyResult {
   estimatedValueMaxDollars?: number
   /** Cents per point used for estimated value display (e.g. 125 = 1.25 cpp). */
   displayCppCents?: number
+  /** CPP sources for display: NerdWallet, TPG, Bankrate, Credit Karma, assumed. */
+  displayCppSources?: {
+    nerdwallet?: number
+    pointsguy?: number
+    bankrate?: number
+    creditkarma?: number
+    assumed?: number
+  }
   /** Explicit assumptions applied in strategy math and shown as footnotes in UI. */
   strategyAssumptions: StrategyAssumption[]
   /** Known model limitations shown as plain-language caveats in UI. */
   strategyLimitations: StrategyLimitation[]
+}
+
+/** Aggregate strategy payload for the strategy page tabs. */
+export interface StrategyPageData {
+  nextBestCard: StrategyResult
+  bestSingleCard: StrategyResult
+  bestEcosystem: StrategyResult
 }

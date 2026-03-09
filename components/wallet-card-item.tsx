@@ -6,6 +6,7 @@ import {
   Building2,
   CreditCard,
   Fuel,
+  GitCompare,
   Pill,
   Plane,
   ShoppingCart,
@@ -38,6 +39,9 @@ type Props = {
   card: CardType
   onRemove: () => void
   onCardClick?: () => void
+  onCompareToggle?: () => void
+  isCompared?: boolean
+  compareDisabled?: boolean
   className?: string
 }
 
@@ -72,7 +76,15 @@ function getStatementCreditsPills(card: CardType): string[] {
   })
 }
 
-export function WalletCardItem({ card, onRemove, onCardClick, className }: Props) {
+export function WalletCardItem({
+  card,
+  onRemove,
+  onCardClick,
+  onCompareToggle,
+  isCompared = false,
+  compareDisabled = false,
+  className,
+}: Props) {
   const allEarns = getAllEarns(card)
   const statementCredits = getStatementCreditsPills(card)
   const visibleCredits = statementCredits.slice(0, 2)
@@ -109,6 +121,7 @@ export function WalletCardItem({ card, onRemove, onCardClick, className }: Props
       }
       className={cn(
         "flex flex-col overflow-hidden rounded-3xl border border-border bg-card shadow-sm transition-shadow hover:shadow-md",
+        isCompared && "border-primary/60 ring-1 ring-primary/25",
         onCardClick &&
           "cursor-pointer hover:shadow-lg focus-visible:outline focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
         className
@@ -145,19 +158,43 @@ export function WalletCardItem({ card, onRemove, onCardClick, className }: Props
             onError={() => setImgError(true)}
           />
         )}
-        <Button
-          type="button"
-          variant="ghost"
-          size="icon"
-          className="absolute right-2 top-2 size-8 rounded-full bg-white/10 text-white hover:bg-white/20 hover:text-white"
-          aria-label={`Remove ${card.name}`}
-          onClick={(e) => {
-            e.stopPropagation()
-            onRemove()
-          }}
-        >
-          <X className="size-4" />
-        </Button>
+        <div className="absolute right-2 top-2 flex items-center gap-2">
+          {onCompareToggle && (
+            <Button
+              type="button"
+              variant={isCompared ? "secondary" : "ghost"}
+              size="sm"
+              className={cn(
+                "rounded-full px-3",
+                isCompared
+                  ? "bg-white text-slate-900 hover:bg-white/90"
+                  : "bg-white/10 text-white hover:bg-white/20 hover:text-white"
+              )}
+              aria-label={`${isCompared ? "Remove" : "Add"} ${card.name} ${isCompared ? "from" : "to"} comparison`}
+              disabled={compareDisabled && !isCompared}
+              onClick={(e) => {
+                e.stopPropagation()
+                onCompareToggle()
+              }}
+            >
+              <GitCompare className="size-4" />
+              {isCompared ? "Comparing" : "Compare"}
+            </Button>
+          )}
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
+            className="size-8 rounded-full bg-white/10 text-white hover:bg-white/20 hover:text-white"
+            aria-label={`Remove ${card.name}`}
+            onClick={(e) => {
+              e.stopPropagation()
+              onRemove()
+            }}
+          >
+            <X className="size-4" />
+          </Button>
+        </div>
       </div>
 
       {/* Card details inspired by compact product-card layouts */}
@@ -233,6 +270,34 @@ export function WalletCardItem({ card, onRemove, onCardClick, className }: Props
                 +{remainingCreditsCount} more credits
               </p>
             )}
+          </div>
+        )}
+
+        {onCompareToggle && (
+          <div className="flex items-center justify-between gap-3 rounded-2xl border border-border bg-background/90 px-4 py-3">
+            <div>
+              <p className="text-sm font-medium text-foreground">Head-to-head compare</p>
+              <p className="text-sm text-muted-foreground">
+                {isCompared
+                  ? "This card is in your compare tray."
+                  : compareDisabled
+                    ? "Remove a card first to compare a different one."
+                    : "Add this card to compare up to 3 cards."}
+              </p>
+            </div>
+            <Button
+              type="button"
+              variant={isCompared ? "secondary" : "outline"}
+              className="rounded-xl"
+              disabled={compareDisabled && !isCompared}
+              onClick={(e) => {
+                e.stopPropagation()
+                onCompareToggle()
+              }}
+            >
+              <GitCompare className="size-4" />
+              {isCompared ? "Selected" : "Compare"}
+            </Button>
           </div>
         )}
       </div>
