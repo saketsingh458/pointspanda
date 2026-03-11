@@ -98,6 +98,7 @@ interface PointPathState {
 }
 
 interface PointPathContextValue extends PointPathState {
+  hydrated: boolean
   setMonthlySpend: (next: MonthlySpend | ((prev: MonthlySpend) => MonthlySpend)) => void
   setWalletCardIds: (next: string[] | ((prev: string[]) => string[])) => void
   setCompareCardIds: (next: string[] | ((prev: string[]) => string[])) => void
@@ -219,6 +220,7 @@ export function PointPathProvider({ children }: { children: ReactNode }) {
       walletCardIds,
       compareCardIds,
       brandSpends,
+      hydrated,
       setMonthlySpend,
       setWalletCardIds,
       setCompareCardIds,
@@ -236,6 +238,7 @@ export function PointPathProvider({ children }: { children: ReactNode }) {
       walletCardIds,
       compareCardIds,
       brandSpends,
+      hydrated,
       setMonthlySpend,
       setWalletCardIds,
       setCompareCardIds,

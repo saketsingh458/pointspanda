@@ -15,7 +15,19 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Points Panda — Maximize every swipe",
-  description: "Discover the perfect mix of credit cards for your spending habits.",
+  description:
+    "Discover the perfect mix of credit cards for your spending habits.",
+  metadataBase: new URL("https://pointspanda.ai"),
+  openGraph: {
+    title: "Points Panda — Maximize every swipe",
+    description:
+      "Discover the perfect mix of credit cards for your spending habits.",
+    type: "website",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 }
 
 export default function RootLayout({
@@ -24,7 +36,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >

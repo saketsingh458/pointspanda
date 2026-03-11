@@ -30,9 +30,9 @@ describe("computeStrategyViews scenario coverage", () => {
         other: 200,
       }),
       expected: {
-        nextBestCardId: "wells-fargo-active-cash",
-        bestSingleCardId: "wells-fargo-active-cash",
-        ecosystemId: "wells-fargo-rewards",
+        nextBestCardId: "capital-one-venture-rewards",
+        bestSingleCardId: "capital-one-venture-rewards",
+        ecosystemId: "citi-thankyou-rewards",
       },
     },
     {
@@ -45,9 +45,9 @@ describe("computeStrategyViews scenario coverage", () => {
         other: 600,
       }),
       expected: {
-        nextBestCardId: "capital-one-savor-cash-rewards",
-        bestSingleCardId: "capital-one-savor-cash-rewards",
-        ecosystemId: "capital-one-miles",
+        nextBestCardId: "amex-gold-card",
+        bestSingleCardId: "amex-gold-card",
+        ecosystemId: "citi-thankyou-rewards",
       },
     },
     {
@@ -60,8 +60,8 @@ describe("computeStrategyViews scenario coverage", () => {
         other: 1000,
       }),
       expected: {
-        nextBestCardId: "wells-fargo-active-cash",
-        bestSingleCardId: "chase-freedom-unlimited",
+        nextBestCardId: "ink-business-unlimited-credit-card",
+        bestSingleCardId: "citi-strata-premier-card",
         ecosystemId: "chase-ultimate-rewards",
       },
     },
@@ -84,8 +84,8 @@ describe("computeStrategyViews scenario coverage", () => {
         other: 900,
       }),
       expected: {
-        nextBestCardId: "chase-freedom-unlimited",
-        bestSingleCardId: "chase-freedom-unlimited",
+        nextBestCardId: "citi-strata-premier-card",
+        bestSingleCardId: "citi-strata-premier-card",
         ecosystemId: "chase-ultimate-rewards",
       },
     },

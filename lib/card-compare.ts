@@ -207,7 +207,7 @@ function getWelcomeOfferValue(card: Card): CompareCellValue {
   }
 }
 
-function getPointValue(card: Card, key: keyof Pick<Card, "pointsValueNerdWalletCents" | "pointsValuePointsGuyCents" | "pointsValueBankrateCents" | "pointsValueCreditKarmaCents" | "pointsValueAssumedCents" | "pointsValueBaseCents" | "pointsValueMaxCents">): CompareCellValue {
+function getPointValue(card: Card, key: keyof Pick<Card, "pointsValueNerdWalletCents" | "pointsValuePointsGuyCents" | "pointsValueBankrateCents" | "pointsValueCreditKarmaCents" | "pointsValueAssumedCents">): CompareCellValue {
   const value = card[key] as number | undefined
   return { primary: value != null ? formatCpp(value) : null }
 }
@@ -292,8 +292,8 @@ export function buildCompareSections(cards: Card[]): CompareSection[] {
         ...(cards.some((c) => c.pointsValueCreditKarmaCents != null)
           ? [{ id: "point-creditkarma" as const, label: "Credit Karma" as const, values: cards.map((card) => getPointValue(card, "pointsValueCreditKarmaCents")) }]
           : []),
-        ...(cards.some((c) => c.pointsValueAssumedCents != null || c.pointsValueBaseCents != null)
-          ? [{ id: "point-assumed" as const, label: "Assumed (for estimates)" as const, values: cards.map((card) => getPointValue(card, card.pointsValueAssumedCents != null ? "pointsValueAssumedCents" : "pointsValueBaseCents")) }]
+        ...(cards.some((c) => c.pointsValueAssumedCents != null)
+          ? [{ id: "point-assumed" as const, label: "Assumed (for estimates)" as const, values: cards.map((card) => getPointValue(card, "pointsValueAssumedCents")) }]
           : []),
       ],
     },

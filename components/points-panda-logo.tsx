@@ -2,7 +2,13 @@
 
 import Link from "next/link"
 
-export function PointsPandaLogo({ className }: { className?: string }) {
+export function PointsPandaLogo({
+  className,
+  compactOnMobile = false,
+}: {
+  className?: string
+  compactOnMobile?: boolean
+}) {
   return (
     <Link
       href="/"
@@ -38,7 +44,11 @@ export function PointsPandaLogo({ className }: { className?: string }) {
           />
         </svg>
       </div>
-      <span className="text-sm font-semibold tracking-tight text-foreground md:text-base">
+      <span
+        className={`text-sm font-semibold tracking-tight text-foreground md:text-base ${
+          compactOnMobile ? "hidden sm:inline" : ""
+        }`}
+      >
         Points Panda
       </span>
     </Link>

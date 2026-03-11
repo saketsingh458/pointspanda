@@ -1,12 +1,10 @@
 "use client"
 
-import { useEffect, useCallback } from "react"
+import { useCallback } from "react"
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
-import { ThemeToggle } from "@/components/theme-toggle"
-import { PointsPandaLogo } from "@/components/points-panda-logo"
 import { AppFooter } from "@/components/app-footer"
-import { StepIndicator } from "@/components/step-indicator"
+import { FlowHeader } from "@/components/flow-header"
 import { SpendCategorySliders } from "@/components/spend-category-sliders"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -29,13 +27,7 @@ export default function IntakePage() {
 
   return (
     <div className="flex min-h-svh flex-col bg-background">
-      <header className="sticky top-0 z-10 flex items-center justify-between border-b border-border bg-card/95 px-6 py-4 backdrop-blur supports-[backdrop-filter]:bg-card/80 md:px-10">
-        <PointsPandaLogo />
-        <StepIndicator currentStep={1} />
-        <div className="flex w-20 justify-end">
-          <ThemeToggle />
-        </div>
-      </header>
+      <FlowHeader currentStep={1} stepTitle="Spending" />
 
       <main className="mx-auto flex flex-1 flex-col max-w-5xl px-6 py-10 md:px-10 md:py-16">
         {/* Header */}

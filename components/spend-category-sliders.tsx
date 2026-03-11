@@ -23,7 +23,7 @@ const CATEGORIES = [
   { id: "other", label: "Other", icon: CircleDollarSign },
 ] as const
 
-const SLIDER_MAX = 5000
+const BASE_SLIDER_MAX = 5000
 const SLIDER_STEP = 50
 
 type Props = {
@@ -33,6 +33,16 @@ type Props = {
 }
 
 export function SpendCategorySliders({ totalSpend, values, onChange }: Props) {
+  const highestSelectedValue = Object.values(values).reduce((max, value) => {
+    return typeof value === "number" && value > max ? value : max
+  }, 0)
+
+  // Grow the slider ceiling as users approach/exceed the default range.
+  const sliderMax =
+    highestSelectedValue >= BASE_SLIDER_MAX
+      ? Math.ceil((highestSelectedValue + 1000) / 1000) * 1000
+      : BASE_SLIDER_MAX
+
   return (
     <div className="space-y-8">
       {CATEGORIES.map(({ id, label, icon: Icon }) => {
@@ -60,7 +70,7 @@ export function SpendCategorySliders({ totalSpend, values, onChange }: Props) {
               id={id}
               type="range"
               min={0}
-              max={SLIDER_MAX}
+              max={sliderMax}
               step={SLIDER_STEP}
               value={value}
               onChange={(e) => onChange(id, Number(e.target.value))}

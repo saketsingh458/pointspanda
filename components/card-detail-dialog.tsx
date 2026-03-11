@@ -5,6 +5,7 @@ import Image from "next/image"
 import Link from "next/link"
 import {
   ArrowUpRight,
+  Building2,
   CircleDollarSign,
   CreditCard,
   Plane,
@@ -12,11 +13,13 @@ import {
   Shield,
   Sparkles,
   Star,
+  Trophy,
   UtensilsCrossed,
 } from "lucide-react"
 import type { Card as CardType } from "@/lib/types"
 import { CATEGORY_LABELS, getCardRankingCppCents, getCardCppSources } from "@/lib/cards"
 import { SPEND_CATEGORIES, type SpendCategoryId } from "@/lib/types"
+import { CARD_ART_PLACEHOLDER, isValidImageSrc } from "@/lib/card-ui"
 import {
   Dialog,
   DialogContent,
@@ -27,20 +30,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 
-const CARD_ART_PLACEHOLDER = "/cards/placeholder.svg"
 const VISIBLE_CREDITS_DEFAULT = 3
-
-function isValidImageSrc(src: string | undefined): boolean {
-  if (!src || typeof src !== "string") return false
-  const t = src.trim()
-  if (t.startsWith("/")) return true
-  try {
-    new URL(t)
-    return t.startsWith("http://") || t.startsWith("https://")
-  } catch {
-    return false
-  }
-}
 
 type Props = {
   card: CardType | null
@@ -309,12 +299,12 @@ export function CardDetailDialog({ card, open, onOpenChange }: Props) {
         </div>
 
         <div className="flex flex-1 flex-col overflow-y-auto bg-background">
-          <div className="grid grid-cols-2 border-b border-border">
-            <div className="border-r border-border px-5 py-4">
+          <div className="grid grid-cols-1 border-b border-border sm:grid-cols-2">
+            <div className="border-b border-border px-5 py-4 sm:border-b-0 sm:border-r">
               <p className="text-sm text-muted-foreground">
                 Annual Fee
               </p>
-              <p className="mt-1 text-5xl font-bold tracking-tight text-foreground">
+              <p className="mt-1 text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
                 {formatCurrency(card.annualFee)}
               </p>
             </div>
@@ -322,7 +312,7 @@ export function CardDetailDialog({ card, open, onOpenChange }: Props) {
               <p className="text-sm text-muted-foreground">
                 Total Credits
               </p>
-              <p className="mt-1 text-5xl font-bold tracking-tight text-emerald-600">
+              <p className="mt-1 text-4xl font-bold tracking-tight text-emerald-600 sm:text-5xl">
                 {formatCurrency(Math.round(totalAnnualCredits))}
               </p>
             </div>
@@ -333,9 +323,9 @@ export function CardDetailDialog({ card, open, onOpenChange }: Props) {
               <section>
                 {sectionTitle(Sparkles, "Welcome Offer")}
                 <div className="rounded-2xl border border-emerald-200/70 bg-emerald-50/60 p-4">
-                  <p className="text-5xl font-bold tracking-tight text-foreground">
+                  <p className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
                     {formatPoints(card.signUpBonus)}
-                    <span className="ml-2 text-3xl font-medium text-foreground/75">
+                    <span className="ml-2 text-2xl font-medium text-foreground/75 sm:text-3xl">
                       {card.rewardCurrency ?? "points"}
                     </span>
                   </p>
@@ -384,7 +374,6 @@ export function CardDetailDialog({ card, open, onOpenChange }: Props) {
               card.pointsValueBankrateCents != null ||
               card.pointsValueCreditKarmaCents != null ||
               card.pointsValueAssumedCents != null ||
-              card.pointsValueBaseCents != null ||
               card.synergyEcosystem) && (
               <section>
                 {sectionTitle(CircleDollarSign, "Point Valuation")}
@@ -428,6 +417,98 @@ export function CardDetailDialog({ card, open, onOpenChange }: Props) {
                     {showAllCredits ? "Show fewer credits" : `Show ${(card.statementCredits?.length ?? 0) - VISIBLE_CREDITS_DEFAULT} more credits`}
                   </button>
                 )}
+              </section>
+            )}
+
+            {(card.higherTierBenefits?.length ?? 0) > 0 && (
+              <section>
+                {sectionTitle(Trophy, "Higher-Tier Benefits")}
+                <div className="space-y-3 rounded-2xl border border-border bg-card p-3">
+                  {card.higherTierBenefits?.map((b, i) => (
+                    <div
+                      key={i}
+                      className="rounded-xl border border-border/60 bg-background px-3 py-3"
+                    >
+                      <p className="font-medium text-foreground">{b.benefitName}</p>
+                      <p className="mt-1 text-sm text-muted-foreground">{b.description}</p>
+                      <p className="mt-2 text-xs font-medium text-emerald-700">
+                        Unlock: {b.unlockRequirement}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            )}
+
+            {card.perksAndProtections &&
+              (card.perksAndProtections.loungeAccess.length > 0 ||
+                card.perksAndProtections.eliteStatus.length > 0 ||
+                card.perksAndProtections.travelInsurances.length > 0 ||
+                card.perksAndProtections.consumerProtections.length > 0) && (
+              <section>
+                {sectionTitle(Shield, "Perks & Protections")}
+                <div className="grid gap-4 rounded-2xl border border-border bg-card p-4 sm:grid-cols-2">
+                  {card.perksAndProtections.loungeAccess.length > 0 && (
+                    <div className="min-w-0">
+                      <p className="mb-2 flex items-center gap-2 text-sm font-medium text-muted-foreground">
+                        <Building2 className="size-4 shrink-0" />
+                        Lounge Access
+                      </p>
+                      <ul className="space-y-1.5 text-sm text-foreground">
+                        {card.perksAndProtections.loungeAccess.map((item, i) => (
+                          <li key={i} className="break-words">
+                            {item}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                  {card.perksAndProtections.eliteStatus.length > 0 && (
+                    <div className="min-w-0">
+                      <p className="mb-2 flex items-center gap-2 text-sm font-medium text-muted-foreground">
+                        <Star className="size-4 shrink-0" />
+                        Elite Status
+                      </p>
+                      <ul className="space-y-1.5 text-sm text-foreground">
+                        {card.perksAndProtections.eliteStatus.map((item, i) => (
+                          <li key={i} className="break-words">
+                            {item}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                  {card.perksAndProtections.travelInsurances.length > 0 && (
+                    <div className="min-w-0">
+                      <p className="mb-2 flex items-center gap-2 text-sm font-medium text-muted-foreground">
+                        <Plane className="size-4 shrink-0" />
+                        Travel Insurances
+                      </p>
+                      <ul className="space-y-1.5 text-sm text-foreground">
+                        {card.perksAndProtections.travelInsurances.map((item, i) => (
+                          <li key={i} className="break-words">
+                            {item}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                  {card.perksAndProtections.consumerProtections.length > 0 && (
+                    <div className="min-w-0">
+                      <p className="mb-2 flex items-center gap-2 text-sm font-medium text-muted-foreground">
+                        <Shield className="size-4 shrink-0" />
+                        Consumer Protections
+                      </p>
+                      <ul className="space-y-1.5 text-sm text-foreground">
+                        {card.perksAndProtections.consumerProtections.map((item, i) => (
+                          <li key={i} className="break-words">
+                            {item}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
               </section>
             )}
 
@@ -519,7 +600,7 @@ export function CardDetailDialog({ card, open, onOpenChange }: Props) {
                     rel="noopener noreferrer"
                     onClick={() => onOpenChange(false)}
                   >
-                    Learn More
+                    Apply on issuer site
                     <ArrowUpRight className="size-4" />
                   </Link>
                 </Button>

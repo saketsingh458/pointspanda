@@ -1,13 +1,14 @@
 "use client"
 
-import { useState, useMemo } from "react"
+import { useDeferredValue, useMemo, useState } from "react"
 import Link from "next/link"
 import { Search, ArrowRight, ArrowLeft, Plus, Wallet, CreditCard, GitCompare } from "lucide-react"
 import type { Card } from "@/lib/types"
 import { COMPARE_MAX_CARDS, COMPARE_MIN_CARDS } from "@/lib/card-compare"
 import { CardCompareDialog } from "@/components/card-compare-dialog"
+import { AppFooter } from "@/components/app-footer"
 import { CardCompareTray } from "@/components/card-compare-tray"
-import { StepIndicator } from "@/components/step-indicator"
+import { FlowHeader } from "@/components/flow-header"
 import { CardDetailDialog } from "@/components/card-detail-dialog"
 import { Card as CardUi, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -20,6 +21,7 @@ export default function WalletPage() {
   const {
     walletCardIds,
     compareCardIds,
+    hydrated,
     addWalletCard,
     removeWalletCard,
     toggleCompareCard,
@@ -31,13 +33,17 @@ export default function WalletPage() {
   const [detailOpen, setDetailOpen] = useState(false)
   const [compareOpen, setCompareOpen] = useState(false)
 
+  const trimmedQuery = searchQuery.trim()
+  const debouncedQuery = useDeferredValue(trimmedQuery)
+  const isSearching = trimmedQuery.length > 0 && debouncedQuery !== trimmedQuery
+
   const walletCards = useMemo(() => getCardsByIds(walletCardIds), [walletCardIds])
   const compareCards = useMemo(() => getCardsByIds(compareCardIds), [compareCardIds])
 
   const searchResults = useMemo(() => {
-    const results = searchCards(searchQuery)
+    const results = searchCards(debouncedQuery)
     return results.filter((c) => !walletCardIds.includes(c.id))
-  }, [searchQuery, walletCardIds])
+  }, [debouncedQuery, walletCardIds])
 
   const compareLimitReached = compareCardIds.length >= COMPARE_MAX_CARDS
   const compareReady = compareCards.length >= COMPARE_MIN_CARDS
@@ -50,15 +56,10 @@ export default function WalletPage() {
 
   return (
     <main className="min-h-svh bg-background">
-      {/* Top bar */}
-      <div className="border-b border-border bg-card/50">
-        <div className="mx-auto flex max-w-5xl items-center justify-center px-6 py-4">
-          <StepIndicator currentStep={2} />
-        </div>
-      </div>
+      <FlowHeader currentStep={2} stepTitle="Wallet" />
 
       <div
-        className={`mx-auto max-w-5xl px-6 py-10 md:py-12 ${compareCards.length > 0 ? "pb-36" : ""}`}
+        className={`mx-auto max-w-5xl px-6 py-10 md:py-12 ${compareCards.length > 0 ? "pb-44" : ""}`}
       >
         {/* Header */}
         <div className="mb-8 text-center">
@@ -88,7 +89,7 @@ export default function WalletPage() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
-          {searchQuery.trim() && searchResults.length > 0 && (
+          {debouncedQuery && searchResults.length > 0 && (
             <div className="absolute top-full left-0 right-0 z-10 mt-1 max-h-60 overflow-auto rounded-lg border border-border bg-card shadow-lg">
               {searchResults.slice(0, 8).map((card) => (
                 <div
@@ -130,10 +131,34 @@ export default function WalletPage() {
               ))}
             </div>
           )}
+          {searchQuery.trim().length === 0 && (
+            <p className="mt-2 text-sm text-muted-foreground">
+              Search by card name, issuer, or rewards ecosystem.
+            </p>
+          )}
+          {searchQuery.trim().length > 0 && isSearching && (
+            <p className="mt-2 text-sm text-muted-foreground">Searching cards...</p>
+          )}
+          {debouncedQuery && !isSearching && searchResults.length === 0 && (
+            <p className="mt-2 text-sm text-muted-foreground">
+              No matching cards found. Try a shorter keyword or issuer name.
+            </p>
+          )}
         </div>
 
         {/* Active Wallet */}
         <section className="mb-10">
+          {!hydrated && (
+            <CardUi className="mb-6 border-border">
+              <CardContent className="px-6 py-10 text-center">
+                <p className="text-sm font-medium text-foreground">Restoring your wallet...</p>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  Loading your saved cards and compare list.
+                </p>
+              </CardContent>
+            </CardUi>
+          )}
+
           {walletCards.length > 0 && (
             <div className="mb-4 flex items-center gap-2">
               <h2 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
@@ -145,7 +170,7 @@ export default function WalletPage() {
             </div>
           )}
 
-          {walletCards.length === 0 ? (
+          {hydrated && walletCards.length === 0 ? (
             <CardUi className="border-2 border-dashed bg-secondary/30">
               <CardContent className="flex flex-col items-center justify-center px-6 py-16 text-center">
                 <div className="mb-3 flex size-12 items-center justify-center rounded-full bg-secondary">
@@ -157,7 +182,7 @@ export default function WalletPage() {
                 </p>
               </CardContent>
             </CardUi>
-          ) : (
+          ) : hydrated ? (
             <div className="grid gap-5 sm:grid-cols-2">
               {walletCards.map((card) => (
                 <WalletCardItem
@@ -174,7 +199,7 @@ export default function WalletPage() {
                 />
               ))}
             </div>
-          )}
+          ) : null}
         </section>
 
         <CardDetailDialog
@@ -197,7 +222,7 @@ export default function WalletPage() {
         {/* Navigation Buttons */}
         <div className="flex items-center justify-between">
           <Button asChild variant="outline" className="gap-2 rounded-xl px-5">
-            <Link href="/">
+            <Link href="/intake">
               <ArrowLeft className="size-4" aria-hidden />
               Back
             </Link>
@@ -225,6 +250,8 @@ export default function WalletPage() {
           }
         }}
       />
+
+      <AppFooter />
     </main>
   )
 }

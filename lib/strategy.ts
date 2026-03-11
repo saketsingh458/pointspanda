@@ -1,5 +1,8 @@
 import type {
+  AdditionalStatementCredit,
+  AggregatedStatementCredit,
   AnnualFeeMode,
+  AttributedBenefit,
   CapPeriod,
   Card,
   CategoryEarnRate,
@@ -7,6 +10,7 @@ import type {
   MonthlySpend,
   CategoryStrategyRow,
   SpendCategoryId,
+  StatementCreditFrequency,
   StrategyAssumption,
   StrategyLimitation,
   StrategyPageData,
@@ -77,7 +81,7 @@ function getCardCppCentsInContext(card: Card, portfolioCards: Card[]): number {
 }
 
 /**
- * pointsValueBaseCents stores cpp in hundredths (e.g. 125 => 1.25 cpp).
+ * cpp is stored in hundredths (e.g. 125 => 1.25 cpp).
  * Dollars = points * cpp(cents/point) / 100(cents per dollar).
  */
 function pointsToDollars(points: number, cppCents: number): number {
@@ -450,6 +454,171 @@ function getBenefitLabels(cards: Card[]): string[] {
  */
 export function getCurrentBenefitLabels(walletCards: Card[]): string[] {
   return getBenefitLabels(walletCards)
+}
+
+function frequencyMultiplier(freq: StatementCreditFrequency | string): number {
+  const normalized = String(freq).trim().toLowerCase()
+  if (normalized === "yearly") return 1
+  if (normalized === "monthly") return 12
+  if (normalized === "quarterly") return 4
+  if (normalized === "semi_annual") return 2
+  if (normalized === "one_time" || normalized === "per_instance") return 1
+  const everyYears = normalized.match(/^every_(\d+)_years$/)
+  if (!everyYears) return 1
+  const years = Number(everyYears[1])
+  return years > 0 ? 1 / years : 1
+}
+
+function annualizeCreditAmount(amount: number, frequency: StatementCreditFrequency | string): number {
+  return amount * frequencyMultiplier(frequency)
+}
+
+/**
+ * Aggregate statement credits across cards, taking the highest annual value per credit name.
+ * (You typically can't stack the same credit from multiple cards.)
+ */
+function aggregateStatementCredits(cards: Card[]): AggregatedStatementCredit[] {
+  const byName = new Map<
+    string,
+    {
+      annualAmount: number
+      frequency: StatementCreditFrequency
+      contributions: Array<{ cardId: string; cardName: string; annualAmount: number }>
+      cardIds: string[]
+      cardNames: string[]
+      bestCardId: string
+      bestCardName: string
+      bestAnnualAmount: number
+    }
+  >()
+  for (const card of cards) {
+    const credits = card.statementCredits ?? []
+    for (const sc of credits) {
+      const annual = annualizeCreditAmount(sc.amount, sc.frequency)
+      const existing = byName.get(sc.name)
+      if (existing == null) {
+        byName.set(sc.name, {
+          annualAmount: annual,
+          frequency: sc.frequency,
+          contributions: [{ cardId: card.id, cardName: card.name, annualAmount: annual }],
+          cardIds: [card.id],
+          cardNames: [card.name],
+          bestCardId: card.id,
+          bestCardName: card.name,
+          bestAnnualAmount: annual,
+        })
+        continue
+      }
+
+      existing.annualAmount += annual
+      const contribution = existing.contributions.find((entry) => entry.cardId === card.id)
+      if (contribution) {
+        contribution.annualAmount += annual
+      } else {
+        existing.contributions.push({ cardId: card.id, cardName: card.name, annualAmount: annual })
+      }
+      if (!existing.cardIds.includes(card.id)) {
+        existing.cardIds.push(card.id)
+        existing.cardNames.push(card.name)
+      }
+      if (annual > existing.bestAnnualAmount) {
+        existing.bestAnnualAmount = annual
+        existing.frequency = sc.frequency
+        existing.bestCardId = card.id
+        existing.bestCardName = card.name
+      }
+    }
+  }
+  return Array.from(byName.entries())
+    .map(
+      ([
+        name,
+        { annualAmount, frequency, contributions, cardIds, cardNames, bestCardId, bestCardName },
+      ]) => ({
+        name,
+        annualAmount,
+        frequency,
+        contributions: contributions.sort((a, b) => b.annualAmount - a.annualAmount),
+        cardIds,
+        cardNames,
+        bestCardId,
+        bestCardName,
+      })
+    )
+    .sort((a, b) => b.annualAmount - a.annualAmount)
+}
+
+/**
+ * Compute additional statement credits: new credits or existing ones with higher amounts.
+ */
+function getAdditionalStatementCredits(
+  current: AggregatedStatementCredit[],
+  scenario: AggregatedStatementCredit[]
+): AdditionalStatementCredit[] {
+  const currentByName = new Map(current.map((c) => [c.name, c.annualAmount]))
+  const result: AdditionalStatementCredit[] = []
+  for (const s of scenario) {
+    const prev = currentByName.get(s.name)
+    if (prev == null) {
+      result.push({
+        name: s.name,
+        annualAmount: s.annualAmount,
+        frequency: s.frequency,
+        contributions: s.contributions,
+        cardIds: s.cardIds,
+        cardNames: s.cardNames,
+        bestCardId: s.bestCardId,
+        bestCardName: s.bestCardName,
+        type: "new",
+      })
+    } else if (s.annualAmount > prev) {
+      result.push({
+        name: s.name,
+        annualAmount: s.annualAmount,
+        frequency: s.frequency,
+        contributions: s.contributions,
+        cardIds: s.cardIds,
+        cardNames: s.cardNames,
+        bestCardId: s.bestCardId,
+        bestCardName: s.bestCardName,
+        type: "higher",
+        previousAmount: prev,
+      })
+    }
+  }
+  return result.sort((a, b) => b.annualAmount - a.annualAmount)
+}
+
+function getBenefitAttributions(cards: Card[]): AttributedBenefit[] {
+  const byLabel = new Map<string, AttributedBenefit>()
+  for (const card of cards) {
+    for (const label of card.benefits) {
+      const existing = byLabel.get(label)
+      if (existing) {
+        if (!existing.cardIds.includes(card.id)) {
+          existing.cardIds.push(card.id)
+          existing.cardNames.push(card.name)
+        }
+      } else {
+        byLabel.set(label, {
+          label,
+          cardIds: [card.id],
+          cardNames: [card.name],
+          primaryCardId: card.id,
+          primaryCardName: card.name,
+        })
+      }
+    }
+  }
+  return Array.from(byLabel.values()).sort((a, b) => a.label.localeCompare(b.label))
+}
+
+function getAdditionalBenefitAttributions(
+  current: AttributedBenefit[],
+  scenario: AttributedBenefit[]
+): AttributedBenefit[] {
+  const currentLabels = new Set(current.map((item) => item.label))
+  return scenario.filter((item) => !currentLabels.has(item.label))
 }
 
 function getPortfolioSummary(
@@ -1028,7 +1197,11 @@ function buildStrategyResult({
   currentAnnualPoints,
   currentAnnualDollars,
   currentAnnualFee,
+  currentAnnualFeeActual,
+  scenarioAnnualFeeActual,
   currentBenefitLabels,
+  currentCards,
+  scenarioCards,
   scenarioPortfolio,
   categoryRows,
   recommendedCards,
@@ -1046,7 +1219,11 @@ function buildStrategyResult({
   currentAnnualPoints: number
   currentAnnualDollars: number
   currentAnnualFee: number
+  currentAnnualFeeActual: number
+  scenarioAnnualFeeActual: number
   currentBenefitLabels: string[]
+  currentCards: Card[]
+  scenarioCards: Card[]
   scenarioPortfolio: StrategyPortfolioSummary
   categoryRows: CategoryStrategyRow[]
   recommendedCards: Card[]
@@ -1059,13 +1236,33 @@ function buildStrategyResult({
   displayCppCents: number
   displayCppSources?: StrategyResult["displayCppSources"]
 }): StrategyResult {
+  const currentStatementCredits = aggregateStatementCredits(currentCards)
+  const scenarioStatementCredits = aggregateStatementCredits(scenarioCards)
+  const additionalStatementCredits = getAdditionalStatementCredits(
+    currentStatementCredits,
+    scenarioStatementCredits
+  )
+  const currentBenefitItems = getBenefitAttributions(currentCards)
+  const scenarioBenefitItems = getBenefitAttributions(scenarioCards)
+  const additionalBenefitItems = getAdditionalBenefitAttributions(
+    currentBenefitItems,
+    scenarioBenefitItems
+  )
   return {
     viewId,
     feeMode,
     currentAnnualPoints,
     currentAnnualDollars,
     currentAnnualFee,
+    currentAnnualFeeActual,
+    scenarioAnnualFeeActual,
     currentBenefitLabels,
+    currentBenefitItems,
+    scenarioBenefitItems,
+    additionalBenefitItems,
+    currentStatementCredits,
+    scenarioStatementCredits,
+    additionalStatementCredits,
     maxPotentialAnnualPoints: scenarioPortfolio.annualPoints,
     maxPotentialAnnualDollars: scenarioPortfolio.annualDollars,
     incrementalAnnualPoints: scenarioPortfolio.annualPoints - currentAnnualPoints,
@@ -1096,6 +1293,7 @@ function computeNextBestCardStrategy(monthlySpend: MonthlySpend, walletCards: Ca
   const currentAnnualPoints = calculateCurrentAnnualPoints(monthlySpend, walletCards, assumptionNotes)
   const currentAnnualDollars = calculateCurrentAnnualDollars(monthlySpend, walletCards, assumptionNotes)
   const currentAnnualFee = getCurrentAnnualFee(walletCards, feeMode)
+  const currentAnnualFeeActual = getCurrentAnnualFee(walletCards, "full")
   const currentBenefitLabels = getCurrentBenefitLabels(walletCards)
   const candidateEvaluation = evaluateBestCandidate(
     monthlySpend,
@@ -1108,6 +1306,7 @@ function computeNextBestCardStrategy(monthlySpend: MonthlySpend, walletCards: Ca
   const recommendedCards = recommendedCard ? [recommendedCard] : []
   const scenarioCards = recommendedCard ? [...walletCards, recommendedCard] : walletCards
   const scenarioPortfolio = getPortfolioSummary(monthlySpend, scenarioCards, assumptionNotes, feeMode)
+  const scenarioAnnualFeeActual = getCurrentAnnualFee(scenarioCards, "full")
   const categoryRows = buildCategoryRows(monthlySpend, walletCards, scenarioCards, assumptionNotes)
   const incrementalAnnualDollars = scenarioPortfolio.annualDollars - currentAnnualDollars
   const netAdditionalFee = scenarioPortfolio.annualFee - currentAnnualFee
@@ -1118,7 +1317,11 @@ function computeNextBestCardStrategy(monthlySpend: MonthlySpend, walletCards: Ca
     currentAnnualPoints,
     currentAnnualDollars,
     currentAnnualFee,
+    currentAnnualFeeActual,
+    scenarioAnnualFeeActual,
     currentBenefitLabels,
+    currentCards: walletCards,
+    scenarioCards,
     scenarioPortfolio,
     categoryRows,
     recommendedCards,
@@ -1143,11 +1346,14 @@ function computeBestSingleCardStrategy(monthlySpend: MonthlySpend, walletCards: 
   const currentAnnualPoints = calculateCurrentAnnualPoints(monthlySpend, walletCards, assumptionNotes)
   const currentAnnualDollars = calculateCurrentAnnualDollars(monthlySpend, walletCards, assumptionNotes)
   const currentAnnualFee = getCurrentAnnualFee(walletCards, feeMode)
+  const currentAnnualFeeActual = getCurrentAnnualFee(walletCards, "full")
   const currentBenefitLabels = getCurrentBenefitLabels(walletCards)
   const recommendedCard = evaluateBestSingleCard(monthlySpend, assumptionNotes, feeMode)
   const recommendedCards = recommendedCard ? [recommendedCard] : []
-  const scenarioPortfolio = getPortfolioSummary(monthlySpend, recommendedCards, assumptionNotes, feeMode)
-  const categoryRows = buildCategoryRows(monthlySpend, walletCards, recommendedCards, assumptionNotes)
+  const scenarioCards = recommendedCards
+  const scenarioPortfolio = getPortfolioSummary(monthlySpend, scenarioCards, assumptionNotes, feeMode)
+  const scenarioAnnualFeeActual = getCurrentAnnualFee(scenarioCards, "full")
+  const categoryRows = buildCategoryRows(monthlySpend, walletCards, scenarioCards, assumptionNotes)
   const incrementalAnnualDollars = scenarioPortfolio.annualDollars - currentAnnualDollars
   const netAdditionalFee = scenarioPortfolio.annualFee - currentAnnualFee
 
@@ -1157,7 +1363,11 @@ function computeBestSingleCardStrategy(monthlySpend: MonthlySpend, walletCards: 
     currentAnnualPoints,
     currentAnnualDollars,
     currentAnnualFee,
+    currentAnnualFeeActual,
+    scenarioAnnualFeeActual,
     currentBenefitLabels,
+    currentCards: walletCards,
+    scenarioCards,
     scenarioPortfolio,
     categoryRows,
     recommendedCards,
@@ -1180,12 +1390,15 @@ function computeBestEcosystemStrategy(monthlySpend: MonthlySpend, walletCards: C
   const currentAnnualPoints = calculateCurrentAnnualPoints(monthlySpend, walletCards, assumptionNotes)
   const currentAnnualDollars = calculateCurrentAnnualDollars(monthlySpend, walletCards, assumptionNotes)
   const currentAnnualFee = getCurrentAnnualFee(walletCards, feeMode)
+  const currentAnnualFeeActual = getCurrentAnnualFee(walletCards, "full")
   const currentBenefitLabels = getCurrentBenefitLabels(walletCards)
   const rankedOptions = evaluateEcosystemOptions(monthlySpend, walletCards, assumptionNotes, feeMode)
   const winningOption = rankedOptions[0]
   const recommendedCards = winningOption?.portfolio.cards ?? []
+  const scenarioCards = recommendedCards
   const scenarioPortfolio = winningOption?.portfolio ?? getPortfolioSummary(monthlySpend, [], assumptionNotes, feeMode)
-  const categoryRows = winningOption?.categoryRows ?? buildCategoryRows(monthlySpend, walletCards, [], assumptionNotes)
+  const scenarioAnnualFeeActual = getCurrentAnnualFee(scenarioCards, "full")
+  const categoryRows = winningOption?.categoryRows ?? buildCategoryRows(monthlySpend, walletCards, scenarioCards, assumptionNotes)
 
   return buildStrategyResult({
     viewId: "bestEcosystem",
@@ -1193,7 +1406,11 @@ function computeBestEcosystemStrategy(monthlySpend: MonthlySpend, walletCards: C
     currentAnnualPoints,
     currentAnnualDollars,
     currentAnnualFee,
+    currentAnnualFeeActual,
+    scenarioAnnualFeeActual,
     currentBenefitLabels,
+    currentCards: walletCards,
+    scenarioCards,
     scenarioPortfolio,
     categoryRows,
     recommendedCards,

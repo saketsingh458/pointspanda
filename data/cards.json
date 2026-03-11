@@ -31,6 +31,13 @@
         }
       }
     },
+    "perks_and_protections": {
+      "lounge_access": [],
+      "elite_status": [],
+      "travel_insurances": [],
+      "consumer_protections": []
+    },
+    "higher_tier_benefits": [],
     "developer_notes": "Must have active Robinhood Gold subscription ($5/mo or $50/yr)",
     "points_transfer_eligibility": "none"
   },
@@ -160,6 +167,23 @@
         }
       }
     },
+    "perks_and_protections": {
+      "lounge_access": [
+        "Priority Pass Select (unlimited visits, 2 guests)"
+      ],
+      "elite_status": [],
+      "travel_insurances": [
+        "Secondary Auto Rental CDW",
+        "Trip Cancellation/Interruption",
+        "Baggage Delay/Loss",
+        "Travel Accident Insurance"
+      ],
+      "consumer_protections": [
+        "Extended Warranty",
+        "Purchase Protection"
+      ]
+    },
+    "higher_tier_benefits": [],
     "developer_notes": "Benefits reflect Robinhood legal overview last updated 2026-03-04. Some benefits require enrollment or account linkage in app and may change at any time. Non-statement benefits include DashPass membership, Priority Pass Select, Amazon One Medical membership sponsorship, and Robinhood Gold membership.",
     "points_transfer_eligibility": "none"
   },
@@ -227,7 +251,7 @@
     },
     "welcome_offer": {
       "points": 125000,
-      "spend_requirement": 4000,
+      "spend_requirement": 6000,
       "timeframe_months": 3
     },
     "anniversary_bonus": null,
@@ -251,7 +275,7 @@
         "amount": 500,
         "frequency": "yearly",
         "deducts_from_eligible_spend": false,
-        "restrictions": "Up to $250 per prepaid eligible booking through The Edit (minimum 2-night stay); requires two bookings to realize full $500"
+        "restrictions": "Up to $250 per prepaid eligible booking through The Edit (minimum 2-night stay); no half-year split as of 2026; two bookings to realize full $500"
       },
       {
         "name": "StubHub",
@@ -277,9 +301,9 @@
       {
         "name": "Select Hotel",
         "amount": 250,
-        "frequency": "one_time",
+        "frequency": "yearly",
         "deducts_from_eligible_spend": false,
-        "restrictions": "Prepaid booking through eligible Chase Travel partner hotels with a minimum 2-night stay"
+        "restrictions": "Prepaid stays at IHG, Montage, Pendry, Omni, Virgin, Minor, Pan Pacific via Chase Travel; minimum 2-night stay; annual credit as of Jan 2026"
       },
       {
         "name": "Lyft",
@@ -321,7 +345,54 @@
         }
       }
     },
-    "developer_notes": "One welcome offer per Sapphire card; $795 fee for existing members starts on first anniversary after Oct 26, 2025; Points Boost redemption values vary by property",
+    "perks_and_protections": {
+      "lounge_access": [
+        "Priority Pass Select (unlimited visits, 2 free guests)",
+        "Chase Sapphire Lounges (JFK, LGA, BOS, PHL, PHX, SAN, HKG)",
+        "Air Canada Maple Leaf Lounges (when flying Air Canada)"
+      ],
+      "elite_status": [
+        "National Emerald Club Executive",
+        "Avis Preferred",
+        "Silvercar status"
+      ],
+      "travel_insurances": [
+        "Primary Auto Rental CDW",
+        "Trip Cancellation/Interruption",
+        "Trip Delay Reimbursement",
+        "Baggage Delay/Loss",
+        "Travel Accident Insurance",
+        "Emergency Evacuation"
+      ],
+      "consumer_protections": [
+        "Purchase Protection",
+        "Extended Warranty",
+        "Return Protection"
+      ]
+    },
+    "higher_tier_benefits": [
+      {
+        "benefit_name": "IHG One Rewards Diamond Elite Status",
+        "description": "Complimentary Diamond Elite status at IHG hotels",
+        "unlock_requirement": "$75,000 annual spend in a calendar year"
+      },
+      {
+        "benefit_name": "Southwest A-List Status",
+        "description": "A-List priority boarding and bonus Rapid Rewards points",
+        "unlock_requirement": "$75,000 annual spend in a calendar year"
+      },
+      {
+        "benefit_name": "Southwest Airlines Credit",
+        "description": "Up to $500 annual credit for Southwest bookings through Chase Travel",
+        "unlock_requirement": "$75,000 annual spend in a calendar year"
+      },
+      {
+        "benefit_name": "The Shops at Chase Credit",
+        "description": "Up to $250 to spend at The Shops at Chase marketplace",
+        "unlock_requirement": "$75,000 annual spend in a calendar year"
+      }
+    ],
+    "developer_notes": "2026: One welcome offer per Sapphire card; $795 fee; 125K/6K welcome; Points Boost varies by property; $250 Select Hotel credit yearly (IHG, Montage, etc.); The Edit flexible $250/booking; $75K spend unlocks IHG Diamond, Southwest A-List, $500 Southwest credit, $250 Shops at Chase",
     "transfer_partners": [
       {
         "name": "Aer Lingus AerClub",
@@ -445,6 +516,22 @@
         }
       }
     },
+    "perks_and_protections": {
+      "lounge_access": [],
+      "elite_status": [],
+      "travel_insurances": [
+        "Secondary Auto Rental CDW",
+        "Trip Cancellation/Interruption",
+        "Trip Delay Reimbursement",
+        "Baggage Delay/Loss",
+        "Travel Accident Insurance"
+      ],
+      "consumer_protections": [
+        "Purchase Protection",
+        "Extended Warranty"
+      ]
+    },
+    "higher_tier_benefits": [],
     "developer_notes": "Subject to Chase 5/24 rule; 10% points boost is based on total dollars spent not points earned",
     "transfer_partners": [
       {
@@ -772,7 +859,7 @@
         "amount": 500,
         "frequency": "yearly",
         "deducts_from_eligible_spend": false,
-        "restrictions": "Up to $250 per prepaid eligible booking through The Edit (minimum 2-night stay); requires two bookings to realize full $500"
+        "restrictions": "Up to $250 per prepaid eligible booking through The Edit (minimum 2-night stay); no half-year split as of 2026; two bookings to realize full $500"
       },
       {
         "name": "DoorDash",
@@ -821,7 +908,53 @@
         }
       }
     },
-    "developer_notes": "Must spend $120,000/year to unlock IHG Diamond and Southwest A-List",
+    "perks_and_protections": {
+      "lounge_access": [
+        "Priority Pass Select (unlimited visits, 2 free guests)",
+        "Chase Sapphire Lounges",
+        "Air Canada Maple Leaf Lounges (when flying Air Canada)"
+      ],
+      "elite_status": [
+        "National Emerald Club Executive",
+        "Avis Preferred",
+        "IHG One Rewards Diamond Elite (with $120k spend)",
+        "Southwest A-List (with $120k spend)"
+      ],
+      "travel_insurances": [
+        "Primary Auto Rental CDW",
+        "Trip Cancellation/Interruption",
+        "Trip Delay Reimbursement",
+        "Baggage Delay/Loss",
+        "Travel Accident Insurance"
+      ],
+      "consumer_protections": [
+        "Purchase Protection",
+        "Extended Warranty"
+      ]
+    },
+    "higher_tier_benefits": [
+      {
+        "benefit_name": "IHG One Rewards Diamond Elite Status",
+        "description": "Complimentary Diamond Elite status at IHG hotels",
+        "unlock_requirement": "$120,000 annual spend in a calendar year"
+      },
+      {
+        "benefit_name": "Southwest A-List Status",
+        "description": "A-List priority boarding and bonus Rapid Rewards points",
+        "unlock_requirement": "$120,000 annual spend in a calendar year"
+      },
+      {
+        "benefit_name": "Southwest Airlines Credit",
+        "description": "Up to $500 annual credit for Southwest bookings through Chase Travel",
+        "unlock_requirement": "$120,000 annual spend in a calendar year"
+      },
+      {
+        "benefit_name": "The Shops at Chase Credit",
+        "description": "Up to $500 to spend at The Shops at Chase marketplace",
+        "unlock_requirement": "$120,000 annual spend in a calendar year"
+      }
+    ],
+    "developer_notes": "2026: $795 fee; mirrors Sapphire Reserve refresh; $120,000/year unlocks IHG Diamond, Southwest A-List, $500 Southwest credit, $500 Shops at Chase; The Edit flexible $250/booking",
     "transfer_partners": [
       {
         "name": "Aer Lingus AerClub",
@@ -1129,7 +1262,42 @@
         }
       }
     },
-    "developer_notes": "Once per lifetime welcome offer rule; $75,000 spend required for Centurion Lounge guest access",
+    "perks_and_protections": {
+      "lounge_access": [
+        "Centurion Lounges (unlimited; guests $50/ea or free with $75k spend)",
+        "Delta Sky Club (when flying Delta, limited visits)",
+        "Priority Pass Escape lounges (when Centurion/Delta not available)",
+        "Plaza Premium lounges"
+      ],
+      "elite_status": [
+        "Hilton Honors Gold",
+        "Marriott Bonvoy Gold",
+        "National Emerald Club Executive",
+        "Hertz President's Circle",
+        "Avis Preferred Plus"
+      ],
+      "travel_insurances": [
+        "Primary Auto Rental CDW",
+        "Trip Cancellation/Interruption",
+        "Trip Delay",
+        "Baggage Delay/Loss",
+        "Travel Accident Insurance",
+        "Emergency Medical Evacuation"
+      ],
+      "consumer_protections": [
+        "Purchase Protection",
+        "Extended Warranty",
+        "Cell Phone Protection"
+      ]
+    },
+    "higher_tier_benefits": [
+      {
+        "benefit_name": "Centurion Lounge Complimentary Guest Access",
+        "description": "Up to 2 free guests per visit at Centurion Lounges",
+        "unlock_requirement": "$75,000 eligible spend in a calendar year"
+      }
+    ],
+    "developer_notes": "2026: $895 fee; 175K/12K welcome; once per lifetime rule; $75,000 spend for Centurion Lounge guest access; CLEAR+ $209",
     "transfer_partners": [
       {
         "name": "Aer Lingus AerClub",
@@ -1296,6 +1464,23 @@
         }
       }
     },
+    "perks_and_protections": {
+      "lounge_access": [],
+      "elite_status": [
+        "Hilton Honors (5x points when Hilton selected as transfer partner)"
+      ],
+      "travel_insurances": [
+        "Secondary Auto Rental CDW",
+        "Trip Cancellation/Interruption",
+        "Baggage Delay/Loss",
+        "Travel Accident Insurance"
+      ],
+      "consumer_protections": [
+        "Purchase Protection",
+        "Extended Warranty"
+      ]
+    },
+    "higher_tier_benefits": [],
     "developer_notes": "Credits do not roll over monthly; enrollment required for all credits; multipliers have annual spend caps",
     "transfer_partners": [
       {
@@ -1438,7 +1623,41 @@
         }
       }
     },
-    "developer_notes": "Priority Pass guest access and authorized user lounge access removed February 2026 unless spending/fee requirements met",
+    "perks_and_protections": {
+      "lounge_access": [
+        "Capital One Lounges (primary cardmember; guest access spend-gated as of Feb 2026)",
+        "Capital One Landings (primary cardmember)",
+        "Priority Pass Select (unlimited; guest access spend-gated as of Feb 2026)",
+        "Plaza Premium lounges"
+      ],
+      "elite_status": [
+        "Hertz President's Circle"
+      ],
+      "travel_insurances": [
+        "Secondary Auto Rental CDW",
+        "Trip Cancellation/Interruption",
+        "Trip Delay",
+        "Baggage Delay/Loss",
+        "Travel Accident Insurance"
+      ],
+      "consumer_protections": [
+        "Purchase Protection",
+        "Extended Warranty"
+      ]
+    },
+    "higher_tier_benefits": [
+      {
+        "benefit_name": "Priority Pass Complimentary Guest Access",
+        "description": "Free guest access to Priority Pass lounges; without spend, guests pay $35 each (effective Feb 2026)",
+        "unlock_requirement": "$75,000 spend in a calendar year"
+      },
+      {
+        "benefit_name": "Capital One Lounge Guest Access",
+        "description": "2 complimentary guests at Capital One Lounges, 1 at Landings",
+        "unlock_requirement": "$75,000 spend in a calendar year"
+      }
+    ],
+    "developer_notes": "2026: $395 fee; Priority Pass guest access and AU lounge access removed Feb 2026 unless spending/fee requirements met",
     "transfer_partners": [
       {
         "name": "Aeromexico Rewards",
@@ -1907,6 +2126,21 @@
         }
       }
     },
+    "perks_and_protections": {
+      "lounge_access": [],
+      "elite_status": [],
+      "travel_insurances": [
+        "Secondary Auto Rental CDW",
+        "Trip Cancellation/Interruption",
+        "Baggage Delay/Loss",
+        "Travel Accident Insurance"
+      ],
+      "consumer_protections": [
+        "Purchase Protection",
+        "Extended Warranty"
+      ]
+    },
+    "higher_tier_benefits": [],
     "developer_notes": "Points cannot be transferred to airline or hotel partners or pooled with other Chase cards; Pay-in-full card structure with Flex for Business financing; Subject to Chase 5/24 rule.",
     "points_transfer_eligibility": "none"
   },
@@ -1972,6 +2206,21 @@
         }
       }
     },
+    "perks_and_protections": {
+      "lounge_access": [],
+      "elite_status": [],
+      "travel_insurances": [
+        "Secondary Auto Rental CDW",
+        "Trip Cancellation/Interruption",
+        "Baggage Delay/Loss",
+        "Travel Accident Insurance"
+      ],
+      "consumer_protections": [
+        "Purchase Protection",
+        "Extended Warranty"
+      ]
+    },
+    "higher_tier_benefits": [],
     "developer_notes": "4x multiplier capped at $150,000 combined spend per year; welcome offer eligibility based on history",
     "transfer_partners": [
       {
@@ -2109,6 +2358,23 @@
         }
       }
     },
+    "perks_and_protections": {
+      "lounge_access": [
+        "LoungeBuddy credits (enrollment required)"
+      ],
+      "elite_status": [],
+      "travel_insurances": [
+        "Secondary Auto Rental CDW",
+        "Trip Cancellation/Interruption",
+        "Baggage Delay/Loss",
+        "Travel Accident Insurance"
+      ],
+      "consumer_protections": [
+        "Purchase Protection",
+        "Extended Warranty"
+      ]
+    },
+    "higher_tier_benefits": [],
     "developer_notes": "Features No Preset Spending Limit (NPSL)",
     "transfer_partners": [
       {
@@ -2252,6 +2518,21 @@
         }
       }
     },
+    "perks_and_protections": {
+      "lounge_access": [],
+      "elite_status": [],
+      "travel_insurances": [
+        "Secondary Auto Rental CDW",
+        "Trip Cancellation/Interruption",
+        "Baggage Delay/Loss",
+        "Travel Accident Insurance"
+      ],
+      "consumer_protections": [
+        "Purchase Protection",
+        "Extended Warranty"
+      ]
+    },
+    "higher_tier_benefits": [],
     "developer_notes": "6% grocery capped at $6k spend annually; cash back received as Reward Dollars",
     "points_transfer_eligibility": "none"
   },
@@ -2317,304 +2598,22 @@
         }
       }
     },
+    "perks_and_protections": {
+      "lounge_access": [],
+      "elite_status": [],
+      "travel_insurances": [
+        "Secondary Auto Rental CDW",
+        "Trip Cancellation/Interruption",
+        "Baggage Delay/Loss",
+        "Travel Accident Insurance"
+      ],
+      "consumer_protections": [
+        "Purchase Protection",
+        "Extended Warranty"
+      ]
+    },
+    "higher_tier_benefits": [],
     "developer_notes": "$6,000 annual spend cap per 3% category; cash back earned as Reward Dollars",
-    "points_transfer_eligibility": "none"
-  },
-  {
-    "id": "amex-everyday-credit-card",
-    "name": "Amex EveryDay® Credit Card",
-    "issuer": "American Express",
-    "network": "Amex",
-    "annual_fee": 0,
-    "reward_currency": "Membership Rewards",
-    "synergy_ecosystem": "Amex Membership Rewards",
-    "ftf_percentage": 2.7,
-    "ui_elements": {
-      "image_url": "https://www.americanexpress.com/content/dam/amex/us/credit-cards/card-art/Amex-EveryDay-Credit-Card.png",
-      "apply_url": "https://www.americanexpress.com/us/credit-cards/card/amex-everyday/"
-    },
-    "valuation": {
-      "cpp_nerdwallet": 1.6,
-      "cpp_pointsguy": 2,
-      "cpp_assumed": 1.82,
-      "cpp_bankrate": 2,
-      "cpp_creditkarma": 1.67
-    },
-    "welcome_offer": {
-      "points": 10000,
-      "spend_requirement": 2000,
-      "timeframe_months": 6
-    },
-    "anniversary_bonus": null,
-    "statement_credits": [],
-    "multipliers": {
-      "base_rate": 1,
-      "categories": {
-        "us_supermarkets": {
-          "rate": 2,
-          "cap_amount": 6000,
-          "cap_period": "annual"
-        },
-        "travel_portal": {
-          "rate": 2,
-          "requires_portal": true
-        }
-      }
-    },
-    "developer_notes": "Closed to new applicants in late 2024; 20% bonus applies to total points earned in billing period",
-    "transfer_partners": [
-      {
-        "name": "Aer Lingus AerClub",
-        "ratio": "1:1"
-      },
-      {
-        "name": "Aeromexico Rewards",
-        "ratio": "1:1.6"
-      },
-      {
-        "name": "Air Canada Aeroplan",
-        "ratio": "1:1"
-      },
-      {
-        "name": "Air France-KLM Flying Blue",
-        "ratio": "1:1"
-      },
-      {
-        "name": "ANA Mileage Club",
-        "ratio": "1:1"
-      },
-      {
-        "name": "Avianca LifeMiles",
-        "ratio": "1:1"
-      },
-      {
-        "name": "British Airways Executive Club",
-        "ratio": "1:1"
-      },
-      {
-        "name": "Cathay Pacific Asia Miles",
-        "ratio": "1:1"
-      },
-      {
-        "name": "Delta SkyMiles",
-        "ratio": "1:1"
-      },
-      {
-        "name": "Emirates Skywards",
-        "ratio": "1:1"
-      },
-      {
-        "name": "Etihad Guest",
-        "ratio": "1:1"
-      },
-      {
-        "name": "HawaiianMiles",
-        "ratio": "1:1"
-      },
-      {
-        "name": "Iberia Plus",
-        "ratio": "1:1"
-      },
-      {
-        "name": "JetBlue TrueBlue",
-        "ratio": "5:4"
-      },
-      {
-        "name": "Qantas Frequent Flyer",
-        "ratio": "1:1"
-      },
-      {
-        "name": "Qatar Airways Privilege Club",
-        "ratio": "1:1"
-      },
-      {
-        "name": "Singapore Airlines KrisFlyer",
-        "ratio": "1:1"
-      },
-      {
-        "name": "Virgin Atlantic Flying Club",
-        "ratio": "1:1"
-      },
-      {
-        "name": "Choice Privileges",
-        "ratio": "1:1"
-      },
-      {
-        "name": "Hilton Honors",
-        "ratio": "1:2"
-      },
-      {
-        "name": "Marriott Bonvoy",
-        "ratio": "1:1"
-      }
-    ],
-    "points_transfer_eligibility": "direct"
-  },
-  {
-    "id": "amex-everyday-preferred-credit-card",
-    "name": "Amex EveryDay® Preferred Credit Card",
-    "issuer": "American Express",
-    "network": "Amex",
-    "annual_fee": 95,
-    "reward_currency": "Membership Rewards",
-    "synergy_ecosystem": "Amex Membership Rewards",
-    "ftf_percentage": 2.7,
-    "ui_elements": {
-      "image_url": "https://americanexpress.com/content/dam/amex/us/credit-cards/card-art/Amex-Everyday-Preferred.png",
-      "apply_url": "https://www.americanexpress.com/us/credit-cards/card/amex-everyday-preferred/"
-    },
-    "valuation": {
-      "cpp_nerdwallet": 1.6,
-      "cpp_pointsguy": 2,
-      "cpp_assumed": 1.82,
-      "cpp_bankrate": 2,
-      "cpp_creditkarma": 1.67
-    },
-    "welcome_offer": {
-      "points": 0,
-      "spend_requirement": 0,
-      "timeframe_months": 0
-    },
-    "anniversary_bonus": null,
-    "statement_credits": [],
-    "multipliers": {
-      "base_rate": 1,
-      "categories": {
-        "us_supermarkets": {
-          "rate": 3,
-          "cap_amount": 6000,
-          "cap_period": "annual"
-        },
-        "us_gas_stations": {
-          "rate": 2
-        },
-        "travel_portal": {
-          "rate": 2,
-          "requires_portal": true
-        }
-      }
-    },
-    "developer_notes": "Applications closed to new members as of late 2024; existing cardholders only",
-    "transfer_partners": [
-      {
-        "name": "Aer Lingus AerClub",
-        "ratio": "1:1"
-      },
-      {
-        "name": "Aeromexico Rewards",
-        "ratio": "1:1.6"
-      },
-      {
-        "name": "Air Canada Aeroplan",
-        "ratio": "1:1"
-      },
-      {
-        "name": "Air France-KLM Flying Blue",
-        "ratio": "1:1"
-      },
-      {
-        "name": "ANA Mileage Club",
-        "ratio": "1:1"
-      },
-      {
-        "name": "Avianca LifeMiles",
-        "ratio": "1:1"
-      },
-      {
-        "name": "British Airways Executive Club",
-        "ratio": "1:1"
-      },
-      {
-        "name": "Cathay Pacific Asia Miles",
-        "ratio": "1:1"
-      },
-      {
-        "name": "Delta SkyMiles",
-        "ratio": "1:1"
-      },
-      {
-        "name": "Emirates Skywards",
-        "ratio": "1:1"
-      },
-      {
-        "name": "Etihad Guest",
-        "ratio": "1:1"
-      },
-      {
-        "name": "HawaiianMiles",
-        "ratio": "1:1"
-      },
-      {
-        "name": "Iberia Plus",
-        "ratio": "1:1"
-      },
-      {
-        "name": "JetBlue TrueBlue",
-        "ratio": "5:4"
-      },
-      {
-        "name": "Qantas Frequent Flyer",
-        "ratio": "1:1"
-      },
-      {
-        "name": "Qatar Airways Privilege Club",
-        "ratio": "1:1"
-      },
-      {
-        "name": "Singapore Airlines KrisFlyer",
-        "ratio": "1:1"
-      },
-      {
-        "name": "Virgin Atlantic Flying Club",
-        "ratio": "1:1"
-      },
-      {
-        "name": "Choice Privileges",
-        "ratio": "1:1"
-      },
-      {
-        "name": "Hilton Honors",
-        "ratio": "1:2"
-      },
-      {
-        "name": "Marriott Bonvoy",
-        "ratio": "1:1"
-      }
-    ],
-    "points_transfer_eligibility": "direct"
-  },
-  {
-    "id": "amex-cash-magnet-card",
-    "name": "Amex Cash Magnet® Card",
-    "issuer": "American Express",
-    "network": "Amex",
-    "annual_fee": 0,
-    "reward_currency": "Reward Dollars",
-    "synergy_ecosystem": "None",
-    "ftf_percentage": 2.7,
-    "ui_elements": {
-      "image_url": "https://www.americanexpress.com/content/dam/amex/us/credit-cards/card-art/Cash-Magnet.png",
-      "apply_url": "https://www.americanexpress.com/us/credit-cards/card/cash-magnet/"
-    },
-    "valuation": {
-      "cpp_nerdwallet": 1,
-      "cpp_pointsguy": 1,
-      "cpp_assumed": 1,
-      "cpp_bankrate": 1,
-      "cpp_creditkarma": 1
-    },
-    "welcome_offer": {
-      "points": 200,
-      "spend_requirement": 2000,
-      "timeframe_months": 6
-    },
-    "anniversary_bonus": null,
-    "statement_credits": [],
-    "multipliers": {
-      "base_rate": 1.5,
-      "categories": {}
-    },
-    "developer_notes": "Cash back cannot be used to pay the minimum due; Rewards only earned on eligible purchases (excludes gift cards and person-to-person)",
     "points_transfer_eligibility": "none"
   },
   {
@@ -2690,7 +2689,36 @@
         }
       }
     },
-    "developer_notes": "$10,000 initiation fee; invitation only (est. $250k-$1M+ annual spend requirement); no preset spending limit",
+    "perks_and_protections": {
+      "lounge_access": [
+        "Centurion Lounges (unlimited, complimentary guests)",
+        "Delta Sky Club (unlimited when flying Delta)",
+        "Priority Pass (unlimited)",
+        "International American Express lounges"
+      ],
+      "elite_status": [
+        "Hilton Honors Diamond",
+        "Marriott Bonvoy Gold",
+        "National Emerald Club Executive",
+        "Hertz President's Circle",
+        "Avis President's Club"
+      ],
+      "travel_insurances": [
+        "Primary Auto Rental CDW",
+        "Trip Cancellation/Interruption",
+        "Trip Delay",
+        "Baggage Delay/Loss",
+        "Travel Accident Insurance",
+        "Emergency Medical Evacuation"
+      ],
+      "consumer_protections": [
+        "Purchase Protection",
+        "Extended Warranty",
+        "Cell Phone Protection"
+      ]
+    },
+    "higher_tier_benefits": [],
+    "developer_notes": "2026: $5,000 annual fee; $10,000 initiation fee; invitation only (est. $350k–$500k annual Amex spend); no preset spending limit",
     "transfer_partners": [
       {
         "name": "Aer Lingus AerClub",
@@ -2821,9 +2849,10 @@
       },
       {
         "name": "CLEAR+ Credit",
-        "amount": 199,
+        "amount": 209,
         "frequency": "yearly",
-        "deducts_from_eligible_spend": false
+        "deducts_from_eligible_spend": false,
+        "restrictions": "Statement credit after eligible CLEAR+ membership purchase"
       },
       {
         "name": "Wireless Credit",
@@ -2880,7 +2909,40 @@
         }
       }
     },
-    "developer_notes": "No preset spending limit; 35% points back on flights capped at 1M points per year",
+    "perks_and_protections": {
+      "lounge_access": [
+        "Centurion Lounges (unlimited; guests $50/ea or free with $75k spend)",
+        "Delta Sky Club (when flying Delta)",
+        "Priority Pass Select",
+        "Lufthansa Business Lounges (when flying Lufthansa Group)"
+      ],
+      "elite_status": [
+        "Hilton Honors Gold",
+        "Marriott Bonvoy Gold",
+        "National Emerald Club Executive",
+        "Hertz President's Circle",
+        "Avis Preferred Plus"
+      ],
+      "travel_insurances": [
+        "Primary Auto Rental CDW",
+        "Trip Cancellation/Interruption",
+        "Trip Delay",
+        "Baggage Delay/Loss",
+        "Travel Accident Insurance"
+      ],
+      "consumer_protections": [
+        "Purchase Protection",
+        "Extended Warranty"
+      ]
+    },
+    "higher_tier_benefits": [
+      {
+        "benefit_name": "Centurion Lounge Complimentary Guest Access",
+        "description": "Up to 2 free guests per visit at Centurion Lounges",
+        "unlock_requirement": "$75,000 eligible spend in a calendar year"
+      }
+    ],
+    "developer_notes": "2026: $895 fee; CLEAR+ credit $209; no preset spending limit; 35% points back on flights capped at 1M points per year",
     "transfer_partners": [
       {
         "name": "Aer Lingus AerClub",
@@ -3000,6 +3062,21 @@
       "base_rate": 1,
       "categories": {}
     },
+    "perks_and_protections": {
+      "lounge_access": [],
+      "elite_status": [],
+      "travel_insurances": [
+        "Secondary Auto Rental CDW",
+        "Trip Cancellation/Interruption",
+        "Baggage Delay/Loss",
+        "Travel Accident Insurance"
+      ],
+      "consumer_protections": [
+        "Purchase Protection",
+        "Extended Warranty"
+      ]
+    },
+    "higher_tier_benefits": [],
     "developer_notes": "2x points cap resets every calendar year",
     "transfer_partners": [
       {
@@ -3232,151 +3309,6 @@
     "points_transfer_eligibility": "direct"
   },
   {
-    "id": "capital-one-savor-cash-rewards",
-    "name": "Capital One Savor Cash Rewards Credit Card",
-    "issuer": "Capital One",
-    "network": "Mastercard",
-    "annual_fee": 0,
-    "reward_currency": "Cash Back",
-    "synergy_ecosystem": "Capital One Miles (via transfer)",
-    "ftf_percentage": 0,
-    "ui_elements": {
-      "image_url": "https://www.capitalone.com/assets/credit-cards/savor-card-art.png",
-      "apply_url": "https://www.capitalone.com/credit-cards/savor/"
-    },
-    "valuation": {
-      "cpp_nerdwallet": 1.6,
-      "cpp_pointsguy": 1.85,
-      "cpp_assumed": 1.66,
-      "cpp_bankrate": 1.7,
-      "cpp_creditkarma": 1.48
-    },
-    "welcome_offer": {
-      "points": 200,
-      "spend_requirement": 500,
-      "timeframe_months": 3
-    },
-    "anniversary_bonus": null,
-    "statement_credits": [],
-    "multipliers": {
-      "base_rate": 1,
-      "categories": {
-        "capital_one_entertainment": {
-          "rate": 8
-        },
-        "dining": {
-          "rate": 3
-        },
-        "entertainment": {
-          "rate": 3
-        },
-        "popular_streaming": {
-          "rate": 3
-        },
-        "grocery_stores": {
-          "rate": 3
-        },
-        "travel_portal": {
-          "rate": 5,
-          "requires_portal": true
-        }
-      }
-    },
-    "developer_notes": "Grocery 3% excludes superstores like Walmart and Target; legacy cardholders may have different terms (4% dining/95 fee); Transfer partner redemptions require converting rewards into Capital One miles through an eligible miles-earning setup before transfer.",
-    "transfer_partners": [
-      {
-        "name": "Aeromexico Rewards",
-        "ratio": "1:1"
-      },
-      {
-        "name": "Air Canada Aeroplan",
-        "ratio": "1:1"
-      },
-      {
-        "name": "Avianca LifeMiles",
-        "ratio": "1:1"
-      },
-      {
-        "name": "British Airways Club",
-        "ratio": "1:1"
-      },
-      {
-        "name": "Cathay Pacific Asia Miles",
-        "ratio": "1:1"
-      },
-      {
-        "name": "Etihad Guest",
-        "ratio": "1:1"
-      },
-      {
-        "name": "Finnair Plus",
-        "ratio": "1:1"
-      },
-      {
-        "name": "Flying Blue",
-        "ratio": "1:1"
-      },
-      {
-        "name": "Qantas Frequent Flyer",
-        "ratio": "1:1"
-      },
-      {
-        "name": "Qatar Airways Privilege Club",
-        "ratio": "1:1"
-      },
-      {
-        "name": "Singapore Airlines KrisFlyer",
-        "ratio": "1:1"
-      },
-      {
-        "name": "TAP Miles&Go",
-        "ratio": "1:1"
-      },
-      {
-        "name": "Turkish Airlines Miles&Smiles",
-        "ratio": "1:1"
-      },
-      {
-        "name": "Virgin Red",
-        "ratio": "1:1"
-      },
-      {
-        "name": "Emirates Skywards",
-        "ratio": "2:1.5"
-      },
-      {
-        "name": "EVA Air Infinity MileageLands",
-        "ratio": "2:1.5"
-      },
-      {
-        "name": "Japan Airlines Mileage Bank",
-        "ratio": "2:1.5"
-      },
-      {
-        "name": "JetBlue TrueBlue",
-        "ratio": "5:3"
-      },
-      {
-        "name": "Choice Privileges",
-        "ratio": "1:1"
-      },
-      {
-        "name": "Wyndham Rewards",
-        "ratio": "1:1"
-      },
-      {
-        "name": "I Prefer Hotel Rewards",
-        "ratio": "1:2"
-      },
-      {
-        "name": "Accor Live Limitless",
-        "ratio": "2:1"
-      }
-    ],
-    "points_transfer_eligibility": "pooling_only",
-    "transfer_eligibility_note": "When converted to Capital One miles via eligible miles-earning card"
-  },
-  {
     "id": "blue-business-cash-card",
     "name": "Blue Business Cash™ Card",
     "issuer": "American Express",
@@ -3410,6 +3342,21 @@
         }
       }
     },
+    "perks_and_protections": {
+      "lounge_access": [],
+      "elite_status": [],
+      "travel_insurances": [
+        "Secondary Auto Rental CDW",
+        "Trip Cancellation/Interruption",
+        "Baggage Delay/Loss",
+        "Travel Accident Insurance"
+      ],
+      "consumer_protections": [
+        "Purchase Protection",
+        "Extended Warranty"
+      ]
+    },
+    "higher_tier_benefits": [],
     "developer_notes": "2% rewards capped at $50,000 spend per calendar year; over-limit spending via Expanded Buying Power must be paid in full monthly",
     "points_transfer_eligibility": "none"
   },
@@ -3879,7 +3826,30 @@
         }
       }
     },
-    "developer_notes": "Pay-in-full charge card with no preset spending limit",
+    "perks_and_protections": {
+      "lounge_access": [
+        "Capital One Lounges (2 complimentary guests)",
+        "Capital One Landings",
+        "Priority Pass Select (2 complimentary guests)",
+        "Plaza Premium lounges"
+      ],
+      "elite_status": [
+        "Hertz President's Circle"
+      ],
+      "travel_insurances": [
+        "Secondary Auto Rental CDW",
+        "Trip Cancellation/Interruption",
+        "Trip Delay",
+        "Baggage Delay/Loss",
+        "Travel Accident Insurance"
+      ],
+      "consumer_protections": [
+        "Purchase Protection",
+        "Extended Warranty"
+      ]
+    },
+    "higher_tier_benefits": [],
+    "developer_notes": "2026: $395 fee; pay-in-full charge card with no preset spending limit",
     "transfer_partners": [
       {
         "name": "Aeromexico Rewards",
@@ -4221,7 +4191,33 @@
         }
       }
     },
-    "developer_notes": "6x Dining restricted to Citi Nights window; Hotel credit requires 2-night minimum booking; $75 fee per authorized user",
+    "perks_and_protections": {
+      "lounge_access": [
+        "Priority Pass Select (unlimited visits)",
+        "Citi lounge access",
+        "4 American Airlines Admirals Club passes annually"
+      ],
+      "elite_status": [
+        "Hilton Honors Gold",
+        "National Emerald Club Executive",
+        "Avis Preferred"
+      ],
+      "travel_insurances": [
+        "Primary Auto Rental CDW",
+        "Trip Cancellation/Interruption",
+        "Trip Delay",
+        "Baggage Delay/Loss",
+        "Travel Accident Insurance"
+      ],
+      "consumer_protections": [
+        "Purchase Protection",
+        "Extended Warranty",
+        "Cell Phone Protection",
+        "Citi Price Rewind"
+      ]
+    },
+    "higher_tier_benefits": [],
+    "developer_notes": "2026: $595 fee; 4 AA Admirals Club passes annually; 6x Dining restricted to Citi Nights window; Hotel credit requires 2-night minimum; $75 AU fee",
     "transfer_partners": [
       {
         "name": "Aeromexico Rewards",
@@ -4365,6 +4361,22 @@
         }
       }
     },
+    "perks_and_protections": {
+      "lounge_access": [],
+      "elite_status": [],
+      "travel_insurances": [
+        "Secondary Auto Rental CDW",
+        "Trip Cancellation/Interruption",
+        "Trip Delay",
+        "Baggage Delay/Loss",
+        "Travel Accident Insurance"
+      ],
+      "consumer_protections": [
+        "Purchase Protection",
+        "Extended Warranty"
+      ]
+    },
+    "higher_tier_benefits": [],
     "developer_notes": "Bonus restricted if received for this card in last 48 months",
     "transfer_partners": [
       {
@@ -4700,133 +4712,6 @@
     "transfer_eligibility_note": "When combined with Citi Strata Premier or Strata Elite"
   },
   {
-    "id": "citi-rewards-plus",
-    "name": "Citi Rewards+® Card",
-    "issuer": "Citi",
-    "network": "Mastercard",
-    "annual_fee": 0,
-    "reward_currency": "Citi ThankYou Points",
-    "synergy_ecosystem": "Citi ThankYou",
-    "ftf_percentage": 3,
-    "ui_elements": {
-      "image_url": "https://www.citi.com/content/dam/citi/credit-cards/card-art/citi-rewards-plus.png",
-      "apply_url": "https://www.citi.com/credit-cards/citi-rewards-plus-credit-card"
-    },
-    "valuation": {
-      "cpp_nerdwallet": 1.6,
-      "cpp_pointsguy": 1.9,
-      "cpp_assumed": 1.66,
-      "cpp_bankrate": 1.6,
-      "cpp_creditkarma": 1.55
-    },
-    "welcome_offer": {
-      "points": 20000,
-      "spend_requirement": 1500,
-      "timeframe_months": 3
-    },
-    "anniversary_bonus": null,
-    "statement_credits": [],
-    "multipliers": {
-      "base_rate": 1,
-      "categories": {
-        "gas_ev_transit": {
-          "rate": 2,
-          "cap_amount": 6000,
-          "cap_period": "annual"
-        },
-        "travel_portal": {
-          "rate": 5,
-          "requires_portal": true
-        }
-      }
-    },
-    "developer_notes": "Applications closed April 2025; Round up and 10% back features for legacy cardholders expire July 19, 2026; $6,000 cap is a combined limit for 2x categories; ThankYou transfer partner access and best transfer ratios generally require pooling points with an eligible Citi Strata Premier or Citi Strata Elite account.",
-    "transfer_partners": [
-      {
-        "name": "Aeromexico Rewards",
-        "ratio": "1:1"
-      },
-      {
-        "name": "Air France-KLM Flying Blue",
-        "ratio": "1:1"
-      },
-      {
-        "name": "American Airlines AAdvantage",
-        "ratio": "1:1"
-      },
-      {
-        "name": "Avianca LifeMiles",
-        "ratio": "1:1"
-      },
-      {
-        "name": "Cathay Pacific Asia Miles",
-        "ratio": "1:1"
-      },
-      {
-        "name": "Emirates Skywards",
-        "ratio": "1:1"
-      },
-      {
-        "name": "Etihad Guest",
-        "ratio": "1:1"
-      },
-      {
-        "name": "EVA Air Infinity MileageLands",
-        "ratio": "1:1"
-      },
-      {
-        "name": "JetBlue TrueBlue",
-        "ratio": "1:1"
-      },
-      {
-        "name": "Qantas Frequent Flyer",
-        "ratio": "1:1"
-      },
-      {
-        "name": "Qatar Airways Privilege Club",
-        "ratio": "1:1"
-      },
-      {
-        "name": "Singapore Airlines KrisFlyer",
-        "ratio": "1:1"
-      },
-      {
-        "name": "Thai Airways Royal Orchid Plus",
-        "ratio": "1:1"
-      },
-      {
-        "name": "Turkish Airlines Miles&Smiles",
-        "ratio": "1:1"
-      },
-      {
-        "name": "Virgin Atlantic Flying Club",
-        "ratio": "1:1"
-      },
-      {
-        "name": "Accor Live Limitless",
-        "ratio": "2:1"
-      },
-      {
-        "name": "Choice Privileges",
-        "ratio": "1:2"
-      },
-      {
-        "name": "Leaders Club",
-        "ratio": "5:1"
-      },
-      {
-        "name": "Preferred Hotels & Resorts (I Prefer)",
-        "ratio": "4:1"
-      },
-      {
-        "name": "Wyndham Rewards",
-        "ratio": "1:1"
-      }
-    ],
-    "points_transfer_eligibility": "pooling_only",
-    "transfer_eligibility_note": "When combined with Citi Strata Premier or Strata Elite"
-  },
-  {
     "id": "citi-simplicity-card",
     "name": "Citi Simplicity® Card",
     "issuer": "Citi",
@@ -4973,6 +4858,22 @@
         }
       }
     },
+    "perks_and_protections": {
+      "lounge_access": [],
+      "elite_status": [],
+      "travel_insurances": [
+        "Secondary Auto Rental CDW",
+        "Trip Cancellation/Interruption",
+        "Baggage Delay/Loss",
+        "Travel Accident Insurance"
+      ],
+      "consumer_protections": [
+        "Purchase Protection",
+        "Extended Warranty",
+        "Cell Phone Protection"
+      ]
+    },
+    "higher_tier_benefits": [],
     "developer_notes": "5x and 4x multipliers require direct bookings with the hotel or airline; $50 airline credit requires a single purchase of at least $50",
     "transfer_partners": [
       {
@@ -5329,7 +5230,32 @@
         }
       }
     },
-    "developer_notes": "Requires high credit score and often existing relationship for best approval odds; Transfer partner redemptions generally require moving rewards into an eligible Wells Fargo transfer-enabled card account (for example, Autograph Journey).",
+    "perks_and_protections": {
+      "lounge_access": [
+        "Priority Pass Select (unlimited visits)",
+        "Wells Fargo Lounge by Minute Suites"
+      ],
+      "elite_status": [
+        "Hilton Honors Gold",
+        "National Emerald Club Executive",
+        "Avis Preferred"
+      ],
+      "travel_insurances": [
+        "Primary Auto Rental CDW",
+        "Trip Cancellation/Interruption",
+        "Trip Delay",
+        "Baggage Delay/Loss",
+        "Travel Accident Insurance"
+      ],
+      "consumer_protections": [
+        "Purchase Protection",
+        "Extended Warranty",
+        "Cell Phone Protection",
+        "Return Protection"
+      ]
+    },
+    "higher_tier_benefits": [],
+    "developer_notes": "2026: $550 fee; requires high credit score and often existing relationship; Transfer partner redemptions require moving rewards into eligible transfer-enabled card (e.g. Autograph Journey).",
     "transfer_partners": [
       {
         "name": "Aer Lingus AerClub",
@@ -5423,7 +5349,36 @@
         }
       }
     },
-    "developer_notes": "25-75% point bonus for Preferred Rewards members; Primary Rental Car CDW; No transfer partners",
+    "perks_and_protections": {
+      "lounge_access": [
+        "Priority Pass Select (unlimited visits)",
+        "BoA Airport Lounges"
+      ],
+      "elite_status": [
+        "National Emerald Club Executive",
+        "Avis Preferred"
+      ],
+      "travel_insurances": [
+        "Secondary Auto Rental CDW",
+        "Trip Cancellation/Interruption",
+        "Trip Delay",
+        "Baggage Delay/Loss",
+        "Travel Accident Insurance"
+      ],
+      "consumer_protections": [
+        "Purchase Protection",
+        "Extended Warranty",
+        "Return Protection"
+      ]
+    },
+    "higher_tier_benefits": [
+      {
+        "benefit_name": "Enhanced Premium Rewards Earnings",
+        "description": "25-75% rewards bonus based on Preferred Rewards tier",
+        "unlock_requirement": "Requires Preferred Rewards program tier (Platinum, Platinum Honors, or Diamond)"
+      }
+    ],
+    "developer_notes": "2026: $550 fee; 25-75% point bonus for Preferred Rewards members; Primary Rental Car CDW; No transfer partners",
     "points_transfer_eligibility": "none"
   },
   {
@@ -5616,61 +5571,6 @@
     "points_transfer_eligibility": "none"
   },
   {
-    "id": "us-bank-altitude-reserve-visa-infinite",
-    "name": "U.S. Bank Altitude® Reserve Visa Infinite®",
-    "issuer": "U.S. Bank",
-    "network": "Visa",
-    "annual_fee": 400,
-    "reward_currency": "Altitude Reserve Points",
-    "synergy_ecosystem": "U.S. Bank Altitude",
-    "ftf_percentage": 0,
-    "ui_elements": {
-      "image_url": "https://www.usbank.com/dam/images/credit-cards/altitude-reserve-card.png",
-      "apply_url": "https://www.usbank.com/credit-cards/altitude-reserve-visa-infinite-credit-card.html"
-    },
-    "valuation": {
-      "cpp_assumed": 1.5,
-      "cpp_bankrate": 1.5
-    },
-    "welcome_offer": {
-      "points": 50000,
-      "spend_requirement": 45000,
-      "timeframe_months": 3
-    },
-    "anniversary_bonus": null,
-    "statement_credits": [
-      {
-        "name": "Travel and Dining",
-        "amount": 325,
-        "frequency": "yearly",
-        "deducts_from_eligible_spend": true
-      },
-      {
-        "name": "TSA PreCheck/Global Entry",
-        "amount": 100,
-        "frequency": "every_4_years",
-        "deducts_from_eligible_spend": true
-      }
-    ],
-    "multipliers": {
-      "base_rate": 1,
-      "categories": {
-        "3x_mobile_wallet": {
-          "rate": 3
-        },
-        "travel_portal_hotels_cars": {
-          "rate": 5,
-          "requires_portal": true
-        },
-        "travel": {
-          "rate": 3
-        }
-      }
-    },
-    "developer_notes": "Currently not accepting new applications; points are worth 1.5 cents toward travel redemptions",
-    "points_transfer_eligibility": "none"
-  },
-  {
     "id": "us-bank-altitude-connect-visa-signature",
     "name": "U.S. Bank Altitude® Connect Visa Signature®",
     "issuer": "U.S. Bank",
@@ -5713,6 +5613,23 @@
         }
       }
     },
+    "perks_and_protections": {
+      "lounge_access": [],
+      "elite_status": [],
+      "travel_insurances": [
+        "Secondary Auto Rental CDW",
+        "Trip Cancellation/Interruption",
+        "Trip Delay",
+        "Baggage Delay/Loss",
+        "Travel Accident Insurance"
+      ],
+      "consumer_protections": [
+        "Purchase Protection",
+        "Extended Warranty",
+        "Cell Phone Protection"
+      ]
+    },
+    "higher_tier_benefits": [],
     "developer_notes": "Points are fixed value; No transfer partners; 4x category capped at $1,000 spend per quarter",
     "points_transfer_eligibility": "none"
   },
@@ -5909,6 +5826,13 @@
         }
       }
     },
+    "perks_and_protections": {
+      "lounge_access": [],
+      "elite_status": [],
+      "travel_insurances": [],
+      "consumer_protections": []
+    },
+    "higher_tier_benefits": [],
     "developer_notes": "Must activate categories quarterly; Cashback Match only for first year",
     "points_transfer_eligibility": "none"
   },
@@ -5939,6 +5863,13 @@
       "base_rate": 1.5,
       "categories": {}
     },
+    "perks_and_protections": {
+      "lounge_access": [],
+      "elite_status": [],
+      "travel_insurances": [],
+      "consumer_protections": []
+    },
+    "higher_tier_benefits": [],
     "developer_notes": "First year miles match replaces traditional signup bonus",
     "points_transfer_eligibility": "none"
   },
@@ -5978,6 +5909,13 @@
         }
       }
     },
+    "perks_and_protections": {
+      "lounge_access": [],
+      "elite_status": [],
+      "travel_insurances": [],
+      "consumer_protections": []
+    },
+    "higher_tier_benefits": [],
     "developer_notes": "2% rewards cap resets quarterly; Cashback Match only for first year",
     "points_transfer_eligibility": "none"
   },
@@ -6020,6 +5958,13 @@
         }
       }
     },
+    "perks_and_protections": {
+      "lounge_access": [],
+      "elite_status": [],
+      "travel_insurances": [],
+      "consumer_protections": []
+    },
+    "higher_tier_benefits": [],
     "developer_notes": "Activation required for 5% categories; Must provide proof of enrollment; First late fee waived",
     "points_transfer_eligibility": "none"
   },
@@ -6059,6 +6004,13 @@
         }
       }
     },
+    "perks_and_protections": {
+      "lounge_access": [],
+      "elite_status": [],
+      "travel_insurances": [],
+      "consumer_protections": []
+    },
+    "higher_tier_benefits": [],
     "developer_notes": "Automatic account reviews starting at 7 months for possible upgrade to unsecured card; security deposit defines credit limit",
     "points_transfer_eligibility": "none"
   },
@@ -6096,6 +6048,13 @@
         }
       }
     },
+    "perks_and_protections": {
+      "lounge_access": [],
+      "elite_status": [],
+      "travel_insurances": [],
+      "consumer_protections": []
+    },
+    "higher_tier_benefits": [],
     "developer_notes": "0% APR financing for Apple products, no fees of any kind, physical card transactions limited to 1%",
     "points_transfer_eligibility": "none"
   },
@@ -6140,6 +6099,21 @@
         }
       }
     },
+    "perks_and_protections": {
+      "lounge_access": [],
+      "elite_status": [],
+      "travel_insurances": [
+        "Secondary Auto Rental CDW",
+        "Trip Cancellation/Interruption",
+        "Baggage Delay/Loss",
+        "Travel Accident Insurance"
+      ],
+      "consumer_protections": [
+        "Purchase Protection",
+        "Extended Warranty"
+      ]
+    },
+    "higher_tier_benefits": [],
     "developer_notes": "Transitioned from Wells Fargo to Column N.A. in Feb 2026; earnings require meeting spending thresholds or redeeming Bilt Cash; points capped at 100k/year on housing",
     "transfer_partners": [
       {
@@ -6297,6 +6271,24 @@
         }
       }
     },
+    "perks_and_protections": {
+      "lounge_access": [
+        "Priority Pass Select (unlimited visits)",
+        "Mastercard World Elite lounge access"
+      ],
+      "elite_status": [],
+      "travel_insurances": [
+        "Auto Rental CDW",
+        "Trip Cancellation/Interruption",
+        "Baggage Delay/Loss",
+        "Travel Accident Insurance"
+      ],
+      "consumer_protections": [
+        "Purchase Protection",
+        "Extended Warranty"
+      ]
+    },
+    "higher_tier_benefits": [],
     "developer_notes": "Earns 4% Bilt Cash on all spend; Bilt Cash expires annually over $100; 1,000 bonus points monthly cap on Rent Day",
     "transfer_partners": [
       {
@@ -6441,6 +6433,34 @@
         }
       }
     },
+    "perks_and_protections": {
+      "lounge_access": [
+        "Priority Pass Select (unlimited visits)",
+        "BoA Airport Lounges"
+      ],
+      "elite_status": [
+        "National Emerald Club Executive",
+        "Avis Preferred"
+      ],
+      "travel_insurances": [
+        "Secondary Auto Rental CDW",
+        "Trip Cancellation/Interruption",
+        "Trip Delay",
+        "Baggage Delay/Loss",
+        "Travel Accident Insurance"
+      ],
+      "consumer_protections": [
+        "Purchase Protection",
+        "Extended Warranty"
+      ]
+    },
+    "higher_tier_benefits": [
+      {
+        "benefit_name": "Global Companion Award",
+        "description": "25,000-point Global Companion Award and 10,000 status points boost",
+        "unlock_requirement": "Annual account renewal"
+      }
+    ],
     "developer_notes": "Bank of America 2/3/4 rule applies, 3/12 rule for non-customers, 10% relationship bonus for BofA account holders",
     "points_transfer_eligibility": "none"
   },
@@ -6867,6 +6887,23 @@
         }
       }
     },
+    "perks_and_protections": {
+      "lounge_access": [
+        "Priority Pass Select (4 complimentary visits per year)"
+      ],
+      "elite_status": [],
+      "travel_insurances": [
+        "Secondary Auto Rental CDW",
+        "Trip Cancellation/Interruption",
+        "Baggage Delay/Loss",
+        "Travel Accident Insurance"
+      ],
+      "consumer_protections": [
+        "Purchase Protection",
+        "Extended Warranty"
+      ]
+    },
+    "higher_tier_benefits": [],
     "developer_notes": "Annual fee waived for Wealth Clients; 10% to 50% Loyalty Cash Bonus on redemptions into Truist deposit accounts",
     "points_transfer_eligibility": "none"
   },
@@ -7024,6 +7061,23 @@
         }
       }
     },
+    "perks_and_protections": {
+      "lounge_access": [
+        "Priority Pass Select (unlimited visits)"
+      ],
+      "elite_status": [],
+      "travel_insurances": [
+        "Secondary Auto Rental CDW",
+        "Trip Cancellation/Interruption",
+        "Baggage Delay/Loss",
+        "Travel Accident Insurance"
+      ],
+      "consumer_protections": [
+        "Purchase Protection",
+        "Extended Warranty"
+      ]
+    },
+    "higher_tier_benefits": [],
     "developer_notes": "Must be a Navy Federal member to apply; Points value is fixed at 1 cent each",
     "points_transfer_eligibility": "none"
   },
@@ -7075,12 +7129,7 @@
     "ftf_percentage": 0,
     "ui_elements": {
       "image_url": "https://www.penfed.org/content/dam/penfed/en/products/credit-cards/pathfinder-visa-signature-card-01.png",
-      "apply_url": "https://www.penfed.org/credit-cards/pathfinder-rewards-visa",
-      "benefits_list": [
-        "Priority Pass Membership",
-        "Global Entry/TSA PreCheck Credit",
-        "$100 Air Ancillary Credit"
-      ]
+      "apply_url": "https://www.penfed.org/credit-cards/pathfinder-rewards-visa"
     },
     "developer_notes": "https://www.penfed.org/credit-cards/pathfinder-rewards-visa",
     "valuation": {
@@ -7118,6 +7167,23 @@
         }
       }
     },
+    "perks_and_protections": {
+      "lounge_access": [
+        "Priority Pass Membership"
+      ],
+      "elite_status": [],
+      "travel_insurances": [
+        "Secondary Auto Rental CDW",
+        "Trip Cancellation/Interruption",
+        "Baggage Delay/Loss",
+        "Travel Accident Insurance"
+      ],
+      "consumer_protections": [
+        "Purchase Protection",
+        "Extended Warranty"
+      ]
+    },
+    "higher_tier_benefits": [],
     "points_transfer_eligibility": "none"
   },
   {
@@ -7150,6 +7216,13 @@
       "base_rate": 1.5,
       "categories": {}
     },
+    "perks_and_protections": {
+      "lounge_access": [],
+      "elite_status": [],
+      "travel_insurances": [],
+      "consumer_protections": []
+    },
+    "higher_tier_benefits": [],
     "developer_notes": "Must be a PenFed member to apply; Honors Advantage requires military service or a PenFed checking account with a $500 balance/direct deposit",
     "points_transfer_eligibility": "none"
   },
@@ -7223,42 +7296,6 @@
       }
     },
     "developer_notes": "Points forfeited if account closed for non-use; Targeted offer only",
-    "points_transfer_eligibility": "none"
-  },
-  {
-    "id": "barclays-arrival-premier",
-    "name": "Barclays Arrival® Premier",
-    "issuer": "Barclays",
-    "network": "Mastercard",
-    "annual_fee": 150,
-    "reward_currency": "Miles",
-    "ftf_percentage": 0,
-    "ui_elements": {
-      "image_url": "https://mma.prnewswire.com/media/662298/Barclays_Arrival_Premier_World_Elite_Mastercard.jpg",
-      "apply_url": "https://cards.barclaycardus.com/banking/cards/arrival-premier-world-elite-mastercard/"
-    },
-    "valuation": {
-      "cpp_assumed": 0.5
-    },
-    "welcome_offer": {
-      "points": 0,
-      "spend_requirement": 0,
-      "timeframe_months": 0
-    },
-    "anniversary_bonus": "25,000 miles",
-    "statement_credits": [
-      {
-        "name": "Global Entry or TSA PreCheck",
-        "amount": 100,
-        "frequency": "every_5_years",
-        "deducts_from_eligible_spend": true
-      }
-    ],
-    "multipliers": {
-      "base_rate": 1,
-      "categories": {}
-    },
-    "developer_notes": "No longer available to new applicants; 10,000 mile minimum for travel redemptions",
     "points_transfer_eligibility": "none"
   },
   {
@@ -7361,6 +7398,23 @@
         }
       }
     },
+    "perks_and_protections": {
+      "lounge_access": [
+        "Priority Pass Select (unlimited visits)"
+      ],
+      "elite_status": [],
+      "travel_insurances": [
+        "Secondary Auto Rental CDW",
+        "Trip Cancellation/Interruption",
+        "Baggage Delay/Loss",
+        "Travel Accident Insurance"
+      ],
+      "consumer_protections": [
+        "Purchase Protection",
+        "Extended Warranty"
+      ]
+    },
+    "higher_tier_benefits": [],
     "developer_notes": "Rewards Multiplier program allows earning up to 1% extra based on deposit account balances",
     "points_transfer_eligibility": "none"
   },

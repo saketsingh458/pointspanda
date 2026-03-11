@@ -1,39 +1,14 @@
 "use client"
 
-import { useState, type ComponentType } from "react"
+import { useState } from "react"
 import Image from "next/image"
-import {
-  Building2,
-  CreditCard,
-  Fuel,
-  GitCompare,
-  Pill,
-  Plane,
-  ShoppingCart,
-  Tv,
-  UtensilsCrossed,
-  X,
-} from "lucide-react"
+import { GitCompare, X } from "lucide-react"
 import type { Card as CardType } from "@/lib/types"
 import { CATEGORY_LABELS } from "@/lib/cards"
 import { SPEND_CATEGORIES, type SpendCategoryId } from "@/lib/types"
+import { CARD_ART_PLACEHOLDER, CATEGORY_ICONS, isValidImageSrc } from "@/lib/card-ui"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
-
-const CARD_ART_PLACEHOLDER = "/cards/placeholder.svg"
-
-/** Only use Image for valid URLs or relative paths; data may contain "N/A" or other non-URLs. */
-function isValidImageSrc(src: string | undefined): boolean {
-  if (!src || typeof src !== "string") return false
-  const t = src.trim()
-  if (t.startsWith("/")) return true
-  try {
-    new URL(t)
-    return t.startsWith("http://") || t.startsWith("https://")
-  } catch {
-    return false
-  }
-}
 
 type Props = {
   card: CardType
@@ -92,17 +67,6 @@ export function WalletCardItem({
   const imageUrl = isValidImageSrc(card.imageUrl) ? card.imageUrl! : CARD_ART_PLACEHOLDER
   const [imgError, setImgError] = useState(false)
   const usePlaceholder = imgError || !isValidImageSrc(card.imageUrl)
-
-  const categoryIcons: Record<SpendCategoryId, ComponentType<{ className?: string }>> = {
-    travel: Plane,
-    dining: UtensilsCrossed,
-    groceries: ShoppingCart,
-    gasEv: Fuel,
-    streamingEntertainment: Tv,
-    drugstores: Pill,
-    rentMortgage: Building2,
-    other: CreditCard,
-  }
 
   return (
     <div
@@ -225,7 +189,7 @@ export function WalletCardItem({
           </p>
           <ul className="grid grid-cols-2 gap-2 sm:grid-cols-4">
             {allEarns.map(({ id, label, multiplier, cap }) => {
-              const Icon = categoryIcons[id]
+              const Icon = CATEGORY_ICONS[id]
               return (
                 <li
                   key={id}

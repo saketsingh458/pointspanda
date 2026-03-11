@@ -119,6 +119,17 @@ export interface CardRaw {
     base_rate: number
     categories?: Record<string, MultiplierCategoryRaw>
   }
+  perks_and_protections?: {
+    lounge_access: (string | object)[]
+    elite_status: string[]
+    travel_insurances: string[]
+    consumer_protections: string[]
+  }
+  higher_tier_benefits?: Array<{
+    benefit_name: string
+    description: string
+    unlock_requirement: string
+  }>
 }
 
 export interface Card {
@@ -160,10 +171,6 @@ export interface Card {
   pointsValueCreditKarmaCents?: number
   /** Assumed valuation for strategy ranking (e.g. 125 = 1.25 cpp). */
   pointsValueAssumedCents?: number
-  /** @deprecated Use pointsValueAssumedCents. Legacy baseline cents per point. */
-  pointsValueBaseCents?: number
-  /** @deprecated Use pointsValueNerdWalletCents/pointsValuePointsGuyCents. Legacy high-value cpp. */
-  pointsValueMaxCents?: number
   /** Note for points valuation (e.g. "Max with Chase Travel redemptions"). */
   pointsValueNote?: string
   /** Reward currency label (e.g. "Ultimate Rewards"). */
@@ -190,6 +197,19 @@ export interface Card {
   categoryCaps?: Partial<Record<SpendCategoryId, number>>
   /** Base earn rate (e.g. 1x); "Other" category always uses this. */
   baseRate?: number
+  /** Lounge access, elite status, travel insurances, and consumer protections. */
+  perksAndProtections?: {
+    loungeAccess: string[]
+    eliteStatus: string[]
+    travelInsurances: string[]
+    consumerProtections: string[]
+  }
+  /** Benefits unlocked by spend threshold or account tier. */
+  higherTierBenefits?: Array<{
+    benefitName: string
+    description: string
+    unlockRequirement: string
+  }>
 }
 
 /** Statement credit (camelCase) for UI. */
@@ -270,6 +290,49 @@ export interface EcosystemStrategyOption {
   summaryReason: string
 }
 
+/** Aggregated statement credit (best per credit type across cards). */
+export interface AggregatedStatementCredit {
+  name: string
+  annualAmount: number
+  frequency: StatementCreditFrequency
+  contributions: Array<{
+    cardId: string
+    cardName: string
+    annualAmount: number
+  }>
+  cardIds: string[]
+  cardNames: string[]
+  bestCardId: string
+  bestCardName: string
+}
+
+/** Additional statement credit gained with new strategy (new or higher). */
+export interface AdditionalStatementCredit {
+  name: string
+  annualAmount: number
+  frequency: StatementCreditFrequency
+  contributions: Array<{
+    cardId: string
+    cardName: string
+    annualAmount: number
+  }>
+  cardIds: string[]
+  cardNames: string[]
+  bestCardId: string
+  bestCardName: string
+  type: "new" | "higher"
+  previousAmount?: number
+}
+
+/** Benefit attribution for current/suggested portfolios. */
+export interface AttributedBenefit {
+  label: string
+  cardIds: string[]
+  cardNames: string[]
+  primaryCardId: string
+  primaryCardName: string
+}
+
 /** Full computed strategy result for the strategy page. */
 export interface StrategyResult {
   viewId: StrategyViewId
@@ -277,7 +340,23 @@ export interface StrategyResult {
   currentAnnualPoints: number
   currentAnnualDollars: number
   currentAnnualFee: number
+  /** Real annual fee paid for current wallet, regardless of fee mode. */
+  currentAnnualFeeActual: number
+  /** Real annual fee paid for scenario wallet, regardless of fee mode. */
+  scenarioAnnualFeeActual: number
   currentBenefitLabels: string[]
+  /** Full current benefit set with card attribution. */
+  currentBenefitItems: AttributedBenefit[]
+  /** Full suggested-strategy benefit set with card attribution. */
+  scenarioBenefitItems: AttributedBenefit[]
+  /** Benefit labels newly gained in the suggested strategy. */
+  additionalBenefitItems: AttributedBenefit[]
+  /** Statement credits (best per type) from current wallet. */
+  currentStatementCredits: AggregatedStatementCredit[]
+  /** Statement credits (best per type) from scenario portfolio. */
+  scenarioStatementCredits: AggregatedStatementCredit[]
+  /** New or higher statement credits with the recommended strategy. */
+  additionalStatementCredits: AdditionalStatementCredit[]
   maxPotentialAnnualPoints: number
   maxPotentialAnnualDollars: number
   /** Incremental value attributable to adding the single recommended card. */

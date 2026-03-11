@@ -206,6 +206,32 @@ function rawToCard(raw: CardRaw): Card {
   const cppCreditKarma = valuation?.cpp_creditkarma
   const cppAssumed = valuation?.cpp_assumed
 
+  const rawPerks = raw.perks_and_protections
+  const perksAndProtections =
+    rawPerks &&
+    (rawPerks.lounge_access.length > 0 ||
+      rawPerks.elite_status.length > 0 ||
+      rawPerks.travel_insurances.length > 0 ||
+      rawPerks.consumer_protections.length > 0)
+      ? {
+          loungeAccess: rawPerks.lounge_access.map((x) =>
+            typeof x === "string" ? x : JSON.stringify(x),
+          ),
+          eliteStatus: rawPerks.elite_status,
+          travelInsurances: rawPerks.travel_insurances,
+          consumerProtections: rawPerks.consumer_protections,
+        }
+      : undefined
+
+  const higherTierBenefits =
+    raw.higher_tier_benefits && raw.higher_tier_benefits.length > 0
+      ? raw.higher_tier_benefits.map((b) => ({
+          benefitName: b.benefit_name,
+          description: b.description,
+          unlockRequirement: b.unlock_requirement,
+        }))
+      : undefined
+
   return {
     id: raw.id,
     name: raw.name,
@@ -253,6 +279,10 @@ function rawToCard(raw: CardRaw): Card {
     ...(raw.synergy_ecosystem && { synergyEcosystem: raw.synergy_ecosystem }),
     ...(raw.developer_notes && { developerNotes: raw.developer_notes }),
     ...(raw.reward_currency && !raw.developer_notes && { pointsValueNote: raw.reward_currency }),
+    ...(perksAndProtections && { perksAndProtections }),
+    ...(higherTierBenefits && higherTierBenefits.length > 0 && {
+      higherTierBenefits,
+    }),
   }
 }
 
@@ -306,10 +336,7 @@ const DEFAULT_CPP_CENTS = 125
  * Uses assumed only; 0 is normalized to 1.00 cpp (100 cents).
  */
 export function getCardRankingCppCents(card: Card): number {
-  const raw =
-    card.pointsValueAssumedCents ??
-    card.pointsValueBaseCents ??
-    DEFAULT_CPP_CENTS
+  const raw = card.pointsValueAssumedCents ?? DEFAULT_CPP_CENTS
   return raw === 0 ? 100 : raw
 }
 

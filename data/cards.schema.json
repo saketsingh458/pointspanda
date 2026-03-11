@@ -101,6 +101,47 @@
         "enum": ["direct", "pooling_only", "none"]
       },
       "transfer_eligibility_note": { "type": "string" },
+      "perks_and_protections": {
+        "type": "object",
+        "required": ["lounge_access", "elite_status", "travel_insurances", "consumer_protections"],
+        "properties": {
+          "lounge_access": {
+            "type": "array",
+            "items": {
+              "oneOf": [
+                { "type": "string" },
+                { "type": "object" }
+              ]
+            }
+          },
+          "elite_status": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "travel_insurances": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "consumer_protections": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        },
+        "additionalProperties": false
+      },
+      "higher_tier_benefits": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": ["benefit_name", "description", "unlock_requirement"],
+          "properties": {
+            "benefit_name": { "type": "string" },
+            "description": { "type": "string" },
+            "unlock_requirement": { "type": "string" }
+          },
+          "additionalProperties": false
+        }
+      },
       "multipliers": {
         "type": "object",
         "required": ["base_rate"],

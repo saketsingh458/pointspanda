@@ -6,6 +6,7 @@ import Link from "next/link"
 import { ArrowUpRight, ExternalLink } from "lucide-react"
 import type { Card } from "@/lib/types"
 import { buildCompareSections } from "@/lib/card-compare"
+import { CARD_ART_PLACEHOLDER, isValidImageSrc } from "@/lib/card-ui"
 import {
   Dialog,
   DialogClose,
@@ -17,27 +18,12 @@ import {
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
-const CARD_ART_PLACEHOLDER = "/cards/placeholder.svg"
-
 type Props = {
   cards: Card[]
   open: boolean
   onOpenChange: (open: boolean) => void
   onRemoveCard: (cardId: string) => void
   onOpenCardDetails: (card: Card) => void
-}
-
-function isValidImageSrc(src: string | undefined): boolean {
-  if (!src || typeof src !== "string") return false
-  const trimmed = src.trim()
-  if (trimmed.startsWith("/")) return true
-
-  try {
-    new URL(trimmed)
-    return trimmed.startsWith("http://") || trimmed.startsWith("https://")
-  } catch {
-    return false
-  }
 }
 
 function CompareCardHeader({
@@ -104,7 +90,7 @@ function CompareCardHeader({
         {card.applyUrl ? (
           <Button asChild className="w-full rounded-xl">
             <Link href={card.applyUrl} target="_blank" rel="noopener noreferrer">
-              Learn more
+              Apply on issuer site
               <ArrowUpRight className="size-4" aria-hidden />
             </Link>
           </Button>
