@@ -197,49 +197,49 @@ export function WalletCardItem({
         </div>
       </div>
 
-      {/* Card details inspired by compact product-card layouts */}
-      <div className="flex flex-col gap-6 bg-muted/35 p-5">
-        <div className="flex items-start justify-between gap-3">
-          <div>
-            <h3 className="text-2xl font-bold leading-tight tracking-tight text-foreground md:text-3xl">
+      {/* Card details - compact on mobile, expanded on desktop */}
+      <div className="flex flex-col gap-4 bg-muted/35 p-4 md:gap-6 md:p-5">
+        <div className="flex items-start justify-between gap-2 md:gap-3">
+          <div className="min-w-0 flex-1">
+            <h3 className="truncate text-lg font-bold leading-tight tracking-tight text-foreground md:text-2xl lg:text-3xl">
               {card.name}
             </h3>
             {card.issuer && (
-              <p className="mt-1 text-sm text-muted-foreground">{card.issuer}</p>
+              <p className="mt-0.5 truncate text-xs text-muted-foreground md:mt-1 md:text-sm">{card.issuer}</p>
             )}
           </div>
           <div className="shrink-0 text-right">
-            <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+            <p className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground md:text-xs">
               Annual Fee
             </p>
-            <p className="text-3xl font-bold leading-none tabular-nums text-foreground md:text-4xl">
-              {card.annualFee === 0 ? "$0" : `$${card.annualFee}/yr`}
+            <p className="text-xl font-bold leading-none tabular-nums text-foreground md:text-3xl lg:text-4xl">
+              {card.annualFee === 0 ? "$0" : `$${card.annualFee}`}
             </p>
           </div>
         </div>
 
-        {/* Icon-based earning rates */}
+        {/* Icon-based earning rates - compact grid on mobile */}
         <div>
-          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+          <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground md:mb-3 md:text-xs">
             Earning Rates
           </p>
-          <ul className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+          <ul className="grid grid-cols-4 gap-1.5 md:gap-2">
             {allEarns.map(({ id, label, multiplier, cap }) => {
               const Icon = categoryIcons[id]
               return (
                 <li
                   key={id}
-                  className="rounded-2xl bg-background/85 px-2 py-3 text-center shadow-sm"
+                  className="rounded-xl bg-background/85 px-1.5 py-2 text-center shadow-sm md:rounded-2xl md:px-2 md:py-3"
                 >
-                  <div className="mx-auto mb-2 flex size-9 items-center justify-center rounded-full bg-emerald-100 text-emerald-600 dark:bg-emerald-900/40 dark:text-emerald-300">
-                    <Icon className="size-4" />
+                  <div className="mx-auto mb-1 flex size-6 items-center justify-center rounded-full bg-emerald-100 text-emerald-600 dark:bg-emerald-900/40 dark:text-emerald-300 md:mb-2 md:size-9">
+                    <Icon className="size-3 md:size-4" />
                   </div>
-                  <p className="text-[2rem] font-bold leading-none tabular-nums text-foreground">
+                  <p className="text-lg font-bold leading-none tabular-nums text-foreground md:text-[2rem]">
                     {multiplier}x
                   </p>
-                  <p className="mt-1 text-xs font-medium text-muted-foreground">{label}</p>
+                  <p className="mt-0.5 text-[9px] font-medium text-muted-foreground md:mt-1 md:text-xs">{label}</p>
                   {cap != null && (
-                    <p className="mt-0.5 text-[10px] leading-tight text-muted-foreground">
+                    <p className="mt-0.5 hidden text-[10px] leading-tight text-muted-foreground md:block">
                       ${cap.toLocaleString()}/mo cap
                     </p>
                   )}
@@ -249,53 +249,55 @@ export function WalletCardItem({
           </ul>
         </div>
 
-        {/* Credits as compact rounded pills */}
+        {/* Credits as compact rounded pills - hidden on mobile if too many */}
         {statementCredits.length > 0 && (
-          <div>
-            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+          <div className="hidden md:block">
+            <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground md:mb-3 md:text-xs">
               Credits
             </p>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-1.5 md:gap-2">
               {visibleCredits.map((credit, index) => (
                 <span
                   key={`${credit}-${index}`}
-                  className="rounded-full bg-background/90 px-4 py-1.5 text-sm font-medium text-foreground"
+                  className="rounded-full bg-background/90 px-2.5 py-1 text-xs font-medium text-foreground md:px-4 md:py-1.5 md:text-sm"
                 >
                   {credit}
                 </span>
               ))}
+              {remainingCreditsCount > 0 && (
+                <span className="rounded-full bg-muted px-2.5 py-1 text-xs font-medium text-muted-foreground md:px-4 md:py-1.5 md:text-sm">
+                  +{remainingCreditsCount} more
+                </span>
+              )}
             </div>
-            {remainingCreditsCount > 0 && (
-              <p className="mt-2 text-xs font-medium text-muted-foreground">
-                +{remainingCreditsCount} more credits
-              </p>
-            )}
           </div>
         )}
 
+        {/* Mobile-optimized compare button */}
         {onCompareToggle && (
-          <div className="flex items-center justify-between gap-3 rounded-2xl border border-border bg-background/90 px-4 py-3">
-            <div>
-              <p className="text-sm font-medium text-foreground">Head-to-head compare</p>
-              <p className="text-sm text-muted-foreground">
+          <div className="flex items-center justify-between gap-2 rounded-xl border border-border bg-background/90 px-3 py-2.5 md:gap-3 md:rounded-2xl md:px-4 md:py-3">
+            <div className="min-w-0 flex-1">
+              <p className="text-xs font-medium text-foreground md:text-sm">Compare cards</p>
+              <p className="hidden text-xs text-muted-foreground sm:block md:text-sm">
                 {isCompared
-                  ? "This card is in your compare tray."
+                  ? "In your compare tray"
                   : compareDisabled
-                    ? "Remove a card first to compare a different one."
-                    : "Add this card to compare up to 3 cards."}
+                    ? "Remove a card first"
+                    : "Add to compare"}
               </p>
             </div>
             <Button
               type="button"
               variant={isCompared ? "secondary" : "outline"}
-              className="rounded-xl"
+              size="sm"
+              className="h-8 shrink-0 rounded-lg px-2.5 text-xs md:h-9 md:rounded-xl md:px-3 md:text-sm"
               disabled={compareDisabled && !isCompared}
               onClick={(e) => {
                 e.stopPropagation()
                 onCompareToggle()
               }}
             >
-              <GitCompare className="size-4" />
+              <GitCompare className="size-3.5 md:size-4" />
               {isCompared ? "Selected" : "Compare"}
             </Button>
           </div>

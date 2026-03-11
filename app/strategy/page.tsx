@@ -17,10 +17,8 @@ import {
 import type { LucideIcon } from "lucide-react"
 import { useMemo, useState } from "react"
 import { AppFooter } from "@/components/app-footer"
+import { AppHeader } from "@/components/app-header"
 import { CardDetailDialog } from "@/components/card-detail-dialog"
-import { PointsPandaLogo } from "@/components/points-panda-logo"
-import { StepIndicator } from "@/components/step-indicator"
-import { ThemeToggle } from "@/components/theme-toggle"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
@@ -62,10 +60,10 @@ const CATEGORY_ICONS: Record<SpendCategoryId, LucideIcon> = {
   other: CircleDollarSign,
 }
 
-const STRATEGY_TABS: Array<{ id: StrategyViewId; label: string }> = [
-  { id: "nextBestCard", label: "Your Next Best Card" },
-  { id: "bestSingleCard", label: "Best Single Card Strategy" },
-  { id: "bestEcosystem", label: "Best Ecosystem Play" },
+const STRATEGY_TABS: Array<{ id: StrategyViewId; label: string; shortLabel: string }> = [
+  { id: "nextBestCard", label: "Your Next Best Card", shortLabel: "Next Card" },
+  { id: "bestSingleCard", label: "Best Single Card Strategy", shortLabel: "Single Card" },
+  { id: "bestEcosystem", label: "Best Ecosystem Play", shortLabel: "Ecosystem" },
 ]
 
 const FEE_MODE_OPTIONS: Array<{ id: AnnualFeeMode; label: string; tooltip: string }> = [
@@ -260,23 +258,25 @@ function StrategySummarySection({ strategy }: { strategy: StrategyResult }) {
         : strategy.additionalBenefitLabels
 
   return (
-    <section className="mb-14">
-      <div className="flex flex-col items-stretch gap-6 lg:flex-row lg:items-center lg:gap-4">
+    <section className="mb-8 md:mb-14">
+      {/* Mobile: Stacked cards with visual connection */}
+      <div className="flex flex-col gap-4 lg:flex-row lg:items-stretch lg:gap-4">
+        {/* Projected Value Card */}
         <Card className="flex-1 border-2 border-primary/30 bg-gradient-to-br from-primary/5 to-transparent shadow-lg">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+          <CardHeader className="px-4 pb-2 pt-4 md:px-6 md:pt-6">
+            <CardTitle className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground md:text-xs">
               {copy.scenarioTitle}
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="flex flex-wrap items-baseline gap-3">
-              <p className="text-4xl font-bold tracking-tight text-primary md:text-5xl">
+          <CardContent className="space-y-3 px-4 pb-4 md:space-y-4 md:px-6 md:pb-6">
+            <div className="flex flex-wrap items-baseline gap-2 md:gap-3">
+              <p className="text-3xl font-bold tracking-tight text-primary md:text-4xl lg:text-5xl">
                 {formatSpend(strategy.maxPotentialAnnualDollars)}
               </p>
               {strategy.incrementalAnnualDollars !== 0 && (
                 <Badge
                   className={cn(
-                    "rounded-full px-3 py-1",
+                    "rounded-full px-2 py-0.5 text-xs md:px-3 md:py-1",
                     strategy.incrementalAnnualDollars > 0
                       ? "bg-success text-success-foreground hover:bg-success"
                       : "bg-destructive text-white hover:bg-destructive"
@@ -287,16 +287,15 @@ function StrategySummarySection({ strategy }: { strategy: StrategyResult }) {
               )}
             </div>
             {strategy.displayCppCents != null && (
-              <p className="text-sm font-medium text-foreground">
-                {getCppBaselineText(strategy)}:{" "}
+              <p className="text-xs font-medium text-foreground md:text-sm">
                 {formatPoints(strategy.maxPotentialAnnualPoints)} pts/yr
               </p>
             )}
-            <p className="text-sm leading-relaxed text-muted-foreground">{strategy.summaryReason}</p>
-            <p className="text-xs text-muted-foreground">{copy.rankingNote}</p>
+            <p className="text-xs leading-relaxed text-muted-foreground md:text-sm">{strategy.summaryReason}</p>
+            <p className="hidden text-xs text-muted-foreground md:block">{copy.rankingNote}</p>
             {strategy.netAdditionalFee !== 0 && (
-              <p className="text-sm font-medium text-foreground">
-                Annual fee change vs current:{" "}
+              <p className="text-xs font-medium text-foreground md:text-sm">
+                Fee change:{" "}
                 <span className={deltaClassName(strategy.netAdditionalFee)}>
                   {formatSignedSpend(strategy.netAdditionalFee)}
                 </span>
@@ -304,67 +303,78 @@ function StrategySummarySection({ strategy }: { strategy: StrategyResult }) {
             )}
             {highlightedBenefits.length > 0 && (
               <div>
-                <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                <p className="mb-1.5 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground md:mb-2 md:text-xs">
                   {copy.benefitTitle}
                 </p>
-                <div className="flex flex-wrap gap-2">
-                  {highlightedBenefits.map((label) => (
+                <div className="flex flex-wrap gap-1.5 md:gap-2">
+                  {highlightedBenefits.slice(0, 4).map((label) => (
                     <Badge
                       key={label}
                       variant={strategy.viewId === "nextBestCard" ? "outline" : "secondary"}
                       className={cn(
-                        "rounded-full px-3 py-1",
+                        "rounded-full px-2 py-0.5 text-[10px] md:px-3 md:py-1 md:text-xs",
                         strategy.viewId === "nextBestCard" && "border-primary/40 text-primary"
                       )}
                     >
                       {label}
                     </Badge>
                   ))}
+                  {highlightedBenefits.length > 4 && (
+                    <Badge variant="secondary" className="rounded-full px-2 py-0.5 text-[10px] md:px-3 md:py-1 md:text-xs">
+                      +{highlightedBenefits.length - 4} more
+                    </Badge>
+                  )}
                 </div>
               </div>
             )}
           </CardContent>
         </Card>
 
-        <div className="flex shrink-0 justify-center px-2">
-          <span className="rounded-full bg-muted px-4 py-2 text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+        {/* VS divider */}
+        <div className="flex shrink-0 items-center justify-center py-1 lg:px-2 lg:py-0">
+          <span className="rounded-full bg-muted px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground md:px-4 md:py-2 md:text-sm">
             vs.
           </span>
         </div>
 
+        {/* Current Value Card */}
         <Card className="flex-1 border-2 shadow-lg">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+          <CardHeader className="px-4 pb-2 pt-4 md:px-6 md:pt-6">
+            <CardTitle className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground md:text-xs">
               Current Estimated Annual Value
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <p className="text-4xl font-bold tracking-tight text-foreground md:text-5xl">
+          <CardContent className="space-y-3 px-4 pb-4 md:space-y-4 md:px-6 md:pb-6">
+            <p className="text-3xl font-bold tracking-tight text-foreground md:text-4xl lg:text-5xl">
               {formatSpend(strategy.currentAnnualDollars)}
             </p>
             {strategy.displayCppCents != null && (
-              <p className="text-sm font-medium text-foreground">
-                {getCppBaselineText(strategy)}:{" "}
+              <p className="text-xs font-medium text-foreground md:text-sm">
                 {formatPoints(strategy.currentAnnualPoints)} pts/yr
               </p>
             )}
-            <p className="text-sm leading-relaxed text-muted-foreground">
+            <p className="text-xs leading-relaxed text-muted-foreground md:text-sm">
               From your current wallet cards and estimated spend.
             </p>
-            <p className="text-sm font-medium text-foreground">
-              Total annual fee currently being paid: {formatSpend(strategy.currentAnnualFee)}
+            <p className="text-xs font-medium text-foreground md:text-sm">
+              Current annual fees: {formatSpend(strategy.currentAnnualFee)}
             </p>
             {strategy.currentBenefitLabels.length > 0 && (
               <div>
-                <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                  Key Existing Benefits
+                <p className="mb-1.5 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground md:mb-2 md:text-xs">
+                  Key Benefits
                 </p>
-                <div className="flex flex-wrap gap-2">
-                  {strategy.currentBenefitLabels.map((label) => (
-                    <Badge key={label} variant="secondary" className="rounded-full px-3 py-1">
+                <div className="flex flex-wrap gap-1.5 md:gap-2">
+                  {strategy.currentBenefitLabels.slice(0, 3).map((label) => (
+                    <Badge key={label} variant="secondary" className="rounded-full px-2 py-0.5 text-[10px] md:px-3 md:py-1 md:text-xs">
                       {label}
                     </Badge>
                   ))}
+                  {strategy.currentBenefitLabels.length > 3 && (
+                    <Badge variant="secondary" className="rounded-full px-2 py-0.5 text-[10px] md:px-3 md:py-1 md:text-xs">
+                      +{strategy.currentBenefitLabels.length - 3}
+                    </Badge>
+                  )}
                 </div>
               </div>
             )}
@@ -388,10 +398,79 @@ function CategoryTableSection({
   const recommendedCardIds = new Set(strategy.recommendedCards.map((card) => card.id))
 
   return (
-    <section className="mb-14">
-      <h2 className="mb-4 text-lg font-semibold text-foreground">Category-by-Category Strategy</h2>
-      <p className="mb-4 text-sm text-muted-foreground">{copy.categoryIntro}</p>
-      <Card className="overflow-hidden border-border/70">
+    <section className="mb-8 md:mb-14">
+      <h2 className="mb-2 text-base font-semibold text-foreground md:mb-4 md:text-lg">Category-by-Category Strategy</h2>
+      <p className="mb-3 text-xs text-muted-foreground md:mb-4 md:text-sm">{copy.categoryIntro}</p>
+      
+      {/* Mobile: Card-based layout */}
+      <div className="space-y-3 md:hidden">
+        {strategy.categoryRows.map((row) => {
+          const Icon = CATEGORY_ICONS[row.categoryId]
+          const annualSpend = (monthlySpend[row.categoryId] ?? 0) * 12
+          const isRecommendedRow =
+            !!row.suggestedCard &&
+            recommendedCardIds.has(row.suggestedCard.id) &&
+            row.incrementalAnnualDollars > 0
+
+          return (
+            <div
+              key={row.categoryId}
+              className={cn(
+                "rounded-xl border p-3",
+                isRecommendedRow
+                  ? "border-primary/30 bg-primary/5"
+                  : "border-border bg-card"
+              )}
+            >
+              <div className="mb-2 flex items-center justify-between">
+                <span className="flex items-center gap-2 text-sm font-medium text-foreground">
+                  {Icon && <Icon className="size-4 text-muted-foreground" aria-hidden />}
+                  {row.categoryLabel}
+                </span>
+                <span className={cn("text-sm font-semibold", deltaClassName(row.incrementalAnnualDollars))}>
+                  {row.incrementalAnnualDollars === 0 ? "—" : formatSignedSpend(row.incrementalAnnualDollars)}
+                </span>
+              </div>
+              <div className="grid grid-cols-2 gap-2 text-xs">
+                <div>
+                  <p className="text-muted-foreground">Spend/yr</p>
+                  <p className="font-medium tabular-nums">{annualSpend > 0 ? formatSpend(annualSpend) : "—"}</p>
+                </div>
+                <div>
+                  <p className="text-muted-foreground">Best Card</p>
+                  {row.suggestedCard ? (
+                    <button
+                      type="button"
+                      className={cn(
+                        "truncate text-left font-medium",
+                        isRecommendedRow ? "text-primary" : "text-foreground"
+                      )}
+                      onClick={() => onOpenCardDetails(row.suggestedCard!)}
+                    >
+                      {compactCardName(row.suggestedCard)} ({row.suggestedMultiplier}x)
+                    </button>
+                  ) : (
+                    <p className="text-muted-foreground">—</p>
+                  )}
+                </div>
+              </div>
+            </div>
+          )
+        })}
+        
+        {/* Mobile total */}
+        <div className="rounded-xl border-2 border-primary/30 bg-primary/5 p-3">
+          <div className="flex items-center justify-between">
+            <span className="text-sm font-semibold text-foreground">Total Change</span>
+            <span className={cn("text-lg font-bold", deltaClassName(strategy.incrementalAnnualDollars))}>
+              {strategy.incrementalAnnualDollars === 0 ? "No change" : formatSignedSpend(strategy.incrementalAnnualDollars)}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* Desktop: Table layout */}
+      <Card className="hidden overflow-hidden border-border/70 md:block">
         <div className="overflow-x-auto">
           <Table>
             <TableHeader>
@@ -892,51 +971,51 @@ export default function StrategyPage() {
 
   return (
     <div className="flex min-h-svh flex-col bg-background">
-      <header className="sticky top-0 z-10 flex items-center justify-between border-b border-border bg-card/95 px-6 py-4 backdrop-blur supports-[backdrop-filter]:bg-card/80 md:px-10">
-        <PointsPandaLogo />
-        <StepIndicator currentStep={3} />
-        <div className="flex w-20 justify-end">
-          <ThemeToggle />
-        </div>
-      </header>
+      <AppHeader currentStep={3} showBack />
 
-      <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col px-6 py-12 md:py-16">
-        <div className="mb-10 text-center">
-          <h1 className="text-3xl font-bold tracking-tight text-foreground md:text-4xl">
+      <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col px-4 py-6 md:px-6 md:py-12">
+        {/* Page header */}
+        <div className="mb-6 text-center md:mb-10">
+          <h1 className="text-2xl font-bold tracking-tight text-foreground md:text-3xl lg:text-4xl">
             Your Strategy
           </h1>
-          <p className="mt-3 text-base text-muted-foreground">
-            Compare your next best card, your best one-card setup, and the best ecosystem portfolio for your spending profile.
+          <p className="mt-2 text-sm text-muted-foreground text-pretty md:mt-3 md:text-base">
+            Compare strategies to maximize your credit card rewards.
           </p>
         </div>
 
-        <section className="mb-10 space-y-4">
-          <div className="inline-flex flex-wrap gap-2 rounded-2xl border border-border bg-muted/40 p-2">
-            {STRATEGY_TABS.map((tab) => (
-              <Button
-                key={tab.id}
-                type="button"
-                variant={activeView === tab.id ? "default" : "ghost"}
-                className="rounded-xl"
-                onClick={() => setActiveView(tab.id)}
-              >
-                {tab.label}
-              </Button>
-            ))}
+        {/* Strategy tabs - scrollable on mobile */}
+        <section className="mb-6 space-y-3 md:mb-10 md:space-y-4">
+          <div className="overflow-x-auto -mx-4 px-4 md:mx-0 md:px-0">
+            <div className="inline-flex min-w-full gap-1.5 rounded-xl border border-border bg-muted/40 p-1.5 md:min-w-0 md:gap-2 md:rounded-2xl md:p-2">
+              {STRATEGY_TABS.map((tab) => (
+                <Button
+                  key={tab.id}
+                  type="button"
+                  variant={activeView === tab.id ? "default" : "ghost"}
+                  className="shrink-0 rounded-lg px-3 py-2 text-xs md:rounded-xl md:px-4 md:py-2 md:text-sm"
+                  onClick={() => setActiveView(tab.id)}
+                >
+                  <span className="md:hidden">{tab.shortLabel}</span>
+                  <span className="hidden md:inline">{tab.label}</span>
+                </Button>
+              ))}
+            </div>
           </div>
 
-          <div className="flex items-center gap-3">
-            <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-              Fee handling
+          {/* Fee toggle - compact on mobile */}
+          <div className="flex flex-wrap items-center gap-2 md:gap-3">
+            <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground md:text-xs">
+              Fee mode
             </span>
-            <div className="inline-flex gap-1 rounded-xl border border-border bg-muted/40 p-1">
+            <div className="inline-flex gap-0.5 rounded-lg border border-border bg-muted/40 p-0.5 md:gap-1 md:rounded-xl md:p-1">
               {FEE_MODE_OPTIONS.map((opt) => (
                 <button
                   key={opt.id}
                   type="button"
                   title={opt.tooltip}
                   className={cn(
-                    "rounded-lg px-3 py-1.5 text-xs font-medium transition-colors",
+                    "rounded-md px-2 py-1 text-[10px] font-medium transition-colors md:rounded-lg md:px-3 md:py-1.5 md:text-xs",
                     feeMode === opt.id
                       ? "bg-background text-foreground shadow-sm"
                       : "text-muted-foreground hover:text-foreground"
