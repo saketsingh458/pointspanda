@@ -73,9 +73,7 @@ export function AppHeader({
               </Link>
             </Button>
           ) : null}
-          <Link href="/" className="flex items-center gap-2">
-            <PointsPandaLogo />
-          </Link>
+          <PointsPandaLogo />
         </div>
 
         {/* Center: Step indicator (desktop) */}
