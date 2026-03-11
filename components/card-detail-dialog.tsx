@@ -20,6 +20,7 @@ import { SPEND_CATEGORIES, type SpendCategoryId } from "@/lib/types"
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogClose,
@@ -273,6 +274,9 @@ export function CardDetailDialog({ card, open, onOpenChange }: Props) {
 
         <DialogHeader className="p-0">
           <DialogTitle className="sr-only">{card.name} card details</DialogTitle>
+          <DialogDescription className="sr-only">
+            View detailed information about the {card.name} credit card including earning rates, benefits, and fees.
+          </DialogDescription>
         </DialogHeader>
 
         <div className="relative aspect-[1.586/1] w-full min-h-[170px] shrink-0 overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
