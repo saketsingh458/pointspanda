@@ -6,6 +6,7 @@ import Link from "next/link"
 import {
   ArrowUpRight,
   Building2,
+  Car,
   CircleDollarSign,
   CreditCard,
   Plane,
@@ -18,7 +19,7 @@ import {
 } from "lucide-react"
 import type { Card as CardType } from "@/lib/types"
 import { CATEGORY_LABELS, getCardRankingCppCents, getCardCppSources } from "@/lib/cards"
-import { SPEND_CATEGORIES, type SpendCategoryId } from "@/lib/types"
+import { SPEND_CATEGORIES, type SpendCategoryId, type CapPeriod } from "@/lib/types"
 import { CARD_ART_PLACEHOLDER, isValidImageSrc } from "@/lib/card-ui"
 import {
   Dialog,
@@ -79,19 +80,26 @@ function annualizedCreditAmount(amount: number, frequency: string): number {
   return amount * getFrequencyMultiplier(frequency)
 }
 
+function capPeriodLabel(period?: CapPeriod): string {
+  if (period === "monthly") return "/mo"
+  if (period === "quarterly") return "/qtr"
+  if (period === "annual") return "/yr"
+  return "/yr"
+}
+
 /** Earn details: all categories with per-channel rows; Other always shows base rate. */
 function getEarnDisplayRows(card: CardType): {
   category: string
   categoryId: SpendCategoryId
   multiplier: number
-  details?: { channel: string; multiplier: number; capAmount?: number }[]
+  details?: { channel: string; multiplier: number; capAmount?: number; capPeriod?: CapPeriod }[]
 }[] {
   const base = card.baseRate ?? card.categoryMultipliers.other ?? 0
   const rows: {
     category: string
     categoryId: SpendCategoryId
     multiplier: number
-    details?: { channel: string; multiplier: number; capAmount?: number }[]
+    details?: { channel: string; multiplier: number; capAmount?: number; capPeriod?: CapPeriod }[]
   }[] = []
 
   for (const cat of SPEND_CATEGORIES) {
@@ -115,6 +123,7 @@ function getEarnDisplayRows(card: CardType): {
               channel: d.channel,
               multiplier: d.multiplier,
               capAmount: d.capAmount,
+              capPeriod: d.capPeriod,
             }))
           : undefined,
     })
@@ -130,6 +139,9 @@ function iconForEarnLabel(label: string): ComponentType<{ className?: string }> 
   }
   if (normalized.includes("dining") || normalized.includes("restaurant")) {
     return UtensilsCrossed
+  }
+  if (normalized.includes("lyft") || normalized.includes("uber") || normalized.includes("rideshare")) {
+    return Car
   }
   if (normalized.includes("portal") || normalized.includes("direct")) {
     return Star
@@ -241,11 +253,13 @@ export function CardDetailDialog({ card, open, onOpenChange }: Props) {
 
   const earningTiles = earnRows.flatMap(({ category, categoryId, multiplier, details }) => {
     if (!details || details.length === 0) {
+      const catCap = card.categoryCaps?.[categoryId]
       return [
         {
           key: categoryId,
           label: category,
           multiplier,
+          capLabel: catCap != null ? `$${catCap.toLocaleString()}${capPeriodLabel()}` : undefined,
         },
       ]
     }
@@ -253,6 +267,10 @@ export function CardDetailDialog({ card, open, onOpenChange }: Props) {
       key: `${categoryId}-${detail.channel}`,
       label: detail.channel,
       multiplier: detail.multiplier,
+      capLabel:
+        detail.capAmount != null
+          ? `$${detail.capAmount.toLocaleString()}${capPeriodLabel(detail.capPeriod)}`
+          : undefined,
     }))
   })
 
@@ -361,6 +379,11 @@ export function CardDetailDialog({ card, open, onOpenChange }: Props) {
                           <p className="mt-1 truncate text-xl text-muted-foreground">
                             {tile.label}
                           </p>
+                          {tile.capLabel && (
+                            <p className="mt-0.5 text-xs text-muted-foreground/70">
+                              on first {tile.capLabel}
+                            </p>
+                          )}
                         </div>
                       </div>
                     )

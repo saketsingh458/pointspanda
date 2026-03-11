@@ -47,6 +47,7 @@ const MULTIPLIER_CATEGORY_TO_SPEND: Record<string, SpendCategoryId> = {
   "2x_airfare": "travel",
   rental_cars: "travel",
   travel_shipping_advertising_internet_cable_phone: "travel",
+  lyft: "travel",
   dining: "dining",
   groceries: "groceries",
   gas: "gasEv",
@@ -69,7 +70,6 @@ const MULTIPLIER_CATEGORY_TO_SPEND: Record<string, SpendCategoryId> = {
 const MULTIPLIER_CATEGORY_KEY_ALIASES: Record<string, string> = {
   flights_robinhood_portal: "travel_portal_flights",
   hotels_rental_cars_robinhood_portal: "travel_portal_hotels_cars",
-  lyft: "travel",
 }
 
 const GENERAL_OTHER_KEYS = new Set(["other", "1_all_other", "all_purchases"])

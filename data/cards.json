@@ -4473,7 +4473,11 @@
     "ftf_percentage": 3,
     "ui_elements": {
       "image_url": "https://www.citi.com/CRD/images/card-art/citi-double-cash-credit-card.png",
-      "apply_url": "https://www.citi.com/credit-cards/citi-double-cash-credit-card"
+      "apply_url": "https://www.citi.com/credit-cards/citi-double-cash-credit-card",
+      "benefits_list": [
+        "2% cash back on all purchases (1% when you buy, 1% as you pay)",
+        "5% total on hotels, car rentals, and attractions booked through Citi Travel® portal"
+      ]
     },
     "valuation": {
       "cpp_nerdwallet": 1.6,
@@ -4492,13 +4496,13 @@
     "multipliers": {
       "base_rate": 2,
       "categories": {
-        "travel_portal": {
+        "travel_portal_hotels_cars": {
           "rate": 5,
           "requires_portal": true
         }
       }
     },
-    "developer_notes": "Earns 1% when you buy and 1% as you pay; must pay minimum due to earn rewards; ThankYou transfer partner access and best transfer ratios generally require pooling points with an eligible Citi Strata Premier or Citi Strata Elite account.",
+    "developer_notes": "Earns 1% when you buy and 1% as you pay; must pay minimum due to earn rewards. 5% total (3% bonus) on hotels, car rentals, and attractions booked through Citi Travel® portal only; flights earn standard 2%. ThankYou transfer partner access and best transfer ratios generally require pooling points with an eligible Citi Strata Premier or Citi Strata Elite account.",
     "transfer_partners": [
       {
         "name": "Aeromexico Rewards",
