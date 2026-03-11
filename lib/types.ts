@@ -244,6 +244,13 @@ export interface StrategyLimitation {
 
 export type StrategyViewId = "nextBestCard" | "bestSingleCard" | "bestEcosystem"
 
+/**
+ * Controls how annual fees factor into strategy ranking.
+ * - "full": net value = rewards − annual fee (default)
+ * - "none": net value = rewards only (user assumes they recover the fee via credits/perks)
+ */
+export type AnnualFeeMode = "full" | "none"
+
 /** Summary of a recommended portfolio, including multi-card ecosystem setups. */
 export interface StrategyPortfolioSummary {
   cards: Card[]
@@ -266,6 +273,7 @@ export interface EcosystemStrategyOption {
 /** Full computed strategy result for the strategy page. */
 export interface StrategyResult {
   viewId: StrategyViewId
+  feeMode: AnnualFeeMode
   currentAnnualPoints: number
   currentAnnualDollars: number
   currentAnnualFee: number

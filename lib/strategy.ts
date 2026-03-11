@@ -1,4 +1,5 @@
 import type {
+  AnnualFeeMode,
   CapPeriod,
   Card,
   CategoryEarnRate,
@@ -429,8 +430,10 @@ function calculateCurrentAnnualDollars(
 
 /**
  * Current total annual fee from wallet cards.
+ * When feeMode is "none", returns 0 (user assumes fee is recovered via credits/perks).
  */
-export function getCurrentAnnualFee(walletCards: Card[]): number {
+export function getCurrentAnnualFee(walletCards: Card[], feeMode: AnnualFeeMode = "full"): number {
+  if (feeMode === "none") return 0
   return walletCards.reduce((sum, c) => sum + c.annualFee, 0)
 }
 
@@ -452,10 +455,11 @@ export function getCurrentBenefitLabels(walletCards: Card[]): string[] {
 function getPortfolioSummary(
   monthlySpend: MonthlySpend,
   cards: Card[],
-  assumptionNotes: AssumptionCollector
+  assumptionNotes: AssumptionCollector,
+  feeMode: AnnualFeeMode = "full"
 ): StrategyPortfolioSummary {
   const metrics = calculateAnnualMetrics(monthlySpend, cards, assumptionNotes)
-  const annualFee = getCurrentAnnualFee(cards)
+  const annualFee = getCurrentAnnualFee(cards, feeMode)
   return {
     cards,
     annualPoints: metrics.annualPoints,
@@ -526,7 +530,8 @@ function evaluateBestCandidate(
   monthlySpend: MonthlySpend,
   walletCards: Card[],
   currentAnnualDollars: number,
-  assumptionNotes: AssumptionCollector
+  assumptionNotes: AssumptionCollector,
+  feeMode: AnnualFeeMode = "full"
 ): CandidateEvaluation {
   const walletIds = new Set(walletCards.map((card) => card.id))
   let recommendedCard: Card | null = null
@@ -543,7 +548,8 @@ function evaluateBestCandidate(
       assumptionNotes
     )
     const grossIncrementalDollars = Math.max(0, candidateAnnualDollars - currentAnnualDollars)
-    const netIncrementalDollars = grossIncrementalDollars - candidate.annualFee
+    const candidateFee = feeMode === "none" ? 0 : candidate.annualFee
+    const netIncrementalDollars = grossIncrementalDollars - candidateFee
     bestCandidateGrossIncrementalDollars = Math.max(
       bestCandidateGrossIncrementalDollars,
       grossIncrementalDollars
@@ -595,17 +601,38 @@ function buildNextBestCardSummaryReason(
   walletCardCount: number,
   incrementalAnnualDollars: number,
   netAdditionalFee: number,
-  categoryRows: CategoryStrategyRow[]
+  categoryRows: CategoryStrategyRow[],
+  feeMode: AnnualFeeMode = "full"
 ): string {
   if (!recommendedCard) {
+    if (feeMode === "none") {
+      return hasGrossOpportunity
+        ? "No changes recommended — no single new card improves your rewards value."
+        : "No changes recommended — you're already optimized."
+    }
     return hasGrossOpportunity
       ? "No changes recommended — no single new card improves your net annual value after fee."
       : "No changes recommended — you're already optimized."
   }
 
-  const approxNet = formatAnnualValueApprox(incrementalAnnualDollars - netAdditionalFee)
   const approxGross = formatAnnualValueApprox(incrementalAnnualDollars)
   const categoryHighlight = buildCategoryHighlightSummary(categoryRows, 2)
+
+  if (feeMode === "none") {
+    const feeClause = " (annual fee excluded)"
+    if (walletCardCount === 0) {
+      if (categoryHighlight) {
+        return `${recommendedCard.name} is your best starter card for rewards value, adding about ${approxGross}${feeClause}, mostly from ${categoryHighlight}.`
+      }
+      return `${recommendedCard.name} is your best starter card for rewards value, adding about ${approxGross}${feeClause}.`
+    }
+    if (categoryHighlight) {
+      return `${recommendedCard.name} gives the highest rewards value boost when added to your portfolio, adding about ${approxGross} in extra rewards${feeClause}, mostly from ${categoryHighlight}.`
+    }
+    return `${recommendedCard.name} gives the highest rewards value boost when added to your portfolio, adding about ${approxGross} in extra rewards${feeClause}.`
+  }
+
+  const approxNet = formatAnnualValueApprox(incrementalAnnualDollars - netAdditionalFee)
 
   if (walletCardCount === 0) {
     if (categoryHighlight) {
@@ -625,13 +652,22 @@ function buildBestSingleCardSummaryReason(
   card: Card | null,
   incrementalAnnualDollars: number,
   netAdditionalFee: number,
-  categoryRows: CategoryStrategyRow[]
+  categoryRows: CategoryStrategyRow[],
+  feeMode: AnnualFeeMode = "full"
 ): string {
   if (!card) return "No single-card strategy is available."
 
-  const approxNet = formatAnnualValueApprox(incrementalAnnualDollars - netAdditionalFee)
   const approxGross = formatAnnualValueApprox(incrementalAnnualDollars)
   const categoryHighlight = buildCategoryHighlightSummary(categoryRows, 2)
+
+  if (feeMode === "none") {
+    if (categoryHighlight) {
+      return `${card.name} is the strongest one-card strategy for your spending profile by rewards value, adding about ${approxGross} in extra rewards (annual fee excluded), mostly from ${categoryHighlight}.`
+    }
+    return `${card.name} is the strongest one-card strategy for your spending profile by rewards value, adding about ${approxGross} in extra rewards (annual fee excluded).`
+  }
+
+  const approxNet = formatAnnualValueApprox(incrementalAnnualDollars - netAdditionalFee)
 
   if (categoryHighlight) {
     return `${card.name} is the strongest one-card strategy for your spending profile after annual fee, adding about ${approxNet} net (around ${approxGross} in extra rewards), mostly from ${categoryHighlight}.`
@@ -820,13 +856,14 @@ function buildEcosystemSummaryReason(
 
 function evaluateBestSingleCard(
   monthlySpend: MonthlySpend,
-  assumptionNotes: AssumptionCollector
+  assumptionNotes: AssumptionCollector,
+  feeMode: AnnualFeeMode = "full"
 ): Card | null {
   let bestCard: Card | null = null
   let bestPortfolio: StrategyPortfolioSummary | null = null
 
   for (const candidate of CARD_CATALOG) {
-    const portfolio = getPortfolioSummary(monthlySpend, [candidate], assumptionNotes)
+    const portfolio = getPortfolioSummary(monthlySpend, [candidate], assumptionNotes, feeMode)
     if (isPortfolioBetter(portfolio, bestPortfolio)) {
       bestCard = candidate
       bestPortfolio = portfolio
@@ -839,7 +876,8 @@ function evaluateBestSingleCard(
 function evaluateEcosystemOptions(
   monthlySpend: MonthlySpend,
   currentCards: Card[],
-  assumptionNotes: AssumptionCollector
+  assumptionNotes: AssumptionCollector,
+  feeMode: AnnualFeeMode = "full"
 ): EcosystemStrategyOption[] {
   const grouped = groupCardsByEcosystem(CARD_CATALOG)
   const options: EcosystemStrategyOption[] = []
@@ -851,7 +889,7 @@ function evaluateEcosystemOptions(
     let bestPortfolio: StrategyPortfolioSummary | null = null
     let bestRows: CategoryStrategyRow[] = []
     for (const combo of combinations) {
-      const portfolio = getPortfolioSummary(monthlySpend, combo, assumptionNotes)
+      const portfolio = getPortfolioSummary(monthlySpend, combo, assumptionNotes, feeMode)
       if (!isPortfolioBetter(portfolio, bestPortfolio)) continue
       bestPortfolio = portfolio
       bestRows = buildCategoryRows(monthlySpend, currentCards, combo, assumptionNotes)
@@ -986,6 +1024,7 @@ function getStrategyLimitations(viewId: StrategyViewId): StrategyLimitation[] {
 
 function buildStrategyResult({
   viewId,
+  feeMode = "full",
   currentAnnualPoints,
   currentAnnualDollars,
   currentAnnualFee,
@@ -1003,6 +1042,7 @@ function buildStrategyResult({
   displayCppSources,
 }: {
   viewId: StrategyViewId
+  feeMode?: AnnualFeeMode
   currentAnnualPoints: number
   currentAnnualDollars: number
   currentAnnualFee: number
@@ -1021,6 +1061,7 @@ function buildStrategyResult({
 }): StrategyResult {
   return {
     viewId,
+    feeMode,
     currentAnnualPoints,
     currentAnnualDollars,
     currentAnnualFee,
@@ -1050,28 +1091,30 @@ function buildStrategyResult({
   }
 }
 
-function computeNextBestCardStrategy(monthlySpend: MonthlySpend, walletCards: Card[]): StrategyResult {
+function computeNextBestCardStrategy(monthlySpend: MonthlySpend, walletCards: Card[], feeMode: AnnualFeeMode = "full"): StrategyResult {
   const assumptionNotes = createAssumptionCollector()
   const currentAnnualPoints = calculateCurrentAnnualPoints(monthlySpend, walletCards, assumptionNotes)
   const currentAnnualDollars = calculateCurrentAnnualDollars(monthlySpend, walletCards, assumptionNotes)
-  const currentAnnualFee = getCurrentAnnualFee(walletCards)
+  const currentAnnualFee = getCurrentAnnualFee(walletCards, feeMode)
   const currentBenefitLabels = getCurrentBenefitLabels(walletCards)
   const candidateEvaluation = evaluateBestCandidate(
     monthlySpend,
     walletCards,
     currentAnnualDollars,
-    assumptionNotes
+    assumptionNotes,
+    feeMode
   )
   const recommendedCard = candidateEvaluation.recommendedCard
   const recommendedCards = recommendedCard ? [recommendedCard] : []
   const scenarioCards = recommendedCard ? [...walletCards, recommendedCard] : walletCards
-  const scenarioPortfolio = getPortfolioSummary(monthlySpend, scenarioCards, assumptionNotes)
+  const scenarioPortfolio = getPortfolioSummary(monthlySpend, scenarioCards, assumptionNotes, feeMode)
   const categoryRows = buildCategoryRows(monthlySpend, walletCards, scenarioCards, assumptionNotes)
   const incrementalAnnualDollars = scenarioPortfolio.annualDollars - currentAnnualDollars
   const netAdditionalFee = scenarioPortfolio.annualFee - currentAnnualFee
 
   return buildStrategyResult({
     viewId: "nextBestCard",
+    feeMode,
     currentAnnualPoints,
     currentAnnualDollars,
     currentAnnualFee,
@@ -1085,7 +1128,8 @@ function computeNextBestCardStrategy(monthlySpend: MonthlySpend, walletCards: Ca
       walletCards.length,
       incrementalAnnualDollars,
       netAdditionalFee,
-      categoryRows
+      categoryRows,
+      feeMode
     ),
     strategyAssumptions: Array.from(assumptionNotes.values()),
     strategyLimitations: getStrategyLimitations("nextBestCard"),
@@ -1094,21 +1138,22 @@ function computeNextBestCardStrategy(monthlySpend: MonthlySpend, walletCards: Ca
   })
 }
 
-function computeBestSingleCardStrategy(monthlySpend: MonthlySpend, walletCards: Card[]): StrategyResult {
+function computeBestSingleCardStrategy(monthlySpend: MonthlySpend, walletCards: Card[], feeMode: AnnualFeeMode = "full"): StrategyResult {
   const assumptionNotes = createAssumptionCollector()
   const currentAnnualPoints = calculateCurrentAnnualPoints(monthlySpend, walletCards, assumptionNotes)
   const currentAnnualDollars = calculateCurrentAnnualDollars(monthlySpend, walletCards, assumptionNotes)
-  const currentAnnualFee = getCurrentAnnualFee(walletCards)
+  const currentAnnualFee = getCurrentAnnualFee(walletCards, feeMode)
   const currentBenefitLabels = getCurrentBenefitLabels(walletCards)
-  const recommendedCard = evaluateBestSingleCard(monthlySpend, assumptionNotes)
+  const recommendedCard = evaluateBestSingleCard(monthlySpend, assumptionNotes, feeMode)
   const recommendedCards = recommendedCard ? [recommendedCard] : []
-  const scenarioPortfolio = getPortfolioSummary(monthlySpend, recommendedCards, assumptionNotes)
+  const scenarioPortfolio = getPortfolioSummary(monthlySpend, recommendedCards, assumptionNotes, feeMode)
   const categoryRows = buildCategoryRows(monthlySpend, walletCards, recommendedCards, assumptionNotes)
   const incrementalAnnualDollars = scenarioPortfolio.annualDollars - currentAnnualDollars
   const netAdditionalFee = scenarioPortfolio.annualFee - currentAnnualFee
 
   return buildStrategyResult({
     viewId: "bestSingleCard",
+    feeMode,
     currentAnnualPoints,
     currentAnnualDollars,
     currentAnnualFee,
@@ -1120,7 +1165,8 @@ function computeBestSingleCardStrategy(monthlySpend: MonthlySpend, walletCards: 
       recommendedCard,
       incrementalAnnualDollars,
       netAdditionalFee,
-      categoryRows
+      categoryRows,
+      feeMode
     ),
     strategyAssumptions: Array.from(assumptionNotes.values()),
     strategyLimitations: getStrategyLimitations("bestSingleCard"),
@@ -1129,20 +1175,21 @@ function computeBestSingleCardStrategy(monthlySpend: MonthlySpend, walletCards: 
   })
 }
 
-function computeBestEcosystemStrategy(monthlySpend: MonthlySpend, walletCards: Card[]): StrategyResult {
+function computeBestEcosystemStrategy(monthlySpend: MonthlySpend, walletCards: Card[], feeMode: AnnualFeeMode = "full"): StrategyResult {
   const assumptionNotes = createAssumptionCollector()
   const currentAnnualPoints = calculateCurrentAnnualPoints(monthlySpend, walletCards, assumptionNotes)
   const currentAnnualDollars = calculateCurrentAnnualDollars(monthlySpend, walletCards, assumptionNotes)
-  const currentAnnualFee = getCurrentAnnualFee(walletCards)
+  const currentAnnualFee = getCurrentAnnualFee(walletCards, feeMode)
   const currentBenefitLabels = getCurrentBenefitLabels(walletCards)
-  const rankedOptions = evaluateEcosystemOptions(monthlySpend, walletCards, assumptionNotes)
+  const rankedOptions = evaluateEcosystemOptions(monthlySpend, walletCards, assumptionNotes, feeMode)
   const winningOption = rankedOptions[0]
   const recommendedCards = winningOption?.portfolio.cards ?? []
-  const scenarioPortfolio = winningOption?.portfolio ?? getPortfolioSummary(monthlySpend, [], assumptionNotes)
+  const scenarioPortfolio = winningOption?.portfolio ?? getPortfolioSummary(monthlySpend, [], assumptionNotes, feeMode)
   const categoryRows = winningOption?.categoryRows ?? buildCategoryRows(monthlySpend, walletCards, [], assumptionNotes)
 
   return buildStrategyResult({
     viewId: "bestEcosystem",
+    feeMode,
     currentAnnualPoints,
     currentAnnualDollars,
     currentAnnualFee,
@@ -1164,16 +1211,17 @@ function computeBestEcosystemStrategy(monthlySpend: MonthlySpend, walletCards: C
 
 export function computeStrategyViews(
   monthlySpend: MonthlySpend,
-  walletCardIds: string[]
+  walletCardIds: string[],
+  feeMode: AnnualFeeMode = "full"
 ): StrategyPageData {
   const walletCards = walletCardIds
     .map((id) => getCardById(id))
     .filter((c): c is Card => c !== undefined)
 
   return {
-    nextBestCard: computeNextBestCardStrategy(monthlySpend, walletCards),
-    bestSingleCard: computeBestSingleCardStrategy(monthlySpend, walletCards),
-    bestEcosystem: computeBestEcosystemStrategy(monthlySpend, walletCards),
+    nextBestCard: computeNextBestCardStrategy(monthlySpend, walletCards, feeMode),
+    bestSingleCard: computeBestSingleCardStrategy(monthlySpend, walletCards, feeMode),
+    bestEcosystem: computeBestEcosystemStrategy(monthlySpend, walletCards, feeMode),
   }
 }
 
@@ -1182,7 +1230,8 @@ export function computeStrategyViews(
  */
 export function computeStrategy(
   monthlySpend: MonthlySpend,
-  walletCardIds: string[]
+  walletCardIds: string[],
+  feeMode: AnnualFeeMode = "full"
 ): StrategyResult {
-  return computeStrategyViews(monthlySpend, walletCardIds).nextBestCard
+  return computeStrategyViews(monthlySpend, walletCardIds, feeMode).nextBestCard
 }

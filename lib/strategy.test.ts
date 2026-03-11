@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest"
 import { computeStrategyViews } from "@/lib/strategy"
-import type { MonthlySpend, SpendCategoryId } from "@/lib/types"
+import type { AnnualFeeMode, MonthlySpend, SpendCategoryId } from "@/lib/types"
 
 function makeSpend(
   overrides: Partial<Record<SpendCategoryId, number>> = {}
@@ -206,5 +206,58 @@ describe("pooling-aware CPP behavior", () => {
 
     expect(effectiveCppDoubleCashOnly).toBe(100)
     expect(effectiveCppDoubleCashWithStrata).toBeGreaterThan(100)
+  })
+})
+
+describe("AnnualFeeMode behavior", () => {
+  it("feeMode defaults to 'full' and includes fee in results", () => {
+    const monthlySpend = makeSpend({ dining: 1000, other: 500 })
+    const views = computeStrategyViews(monthlySpend, [])
+    expect(views.nextBestCard.feeMode).toBe("full")
+    expect(views.bestSingleCard.feeMode).toBe("full")
+    expect(views.bestEcosystem.feeMode).toBe("full")
+  })
+
+  it("feeMode 'none' zeroes out annual fees in all views", () => {
+    const monthlySpend = makeSpend({ dining: 1000, travel: 500, other: 500 })
+    const views = computeStrategyViews(monthlySpend, [], "none")
+    expect(views.nextBestCard.feeMode).toBe("none")
+    expect(views.nextBestCard.currentAnnualFee).toBe(0)
+    expect(views.bestSingleCard.currentAnnualFee).toBe(0)
+    expect(views.bestEcosystem.recommendedPortfolio?.annualFee).toBe(0)
+  })
+
+  it("feeMode 'none' makes netAnnualValue equal annualDollars for ecosystem", () => {
+    const monthlySpend = makeSpend({ dining: 1000, travel: 500, other: 500 })
+    const views = computeStrategyViews(monthlySpend, [], "none")
+    const portfolio = views.bestEcosystem.recommendedPortfolio
+    expect(portfolio).toBeDefined()
+    if (portfolio) {
+      expect(portfolio.netAnnualValue).toBe(portfolio.annualDollars)
+    }
+  })
+
+  it("feeMode 'none' can pick a different card than 'full' for high-fee scenarios", () => {
+    const monthlySpend = makeSpend({
+      dining: 500,
+      groceries: 400,
+      travel: 200,
+      other: 300,
+    })
+    const viewsFull = computeStrategyViews(monthlySpend, [], "full")
+    const viewsNone = computeStrategyViews(monthlySpend, [], "none")
+
+    expect(viewsNone.bestSingleCard.recommendedPortfolio?.annualFee).toBe(0)
+    expect(
+      viewsNone.bestSingleCard.recommendedPortfolio?.netAnnualValue
+    ).toBeGreaterThanOrEqual(
+      viewsFull.bestSingleCard.recommendedPortfolio?.netAnnualValue ?? -Infinity
+    )
+  })
+
+  it("feeMode 'none' zeroes netAdditionalFee on nextBestCard", () => {
+    const monthlySpend = makeSpend({ dining: 1000, other: 500 })
+    const views = computeStrategyViews(monthlySpend, [], "none")
+    expect(views.nextBestCard.netAdditionalFee).toBe(0)
   })
 })

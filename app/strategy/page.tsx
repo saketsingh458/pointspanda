@@ -42,6 +42,7 @@ import {
 import { usePointPath } from "@/contexts/pointpath-context"
 import { computeStrategyViews } from "@/lib/strategy"
 import type {
+  AnnualFeeMode,
   Card as CreditCard,
   EcosystemStrategyOption,
   SpendCategoryId,
@@ -67,43 +68,54 @@ const STRATEGY_TABS: Array<{ id: StrategyViewId; label: string }> = [
   { id: "bestEcosystem", label: "Best Ecosystem Play" },
 ]
 
-const STRATEGY_COPY: Record<
-  StrategyViewId,
+const FEE_MODE_OPTIONS: Array<{ id: AnnualFeeMode; label: string; tooltip: string }> = [
   {
-    scenarioTitle: string
-    rankingNote: string
-    categoryIntro: string
-    detailBadge: string
-    benefitTitle: string
+    id: "full",
+    label: "Net of Annual Fee",
+    tooltip: "Subtract annual fee from rewards value",
+  },
+  {
+    id: "none",
+    label: "Rewards Only",
+    tooltip: "Ignore annual fees (assume recovered via credits/perks)",
+  },
+]
+
+function getStrategyCopy(viewId: StrategyViewId, feeMode: AnnualFeeMode) {
+  const feeSuffix = feeMode === "none" ? " (rewards only)" : ""
+  const base = {
+    nextBestCard: {
+      scenarioTitle: `Projected Annual Value After Adding Your Next Card${feeSuffix}`,
+      rankingNote: feeMode === "none"
+        ? "This view ranks one new-card additions by portfolio-wide rewards gain. Annual fees are excluded from ranking."
+        : "This view ranks one new-card additions by portfolio-wide rewards gain minus the added annual fee.",
+      categoryIntro:
+        "We compare your current wallet to the wallet you would have after adding the recommended card.",
+      detailBadge: "Next best card",
+      benefitTitle: "+Additional Key Benefits",
+    },
+    bestSingleCard: {
+      scenarioTitle: `Projected Annual Value With Best Single Card${feeSuffix}`,
+      rankingNote: feeMode === "none"
+        ? "This view ranks one-card setups by annual rewards value, optimized for simplicity. Annual fees are excluded from ranking."
+        : "This view ranks one-card setups by annual rewards value minus annual fee, optimized for simplicity.",
+      categoryIntro:
+        "We compare your current wallet to the strongest one-card setup for your spending profile.",
+      detailBadge: "Best single card",
+      benefitTitle: "Benefits On This Card",
+    },
+    bestEcosystem: {
+      scenarioTitle: `Projected Annual Value With Best Ecosystem Portfolio${feeSuffix}`,
+      rankingNote: feeMode === "none"
+        ? "This view ranks from-scratch ecosystem portfolios by annual rewards value and shows the next 3 alternatives. Annual fees are excluded from ranking."
+        : "This view ranks from-scratch ecosystem portfolios by annual rewards value minus annual fees and shows the next 3 alternatives.",
+      categoryIntro:
+        "We compare your current wallet to the best card routing inside the recommended ecosystem portfolio.",
+      detailBadge: "Best ecosystem",
+      benefitTitle: "Combined Portfolio Benefits",
+    },
   }
-> = {
-  nextBestCard: {
-    scenarioTitle: "Projected Annual Value After Adding Your Next Card",
-    rankingNote:
-      "This view ranks one new-card additions by portfolio-wide rewards gain minus the added annual fee.",
-    categoryIntro:
-      "We compare your current wallet to the wallet you would have after adding the recommended card.",
-    detailBadge: "Next best card",
-    benefitTitle: "+Additional Key Benefits",
-  },
-  bestSingleCard: {
-    scenarioTitle: "Projected Annual Value With Best Single Card",
-    rankingNote:
-      "This view ranks one-card setups by annual rewards value minus annual fee, optimized for simplicity.",
-    categoryIntro:
-      "We compare your current wallet to the strongest one-card setup for your spending profile.",
-    detailBadge: "Best single card",
-    benefitTitle: "Benefits On This Card",
-  },
-  bestEcosystem: {
-    scenarioTitle: "Projected Annual Value With Best Ecosystem Portfolio",
-    rankingNote:
-      "This view ranks from-scratch ecosystem portfolios by annual rewards value minus annual fees and shows the next 3 alternatives.",
-    categoryIntro:
-      "We compare your current wallet to the best card routing inside the recommended ecosystem portfolio.",
-    detailBadge: "Best ecosystem",
-    benefitTitle: "Combined Portfolio Benefits",
-  },
+  return base[viewId]
 }
 
 function formatPoints(n: number): string {
@@ -239,7 +251,7 @@ function PortfolioCardButton({
 }
 
 function StrategySummarySection({ strategy }: { strategy: StrategyResult }) {
-  const copy = STRATEGY_COPY[strategy.viewId]
+  const copy = getStrategyCopy(strategy.viewId, strategy.feeMode)
   const highlightedBenefits =
     strategy.viewId === "bestEcosystem"
       ? strategy.recommendedPortfolio?.benefitLabels ?? []
@@ -372,7 +384,7 @@ function CategoryTableSection({
   monthlySpend: Record<SpendCategoryId, number>
   onOpenCardDetails: (card: CreditCard) => void
 }) {
-  const copy = STRATEGY_COPY[strategy.viewId]
+  const copy = getStrategyCopy(strategy.viewId, strategy.feeMode)
   const recommendedCardIds = new Set(strategy.recommendedCards.map((card) => card.id))
 
   return (
@@ -556,7 +568,7 @@ function SingleCardRecommendationSection({
                 {card.name}
               </CardTitle>
               <Badge className="rounded-full bg-primary px-3 py-1 text-primary-foreground">
-                {STRATEGY_COPY[strategy.viewId].detailBadge}
+                {getStrategyCopy(strategy.viewId, strategy.feeMode).detailBadge}
               </Badge>
             </div>
           </div>
@@ -707,7 +719,7 @@ function EcosystemRecommendationSection({
               {strategy.ecosystemLabel ?? "Best ecosystem portfolio"}
             </CardTitle>
             <Badge className="rounded-full bg-primary px-3 py-1 text-primary-foreground">
-              {STRATEGY_COPY.bestEcosystem.detailBadge}
+              {getStrategyCopy("bestEcosystem", strategy.feeMode).detailBadge}
             </Badge>
           </div>
           <CardDescription className="text-base leading-relaxed text-muted-foreground">
@@ -859,9 +871,10 @@ function FootnotesSection({ strategy }: { strategy: StrategyResult }) {
 
 export default function StrategyPage() {
   const { monthlySpend, walletCardIds } = usePointPath()
+  const [feeMode, setFeeMode] = useState<AnnualFeeMode>("full")
   const strategyViews = useMemo(
-    () => computeStrategyViews(monthlySpend, walletCardIds),
-    [monthlySpend, walletCardIds]
+    () => computeStrategyViews(monthlySpend, walletCardIds, feeMode),
+    [monthlySpend, walletCardIds, feeMode]
   )
   const [activeView, setActiveView] = useState<StrategyViewId>("nextBestCard")
   const [detailCard, setDetailCard] = useState<CreditCard | null>(null)
@@ -897,7 +910,7 @@ export default function StrategyPage() {
           </p>
         </div>
 
-        <section className="mb-10">
+        <section className="mb-10 space-y-4">
           <div className="inline-flex flex-wrap gap-2 rounded-2xl border border-border bg-muted/40 p-2">
             {STRATEGY_TABS.map((tab) => (
               <Button
@@ -910,6 +923,30 @@ export default function StrategyPage() {
                 {tab.label}
               </Button>
             ))}
+          </div>
+
+          <div className="flex items-center gap-3">
+            <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              Fee handling
+            </span>
+            <div className="inline-flex gap-1 rounded-xl border border-border bg-muted/40 p-1">
+              {FEE_MODE_OPTIONS.map((opt) => (
+                <button
+                  key={opt.id}
+                  type="button"
+                  title={opt.tooltip}
+                  className={cn(
+                    "rounded-lg px-3 py-1.5 text-xs font-medium transition-colors",
+                    feeMode === opt.id
+                      ? "bg-background text-foreground shadow-sm"
+                      : "text-muted-foreground hover:text-foreground"
+                  )}
+                  onClick={() => setFeeMode(opt.id)}
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
           </div>
         </section>
 
