@@ -85,7 +85,7 @@ const MULTIPLIER_CATEGORY_TO_SPEND = {
   dining: "dining",
   groceries: "groceries",
   gas: "gasEv",
-  gas_ev_transit: "gasEv",
+  transit: "transit",
   streaming: "streamingEntertainment",
   entertainment: "streamingEntertainment",
   us_streaming: "streamingEntertainment",
@@ -105,7 +105,8 @@ const MULTIPLIER_CATEGORY_KEY_ALIASES = {
 
 const DINING_TOKEN_RE = /(^|_)(dining|restaurant)(_|$)/
 const GROCERY_TOKEN_RE = /(^|_)(grocery|groceries|supermarket|supermarkets)(_|$)/
-const GAS_EV_TOKEN_RE = /(^|_)(gas|fuel|ev|transit)(_|$)/
+const GAS_EV_TOKEN_RE = /(^|_)(gas|fuel|ev)(_|$)/
+const TRANSIT_TOKEN_RE = /(^|_)(transit)(_|$)/
 const STREAMING_TOKEN_RE = /(^|_)(streaming|entertainment)(_|$)/
 const DRUGSTORE_TOKEN_RE = /(^|_)(drugstore|drugstores|pharmacy|pharmacies)(_|$)/
 const RENT_TOKEN_RE = /(^|_)(rent|mortgage)(_|$)/
@@ -144,18 +145,20 @@ function normalizeMultiplierCategoryKey(rawKey) {
   return MULTIPLIER_CATEGORY_KEY_ALIASES[key] ?? key
 }
 
-function inferSpendCategoryFromKey(rawKey) {
+function inferSpendCategoriesFromKey(rawKey) {
   const key = normalizeMultiplierCategoryKey(rawKey)
-  if (GENERAL_OTHER_KEYS.has(key) || GENERAL_OTHER_KEY_RE.test(key)) return "other"
-  if (MULTIPLIER_CATEGORY_TO_SPEND[key]) return MULTIPLIER_CATEGORY_TO_SPEND[key]
-  if (TRAVEL_TOKEN_RE.test(key)) return null
-  if (DINING_TOKEN_RE.test(key)) return "dining"
-  if (GROCERY_TOKEN_RE.test(key)) return "groceries"
-  if (GAS_EV_TOKEN_RE.test(key)) return "gasEv"
-  if (STREAMING_TOKEN_RE.test(key)) return "streamingEntertainment"
-  if (DRUGSTORE_TOKEN_RE.test(key)) return "drugstores"
-  if (RENT_TOKEN_RE.test(key)) return "rentMortgage"
-  return null
+  if (GENERAL_OTHER_KEYS.has(key) || GENERAL_OTHER_KEY_RE.test(key)) return ["other"]
+  if (key === "gas_ev_transit") return ["gasEv", "transit"]
+  if (MULTIPLIER_CATEGORY_TO_SPEND[key]) return [MULTIPLIER_CATEGORY_TO_SPEND[key]]
+  if (TRAVEL_TOKEN_RE.test(key)) return []
+  if (DINING_TOKEN_RE.test(key)) return ["dining"]
+  if (GROCERY_TOKEN_RE.test(key)) return ["groceries"]
+  if (GAS_EV_TOKEN_RE.test(key)) return ["gasEv"]
+  if (TRANSIT_TOKEN_RE.test(key)) return ["transit"]
+  if (STREAMING_TOKEN_RE.test(key)) return ["streamingEntertainment"]
+  if (DRUGSTORE_TOKEN_RE.test(key)) return ["drugstores"]
+  if (RENT_TOKEN_RE.test(key)) return ["rentMortgage"]
+  return []
 }
 
 function recordAudit(auditMap, cardId, value) {
@@ -232,14 +235,14 @@ function validateNew(card, index, audit) {
     if (cats && typeof cats === "object") {
       for (const [key, config] of Object.entries(cats)) {
         const normalizedKey = normalizeMultiplierCategoryKey(key)
-        const inferredSpendCategory = inferSpendCategoryFromKey(key)
+        const inferredSpendCategories = inferSpendCategoriesFromKey(key)
         if (normalizedKey !== String(key).trim().toLowerCase()) {
           console.warn(
             `${prefix}: multiplier key "${key}" is recognized as alias "${normalizedKey}". Prefer canonical key in data.`
           )
           recordAudit(audit.aliasesByCard, card?.id, `${key} -> ${normalizedKey}`)
         }
-        if (inferredSpendCategory == null) {
+        if (inferredSpendCategories.length === 0) {
           console.warn(
             `${prefix}: unmapped multiplier key "${key}". It may be ignored by parsing logic without an explicit mapping or supported pattern.`
           )

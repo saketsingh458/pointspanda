@@ -52,7 +52,7 @@
     "ftf_percentage": 0,
     "ui_elements": {
       "image_url": "https://images.ctfassets.net/ilblxxee70tt/27XxlbgMQzgWYSW5KLarzl/3f5a2272a06d0503f42cb3b5bbe792fc/meta-image.jpg",
-      "apply_url": "https://robinhood.com/us/en/creditcard/platinum"
+      "apply_url": "https://robinhood.com/creditcard"
     },
     "valuation": {
       "cpp_assumed": 1
@@ -464,7 +464,7 @@
     "ftf_percentage": 0,
     "ui_elements": {
       "image_url": "https://www.chase.com/content/dam/chase-ux/products/credit-cards/logos/sapphire-preferred-card.png",
-      "apply_url": "https://creditcards.chase.com/travel-credit-cards/sapphire-preferred"
+      "apply_url": "https://creditcards.chase.com/"
     },
     "valuation": {
       "cpp_nerdwallet": 1.8,
@@ -817,7 +817,7 @@
     "ftf_percentage": 0,
     "ui_elements": {
       "image_url": "https://www.chase.com/content/dam/chase-ux/products/cards/sapphire-reserve-business.png",
-      "apply_url": "https://www.chase.com/business/credit-cards/sapphire-reserve-business"
+      "apply_url": "https://creditcards.chase.com/"
     },
     "valuation": {
       "cpp_nerdwallet": 1.8,
@@ -1026,7 +1026,7 @@
     "ftf_percentage": 0,
     "ui_elements": {
       "image_url": "https://www.chase.com/content/dam/chase-ux/images/cards/ink-business-preferred.png",
-      "apply_url": "https://www.chase.com/business/credit-cards/ink/ink-business-preferred"
+      "apply_url": "https://creditcards.chase.com/"
     },
     "valuation": {
       "cpp_nerdwallet": 1.8,
@@ -1861,7 +1861,7 @@
     "ftf_percentage": 3,
     "ui_elements": {
       "image_url": "https://www.chase.com/content/dam/chase-ux/cards/slate-edge-card.png",
-      "apply_url": "https://www.chase.com/personal/credit-cards/slate-edge"
+      "apply_url": "https://creditcards.chase.com/"
     },
     "valuation": {
       "cpp_nerdwallet": 1,
@@ -1895,7 +1895,7 @@
     "ftf_percentage": 3,
     "ui_elements": {
       "image_url": "https://www.chase.com/content/dam/chase-ux/products/cards/ink-business-unlimited.png",
-      "apply_url": "https://www.chase.com/business/credit-cards/ink/unlimited"
+      "apply_url": "https://creditcards.chase.com/"
     },
     "valuation": {
       "cpp_nerdwallet": 1.8,
@@ -2098,7 +2098,7 @@
     "ftf_percentage": 0,
     "ui_elements": {
       "image_url": "https://www.chase.com/content/dam/chase-ux/products/credit-cards/ink-business-premier-card-card-art.png",
-      "apply_url": "https://www.chase.com/business/credit-cards/ink/ink-business-premier"
+      "apply_url": "https://creditcards.chase.com/"
     },
     "valuation": {
       "cpp_nerdwallet": 1,
@@ -2627,7 +2627,7 @@
     "ftf_percentage": 0,
     "ui_elements": {
       "image_url": "https://www.americanexpress.com/content/dam/amex/us/credit-cards/card-art/Centurion-Card.png",
-      "apply_url": "Invitation Only"
+      "apply_url": "https://www.americanexpress.com/us/credit-cards/"
     },
     "valuation": {
       "cpp_nerdwallet": 1.6,
@@ -4133,7 +4133,7 @@
     "ftf_percentage": 0,
     "ui_elements": {
       "image_url": "https://www.citi.com/content/dam/citi/product-images/credit-cards/citi-strata-elite.png",
-      "apply_url": "https://www.citi.com/credit-cards/citi-strata-elite-card"
+      "apply_url": "https://www.citi.com/credit-cards/"
     },
     "valuation": {
       "cpp_nerdwallet": 1.6,
@@ -4313,7 +4313,7 @@
     "ftf_percentage": 0,
     "ui_elements": {
       "image_url": "https://www.citi.com/CRD/images/card-art/citi-strata-premier-card.png",
-      "apply_url": "https://www.citi.com/credit-cards/citi-strata-premier-credit-card"
+      "apply_url": "https://www.citi.com/credit-cards/"
     },
     "valuation": {
       "cpp_nerdwallet": 1.6,
@@ -4473,7 +4473,7 @@
     "ftf_percentage": 3,
     "ui_elements": {
       "image_url": "https://www.citi.com/CRD/images/card-art/citi-double-cash-credit-card.png",
-      "apply_url": "https://www.citi.com/credit-cards/citi-double-cash-credit-card",
+      "apply_url": "https://www.citi.com/credit-cards/",
       "benefits_list": [
         "2% cash back on all purchases (1% when you buy, 1% as you pay)",
         "5% total on hotels, car rentals, and attractions booked through Citi Travel® portal"
@@ -4599,7 +4599,7 @@
     "ftf_percentage": 3,
     "ui_elements": {
       "image_url": "https://www.citi.com/CRD/images/card-art/citi-custom-cash-card.png",
-      "apply_url": "https://www.citi.com/credit-cards/citi-custom-cash-credit-card"
+      "apply_url": "https://www.citi.com/credit-cards/"
     },
     "valuation": {
       "cpp_nerdwallet": 1.6,
@@ -4725,7 +4725,7 @@
     "ftf_percentage": 3,
     "ui_elements": {
       "image_url": "https://www.citi.com/content/dam/citibank/retail/credit-cards/card-art/citi-simplicity-card.png",
-      "apply_url": "https://www.citi.com/credit-cards/citi-simplicity-credit-card"
+      "apply_url": "https://www.citi.com/credit-cards/"
     },
     "welcome_offer": {
       "points": 0,
@@ -4758,7 +4758,7 @@
     "ftf_percentage": 3,
     "ui_elements": {
       "image_url": "https://www.citi.com/CRD/images/card-art/citi-diamond-preferred-card.png",
-      "apply_url": "https://www.citi.com/credit-cards/citi-diamond-preferred-credit-card"
+      "apply_url": "https://www.citi.com/credit-cards/"
     },
     "welcome_offer": {
       "points": 0,
@@ -4791,7 +4791,7 @@
     "ftf_percentage": 3,
     "ui_elements": {
       "image_url": "https://www.citi.com/CRD/images/card-art/citi-secured-mastercard.png",
-      "apply_url": "https://www.citibank.com/credit-cards/citi-secured-mastercard"
+      "apply_url": "https://www.citi.com/credit-cards/"
     },
     "welcome_offer": {
       "points": 0,
@@ -4825,7 +4825,7 @@
     "ftf_percentage": 0,
     "ui_elements": {
       "image_url": "https://www.wellsfargo.com/assets/images/cards/wells-fargo-autograph-journey-visa-card.png",
-      "apply_url": "https://www.wellsfargo.com/credit-cards/autograph-journey/"
+      "apply_url": "https://www.wellsfargo.com/credit-cards/"
     },
     "valuation": {
       "cpp_nerdwallet": 1,
@@ -4930,7 +4930,7 @@
     "ftf_percentage": 0,
     "ui_elements": {
       "image_url": "https://www01.wellsfargomedia.com/assets/images/contextual/banner/credit-cards/autograph/wf-autograph-card-front.png",
-      "apply_url": "https://www.wellsfargo.com/credit-cards/autograph/"
+      "apply_url": "https://www.wellsfargo.com/credit-cards/"
     },
     "valuation": {
       "cpp_nerdwallet": 1,
@@ -5018,7 +5018,7 @@
     "ftf_percentage": 3,
     "ui_elements": {
       "image_url": "https://creditcards.wellsfargo.com/W-Card-PaidDigital/v4-9-25/images/Products/ActiveCash/active_cash_card.png",
-      "apply_url": "https://www.wellsfargo.com/credit-cards/active-cash/"
+      "apply_url": "https://www.wellsfargo.com/credit-cards/"
     },
     "valuation": {
       "cpp_nerdwallet": 1,
@@ -5089,7 +5089,7 @@
     "ftf_percentage": 3,
     "ui_elements": {
       "image_url": "https://creditcards.wellsfargo.com/W-Card-PaidDigital/v4-9-25/images/Products/Reflect/reflect_card.png",
-      "apply_url": "https://www.wellsfargo.com/credit-cards/reflect/"
+      "apply_url": "https://www.wellsfargo.com/credit-cards/"
     },
     "welcome_offer": {
       "points": 0,
@@ -5124,7 +5124,7 @@
     "ftf_percentage": 0,
     "ui_elements": {
       "image_url": "https://creditcards.wellsfargo.com/W-Card-PaidDigital/v4-9-25/images/Products/Attune/attune_card.png",
-      "apply_url": "https://www.wellsfargo.com/credit-cards/attune/"
+      "apply_url": "https://www.wellsfargo.com/credit-cards/"
     },
     "valuation": {
       "cpp_nerdwallet": 1,
@@ -5200,7 +5200,7 @@
     "ftf_percentage": 0,
     "ui_elements": {
       "image_url": "https://www.wellsfargo.com/credit-cards/signia/images/card-art.png",
-      "apply_url": "https://www.wellsfargo.com/credit-cards/signia/"
+      "apply_url": "https://www.wellsfargo.com/credit-cards/"
     },
     "valuation": {
       "cpp_nerdwallet": 1,
@@ -5647,7 +5647,7 @@
     "ftf_percentage": 0,
     "ui_elements": {
       "image_url": "https://www.usbank.com/dam/images/credit-cards/altitude-go-signature-card.png",
-      "apply_url": "https://www.usbank.com/credit-cards/altitude-go-visa-signature-card.html"
+      "apply_url": "https://www.usbank.com/credit-cards/"
     },
     "valuation": {
       "cpp_assumed": 1
@@ -5887,7 +5887,7 @@
     "ftf_percentage": 0,
     "ui_elements": {
       "image_url": "https://www.discover.com/content/dam/discover/en_us/credit-cards/card-art/it-chrome.png",
-      "apply_url": "https://www.discover.com/credit-cards/chrome/"
+      "apply_url": "https://www.discover.com/credit-cards/"
     },
     "valuation": {
       "cpp_nerdwallet": 1,
@@ -6230,7 +6230,7 @@
     "ftf_percentage": 0,
     "ui_elements": {
       "image_url": "https://framerusercontent.com/images/BSsq3cHyPJfTeMB9alAG9PRmnH8.png",
-      "apply_url": "https://www.biltrewards.com/card/palladium"
+      "apply_url": "https://www.biltrewards.com/card"
     },
     "valuation": {
       "cpp_nerdwallet": 1.8,
@@ -6520,7 +6520,7 @@
     "ftf_percentage": 3,
     "ui_elements": {
       "image_url": "https://www.upgrade.com/static/images/cards/cash-rewards.png",
-      "apply_url": "https://www.upgrade.com/credit-card/cash-rewards/"
+      "apply_url": "https://www.upgrade.com/credit-card/"
     },
     "valuation": {
       "cpp_nerdwallet": 1,
@@ -6590,7 +6590,7 @@
     "ftf_percentage": 0,
     "ui_elements": {
       "image_url": "https://x1.co/static/hero-card.png",
-      "apply_url": "https://x1.co/"
+      "apply_url": "https://venmo.com/about/creditcard/"
     },
     "valuation": {
       "cpp_assumed": 0.7
@@ -6619,7 +6619,7 @@
     "ftf_percentage": 0,
     "ui_elements": {
       "image_url": "https://x1.co/static/media/x1-plus-gold.8f9f7d3a.png",
-      "apply_url": "https://x1.co/plus"
+      "apply_url": "https://x1.co/"
     },
     "valuation": {
       "cpp_assumed": 1
@@ -6655,7 +6655,7 @@
     "ftf_percentage": 0,
     "ui_elements": {
       "image_url": "https://mma.prnewswire.com/media/2406704/PNC_Unlimited_Visa_Signature_Credit_Card.jpg",
-      "apply_url": "https://www.pnc.com/en/personal-banking/banking/credit-cards/pnc-cash-unlimited-visa-signature-credit-card.html"
+      "apply_url": "https://www.pnc.com/en/personal-banking/banking/credit-cards.html"
     },
     "valuation": {
       "cpp_nerdwallet": 1,
@@ -6734,7 +6734,7 @@
     "ftf_percentage": 3,
     "ui_elements": {
       "image_url": "https://www.pnc.com/content/dam/pnc-com/images/personal/credit-cards/pnc-points-visa-card.png",
-      "apply_url": "https://www.pnc.com/en/personal/banking/credit-cards/pnc-points-visa-credit-card.html"
+      "apply_url": "https://www.pnc.com/en/personal-banking/banking/credit-cards.html"
     },
     "valuation": {
       "cpp_assumed": 1
@@ -6921,7 +6921,7 @@
     "ftf_percentage": 0,
     "ui_elements": {
       "image_url": "https://www.td.com/content/dam/tdb/images/products/credit-cards/td-first-class-card-142x90.png",
-      "apply_url": "https://www.td.com/us/en/personal-banking/credit-cards/first-class"
+      "apply_url": "https://www.td.com/us/en/personal-banking/credit-cards/"
     },
     "valuation": {
       "cpp_assumed": 1
@@ -6991,7 +6991,7 @@
     "ftf_percentage": 3,
     "ui_elements": {
       "image_url": "https://www.td.com/content/dam/tdb/images/products/credit-cards/td-cash-card-142x90.png",
-      "apply_url": "https://www.td.com/us/en/personal-banking/credit-cards/td-cash"
+      "apply_url": "https://www.td.com/us/en/personal-banking/credit-cards/"
     },
     "valuation": {
       "cpp_nerdwallet": 1,
@@ -7031,7 +7031,7 @@
     "ftf_percentage": 0,
     "ui_elements": {
       "image_url": "https://www.navyfederal.org/content/dam/nfculibs/images/products/credit-cards/visasignatureflagshiprewards_142x90.png",
-      "apply_url": "https://www.navyfederal.org/loans-cards/credit-cards/flagship-rewards.html"
+      "apply_url": "https://www.navyfederal.org/loans-cards/credit-cards.html"
     },
     "valuation": {
       "cpp_assumed": 1
@@ -7095,7 +7095,7 @@
     "ftf_percentage": 0,
     "ui_elements": {
       "image_url": "https://www.navyfederal.org/content/dam/nfcu/images/credit-cards/cashrewards-visa.png",
-      "apply_url": "https://www.navyfederal.org/loans-cards/credit-cards/cashrewards.html"
+      "apply_url": "https://www.navyfederal.org/loans-cards/credit-cards.html"
     },
     "valuation": {
       "cpp_nerdwallet": 1,
@@ -7133,7 +7133,7 @@
     "ftf_percentage": 0,
     "ui_elements": {
       "image_url": "https://www.penfed.org/content/dam/penfed/en/products/credit-cards/pathfinder-visa-signature-card-01.png",
-      "apply_url": "https://www.penfed.org/credit-cards/pathfinder-rewards-visa"
+      "apply_url": "https://www.penfed.org/credit-cards/"
     },
     "developer_notes": "https://www.penfed.org/credit-cards/pathfinder-rewards-visa",
     "valuation": {
@@ -7200,7 +7200,7 @@
     "ftf_percentage": 0,
     "ui_elements": {
       "image_url": "https://www.penfed.org/content/dam/penfed/en/images/credit-cards/power-cash-rewards/power-cash-rewards-card.png",
-      "apply_url": "https://www.penfed.org/credit-cards/power-cash-rewards"
+      "apply_url": "https://www.penfed.org/credit-cards/"
     },
     "valuation": {
       "cpp_nerdwallet": 1,
@@ -7240,7 +7240,7 @@
     "ftf_percentage": 0,
     "ui_elements": {
       "image_url": "https://www.alliantcreditunion.org/images/uploads/cards/visa-signature-card.png",
-      "apply_url": "https://www.alliantcreditunion.org/bank/visa-signature-card"
+      "apply_url": "https://www.alliantcreditunion.org/bank/"
     },
     "valuation": {
       "cpp_nerdwallet": 1,
@@ -7273,7 +7273,7 @@
     "ftf_percentage": 0,
     "ui_elements": {
       "image_url": "https://cards.barclaycardus.com/content/dam/barclaycardus/cards/barclays-view-mastercard/view_card_300x190.png",
-      "apply_url": "https://cards.barclaycardus.com/banking/cards/barclays-view-mastercard/"
+      "apply_url": "https://cards.barclaycardus.com/banking/cards/"
     },
     "valuation": {
       "cpp_assumed": 1
@@ -7312,7 +7312,7 @@
     "ftf_percentage": 0,
     "ui_elements": {
       "image_url": "https://www.53.com/content/dam/fifth-third/products/credit-cards/preferred-cash-back-card.png",
-      "apply_url": "https://www.53.com/content/fifth-third/en/personal-banking/bank/credit-cards/preferred-cash-back-card.html"
+      "apply_url": "https://www.53.com/content/fifth-third/en/personal-banking/bank/credit-cards.html"
     },
     "valuation": {
       "cpp_nerdwallet": 1,
@@ -7345,7 +7345,7 @@
     "ftf_percentage": 0,
     "ui_elements": {
       "image_url": "https://www.huntington.com/-/media/hnb/images/credit-card/voice-lower-rate-card.png",
-      "apply_url": "https://www.huntington.com/Personal/credit-card/voice-lower-rate"
+      "apply_url": "https://www.huntington.com/Personal/credit-card"
     },
     "welcome_offer": {
       "points": 0,

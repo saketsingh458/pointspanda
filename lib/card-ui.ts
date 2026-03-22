@@ -1,4 +1,5 @@
 import {
+  Bus,
   Building2,
   CircleDollarSign,
   Fuel,
@@ -18,6 +19,7 @@ export const CATEGORY_ICONS: Record<SpendCategoryId, LucideIcon> = {
   dining: UtensilsCrossed,
   groceries: ShoppingCart,
   gasEv: Fuel,
+  transit: Bus,
   streamingEntertainment: Tv,
   drugstores: Pill,
   rentMortgage: Building2,

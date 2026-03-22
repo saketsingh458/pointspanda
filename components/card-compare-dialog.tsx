@@ -6,6 +6,7 @@ import Link from "next/link"
 import { ArrowUpRight, ExternalLink } from "lucide-react"
 import type { Card } from "@/lib/types"
 import { buildCompareSections } from "@/lib/card-compare"
+import { getApplyUrl } from "@/lib/cards"
 import { CARD_ART_PLACEHOLDER, isValidImageSrc } from "@/lib/card-ui"
 import {
   Dialog,
@@ -87,9 +88,9 @@ function CompareCardHeader({
           <ExternalLink className="size-4" aria-hidden />
           View details
         </Button>
-        {card.applyUrl ? (
+        {getApplyUrl(card) ? (
           <Button asChild className="w-full rounded-xl">
-            <Link href={card.applyUrl} target="_blank" rel="noopener noreferrer">
+            <Link href={getApplyUrl(card)!} target="_blank" rel="noopener noreferrer">
               Apply on issuer site
               <ArrowUpRight className="size-4" aria-hidden />
             </Link>

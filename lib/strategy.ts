@@ -37,6 +37,23 @@ import {
 const MONTHS_PER_YEAR = 12
 const DEFAULT_CPP_CENTS = 125
 const MAX_ECOSYSTEM_PORTFOLIO_SIZE = 4
+const BILT_RENT_MONTHLY_FLOOR_POINTS = 250
+const BILT_RENT_TIERS: Array<{ minRatio: number; multiplier: number }> = [
+  { minRatio: 1, multiplier: 1.25 },
+  { minRatio: 0.75, multiplier: 1 },
+  { minRatio: 0.5, multiplier: 0.75 },
+  { minRatio: 0.25, multiplier: 0.5 },
+]
+const NON_RENT_CATEGORIES: SpendCategoryId[] = [
+  "travel",
+  "dining",
+  "groceries",
+  "gasEv",
+  "transit",
+  "streamingEntertainment",
+  "drugstores",
+  "other",
+]
 type AssumptionCollector = Map<string, StrategyAssumption>
 
 function addAssumption(
@@ -318,6 +335,285 @@ function getAnnualPointsForCardCategory(
   return { annualPoints }
 }
 
+interface CategoryEvaluation {
+  card: Card | null
+  multiplier: number
+  annualPoints: number
+  annualDollars: number
+}
+
+interface PortfolioEvaluation {
+  annualPoints: number
+  annualDollars: number
+  byCategory: Record<SpendCategoryId, CategoryEvaluation>
+}
+
+interface NonRentRerouteOpportunity {
+  categoryId: SpendCategoryId
+  monthlySpend: number
+  annualDollarLossPerMonthlyDollar: number
+  annualPointLossPerMonthlyDollar: number
+}
+
+function createEmptyCategoryEvaluationRecord(): Record<SpendCategoryId, CategoryEvaluation> {
+  return {
+    travel: { card: null, multiplier: 0, annualPoints: 0, annualDollars: 0 },
+    dining: { card: null, multiplier: 0, annualPoints: 0, annualDollars: 0 },
+    groceries: { card: null, multiplier: 0, annualPoints: 0, annualDollars: 0 },
+    gasEv: { card: null, multiplier: 0, annualPoints: 0, annualDollars: 0 },
+    transit: { card: null, multiplier: 0, annualPoints: 0, annualDollars: 0 },
+    streamingEntertainment: { card: null, multiplier: 0, annualPoints: 0, annualDollars: 0 },
+    drugstores: { card: null, multiplier: 0, annualPoints: 0, annualDollars: 0 },
+    rentMortgage: { card: null, multiplier: 0, annualPoints: 0, annualDollars: 0 },
+    other: { card: null, multiplier: 0, annualPoints: 0, annualDollars: 0 },
+  }
+}
+
+function cloneCategoryEvaluations(
+  source: Record<SpendCategoryId, CategoryEvaluation>
+): Record<SpendCategoryId, CategoryEvaluation> {
+  const cloned = createEmptyCategoryEvaluationRecord()
+  for (const categoryId of SPEND_CATEGORIES) {
+    cloned[categoryId] = { ...source[categoryId] }
+  }
+  return cloned
+}
+
+function getAnnualMetricsForCardCategory(
+  card: Card,
+  categoryId: SpendCategoryId,
+  monthlySpendAmount: number,
+  portfolioCards: Card[],
+  assumptionNotes: AssumptionCollector
+): { annualPoints: number; annualDollars: number } {
+  const { annualPoints } = getAnnualPointsForCardCategory(
+    card,
+    categoryId,
+    monthlySpendAmount,
+    assumptionNotes
+  )
+  const annualDollars = pointsToDollars(
+    annualPoints,
+    getCardCppCentsInContext(card, portfolioCards)
+  )
+  return { annualPoints, annualDollars }
+}
+
+function isBiltFamilyCard(card: Card): boolean {
+  const id = card.id.toLowerCase()
+  const name = card.name.toLowerCase()
+  const ecosystem = card.synergyEcosystem?.toLowerCase() ?? ""
+  const currency = card.rewardCurrency?.toLowerCase() ?? ""
+  return (
+    id.includes("bilt") ||
+    name.includes("bilt") ||
+    ecosystem.includes("bilt") ||
+    currency.includes("bilt")
+  )
+}
+
+function getBiltRentTierMultiplier(nonRentSpend: number, rentSpend: number): number | null {
+  if (rentSpend <= 0) return null
+  const ratio = Math.max(0, nonRentSpend) / rentSpend
+  for (const tier of BILT_RENT_TIERS) {
+    if (ratio >= tier.minRatio) return tier.multiplier
+  }
+  return null
+}
+
+function getBiltRentMonthlyPoints(
+  rentSpend: number,
+  nonRentSpend: number
+): { monthlyPoints: number; tierMultiplier: number | null } {
+  if (rentSpend <= 0) return { monthlyPoints: 0, tierMultiplier: null }
+  const tierMultiplier = getBiltRentTierMultiplier(nonRentSpend, rentSpend)
+  if (tierMultiplier == null) {
+    return {
+      monthlyPoints: BILT_RENT_MONTHLY_FLOOR_POINTS,
+      tierMultiplier: null,
+    }
+  }
+  return {
+    monthlyPoints: rentSpend * tierMultiplier,
+    tierMultiplier,
+  }
+}
+
+function isPortfolioEvaluationBetter(
+  candidate: PortfolioEvaluation,
+  currentBest: PortfolioEvaluation | null
+): boolean {
+  if (!currentBest) return true
+  if (candidate.annualDollars !== currentBest.annualDollars) {
+    return candidate.annualDollars > currentBest.annualDollars
+  }
+  return candidate.annualPoints > currentBest.annualPoints
+}
+
+function evaluatePortfolioWithBiltOptimization(
+  monthlySpend: MonthlySpend,
+  cards: Card[],
+  assumptionNotes: AssumptionCollector
+): PortfolioEvaluation {
+  const baselineByCategory = createEmptyCategoryEvaluationRecord()
+  let baselineAnnualPoints = 0
+  let baselineAnnualDollars = 0
+
+  for (const categoryId of SPEND_CATEGORIES) {
+    const monthly = monthlySpend[categoryId] ?? 0
+    const best = getBestCardForCategoryByDollars(cards, categoryId, monthly, assumptionNotes)
+    const entry: CategoryEvaluation = {
+      card: best?.card ?? null,
+      multiplier: best?.multiplier ?? 0,
+      annualPoints: best?.annualPoints ?? 0,
+      annualDollars: best?.annualDollars ?? 0,
+    }
+    baselineByCategory[categoryId] = entry
+    baselineAnnualPoints += entry.annualPoints
+    baselineAnnualDollars += entry.annualDollars
+  }
+
+  const baselineEvaluation: PortfolioEvaluation = {
+    annualPoints: baselineAnnualPoints,
+    annualDollars: baselineAnnualDollars,
+    byCategory: cloneCategoryEvaluations(baselineByCategory),
+  }
+
+  const rentSpend = Math.max(0, monthlySpend.rentMortgage ?? 0)
+  if (rentSpend <= 0) return baselineEvaluation
+
+  const biltCards = cards.filter((card) => isBiltFamilyCard(card))
+  if (biltCards.length === 0) return baselineEvaluation
+  let bestEvaluation: PortfolioEvaluation | null = null
+
+  addAssumption(assumptionNotes, {
+    id: "bilt_tiered_rent",
+    title: "Bilt tiered rent model",
+    assumption:
+      "Bilt rent points use a tiered multiplier based on non-rent spend allocated to Bilt versus rent spend: 0.5x at 25%-49%, 0.75x at 50%-74%, 1.0x at 75%-99%, 1.25x at 100%+, and a 250-point monthly floor below 25%.",
+    whyItMatters:
+      "Routing some non-rent spend to Bilt can unlock higher rent rewards and increase total portfolio value.",
+  })
+
+  for (const biltCard of biltCards) {
+    const biltCppCents = getCardCppCentsInContext(biltCard, cards)
+    const naturalNonRentOnBilt = NON_RENT_CATEGORIES.reduce((sum, categoryId) => {
+      const monthly = Math.max(0, monthlySpend[categoryId] ?? 0)
+      if (monthly <= 0) return sum
+      return baselineByCategory[categoryId].card?.id === biltCard.id ? sum + monthly : sum
+    }, 0)
+
+    const opportunities: NonRentRerouteOpportunity[] = []
+    for (const categoryId of NON_RENT_CATEGORIES) {
+      const monthly = Math.max(0, monthlySpend[categoryId] ?? 0)
+      if (monthly <= 0) continue
+      if (baselineByCategory[categoryId].card?.id === biltCard.id) continue
+
+      const biltCategoryMetrics = getAnnualMetricsForCardCategory(
+        biltCard,
+        categoryId,
+        monthly,
+        cards,
+        assumptionNotes
+      )
+      const baselineCategory = baselineByCategory[categoryId]
+      opportunities.push({
+        categoryId,
+        monthlySpend: monthly,
+        annualDollarLossPerMonthlyDollar:
+          (baselineCategory.annualDollars - biltCategoryMetrics.annualDollars) / monthly,
+        annualPointLossPerMonthlyDollar:
+          (baselineCategory.annualPoints - biltCategoryMetrics.annualPoints) / monthly,
+      })
+    }
+
+    opportunities.sort((a, b) => {
+      if (a.annualDollarLossPerMonthlyDollar !== b.annualDollarLossPerMonthlyDollar) {
+        return a.annualDollarLossPerMonthlyDollar - b.annualDollarLossPerMonthlyDollar
+      }
+      if (a.annualPointLossPerMonthlyDollar !== b.annualPointLossPerMonthlyDollar) {
+        return a.annualPointLossPerMonthlyDollar - b.annualPointLossPerMonthlyDollar
+      }
+      return a.categoryId.localeCompare(b.categoryId)
+    })
+
+    const additionalTargets = new Set<number>([0])
+    for (const tier of BILT_RENT_TIERS) {
+      const requiredTotal = rentSpend * tier.minRatio
+      const additionalNeeded = Math.max(0, requiredTotal - naturalNonRentOnBilt)
+      additionalTargets.add(Math.round(additionalNeeded * 10000) / 10000)
+    }
+
+    for (const additionalTarget of additionalTargets.values()) {
+      let remaining = additionalTarget
+      let annualDollarLoss = 0
+      let annualPointLoss = 0
+      const allocations = new Map<SpendCategoryId, number>()
+
+      for (const opportunity of opportunities) {
+        if (remaining <= 0) break
+        const allocated = Math.min(opportunity.monthlySpend, remaining)
+        if (allocated <= 0) continue
+        allocations.set(opportunity.categoryId, allocated)
+        annualDollarLoss += allocated * opportunity.annualDollarLossPerMonthlyDollar
+        annualPointLoss += allocated * opportunity.annualPointLossPerMonthlyDollar
+        remaining -= allocated
+      }
+
+      if (remaining > 1e-9) continue
+
+      const totalNonRentOnBilt = naturalNonRentOnBilt + additionalTarget
+      const biltRent = getBiltRentMonthlyPoints(rentSpend, totalNonRentOnBilt)
+      const biltRentAnnualPoints = biltRent.monthlyPoints * MONTHS_PER_YEAR
+      const biltRentAnnualDollars = pointsToDollars(biltRentAnnualPoints, biltCppCents)
+
+      const baselineRent = baselineByCategory.rentMortgage
+      const candidateAnnualPoints =
+        baselineAnnualPoints - baselineRent.annualPoints - annualPointLoss + biltRentAnnualPoints
+      const candidateAnnualDollars =
+        baselineAnnualDollars -
+        baselineRent.annualDollars -
+        annualDollarLoss +
+        biltRentAnnualDollars
+
+      const candidateByCategory = cloneCategoryEvaluations(baselineByCategory)
+      candidateByCategory.rentMortgage = {
+        card: biltCard,
+        multiplier: biltRent.tierMultiplier ?? 0,
+        annualPoints: biltRentAnnualPoints,
+        annualDollars: biltRentAnnualDollars,
+      }
+
+      for (const [categoryId, allocated] of allocations.entries()) {
+        const baselineCategory = baselineByCategory[categoryId]
+        const opportunity = opportunities.find((entry) => entry.categoryId === categoryId)
+        if (!opportunity) continue
+        candidateByCategory[categoryId] = {
+          card: biltCard,
+          multiplier: getDisplayMultiplier(biltCard, categoryId),
+          annualPoints:
+            baselineCategory.annualPoints - allocated * opportunity.annualPointLossPerMonthlyDollar,
+          annualDollars:
+            baselineCategory.annualDollars -
+            allocated * opportunity.annualDollarLossPerMonthlyDollar,
+        }
+      }
+
+      const candidateEvaluation: PortfolioEvaluation = {
+        annualPoints: candidateAnnualPoints,
+        annualDollars: candidateAnnualDollars,
+        byCategory: candidateByCategory,
+      }
+
+      if (isPortfolioEvaluationBetter(candidateEvaluation, bestEvaluation)) {
+        bestEvaluation = candidateEvaluation
+      }
+    }
+  }
+
+  return bestEvaluation ?? baselineEvaluation
+}
+
 /**
  * Find the card in the set with best annual dollar earn for a category.
  * Ties: first one wins.
@@ -397,19 +693,15 @@ function calculateAnnualMetrics(
   if (cards.length === 0) {
     return { annualPoints: 0, annualDollars: 0 }
   }
-
-  let annualPoints = 0
-  let annualDollars = 0
-  for (const categoryId of SPEND_CATEGORIES) {
-    const monthly = monthlySpend[categoryId] ?? 0
-    const best = getBestCardForCategoryByDollars(cards, categoryId, monthly, assumptionNotes)
-    annualPoints += best?.annualPoints ?? 0
-    annualDollars += best?.annualDollars ?? 0
-  }
+  const evaluation = evaluatePortfolioWithBiltOptimization(
+    monthlySpend,
+    cards,
+    assumptionNotes
+  )
 
   return {
-    annualPoints: Math.round(annualPoints),
-    annualDollars: Math.round(annualDollars),
+    annualPoints: Math.round(evaluation.annualPoints),
+    annualDollars: Math.round(evaluation.annualDollars),
   }
 }
 
@@ -648,37 +940,36 @@ function buildCategoryRows(
   scenarioCards: Card[],
   assumptionNotes: AssumptionCollector
 ): CategoryStrategyRow[] {
+  const currentEvaluation = evaluatePortfolioWithBiltOptimization(
+    monthlySpend,
+    currentCards,
+    assumptionNotes
+  )
+  const scenarioEvaluation = evaluatePortfolioWithBiltOptimization(
+    monthlySpend,
+    scenarioCards,
+    assumptionNotes
+  )
   const rows: CategoryStrategyRow[] = []
   for (const categoryId of SPEND_CATEGORIES) {
-    const monthly = monthlySpend[categoryId] ?? 0
-    const currentBest = getBestCardForCategoryByDollars(
-      currentCards,
-      categoryId,
-      monthly,
-      assumptionNotes
-    )
-    const scenarioBest = getBestCardForCategoryByDollars(
-      scenarioCards,
-      categoryId,
-      monthly,
-      assumptionNotes
-    )
-    const currentMult = currentBest?.multiplier ?? 0
-    const suggestedMult = scenarioBest?.multiplier ?? 0
-    const suggestedCard = scenarioBest?.card ?? null
+    const currentBest = currentEvaluation.byCategory[categoryId]
+    const scenarioBest = scenarioEvaluation.byCategory[categoryId]
+    const currentMult = currentBest.multiplier
+    const suggestedMult = scenarioBest.multiplier
+    const suggestedCard = scenarioBest.card
     const incrementalAnnualPoints = Math.round(
-      (scenarioBest?.annualPoints ?? 0) - (currentBest?.annualPoints ?? 0)
+      scenarioBest.annualPoints - currentBest.annualPoints
     )
     const incrementalAnnualDollars = Math.round(
-      (scenarioBest?.annualDollars ?? 0) - (currentBest?.annualDollars ?? 0)
+      scenarioBest.annualDollars - currentBest.annualDollars
     )
     const isOptimized =
-      (currentBest?.card.id ?? null) === (scenarioBest?.card.id ?? null) && incrementalAnnualDollars === 0
+      (currentBest.card?.id ?? null) === (scenarioBest.card?.id ?? null) && incrementalAnnualDollars === 0
 
     rows.push({
       categoryId,
       categoryLabel: CATEGORY_LABELS[categoryId],
-      currentBestCard: currentBest?.card ?? null,
+      currentBestCard: currentBest.card,
       currentMultiplier: currentMult,
       suggestedCard,
       suggestedMultiplier: suggestedMult,
@@ -700,6 +991,7 @@ function evaluateBestCandidate(
   walletCards: Card[],
   currentAnnualDollars: number,
   assumptionNotes: AssumptionCollector,
+  allowBusinessRecommendations: boolean,
   feeMode: AnnualFeeMode = "full"
 ): CandidateEvaluation {
   const walletIds = new Set(walletCards.map((card) => card.id))
@@ -710,6 +1002,7 @@ function evaluateBestCandidate(
 
   for (const candidate of CARD_CATALOG) {
     if (walletIds.has(candidate.id)) continue
+    if (!allowBusinessRecommendations && isBusinessCard(candidate)) continue
     const candidateWallet = [...walletCards, candidate]
     const candidateAnnualDollars = calculateCurrentAnnualDollars(
       monthlySpend,
@@ -965,6 +1258,10 @@ function isBusinessCard(card: Card): boolean {
   return false
 }
 
+function hasBusinessCardInPortfolio(cards: Card[]): boolean {
+  return cards.some((card) => isBusinessCard(card))
+}
+
 function isPortfolioBetter(
   candidate: StrategyPortfolioSummary,
   currentBest: StrategyPortfolioSummary | null
@@ -1026,12 +1323,14 @@ function buildEcosystemSummaryReason(
 function evaluateBestSingleCard(
   monthlySpend: MonthlySpend,
   assumptionNotes: AssumptionCollector,
+  allowBusinessRecommendations: boolean,
   feeMode: AnnualFeeMode = "full"
 ): Card | null {
   let bestCard: Card | null = null
   let bestPortfolio: StrategyPortfolioSummary | null = null
 
   for (const candidate of CARD_CATALOG) {
+    if (!allowBusinessRecommendations && isBusinessCard(candidate)) continue
     const portfolio = getPortfolioSummary(monthlySpend, [candidate], assumptionNotes, feeMode)
     if (isPortfolioBetter(portfolio, bestPortfolio)) {
       bestCard = candidate
@@ -1046,14 +1345,19 @@ function evaluateEcosystemOptions(
   monthlySpend: MonthlySpend,
   currentCards: Card[],
   assumptionNotes: AssumptionCollector,
+  allowBusinessRecommendations: boolean,
   feeMode: AnnualFeeMode = "full"
 ): EcosystemStrategyOption[] {
   const grouped = groupCardsByEcosystem(CARD_CATALOG)
   const options: EcosystemStrategyOption[] = []
 
   for (const [ecosystemId, group] of grouped.entries()) {
-    const maxSize = Math.min(MAX_ECOSYSTEM_PORTFOLIO_SIZE, group.cards.length)
-    const combinations = buildPortfolioCombinations(group.cards, maxSize)
+    const eligibleCards = allowBusinessRecommendations
+      ? group.cards
+      : group.cards.filter((card) => !isBusinessCard(card))
+    if (eligibleCards.length === 0) continue
+    const maxSize = Math.min(MAX_ECOSYSTEM_PORTFOLIO_SIZE, eligibleCards.length)
+    const combinations = buildPortfolioCombinations(eligibleCards, maxSize)
 
     let bestPortfolio: StrategyPortfolioSummary | null = null
     let bestRows: CategoryStrategyRow[] = []
@@ -1290,6 +1594,7 @@ function buildStrategyResult({
 
 function computeNextBestCardStrategy(monthlySpend: MonthlySpend, walletCards: Card[], feeMode: AnnualFeeMode = "full"): StrategyResult {
   const assumptionNotes = createAssumptionCollector()
+  const allowBusinessRecommendations = hasBusinessCardInPortfolio(walletCards)
   const currentAnnualPoints = calculateCurrentAnnualPoints(monthlySpend, walletCards, assumptionNotes)
   const currentAnnualDollars = calculateCurrentAnnualDollars(monthlySpend, walletCards, assumptionNotes)
   const currentAnnualFee = getCurrentAnnualFee(walletCards, feeMode)
@@ -1300,6 +1605,7 @@ function computeNextBestCardStrategy(monthlySpend: MonthlySpend, walletCards: Ca
     walletCards,
     currentAnnualDollars,
     assumptionNotes,
+    allowBusinessRecommendations,
     feeMode
   )
   const recommendedCard = candidateEvaluation.recommendedCard
@@ -1343,12 +1649,18 @@ function computeNextBestCardStrategy(monthlySpend: MonthlySpend, walletCards: Ca
 
 function computeBestSingleCardStrategy(monthlySpend: MonthlySpend, walletCards: Card[], feeMode: AnnualFeeMode = "full"): StrategyResult {
   const assumptionNotes = createAssumptionCollector()
+  const allowBusinessRecommendations = hasBusinessCardInPortfolio(walletCards)
   const currentAnnualPoints = calculateCurrentAnnualPoints(monthlySpend, walletCards, assumptionNotes)
   const currentAnnualDollars = calculateCurrentAnnualDollars(monthlySpend, walletCards, assumptionNotes)
   const currentAnnualFee = getCurrentAnnualFee(walletCards, feeMode)
   const currentAnnualFeeActual = getCurrentAnnualFee(walletCards, "full")
   const currentBenefitLabels = getCurrentBenefitLabels(walletCards)
-  const recommendedCard = evaluateBestSingleCard(monthlySpend, assumptionNotes, feeMode)
+  const recommendedCard = evaluateBestSingleCard(
+    monthlySpend,
+    assumptionNotes,
+    allowBusinessRecommendations,
+    feeMode
+  )
   const recommendedCards = recommendedCard ? [recommendedCard] : []
   const scenarioCards = recommendedCards
   const scenarioPortfolio = getPortfolioSummary(monthlySpend, scenarioCards, assumptionNotes, feeMode)
@@ -1387,12 +1699,19 @@ function computeBestSingleCardStrategy(monthlySpend: MonthlySpend, walletCards: 
 
 function computeBestEcosystemStrategy(monthlySpend: MonthlySpend, walletCards: Card[], feeMode: AnnualFeeMode = "full"): StrategyResult {
   const assumptionNotes = createAssumptionCollector()
+  const allowBusinessRecommendations = hasBusinessCardInPortfolio(walletCards)
   const currentAnnualPoints = calculateCurrentAnnualPoints(monthlySpend, walletCards, assumptionNotes)
   const currentAnnualDollars = calculateCurrentAnnualDollars(monthlySpend, walletCards, assumptionNotes)
   const currentAnnualFee = getCurrentAnnualFee(walletCards, feeMode)
   const currentAnnualFeeActual = getCurrentAnnualFee(walletCards, "full")
   const currentBenefitLabels = getCurrentBenefitLabels(walletCards)
-  const rankedOptions = evaluateEcosystemOptions(monthlySpend, walletCards, assumptionNotes, feeMode)
+  const rankedOptions = evaluateEcosystemOptions(
+    monthlySpend,
+    walletCards,
+    assumptionNotes,
+    allowBusinessRecommendations,
+    feeMode
+  )
   const winningOption = rankedOptions[0]
   const recommendedCards = winningOption?.portfolio.cards ?? []
   const scenarioCards = recommendedCards

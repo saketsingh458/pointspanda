@@ -1,6 +1,7 @@
 "use client"
 
 import {
+  Bus,
   Plane,
   UtensilsCrossed,
   ShoppingCart,
@@ -17,6 +18,7 @@ const CATEGORIES = [
   { id: "dining", label: "Dining", icon: UtensilsCrossed },
   { id: "groceries", label: "Groceries", icon: ShoppingCart },
   { id: "gasEv", label: "Gas & EV", icon: Fuel },
+  { id: "transit", label: "Transit", icon: Bus },
   { id: "streamingEntertainment", label: "Streaming & Entertainment", icon: Tv },
   { id: "drugstores", label: "Drugstores", icon: Pill },
   { id: "rentMortgage", label: "Rent & Mortgage", icon: Home },

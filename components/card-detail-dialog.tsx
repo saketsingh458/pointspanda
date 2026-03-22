@@ -18,7 +18,12 @@ import {
   UtensilsCrossed,
 } from "lucide-react"
 import type { Card as CardType } from "@/lib/types"
-import { CATEGORY_LABELS, getCardRankingCppCents, getCardCppSources } from "@/lib/cards"
+import {
+  CATEGORY_LABELS,
+  getApplyUrl,
+  getCardRankingCppCents,
+  getCardCppSources,
+} from "@/lib/cards"
 import { SPEND_CATEGORIES, type SpendCategoryId, type CapPeriod } from "@/lib/types"
 import { CARD_ART_PLACEHOLDER, isValidImageSrc } from "@/lib/card-ui"
 import {
@@ -615,10 +620,10 @@ export function CardDetailDialog({ card, open, onOpenChange }: Props) {
               <p className="text-sm text-muted-foreground">
                 {[card.rewardCurrency, card.synergyEcosystem].filter(Boolean).join(" · ")}
               </p>
-              {card.applyUrl && (
+              {getApplyUrl(card) && (
                 <Button asChild variant="outline" className="rounded-xl px-4">
                   <Link
-                    href={card.applyUrl}
+                    href={getApplyUrl(card)!}
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={() => onOpenChange(false)}

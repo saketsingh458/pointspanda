@@ -20,6 +20,7 @@ export const CATEGORY_LABELS: Record<SpendCategoryId, string> = {
   dining: "Dining",
   groceries: "Groceries",
   gasEv: "Gas & EV",
+  transit: "Transit",
   streamingEntertainment: "Streaming & Entertainment",
   drugstores: "Drugstores",
   rentMortgage: "Rent & Mortgage",
@@ -51,7 +52,7 @@ const MULTIPLIER_CATEGORY_TO_SPEND: Record<string, SpendCategoryId> = {
   dining: "dining",
   groceries: "groceries",
   gas: "gasEv",
-  gas_ev_transit: "gasEv",
+  transit: "transit",
   streaming: "streamingEntertainment",
   entertainment: "streamingEntertainment",
   us_streaming: "streamingEntertainment",
@@ -78,7 +79,8 @@ const GENERAL_OTHER_KEY_RE = /^[0-9]+x_on_all_purchases$/
 const CONTAINS_TRAVEL_TOKEN_RE = /(travel|flight|airfare|airline|hotel|portal|rideshare|lyft|uber|rental|cruise)/
 const DINING_TOKEN_RE = /(^|_)(dining|restaurant)(_|$)/
 const GROCERY_TOKEN_RE = /(^|_)(grocery|groceries|supermarket|supermarkets)(_|$)/
-const GAS_EV_TOKEN_RE = /(^|_)(gas|fuel|ev|transit)(_|$)/
+const GAS_EV_TOKEN_RE = /(^|_)(gas|fuel|ev)(_|$)/
+const TRANSIT_TOKEN_RE = /(^|_)(transit)(_|$)/
 const STREAMING_TOKEN_RE = /(^|_)(streaming|entertainment)(_|$)/
 const DRUGSTORE_TOKEN_RE = /(^|_)(drugstore|drugstores|pharmacy|pharmacies)(_|$)/
 const RENT_TOKEN_RE = /(^|_)(rent|mortgage)(_|$)/
@@ -96,22 +98,26 @@ function normalizeMultiplierCategoryKey(rawKey: string): string {
   return MULTIPLIER_CATEGORY_KEY_ALIASES[key] ?? key
 }
 
-function inferSpendCategoryFromKey(rawKey: string): SpendCategoryId | null {
+function inferSpendCategoriesFromKey(rawKey: string): SpendCategoryId[] {
   const key = normalizeMultiplierCategoryKey(rawKey)
-  if (GENERAL_OTHER_KEYS.has(key) || GENERAL_OTHER_KEY_RE.test(key)) return "other"
+  if (GENERAL_OTHER_KEYS.has(key) || GENERAL_OTHER_KEY_RE.test(key)) return ["other"]
+
+  // Combined issuer keys should feed both buckets, not hide transit inside gas/EV.
+  if (key === "gas_ev_transit") return ["gasEv", "transit"]
 
   const explicit = MULTIPLIER_CATEGORY_TO_SPEND[key]
-  if (explicit) return explicit
+  if (explicit) return [explicit]
 
   // Travel-like keys must use canonical travel keys; do not inflate generic "other".
-  if (CONTAINS_TRAVEL_TOKEN_RE.test(key)) return null
-  if (DINING_TOKEN_RE.test(key)) return "dining"
-  if (GROCERY_TOKEN_RE.test(key)) return "groceries"
-  if (GAS_EV_TOKEN_RE.test(key)) return "gasEv"
-  if (STREAMING_TOKEN_RE.test(key)) return "streamingEntertainment"
-  if (DRUGSTORE_TOKEN_RE.test(key)) return "drugstores"
-  if (RENT_TOKEN_RE.test(key)) return "rentMortgage"
-  return null
+  if (CONTAINS_TRAVEL_TOKEN_RE.test(key)) return []
+  if (DINING_TOKEN_RE.test(key)) return ["dining"]
+  if (GROCERY_TOKEN_RE.test(key)) return ["groceries"]
+  if (GAS_EV_TOKEN_RE.test(key)) return ["gasEv"]
+  if (TRANSIT_TOKEN_RE.test(key)) return ["transit"]
+  if (STREAMING_TOKEN_RE.test(key)) return ["streamingEntertainment"]
+  if (DRUGSTORE_TOKEN_RE.test(key)) return ["drugstores"]
+  if (RENT_TOKEN_RE.test(key)) return ["rentMortgage"]
+  return []
 }
 
 function inferBookingChannelFromKey(rawKey: string): EarnChannel {
@@ -143,6 +149,7 @@ function rawToCard(raw: CardRaw): Card {
     dining: base,
     groceries: base,
     gasEv: base,
+    transit: base,
     streamingEntertainment: base,
     drugstores: base,
     rentMortgage: base,
@@ -154,30 +161,33 @@ function rawToCard(raw: CardRaw): Card {
 
   for (const [key, config] of Object.entries(cats)) {
     const normalizedKey = normalizeMultiplierCategoryKey(key)
-    const spendCat = inferSpendCategoryFromKey(key)
-    if (!spendCat) continue
+    const spendCats = inferSpendCategoriesFromKey(key)
+    if (spendCats.length === 0) continue
     const rate = config.rate
-    if (rate > (mults[spendCat] ?? 0)) mults[spendCat] = rate
 
-    const channel = channelLabel(normalizedKey)
-    const capPeriod = normalizeCapPeriod(config.cap_period)
-    const rateEntry: CategoryEarnRate = {
-      channel,
-      multiplier: rate,
-      ...(config.cap_amount != null && { capAmount: config.cap_amount }),
-      ...(capPeriod && { capPeriod }),
-      rawKey: key,
-      ...(config.requires_portal != null && { requiresPortal: config.requires_portal }),
-      bookingChannel: config.booking_channel ?? inferBookingChannelFromKey(key),
-      ...(spendCat === "travel" && {
-        travelSubtype: config.travel_subtype ?? inferTravelSubtypeFromKey(key),
-      }),
-    }
-    if (!earnDetails[spendCat]) earnDetails[spendCat] = []
-    earnDetails[spendCat]!.push(rateEntry)
-    if (config.cap_amount != null) {
-      const existing = caps[spendCat] ?? 0
-      if (config.cap_amount > existing) caps[spendCat] = config.cap_amount
+    for (const spendCat of spendCats) {
+      if (rate > (mults[spendCat] ?? 0)) mults[spendCat] = rate
+
+      const channel = channelLabel(normalizedKey)
+      const capPeriod = normalizeCapPeriod(config.cap_period)
+      const rateEntry: CategoryEarnRate = {
+        channel,
+        multiplier: rate,
+        ...(config.cap_amount != null && { capAmount: config.cap_amount }),
+        ...(capPeriod && { capPeriod }),
+        rawKey: key,
+        ...(config.requires_portal != null && { requiresPortal: config.requires_portal }),
+        bookingChannel: config.booking_channel ?? inferBookingChannelFromKey(key),
+        ...(spendCat === "travel" && {
+          travelSubtype: config.travel_subtype ?? inferTravelSubtypeFromKey(key),
+        }),
+      }
+      if (!earnDetails[spendCat]) earnDetails[spendCat] = []
+      earnDetails[spendCat]!.push(rateEntry)
+      if (config.cap_amount != null) {
+        const existing = caps[spendCat] ?? 0
+        if (config.cap_amount > existing) caps[spendCat] = config.cap_amount
+      }
     }
   }
 
@@ -364,3 +374,5 @@ export function getCardCppSources(card: Card): {
   if (card.pointsValueAssumedCents != null) out.assumed = card.pointsValueAssumedCents
   return out
 }
+
+export { getApplyUrl } from "@/lib/issuer-urls"

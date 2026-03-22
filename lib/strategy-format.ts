@@ -120,7 +120,8 @@ const CATEGORY_KEYWORDS: Record<SpendCategoryId, string[]> = {
   ],
   dining: ["dining", "restaurant", "resy", "doordash", "food"],
   groceries: ["grocery", "grocer", "supermarket"],
-  gasEv: ["gas", "fuel", "ev", "charging", "transit"],
+  gasEv: ["gas", "fuel", "ev", "charging"],
+  transit: ["transit", "subway", "metro", "train", "bus", "commuter rail", "ferry", "toll"],
   streamingEntertainment: [
     "streaming",
     "entertainment",
@@ -141,6 +142,7 @@ export function classifyToSpendCategory(label: string): SpendCategoryId {
     "dining",
     "groceries",
     "gasEv",
+    "transit",
     "streamingEntertainment",
     "drugstores",
     "rentMortgage",
@@ -169,6 +171,7 @@ export function formatFrequency(freq: StatementCreditFrequency): string {
 
 export function spendCategoryLabel(categoryId: SpendCategoryId): string {
   if (categoryId === "gasEv") return "Gas & EV"
+  if (categoryId === "transit") return "Transit"
   if (categoryId === "streamingEntertainment") return "Streaming & Entertainment"
   if (categoryId === "rentMortgage") return "Rent & Mortgage"
   return categoryId.charAt(0).toUpperCase() + categoryId.slice(1)

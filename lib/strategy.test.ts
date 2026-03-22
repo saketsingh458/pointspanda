@@ -10,12 +10,33 @@ function makeSpend(
     dining: 0,
     groceries: 0,
     gasEv: 0,
+    transit: 0,
     streamingEntertainment: 0,
     drugstores: 0,
     rentMortgage: 0,
     other: 0,
     ...overrides,
   }
+}
+
+function isBusinessCardRecommendation(
+  card: { id: string; name: string; cardType?: "consumer" | "business" } | null | undefined
+): boolean {
+  if (!card) return false
+  if (card.cardType === "business") return true
+  if (card.cardType === "consumer") return false
+  const normalizedName = card.name.toLowerCase()
+  const normalizedId = card.id.toLowerCase()
+  return normalizedName.includes("business") || normalizedId.includes("-business-")
+}
+
+function getCategoryRow(
+  rows: ReturnType<typeof computeStrategyViews>["nextBestCard"]["categoryRows"],
+  categoryId: SpendCategoryId
+) {
+  const row = rows.find((entry) => entry.categoryId === categoryId)
+  expect(row).toBeDefined()
+  return row!
 }
 
 describe("computeStrategyViews scenario coverage", () => {
@@ -60,9 +81,9 @@ describe("computeStrategyViews scenario coverage", () => {
         other: 1000,
       }),
       expected: {
-        nextBestCardId: "ink-business-unlimited-credit-card",
+        nextBestCardId: "chase-freedom-unlimited",
         bestSingleCardId: "citi-strata-premier-card",
-        ecosystemId: "chase-ultimate-rewards",
+        ecosystemId: "citi-thankyou-rewards",
       },
     },
     {
@@ -86,7 +107,7 @@ describe("computeStrategyViews scenario coverage", () => {
       expected: {
         nextBestCardId: "citi-strata-premier-card",
         bestSingleCardId: "citi-strata-premier-card",
-        ecosystemId: "chase-ultimate-rewards",
+        ecosystemId: "citi-thankyou-rewards",
       },
     },
   ] as const
@@ -96,9 +117,9 @@ describe("computeStrategyViews scenario coverage", () => {
     ({ name, monthlySpend, walletCardIds, expected }) => {
       const views = computeStrategyViews(monthlySpend, walletCardIds)
 
-      expect(views.nextBestCard.categoryRows).toHaveLength(8)
-      expect(views.bestSingleCard.categoryRows).toHaveLength(8)
-      expect(views.bestEcosystem.categoryRows).toHaveLength(8)
+      expect(views.nextBestCard.categoryRows).toHaveLength(9)
+      expect(views.bestSingleCard.categoryRows).toHaveLength(9)
+      expect(views.bestEcosystem.categoryRows).toHaveLength(9)
 
       expect(views.bestSingleCard.recommendedCard).not.toBeNull()
       expect(views.bestEcosystem.recommendedCards.length).toBeGreaterThan(0)
@@ -125,6 +146,22 @@ describe("computeStrategyViews scenario coverage", () => {
 })
 
 describe("pooling-aware CPP behavior", () => {
+  it("does not recommend business cards when wallet has no business cards", () => {
+    const monthlySpend = makeSpend({
+      travel: 250,
+      dining: 700,
+      drugstores: 150,
+      other: 1000,
+    })
+    const views = computeStrategyViews(monthlySpend, ["chase-sapphire-preferred-card"])
+
+    expect(isBusinessCardRecommendation(views.nextBestCard.recommendedCard)).toBe(false)
+    expect(isBusinessCardRecommendation(views.bestSingleCard.recommendedCard)).toBe(false)
+    expect(
+      views.bestEcosystem.recommendedCards.some((card) => isBusinessCardRecommendation(card))
+    ).toBe(false)
+  })
+
   it("values Freedom at 1.0cpp when not pooled and higher when paired with Sapphire", () => {
     const monthlySpend = makeSpend({
       dining: 1000,
@@ -206,6 +243,64 @@ describe("pooling-aware CPP behavior", () => {
 
     expect(effectiveCppDoubleCashOnly).toBe(100)
     expect(effectiveCppDoubleCashWithStrata).toBeGreaterThan(100)
+  })
+})
+
+describe("Bilt tiered rent optimization", () => {
+  it("applies the configured Bilt rent tiers and floor by non-rent ratio", () => {
+    const rentSpend = 1000
+    const cases = [
+      { other: 200, expectedAnnualPoints: 5400, expectedRentMultiplier: 0 },
+      { other: 250, expectedAnnualPoints: 9000, expectedRentMultiplier: 0.5 },
+      { other: 500, expectedAnnualPoints: 15000, expectedRentMultiplier: 0.75 },
+      { other: 750, expectedAnnualPoints: 21000, expectedRentMultiplier: 1 },
+      { other: 1000, expectedAnnualPoints: 27000, expectedRentMultiplier: 1.25 },
+    ] as const
+
+    for (const scenario of cases) {
+      const monthlySpend = makeSpend({
+        rentMortgage: rentSpend,
+        other: scenario.other,
+      })
+      const views = computeStrategyViews(monthlySpend, ["bilt-blue-card"])
+      const rentRow = getCategoryRow(views.nextBestCard.categoryRows, "rentMortgage")
+
+      expect(views.nextBestCard.currentAnnualPoints).toBe(scenario.expectedAnnualPoints)
+      expect(rentRow.currentBestCard?.id).toBe("bilt-blue-card")
+      expect(rentRow.currentMultiplier).toBe(scenario.expectedRentMultiplier)
+    }
+  })
+
+  it("reroutes only enough non-rent spend to unlock the first profitable tier", () => {
+    const monthlySpend = makeSpend({
+      rentMortgage: 1000,
+      travel: 1000,
+      other: 200,
+    })
+    const views = computeStrategyViews(monthlySpend, [
+      "bilt-blue-card",
+      "citi-strata-premier-card",
+    ])
+    const nextBest = views.nextBestCard
+    const rentRow = getCategoryRow(nextBest.categoryRows, "rentMortgage")
+    const travelRow = getCategoryRow(nextBest.categoryRows, "travel")
+
+    expect(rentRow.currentBestCard?.id).toBe("bilt-blue-card")
+    expect(rentRow.currentMultiplier).toBeGreaterThanOrEqual(0.5)
+    expect(travelRow.currentBestCard?.id).toBe("bilt-blue-card")
+  })
+
+  it("keeps non-Bilt portfolios on standard category routing", () => {
+    const monthlySpend = makeSpend({
+      rentMortgage: 1000,
+      travel: 1000,
+      other: 200,
+    })
+    const views = computeStrategyViews(monthlySpend, ["citi-strata-premier-card"])
+    const rentRow = getCategoryRow(views.nextBestCard.categoryRows, "rentMortgage")
+
+    expect(rentRow.currentBestCard?.id).toBe("citi-strata-premier-card")
+    expect(rentRow.currentMultiplier).toBe(1)
   })
 })
 

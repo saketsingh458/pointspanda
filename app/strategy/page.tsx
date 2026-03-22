@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { ArrowRight, ArrowLeft } from "lucide-react"
-import { useMemo, useState, useTransition } from "react"
+import { useEffect, useMemo, useState, useTransition } from "react"
 import { AppFooter } from "@/components/app-footer"
 import { CardDetailDialog } from "@/components/card-detail-dialog"
 import { FlowHeader } from "@/components/flow-header"
@@ -30,6 +30,7 @@ export default function StrategyPage() {
   const { monthlySpend, walletCardIds, hydrated } = usePointPath()
   const [feeMode, setFeeMode] = useState<AnnualFeeMode>("full")
   const [isRecomputing, startTransition] = useTransition()
+  const [showEvaluationInterstitial, setShowEvaluationInterstitial] = useState(true)
   const strategyViews = useMemo(
     () => computeStrategyViews(monthlySpend, walletCardIds, feeMode),
     [monthlySpend, walletCardIds, feeMode]
@@ -41,6 +42,15 @@ export default function StrategyPage() {
 
   const totalMonthlySpend = Object.values(monthlySpend).reduce((a, b) => a + b, 0)
   const showEmptyState = totalMonthlySpend === 0
+  const showStrategyContent = hydrated && !showEmptyState && !showEvaluationInterstitial
+
+  useEffect(() => {
+    if (!hydrated || showEmptyState || !showEvaluationInterstitial) return
+    const timerId = window.setTimeout(() => {
+      setShowEvaluationInterstitial(false)
+    }, 1800)
+    return () => window.clearTimeout(timerId)
+  }, [hydrated, showEmptyState, showEvaluationInterstitial])
 
   function openCardDetails(card: CreditCard | null | undefined) {
     if (!card) return
@@ -62,25 +72,27 @@ export default function StrategyPage() {
           </p>
         </div>
 
-        <section className="mb-10 space-y-4">
-          <div className="grid gap-2 rounded-2xl border border-border bg-muted/40 p-2 sm:inline-flex sm:flex-wrap">
-            {STRATEGY_TABS.map((tab) => (
-              <Button
-                key={tab.id}
-                type="button"
-                variant={activeView === tab.id ? "default" : "ghost"}
-                className="min-h-10 justify-start rounded-xl sm:justify-center"
-                onClick={() => {
-                  startTransition(() => {
-                    setActiveView(tab.id)
-                  })
-                }}
-              >
-                {tab.label}
-              </Button>
-            ))}
-          </div>
-        </section>
+        {showStrategyContent ? (
+          <section className="mb-10 space-y-4">
+            <div className="grid gap-2 rounded-2xl border border-border bg-muted/40 p-2 sm:inline-flex sm:flex-wrap">
+              {STRATEGY_TABS.map((tab) => (
+                <Button
+                  key={tab.id}
+                  type="button"
+                  variant={activeView === tab.id ? "default" : "ghost"}
+                  className="min-h-10 justify-start rounded-xl sm:justify-center"
+                  onClick={() => {
+                    startTransition(() => {
+                      setActiveView(tab.id)
+                    })
+                  }}
+                >
+                  {tab.label}
+                </Button>
+              ))}
+            </div>
+          </section>
+        ) : null}
 
         {!hydrated ? (
           <Card className="border-border">
@@ -101,6 +113,23 @@ export default function StrategyPage() {
                   <ArrowRight className="size-4" aria-hidden />
                 </Link>
               </Button>
+            </CardContent>
+          </Card>
+        ) : showEvaluationInterstitial ? (
+          <Card className="border-border">
+            <CardContent className="py-16 text-center">
+              <p className="text-xl font-semibold text-foreground md:text-2xl">
+                Evaluating your spend and wallet...
+              </p>
+              <p className="mt-2 text-sm text-muted-foreground">
+                Building your ideal credit card spend strategy.
+              </p>
+              <div className="mx-auto mt-8 w-full max-w-md">
+                <div className="relative h-2 overflow-hidden rounded-full bg-muted">
+                  <div className="evaluation-loader-bar absolute inset-y-0 w-1/3 rounded-full bg-primary/85" />
+                  <div className="evaluation-loader-bar-delayed absolute inset-y-0 w-1/4 rounded-full bg-primary/60" />
+                </div>
+              </div>
             </CardContent>
           </Card>
         ) : (
@@ -160,6 +189,22 @@ export default function StrategyPage() {
       />
 
       <AppFooter />
+      <style jsx>{`
+        @keyframes strategy-load-slide {
+          0% {
+            transform: translateX(-140%);
+          }
+          100% {
+            transform: translateX(460%);
+          }
+        }
+        .evaluation-loader-bar {
+          animation: strategy-load-slide 1.15s ease-in-out infinite;
+        }
+        .evaluation-loader-bar-delayed {
+          animation: strategy-load-slide 1.15s ease-in-out 0.5s infinite;
+        }
+      `}</style>
     </div>
   )
 }

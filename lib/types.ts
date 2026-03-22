@@ -6,6 +6,7 @@ export const SPEND_CATEGORIES = [
   "dining",
   "groceries",
   "gasEv",
+  "transit",
   "streamingEntertainment",
   "drugstores",
   "rentMortgage",

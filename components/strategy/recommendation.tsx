@@ -7,6 +7,7 @@ import type {
   EcosystemStrategyOption,
   StrategyResult,
 } from "@/lib/types"
+import { getApplyUrl } from "@/lib/cards"
 import {
   deltaClassName,
   formatPoints,
@@ -126,16 +127,18 @@ export function SingleCardRecommendationSection({
               </div>
             )}
           </div>
-          <Button
-            asChild
-            size="lg"
-            className="h-12 w-full gap-2 text-base font-semibold md:w-auto md:min-w-[200px]"
-          >
-            <Link href={card.applyUrl ?? "#"} onClick={(e) => e.stopPropagation()}>
-              Apply on issuer site
-              <ArrowRight className="size-5" aria-hidden />
-            </Link>
-          </Button>
+          {getApplyUrl(card) && (
+            <Button
+              asChild
+              size="lg"
+              className="h-12 w-full gap-2 text-base font-semibold md:w-auto md:min-w-[200px]"
+            >
+              <Link href={getApplyUrl(card)!} onClick={(e) => e.stopPropagation()}>
+                Apply on issuer site
+                <ArrowRight className="size-5" aria-hidden />
+              </Link>
+            </Button>
+          )}
         </CardContent>
       </Card>
     </section>

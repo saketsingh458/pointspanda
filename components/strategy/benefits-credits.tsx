@@ -11,7 +11,6 @@ import { CATEGORY_ICONS } from "@/lib/card-ui"
 import {
   classifyToSpendCategory,
   compactCardName,
-  deltaClassName,
   formatFrequency,
   formatSpend,
   spendCategoryLabel,
@@ -30,6 +29,7 @@ const CATEGORY_ORDER: SpendCategoryId[] = [
   "dining",
   "groceries",
   "gasEv",
+  "transit",
   "streamingEntertainment",
   "drugstores",
   "rentMortgage",
