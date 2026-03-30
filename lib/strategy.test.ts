@@ -51,9 +51,9 @@ describe("computeStrategyViews scenario coverage", () => {
         other: 200,
       }),
       expected: {
-        nextBestCardId: "capital-one-venture-rewards",
-        bestSingleCardId: "capital-one-venture-rewards",
-        ecosystemId: "citi-thankyou-rewards",
+        nextBestCardId: "chase-sapphire-preferred-card",
+        bestSingleCardId: "chase-sapphire-preferred-card",
+        ecosystemId: "chase-ultimate-rewards",
       },
     },
     {
@@ -290,7 +290,7 @@ describe("Bilt tiered rent optimization", () => {
     expect(travelRow.currentBestCard?.id).toBe("bilt-blue-card")
   })
 
-  it("keeps non-Bilt portfolios on standard category routing", () => {
+  it("non-Bilt portfolios earn nothing on rent (rent is Bilt-only)", () => {
     const monthlySpend = makeSpend({
       rentMortgage: 1000,
       travel: 1000,
@@ -299,8 +299,10 @@ describe("Bilt tiered rent optimization", () => {
     const views = computeStrategyViews(monthlySpend, ["citi-strata-premier-card"])
     const rentRow = getCategoryRow(views.nextBestCard.categoryRows, "rentMortgage")
 
-    expect(rentRow.currentBestCard?.id).toBe("citi-strata-premier-card")
-    expect(rentRow.currentMultiplier).toBe(1)
+    // Rent can only be paid fee-free with Bilt; non-Bilt cards should never be
+    // assigned to the rentMortgage category.
+    expect(rentRow.currentBestCard).toBeNull()
+    expect(rentRow.currentMultiplier).toBe(0)
   })
 })
 

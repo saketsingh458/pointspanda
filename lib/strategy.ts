@@ -461,7 +461,10 @@ function evaluatePortfolioWithBiltOptimization(
 
   for (const categoryId of SPEND_CATEGORIES) {
     const monthly = monthlySpend[categoryId] ?? 0
-    const best = getBestCardForCategoryByDollars(cards, categoryId, monthly, assumptionNotes)
+    // Rent can only be paid fee-free with Bilt; restrict to Bilt-family cards so
+    // non-Bilt cards are never recommended for the rentMortgage category.
+    const eligibleCards = categoryId === "rentMortgage" ? cards.filter(isBiltFamilyCard) : cards
+    const best = getBestCardForCategoryByDollars(eligibleCards, categoryId, monthly, assumptionNotes)
     const entry: CategoryEvaluation = {
       card: best?.card ?? null,
       multiplier: best?.multiplier ?? 0,
